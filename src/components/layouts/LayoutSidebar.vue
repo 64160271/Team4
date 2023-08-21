@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed overflow-y-auto w-60 bg-white rounded-box ms-4 me-4 mb-4 h-screen">
+  <div class="fixed overflow-auto w-60 bg-white rounded-box ms-4 me-4 mb-4 h-[96.7%]">
     
     <img src="https://image.makewebeasy.net/makeweb/m_1920x0/m14BHwk4P/Home/clicknext_logo2x.png" class="h-14 mx-auto mt-2" alt="clicknextlogo" />
     <hr class="mt-3">
@@ -49,5 +49,8 @@
 </script>
 
 <style scoped>
+.rounded-box{
+  border-radius: 20px 20px 20px 20px;
+}
 
 </style>

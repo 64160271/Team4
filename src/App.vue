@@ -3,7 +3,7 @@
     <Login v-if="['login'].includes($route.name)"/>
     <LayoutSidebar v-if="!['login'].includes($route.name)" />
     <div id="" class="px-4 sm:ml-64" v-if="!['login'].includes($route.name)">
-      <div class="fixed w-5/6 rounded-box bg-white h-screen">
+      <div class="fixed overflow-auto w-[80%] h-[96.7%] rounded-box bg-white h-screen">
          <div class="m-5">
             <router-view />
          </div>
