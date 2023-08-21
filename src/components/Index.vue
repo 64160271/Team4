@@ -1,7 +1,7 @@
 <template>
     <div class="page">
         <div class="center-content overflow-auto">
-            <div class="relative mb-2 flex w-full flex-wrap ">
+            <div class="relative mb-2 flex w-full flex-wrap">
                 <!-- Search icon -->
                 <div class="mb-3">
                     <span
@@ -73,9 +73,9 @@
         <div>
             <div class="inline-block min-w-full py-2 sm:px-3 lg:px-6">
                 <div class="overflow-hedden">
-                    <table class="min-w-full text-center text-sm font-light">
+                    <table class="min-w-full text-center font-light mt-3">
                         <thead class=" bg-red-800 font-medium text-white dark:border-red-500 dark:bg-red-900">
-                            <tr>
+                            <tr class="">
                                 <th scope="col" class=" px-6 py-4 rounded-left">รหัสนักศึกษาฝึกงาน</th>
                                 <th scope="col" class=" px-6 py-4">ชื่อ - นามสกุล</th>
                                 <th scope="col" class=" px-6 py-4">ชื่อเล่น</th>
@@ -85,25 +85,15 @@
                                 <th scope="col" class=" px-6 py-4 rounded-right">วันที่สิ้นสุดการฝึกงาน</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="">
-                                <td class="whitespace-nowrap  px-6 py-4 font-medium">1</td>
-                                <td class="whitespace-nowrap  px-6 py-4">Mark</td>
-                                <td class="whitespace-nowrap  px-6 py-4">Otto</td>
-                                <td class="whitespace-nowrap  px-6 py-4">@mdo</td>
-                            </tr>
-                            <tr class="">
-                                <td class="whitespace-nowrap  px-6 py-4 font-medium">2</td>
-                                <td class="whitespace-nowrap  px-6 py-4 ">Jacob</td>
-                                <td class="whitespace-nowrap  px-6 py-4">Thornton</td>
-                                <td class="whitespace-nowrap  px-6 py-4">@fat</td>
-                            </tr>
-                            <tr class="border-b dark:border-neutral-500">
-                                <td class="whitespace-nowrap  px-6 py-4 font-medium">3</td>
-                                <td colspan="2" class="whitespace-nowrap  px-6 py-4">
-                                    Larry the Bird
-                                </td>
-                                <td class="whitespace-nowrap  px-6 py-4">@twitter</td>
+                        <tbody v-for="index in 10">
+                            <tr>
+                                <td scope="row" class="whitespace-nowrap font-medium px-6 py-4">{{ index }}</td>
+                                <td scope="row" class="text-left whitespace-nowrap px-6 py-4"><router-link to="/interns/view">ชื่อจริงบางคน</router-link></td>
+                                <td scope="row" class="text-left whitespace-nowrap px-6 py-4">นามสกุลบางคน</td>
+                                <td scope="row" class="whitespace-nowrap px-6 py-4">{{ currentDate }}</td>
+                                <td scope="row" class="whitespace-nowrap px-6 py-4">บูรพา</td>
+                                <td scope="row" class="whitespace-nowrap px-6 py-4">{{ currentDate }}</td>
+                                <td scope="row" class="whitespace-nowrap  px-6 py-4">{{ currentDate }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -113,10 +103,9 @@
     </div>
 </template>
   
-<script>
-export default {
-    // Your script code
-};
+<script setup>
+    const date = new Date()
+    const currentDate = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
 </script>
   
 <style scoped>
