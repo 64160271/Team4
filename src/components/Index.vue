@@ -85,15 +85,15 @@
                                 <th scope="col" class=" px-6 py-4 rounded-right">วันที่สิ้นสุดการฝึกงาน</th>
                             </tr>
                         </thead>
-                        <tbody v-for="index in 10">
+                        <tbody v-for="(intern, index) in interns">
                             <tr>
-                                <td scope="row" class="whitespace-nowrap font-medium px-6 py-4">{{ index }}</td>
-                                <td scope="row" class="text-left whitespace-nowrap px-6 py-4"><router-link to="/interns/view">ชื่อจริงบางคน</router-link></td>
-                                <td scope="row" class="text-left whitespace-nowrap px-6 py-4">นามสกุลบางคน</td>
+                                <td scope="row" class="whitespace-nowrap font-medium px-6 py-4">{{ index+1 }}</td>
+                                <td scope="row" class="text-left whitespace-nowrap px-6 py-4"><router-link to="/interns/view">{{ intern.intn_fname + " " + intern.intn_lname }}</router-link></td>
+                                <td scope="row" class="text-left whitespace-nowrap px-6 py-4">{{ intern.intn_nickname }}</td>
                                 <td scope="row" class="whitespace-nowrap px-6 py-4">{{ currentDate }}</td>
                                 <td scope="row" class="whitespace-nowrap px-6 py-4">บูรพา</td>
-                                <td scope="row" class="whitespace-nowrap px-6 py-4">{{ currentDate }}</td>
-                                <td scope="row" class="whitespace-nowrap  px-6 py-4">{{ currentDate }}</td>
+                                <td scope="row" class="whitespace-nowrap px-6 py-4">{{ intern.intn_start_date }}</td>
+                                <td scope="row" class="whitespace-nowrap  px-6 py-4">{{ intern.intn_end_date || '-' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -104,8 +104,22 @@
 </template>
   
 <script setup>
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
+
     const date = new Date()
     const currentDate = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
+
+    const interns = ref({})
+
+    const getAllIntern = async() => {
+        await axios.get(`${import.meta.env.VITE_API_HOST}/interns`)
+        .then((response) => {
+            interns.value = response.data
+        })
+    }
+
+    onMounted(() => getAllIntern())
 </script>
   
 <style scoped>
