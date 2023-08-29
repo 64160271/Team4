@@ -69,7 +69,7 @@
             </div>
         </span>
     </div>
-    <div class="flex flex-col">
+    <div class="flex">
         <div>
             <div class="inline-block min-w-full py-2 sm:px-3 lg:px-6">
                 <div class="overflow-hedden">
