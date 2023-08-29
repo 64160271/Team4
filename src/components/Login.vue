@@ -48,7 +48,7 @@
                         <svg class="ms-auto" width="50" height="35" viewBox="0 0 60 70" fill="none"
                             xmlns="http://www.w3.org/2000/svg"></svg>
                         <router-link to="/"
-                            class=" btn px-3 py-2 w-full font-medium text-sm text-white bg-red-600 rounded-2xl hover:bg-red-800 focus:outline-none focus:bg-red-900 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            class="btn btn-danger">
                             LOGIN
                         </router-link>
                     </div>

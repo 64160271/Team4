@@ -1,18 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap');
 
 * {
-    font-size: 16px
-}
-
-html {
-    background-color: red;
-}
-
-#content {
-    width: calc(100% -10px);
-    margin-right: 10px;
-}
-
-ul > :last-child {
-    margin-top: auto
+    font-size: 16px;
+    font-family: 'Kanit', sans-serif;
 }
