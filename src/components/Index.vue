@@ -43,7 +43,7 @@
         </button>
     </div>
 
-    <div class="row mb-auto">
+    <div class="row">
         <table class="table table-borderless">
             <thead class="text-center bg-red">
                 <tr>
@@ -57,14 +57,95 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="tb-hov" v-for="(intern, index) in interns">
-                    <td scope="row" class="text-center">{{ index + 1 }}</td>
-                    <td scope="row">{{ intern.intn_fname + " " + intern.intn_lname }}</td>
-                    <td scope="row" class="text-center">{{ intern.intn_nickname }}</td>
-                    <td scope="row">{{ currentDate }}</td>
-                    <td scope="row">บูรพา</td>
-                    <td scope="row" class="text-center">{{ intern.intn_start_date }}</td>
-                    <td scope="row" class="text-center">{{ intern.intn_end_date || '-' }}</td>
+                <tr class="text-center">
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                </tr>
+                <tr class="text-center">
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                </tr>
+                <tr class="text-center">
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                </tr>
+                <tr class="text-center">
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                </tr>
+                <tr class="text-center">
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                </tr>
+                <tr class="text-center">
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                </tr>
+                <tr class="text-center">
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                </tr>
+                <tr class="text-center">
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                </tr>
+                <tr class="text-center">
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                </tr>
+                <tr class="text-center">
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
+                    <td>ทดสอบ</td>
                 </tr>
             </tbody>
         </table>
@@ -72,7 +153,7 @@
 
     <div class="mt-auto">
         <hr>
-        <span class="mt-auto">รายการทั้งหมด {{ interns.length }} รายการ</span>
+        <span>รายการทั้งหมด {{ interns.length }} รายการ</span>
     </div>
 </template>
   
