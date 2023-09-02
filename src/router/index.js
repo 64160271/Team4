@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import Index from '../components/Index.vue'
 import Login from '../components/Login.vue'
 import InternData from '../components/InternData.vue'
+import AddInternForm from '../components/AddInternForm.vue'
+import AddInternFile from '../components/AddInternFile.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -20,6 +22,16 @@ const router = createRouter({
             path: '/interns',
             name: 'internData',
             component: InternData
+        },
+        {
+            path: '/interns/key-data',
+            name: 'addInternForm',
+            component: AddInternForm
+        },
+        {
+            path: '/interns/add-file',
+            name: 'addInternFile',
+            component: AddInternFile
         }
     ]
 })

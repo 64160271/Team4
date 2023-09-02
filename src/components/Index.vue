@@ -1,8 +1,8 @@
 <template>
     <div class="d-flex mb-3">
-        <span class="h5 my-auto">รายชื่อนักศึกษา</span>
+        <span class="h5">รายชื่อนักศึกษา</span>
 
-        <button class="btn ms-auto outline-red">
+        <button @click="$router.push('/interns/key-data')" class="btn ms-auto outline-red">
             <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M14.8615 8.35539H3.91108C3.70363 8.35539 3.50469 8.2726 3.358 8.12523C3.21131 7.97787 3.12891 7.778 3.12891 7.56959V4.42642C3.12891 4.21801 3.21131 4.01814 3.358 3.87078C3.50469 3.72341 3.70363 3.64062 3.91108 3.64062H14.8615C15.0689 3.64062 15.2679 3.72341 15.4146 3.87078C15.5613 4.01814 15.6437 4.21801 15.6437 4.42642V7.56959C15.6437 7.778 15.5613 7.97787 15.4146 8.12523C15.2679 8.2726 15.0689 8.35539 14.8615 8.35539ZM4.69325 6.7838H14.0793V5.16506H4.69325V6.7838Z"
@@ -26,7 +26,7 @@
             เพิ่มแบบฟอร์ม
         </button>
 
-        <button class="ms-4 col-auto btn outline-red">
+        <button @click="$router.push('/interns/add-file')" class="ms-4 col-auto btn outline-red">
             <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
                     d="M29.4116 7.63392H20.367V5.5L5.5 7.79751V27.9361L20.367 30.5V27.3371H29.4116C29.6855 27.351 29.9538 27.2557 30.1578 27.0721C30.3617 26.8885 30.4848 26.6315 30.5 26.3573V8.61282C30.4845 8.33878 30.3614 8.08201 30.1575 7.89859C29.9535 7.71517 29.6854 7.62002 29.4116 7.63392ZM29.5545 26.52H20.3366L20.3214 24.8313H22.542V22.8646H20.3045L20.2937 21.7024H22.542V19.7357H20.2768L20.2661 18.5735H22.542V16.6067H20.2589V15.4446H22.542V13.4778H20.2589V12.3157H22.542V10.3489H20.2589V8.56097H29.5545V26.52Z"
@@ -57,95 +57,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="text-center">
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                </tr>
-                <tr class="text-center">
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                </tr>
-                <tr class="text-center">
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                </tr>
-                <tr class="text-center">
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                </tr>
-                <tr class="text-center">
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                </tr>
-                <tr class="text-center">
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                </tr>
-                <tr class="text-center">
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                </tr>
-                <tr class="text-center">
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                </tr>
-                <tr class="text-center">
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                </tr>
-                <tr class="text-center">
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
-                    <td>ทดสอบ</td>
+                <tr @mouseup="$router.push('/intern')" class="tb-hov" v-for="(intern, index) in interns">
+                    <td scope="row" class="text-center">{{ index + 1 }}</td>
+                    <td scope="row">{{ intern.intn_fname + " " + intern.intn_lname }}</td>
+                    <td scope="row" class="text-center">{{ intern.intn_nickname }}</td>
+                    <td scope="row">{{ currentDate }}</td>
+                    <td scope="row">บูรพา</td>
+                    <td scope="row" class="text-center">{{ intern.intn_start_date }}</td>
+                    <td scope="row" class="text-center">{{ intern.intn_end_date || '-' }}</td>
                 </tr>
             </tbody>
         </table>
@@ -215,22 +134,5 @@ tr {
     color: #e1032b;
 }
 
-.outline-red {
-    border: 1px solid #e1032b;
-    color: #e1032b;
-}
-
-.outline-red:hover {
-    background-color: #e1032b;
-    color: white;
-}
-
-.outline-red:hover path {
-    fill: white;
-}
-
-.outline-red:hover .x-red {
-    fill: #e1032b;
-}
 </style>
   

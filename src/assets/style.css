@@ -6,5 +6,23 @@
 }
 
 .bg-red {
-    background-color: #e1032b;
+    background-color: #bb140e;
+}
+
+.outline-red {
+    border: 1px solid #e1032b !important;
+    color: #e1032b !important;
+}
+
+.outline-red:hover {
+    background-color: #e1032b !important;
+    color: white !important;
+}
+
+.outline-red:hover path {
+    fill: white !important;
+}
+
+.outline-red:hover .x-red {
+    fill: #e1032b !important;
 }
