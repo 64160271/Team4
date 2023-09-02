@@ -1,35 +1,38 @@
 <template>
-  <div class="container-fluid h-100 bg-grays-200">
-    <Login v-if="['login'].includes($route.name)"/>
+  <div class="container-fluid vh-100 p-0 row">
+
+    <Login v-if="['login'].includes($route.name)" />
+
+    <LayoutNavbar v-if="!['login'].includes($route.name)" />
+
     <LayoutSidebar v-if="!['login'].includes($route.name)" />
-    <div id="" class="px-4 sm:ml-64" v-if="!['login'].includes($route.name)">
-      <div class="fixed overflow-auto w-[80%] h-[96.7%] rounded-box bg-white h-screen">
-         <div class="m-5">
-            <router-view />
-         </div>
-      </div>
-    </div>
+
+    <main class="px-5 pt-4 col">
+      <router-view />
+    </main>
+
   </div>
 </template>
 
 <script setup>
-  import LayoutSidebar from './components/layouts/LayoutSidebar.vue';
-  import Login from './components/Login.vue'
-  import { ref, onMounted } from 'vue';
-  import axios from 'axios'
+import LayoutSidebar from './components/layouts/LayoutSidebar.vue';
+import LayoutNavbar from './components/layouts/LayoutNavbar.vue';
+import Login from './components/Login.vue'
+import { ref, onMounted } from 'vue';
+import axios from 'axios'
 
-  /* const universities = ref({})
+/* const universities = ref({})
 
-  const getUniversities = async() => {
-    await axios.get(`${import.meta.env.VITE_API_HOST}/university`)
-      .then((response) => {
-          universities.value = response.data
-      })
-  }
+const getUniversities = async() => {
+  await axios.get(`${import.meta.env.VITE_API_HOST}/university`)
+    .then((response) => {
+        universities.value = response.data
+    })
+}
 
-  onMounted(() => getUniversities()) */
+onMounted(() => getUniversities()) */
 </script>
 
 <style scoped>
-  
+
 </style>
