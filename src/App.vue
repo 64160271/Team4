@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen bg-base-200 pt-3">
+  <div class="container-fluid h-100 bg-grays-200">
     <Login v-if="['login'].includes($route.name)"/>
     <LayoutSidebar v-if="!['login'].includes($route.name)" />
     <div id="" class="px-4 sm:ml-64" v-if="!['login'].includes($route.name)">
@@ -31,5 +31,5 @@
 </script>
 
 <style scoped>
-
+  
 </style>
