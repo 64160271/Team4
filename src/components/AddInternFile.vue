@@ -3,10 +3,12 @@
         <span class="h5 my-auto">เพิ่มไฟล์ Excel</span>
 
         <form action="">
-            <div contenteditable="true" class="d-flex mt-3 upload-box">
-                <div class="m-auto btn">
+            <div class="d-flex mt-3 upload-box">
+                <input @change="showFileName(showDataInFile)" accept=".xlsx" type="file" name="" id="file" />
+
+                <div class="m-auto">
                     <svg width="200" height="200" viewBox="0 0 250 251" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
+                        <path class="fill-red" fill-rule="evenodd" clip-rule="evenodd"
                             d="M239.116 21.8392H148.67V0.5L0 23.4751V224.861L148.67 250.5V218.871H239.116C241.855 219.01 244.538 218.057 246.578 216.221C248.617 214.385 249.848 211.815 250 209.073V31.6282C249.845 28.8878 248.614 26.3201 246.575 24.4859C244.535 22.6517 241.854 21.7002 239.116 21.8392ZM240.545 210.7H148.366L148.214 193.813H170.42V174.146H148.045L147.938 162.524H170.42V142.857H147.768L147.661 131.235H170.42V111.567H147.589V99.9457H170.42V80.2783H147.589V68.6566H170.42V48.9892H147.589V31.1097H240.545V210.7Z"
                             fill="black" />
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -14,25 +16,82 @@
                             fill="white" />
                     </svg>
 
-                    <span class="row h5 mt-3">เลือกไฟล์ Excel หรือลากไฟล์ที่นี่</span>
+                    <span class="row h5 mt-3" id="filename">เลือกไฟล์ Excel หรือลากไฟล์ที่นี่</span>
                 </div>
             </div>
 
             <div class="d-flex mt-5">
                 <button class="outline-red btn ms-auto">Import</button>
             </div>
+
+            <table class="table table-bordered" id="data-table">
+                
+            </table>
         </form>
     </div>
 </template>
 
 <script setup>
+    import readXlsxFile from 'read-excel-file'
+
+    function showFileName(callback) {
+        let file = document.getElementById("file")
+        let display = document.getElementById("filename")
+        let filename = file.files[0];
+        
+        display.innerText = `ไฟล์ที่เลือก : ${filename.name}
+            ขนาด : ${(filename.size / 1024 / 1024).toFixed(2)} MB
+        `
+
+        callback(filename)
+    }
+
+    function showDataInFile(file) {
+
+        let table = document.getElementById("data-table")
+
+        readXlsxFile(file).then((rows) => {
+            table.innerHTML = ""
+
+            rows.forEach((row) => {
+                let tr = document.createElement("tr")
+                row.forEach((cell) => {
+                    let td = document.createElement("td")
+                    td.textContent = cell
+                    tr.appendChild(td)
+                })
+                table.appendChild(tr)
+            })
+        })
+    }
 
 </script>
 
 <style scoped>
+input {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}
 .upload-box {
+    position: relative;
+    text-align: center;
     border: 1px black dotted;
     height: 70vh;
+}
+
+.upload-box:hover {
+    border: 1px #e1032b dotted; 
+    color: #e1032b !important;
+}
+
+.upload-box:hover .fill-red {
+    fill: #e1032b;
 }
 
 .btn {

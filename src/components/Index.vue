@@ -72,7 +72,7 @@
 
     <div class="mt-auto">
         <hr>
-        <span>รายการทั้งหมด {{ interns.length }} รายการ</span>
+        <span>รายการทั้งหมด {{ interns.length || 0 }} รายการ</span>
     </div>
 </template>
   

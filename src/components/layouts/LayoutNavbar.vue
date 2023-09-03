@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-light bg-white border-bottom">
+    <nav class="position-fixed overflow-hidden navbar navbar-light bg-white border-bottom">
         <span class="navbar-brand px-4 ">
             <img src="../../assets/images/clicknext-logo.png" alt="" width="180">
         </span>
@@ -30,5 +30,9 @@
 <style scoped>
 .bg-grays-200 {
   background-color: #8d969b30 !important;
+}
+
+.navbar {
+    z-index: 99;
 }
 </style>

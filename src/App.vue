@@ -7,7 +7,7 @@
 
     <LayoutSidebar v-if="!['login'].includes($route.name)" />
 
-    <main class="px-5 pt-4 col">
+    <main class="px-5 pt-4 col" style="margin-left: 280px; margin-top: 63px;">
       <router-view />
     </main>
 

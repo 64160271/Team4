@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column p-4 bg-white border-end vh-sidebar col-auto" style="width: 280px">
+  <div class="position-fixed d-flex flex-column p-4 bg-white border-end vh-sidebar col-auto" style="width: 280px; margin-top: 63px;">
 
     <ul class="nav nav-pills flex-column">
       <li class="nav-item py-2">
