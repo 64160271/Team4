@@ -24,15 +24,19 @@
                 <button class="outline-red btn ms-auto">Import</button>
             </div>
 
-            <table class="table table-bordered" id="data-table">
-                
-            </table>
+            <InternSelect />
+
+            <!-- ใช้ v-if check function ว่า อัปโหลดไฟล์หรีอยัง -->
         </form>
     </div>
 </template>
 
 <script setup>
     import readXlsxFile from 'read-excel-file'
+    import InternSelect from './InternSelect.vue'
+    import { ref } from 'vue';
+
+    const excelData = ref([])
 
     function showFileName(callback) {
         let file = document.getElementById("file")
@@ -40,28 +44,17 @@
         let filename = file.files[0];
         
         display.innerText = `ไฟล์ที่เลือก : ${filename.name}
-            ขนาด : ${(filename.size / 1024 / 1024).toFixed(2)} MB
-        `
+            ขนาด : ${(filename.size / 1024 / 1024).toFixed(2)} MB`
 
         callback(filename)
     }
 
     function showDataInFile(file) {
 
-        let table = document.getElementById("data-table")
-
         readXlsxFile(file).then((rows) => {
-            table.innerHTML = ""
 
-            rows.forEach((row) => {
-                let tr = document.createElement("tr")
-                row.forEach((cell) => {
-                    let td = document.createElement("td")
-                    td.textContent = cell
-                    tr.appendChild(td)
-                })
-                table.appendChild(tr)
-            })
+            excelData.value = rows
+          
         })
     }
 
