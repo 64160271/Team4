@@ -4,7 +4,7 @@
 
         <form action="">
             <div class="d-flex mt-3 upload-box upload" id="upload-box">
-                <input @change="showFileName(showDataInFile)" accept=".xlsx" type="file" name="" id="file" />
+                <input @change="showFileName(readDataInFile)" accept=".xlsx" type="file" name="" id="file" />
 
                 <div class="m-auto">
                     <svg width="200" height="200" viewBox="0 0 250 251" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,7 +24,7 @@
                 <button type="button" class="outline-red btn ms-auto" @click="uploaded()">Import</button>
             </div>
 
-            <InternSelect v-if="isUploaded" />
+            <InternSelect v-if="isUploaded" :excelData="excelData" />
 
             <!-- ใช้ v-if check function ว่า อัปโหลดไฟล์หรีอยัง -->
         </form>
@@ -32,40 +32,44 @@
 </template>
 
 <script setup>
-    import readXlsxFile from 'read-excel-file'
-    import InternSelect from './InternSelect.vue'
-    import { ref } from 'vue';
+import readXlsxFile from 'read-excel-file'
+import InternSelect from './InternSelect.vue'
+import { ref } from 'vue';
 
-    const excelData = ref([])
-    let isUploaded = ref(false)
+const excelData = ref([])
+let isUploaded = ref(false)
 
-    function showFileName(callback) {
-        let file = document.getElementById("file")
-        let display = document.getElementById("filename")
-        let filename = file.files[0];
-        
-        display.innerText = `ไฟล์ที่เลือก : ${filename.name}
+function showFileName(callback) {
+    let file = document.getElementById("file")
+    let display = document.getElementById("filename")
+    let filename = file.files[0];
+
+    display.innerText = `ไฟล์ที่เลือก : ${filename.name}
             ขนาด : ${(filename.size / 1024 / 1024).toFixed(2)} MB`
 
-        callback(filename)
-    }
+    callback(filename)
+}
 
-    function showDataInFile(file) {
+function readDataInFile(file) {
 
-        readXlsxFile(file).then((rows) => {
+    readXlsxFile(file).then((rows) => {
 
-            excelData.value = rows
-          
-        })
-    }
+        excelData.value = rows
 
-    function uploaded() {
+    })
+}
+
+function uploaded() {
+    let file = document.getElementById("file")
+    if (file.files[0]) {
         let uploadBox = document.getElementById("upload-box")
         let uploadButton = document.getElementById("import-btn")
         uploadBox.classList.add("d-none")
         uploadButton.classList.add("d-none")
         isUploaded.value = true
     }
+}
+
 
 </script>
 
@@ -80,6 +84,7 @@ input {
     width: 100%;
     height: 100%;
 }
+
 .upload-box {
     position: relative;
     text-align: center;
@@ -88,7 +93,7 @@ input {
 }
 
 .upload-box:hover {
-    border: 1px #e1032b dotted; 
+    border: 1px #e1032b dotted;
     color: #e1032b !important;
 }
 
