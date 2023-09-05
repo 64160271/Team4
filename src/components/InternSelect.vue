@@ -19,7 +19,7 @@
             </thead>
             <tbody>
                 <tr v-for="(data, index) in excelData">
-                    <td scope="row" class="d-flex">
+                    <td scope="row" class="d-flex justify-content-start">
                         <input name="tb-check" type="checkbox" class="my-auto form-check-input rounded-circle ms-2">
                         <label for="" class="mx-auto">{{ index + 1 }}</label>
                     </td>
@@ -27,22 +27,24 @@
                     <td scope="row" class="text-center">{{ data[9] }}</td>
                     <td scope="row">{{ data[6] }}</td>
                     <td scope="row">{{ data[15] }}</td>
-                    <td scope="row" class="text-center">{{ data[10] }}</td>
-                    <td scope="row" class="text-center">{{ data[11] || '-' }}</td>
+                    <td scope="row" class="text-center">{{ dateFormat(data[10]) }}</td>
+                    <td scope="row" class="text-center">{{ dateFormat(data[11]) || '-' }}</td>
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div>                                                                                                                              
 
     <div class="row mt-2">
         <hr>
-        <span class="col">รายการทั้งหมด {{ excelData.length - 1 || 0 }} รายการ</span>
+        <span class="col">รายการทั้งหมด {{ excelData.length || 0 }} รายการ</span>
 
-        <button type="button" class="col-sm-2 btn outline-red ms-auto">บันทึก</button>
+        <button @click="confirmation" type="button" class="col-sm-2 btn outline-red ms-auto">บันทึก</button>
     </div>
 </template>
 
 <script setup>
+import Swal from 'sweetalert2'
+
 const props = defineProps({
     excelData: Array
 })
@@ -50,14 +52,44 @@ const props = defineProps({
 function checkAll() {
     let main = document.getElementById("main")
     let tbCheckBox = document.getElementsByName("tb-check")
+
     for (let i = 0; i < tbCheckBox.length; i++) {
         tbCheckBox[i].checked = main.checked
     }
-
 }
+
+function dateFormat(date) {
+    if (!date) {
+        return
+    }
+
+    const day = date.getDate()
+    const month = date.getMonth()
+    const year = date.getFullYear()
+
+    return day + "/" + month + "/" + year
+}
+
+function confirmation() {
+    Swal.fire({
+        text: 'คุณต้องการบันทึกข้อมูลหรือไม่',
+        icon: 'warning',
+        showDenyButton: true,
+        showConfirmButton: true
+    })
+}
+
 </script>
 
 <style scoped>
+input[type="checkbox"] {
+    border: 1px solid black;
+}
+
+input[type="checkbox"]:checked {
+    border: 1px solid #e1032b;
+    background-color: #e1032b;
+}
 .fixed-head {
     overflow: auto;
 }

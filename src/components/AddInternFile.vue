@@ -55,6 +55,7 @@ function readDataInFile(file) {
     readXlsxFile(file).then((rows) => {
 
         excelData.value = rows
+        excelData.value.splice(0, 1)
 
     })
 }
