@@ -1,5 +1,10 @@
 <template>
-    <div class="row">
+    <div class="form-check mt-3">
+        <input type="checkbox" class="form-check-input">
+        <label for="" class="form-check-label">เลือกทั้งหมด</label>
+    </div>
+
+    <div class="row mt-2">
         <table class="table table-borderless">
             <thead class="text-center bg-red">
                 <tr>

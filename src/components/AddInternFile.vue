@@ -3,7 +3,7 @@
         <span class="h5 my-auto">เพิ่มไฟล์ Excel</span>
 
         <form action="">
-            <div class="d-flex mt-3 upload-box">
+            <div class="d-flex mt-3 upload-box upload" id="upload-box">
                 <input @change="showFileName(showDataInFile)" accept=".xlsx" type="file" name="" id="file" />
 
                 <div class="m-auto">
@@ -20,11 +20,11 @@
                 </div>
             </div>
 
-            <div class="d-flex mt-5">
-                <button class="outline-red btn ms-auto">Import</button>
+            <div class="d-flex mt-5" id="import-btn">
+                <button type="button" class="outline-red btn ms-auto" @click="uploaded()">Import</button>
             </div>
 
-            <InternSelect />
+            <InternSelect v-if="isUploaded" />
 
             <!-- ใช้ v-if check function ว่า อัปโหลดไฟล์หรีอยัง -->
         </form>
@@ -37,6 +37,7 @@
     import { ref } from 'vue';
 
     const excelData = ref([])
+    let isUploaded = ref(false)
 
     function showFileName(callback) {
         let file = document.getElementById("file")
@@ -56,6 +57,14 @@
             excelData.value = rows
           
         })
+    }
+
+    function uploaded() {
+        let uploadBox = document.getElementById("upload-box")
+        let uploadButton = document.getElementById("import-btn")
+        uploadBox.classList.add("d-none")
+        uploadButton.classList.add("d-none")
+        isUploaded.value = true
     }
 
 </script>
