@@ -70,7 +70,7 @@
         </table>
     </div>
 
-    <div class="mt-auto">
+    <div class="row mt-2">
         <hr>
         <span>รายการทั้งหมด {{ interns.length || 0 }} รายการ</span>
     </div>

@@ -19,11 +19,9 @@
             </thead>
             <tbody>
                 <tr v-for="(data, index) in excelData">
-                    <td scope="row" class="text-center">
-                        <div class="form-check">
-                            <input name="tb-check" type="checkbox" class="form-check-input rounded-circle">
-                            <label for="" class="form-check-label">{{ index + 1 }}</label>
-                        </div>
+                    <td scope="row" class="d-flex">
+                        <input name="tb-check" type="checkbox" class="my-auto form-check-input rounded-circle ms-2">
+                        <label for="" class="mx-auto">{{ index + 1 }}</label>
                     </td>
                     <td scope="row">{{ data[8] }}</td>
                     <td scope="row" class="text-center">{{ data[9] }}</td>
@@ -36,9 +34,11 @@
         </table>
     </div>
 
-    <div class="mt-auto">
+    <div class="row mt-2">
         <hr>
-        <span>รายการทั้งหมด {{ excelData.length - 1 || 0 }} รายการ</span>
+        <span class="col">รายการทั้งหมด {{ excelData.length - 1 || 0 }} รายการ</span>
+
+        <button type="button" class="col-sm-2 btn outline-red ms-auto">บันทึก</button>
     </div>
 </template>
 
@@ -50,7 +50,7 @@ const props = defineProps({
 function checkAll() {
     let main = document.getElementById("main")
     let tbCheckBox = document.getElementsByName("tb-check")
-    for (let i = 0 ; i < tbCheckBox.length ; i++) {
+    for (let i = 0; i < tbCheckBox.length; i++) {
         tbCheckBox[i].checked = main.checked
     }
 
@@ -115,4 +115,5 @@ tr {
 
 .tb-hov:hover td {
     color: #e1032b;
-}</style>
+}
+</style>
