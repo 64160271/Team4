@@ -21,16 +21,6 @@ import Login from './components/Login.vue'
 import { ref, onMounted } from 'vue';
 import axios from 'axios'
 
-/* const universities = ref({})
-
-const getUniversities = async() => {
-  await axios.get(`${import.meta.env.VITE_API_HOST}/university`)
-    .then((response) => {
-        universities.value = response.data
-    })
-}
-
-onMounted(() => getUniversities()) */
 </script>
 
 <style scoped>

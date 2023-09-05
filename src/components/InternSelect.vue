@@ -1,38 +1,40 @@
 <template>
     <div class="form-check mt-3">
-        <input @change="checkAll" id="main" type="checkbox" class="form-check-input rounded-circle">
+        <input @change="checkAll" id="main" type="checkbox" class="form-check-input rounded-circle" />
         <label for="" class="form-check-label">เลือกทั้งหมด</label>
     </div>
 
-    <div class="row mt-2 table-wrapper-scroll-y my-custom-scrollbar">
-        <table class="table table-borderless fixed-head">
-            <thead class="text-center bg-red">
-                <tr>
-                    <th scope="col" class="col-2 border-left">รหัสนักศึกษาฝึกงาน</th>
-                    <th scope="col">ชื่อ - นามสกุล</th>
-                    <th scope="col">ชื่อเล่น</th>
-                    <th scope="col">ตำแหน่ง</th>
-                    <th scope="col">มหาวิทยาลัย</th>
-                    <th scope="col" class="col-sm-auto">วันที่เริ่มฝึกงาน</th>
-                    <th scope="col" class="col-sm-auto border-right">วันที่สิ้นสุดฝึกงาน</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(data, index) in excelData">
-                    <td scope="row" class="d-flex justify-content-start">
-                        <input name="tb-check" type="checkbox" class="my-auto form-check-input rounded-circle ms-2">
-                        <label for="" class="mx-auto">{{ index + 1 }}</label>
-                    </td>
-                    <td scope="row">{{ data[8] }}</td>
-                    <td scope="row" class="text-center">{{ data[9] }}</td>
-                    <td scope="row">{{ data[6] }}</td>
-                    <td scope="row">{{ data[15] }}</td>
-                    <td scope="row" class="text-center">{{ dateFormat(data[10]) }}</td>
-                    <td scope="row" class="text-center">{{ dateFormat(data[11]) || '-' }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>                                                                                                                              
+    <form @submit.prevent="createInterns">
+        <div class="row mt-2 table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table table-borderless fixed-head">
+                <thead class="text-center bg-red">
+                    <tr>
+                        <th scope="col" class="col-2 border-left">รหัสนักศึกษาฝึกงาน</th>
+                        <th scope="col">ชื่อ - นามสกุล</th>
+                        <th scope="col">ชื่อเล่น</th>
+                        <th scope="col">ตำแหน่ง</th>
+                        <th scope="col">มหาวิทยาลัย</th>
+                        <th scope="col" class="col-sm-auto">วันที่เริ่มฝึกงาน</th>
+                        <th scope="col" class="col-sm-auto border-right">วันที่สิ้นสุดฝึกงาน</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(data, index) in excelData">
+                        <td scope="row" class="d-flex justify-content-start">
+                            <input name="tb-check" type="checkbox" class="my-auto form-check-input rounded-circle ms-2">
+                            <label for="" class="mx-auto">{{ index + 1 }}</label>
+                        </td>
+                        <td scope="row">{{ data[8] }}</td>
+                        <td scope="row" class="text-center">{{ data[9] }}</td>
+                        <td scope="row">{{ data[6] }}</td>
+                        <td scope="row">{{ data[15] }}</td>
+                        <td scope="row" class="text-center">{{ dateFormat(data[10]) }}</td>
+                        <td scope="row" class="text-center">{{ dateFormat(data[11]) || '-' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
 
     <div class="row mt-2">
         <hr>
@@ -43,6 +45,7 @@
 </template>
 
 <script setup>
+import axios from 'axios';
 import Swal from 'sweetalert2'
 
 const props = defineProps({
@@ -71,12 +74,33 @@ function dateFormat(date) {
 }
 
 function confirmation() {
+    console.log(JSON.stringify(props.excelData, null, 2))
+
     Swal.fire({
         text: 'คุณต้องการบันทึกข้อมูลหรือไม่',
         icon: 'warning',
-        showDenyButton: true,
-        showConfirmButton: true
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก',
+        confirmButtonColor: '#e1032b',
+        reverseButtons: true,
+        focusConfirm: false,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                icon: 'success',
+                text: 'บันทึกข้อมูลเสร็จสิ้น',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        }
     })
+}
+
+function createInterns() {
+    axios.post(`${import.meta.env.VITE_API_HOST}/interns`)
+        .then((response) => console.log(response))
 }
 
 </script>
@@ -90,6 +114,7 @@ input[type="checkbox"]:checked {
     border: 1px solid #e1032b;
     background-color: #e1032b;
 }
+
 .fixed-head {
     overflow: auto;
 }

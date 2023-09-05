@@ -128,6 +128,7 @@
 
 .vh-sidebar {
   height: 92vh;
+  z-index: 2;
 }
 
 .act-red {
