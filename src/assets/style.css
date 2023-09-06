@@ -9,6 +9,16 @@
     background-color: #bb140e;
 }
 
+.outline-gray {
+    border: 1px solid #90969e !important;
+    color: #90969e !important;
+}
+
+.outline-gray:hover {
+    background-color: #90969e !important;
+    color: white !important;
+}
+
 .outline-red {
     border: 1px solid #e1032b !important;
     color: #e1032b !important;

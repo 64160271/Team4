@@ -21,7 +21,7 @@
                 <tbody>
                     <tr v-for="(data, index) in excelData">
                         <td scope="row" class="d-flex justify-content-start">
-                            <input name="tb-check" type="checkbox" class="my-auto form-check-input rounded-circle ms-2">
+                            <input @change="unSelectAll" name="tb-check" type="checkbox" class="my-auto form-check-input rounded-circle ms-2">
                             <label for="" class="mx-auto">{{ index + 1 }}</label>
                         </td>
                         <td scope="row">{{ data[8] }}</td>
@@ -59,6 +59,12 @@ function checkAll() {
     for (let i = 0; i < tbCheckBox.length; i++) {
         tbCheckBox[i].checked = main.checked
     }
+}
+
+function unSelectAll() {
+    let main = document.getElementById("main")
+    
+    main.checked = false
 }
 
 function dateFormat(date) {

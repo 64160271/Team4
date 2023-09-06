@@ -62,7 +62,7 @@
                     <td scope="row">{{ intern.intn_fname + " " + intern.intn_lname }}</td>
                     <td scope="row" class="text-center">{{ intern.intn_nickname }}</td>
                     <td scope="row">{{ currentDate }}</td>
-                    <td scope="row">บูรพา</td>
+                    <td scope="row">{{ intern.college_info.col_uni.uni_name }}</td>
                     <td scope="row" class="text-center">{{ intern.intn_start_date }}</td>
                     <td scope="row" class="text-center">{{ intern.intn_end_date || '-' }}</td>
                 </tr>
@@ -93,6 +93,20 @@ const getAllIntern = async () => {
 }
 
 onMounted(() => getAllIntern())
+
+function dateFormat(date) {
+
+    if (!date) {
+        return
+    }
+
+    const day = date.getDate()
+    const month = date.getMonth()
+    const year = date.getFullYear()
+
+    return day + "/" + month + "/" + year
+}
+
 </script>
   
 <style scoped>

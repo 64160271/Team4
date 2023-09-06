@@ -2,10 +2,10 @@
     <div class="d-flex flex-column mb-3">
         <span class="h5 my-auto">เพิ่มไฟล์ Excel</span>
 
-        <div class="d-flex mt-3 upload-box upload" id="upload-box">
+        <div class="d-flex justify-content-center align-items-center mt-3 upload-box upload" id="upload-box">
             <input @change="showFileName(readDataInFile)" accept=".xlsx" type="file" name="" id="file" />
 
-            <div class="m-auto">
+            <div class="">
                 <svg width="200" height="200" viewBox="0 0 250 251" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path class="fill-red" fill-rule="evenodd" clip-rule="evenodd"
                         d="M239.116 21.8392H148.67V0.5L0 23.4751V224.861L148.67 250.5V218.871H239.116C241.855 219.01 244.538 218.057 246.578 216.221C248.617 214.385 249.848 211.815 250 209.073V31.6282C249.845 28.8878 248.614 26.3201 246.575 24.4859C244.535 22.6517 241.854 21.7002 239.116 21.8392ZM240.545 210.7H148.366L148.214 193.813H170.42V174.146H148.045L147.938 162.524H170.42V142.857H147.768L147.661 131.235H170.42V111.567H147.589V99.9457H170.42V80.2783H147.589V68.6566H170.42V48.9892H147.589V31.1097H240.545V210.7Z"
