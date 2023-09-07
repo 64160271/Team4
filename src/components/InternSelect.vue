@@ -89,7 +89,7 @@ function confirmation() {
         showConfirmButton: true,
         confirmButtonText: 'ยืนยัน',
         cancelButtonText: 'ยกเลิก',
-        confirmButtonColor: '#e1032b',
+        confirmButtonColor: '#var(--main-color)',
         reverseButtons: true,
         focusConfirm: false,
     }).then((result) => {
@@ -117,8 +117,8 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked {
-    border: 1px solid #e1032b;
-    background-color: #e1032b;
+    border: 1px solid var(--main-color);
+    background-color: var(--main-color);
 }
 
 .fixed-head {
@@ -177,6 +177,6 @@ tr {
 }
 
 .tb-hov:hover td {
-    color: #e1032b;
+    color: var(--main-color);
 }
 </style>

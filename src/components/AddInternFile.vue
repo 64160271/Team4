@@ -69,7 +69,6 @@ function uploaded() {
     }
 }
 
-
 </script>
 
 <style scoped>
@@ -92,12 +91,12 @@ input {
 }
 
 .upload-box:hover {
-    border: 1px #e1032b dotted;
-    color: #e1032b !important;
+    border: 1px var(--main-color) dotted;
+    color: var(--main-color) !important;
 }
 
 .upload-box:hover .fill-red {
-    fill: #e1032b;
+    fill: var(--main-color);
 }
 
 .btn {

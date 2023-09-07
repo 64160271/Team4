@@ -132,7 +132,7 @@
 }
 
 .act-red {
-  background-color: #e1032b;
+  background-color: var(--main-color);
   color: white !important;
 }
 
@@ -142,7 +142,7 @@
 
 .hov-red:hover {
   color: white !important;
-  background-color: #e1032b;
+  background-color: var(--main-color);
 }
 
 .hov-red:hover svg path {

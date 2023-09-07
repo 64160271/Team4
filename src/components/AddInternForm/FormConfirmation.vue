@@ -241,8 +241,6 @@
     <div class="row mb-4">
         <textarea name="" class="form-control col ms-5" id="" rows="2"></textarea>
     </div>
-
-    <hr>
 </template>
 
 <script setuo>
