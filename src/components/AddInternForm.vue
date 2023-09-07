@@ -1,42 +1,43 @@
 <template>
     <div class="d-flex flex-column mb-3">
-        <span class="h5 my-auto">เพิ่มแบบฟอร์ม</span>
+        <span class="h5 my-auto front">เพิ่มแบบฟอร์ม</span>
 
-        <div class="d-flex border overflow-auto flex-column justify-content-center align-items-center inpt-box mt-3 mb-3">
+        <div class="d-flex overflow-y-auto justify-content-center inpt-box mt-3">
             <!-- <Transition name="nested" duration="550"> -->
-            <div class="row w-75">
+            <div class="row w-75 my-auto" v-if="pageShow==1">
                 <FormCompanyInfo />
             </div>
             <!-- </Transition> -->
 
-            <div class="row w-75">
+            <div class="w-75" v-if="pageShow==2">
                 <FormPersonalInfo />
             </div>
 
-            <div class="row w-75">
+            <div class="w-75" v-if="pageShow==3">
                 <FormAddress />
             </div>
 
-            <div class="row w-75">
+            <div class="w-75" v-if="pageShow==4">
                 <FormContract />
             </div>
 
-            <div class="row w-75">
+            <div class="w-75" v-if="pageShow==5">
                 <FormMilitaryStatus />
             </div>
 
-            <div class="row w-75">
+            <div class="w-75" v-if="pageShow==6">
                 <FormWorkInfo />
             </div>
 
-            <div class="row border w-100">
+            <div class="row w-100 mt-3" v-if="pageShow==7">
                 <FormConfirmation />
             </div>
         </div>
 
+        <hr>
         <div class="row">
-            <button class="col-2 mx-auto btn outline-gray">ยกเลิก</button>
-            <button class="col-2 mx-auto btn outline-red ms-auto">ถัดไป</button>
+            <button class="col-2 mx-auto btn outline-gray" @click="--pageShow">ย้อนกลับ</button>
+            <button class="col-2 mx-auto btn outline-red ms-auto" @click="++pageShow">ถัดไป</button>
         </div>
 
     </div>
@@ -53,7 +54,7 @@ import FormConfirmation from './AddInternForm/FormConfirmation.vue'
 
 import { ref } from 'vue'
 
-const show = ref(true)
+const pageShow = ref(1)
 </script>
 
 <style scoped>

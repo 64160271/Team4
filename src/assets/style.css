@@ -5,6 +5,10 @@
     font-family: 'Kanit', sans-serif;
 }
 
+.text-gray {
+    color: #90969e;
+}
+
 .bg-red {
     background-color: #bb140e;
 }
