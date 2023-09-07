@@ -51,7 +51,7 @@
                     <th scope="col">ชื่อ - นามสกุล</th>
                     <th scope="col">ชื่อเล่น</th>
                     <th scope="col">ตำแหน่ง</th>
-                    <th scope="col">มหาวิทยาลัย</th>
+                    <th scope="col">สถานศึกษา</th>
                     <th scope="col" class="col-sm-auto">วันที่เริ่มฝึกงาน</th>
                     <th scope="col" class="col-sm-auto border-right">วันที่สิ้นสุดฝึกงาน</th>
                 </tr>
