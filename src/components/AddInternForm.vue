@@ -2,7 +2,7 @@
     <div class="d-flex flex-column mb-3">
         <span class="h5 my-auto">เพิ่มแบบฟอร์ม</span>
 
-        <div class="d-flex border overflow-auto flex-column justify-content-center align-items-center inpt-box mt-3">
+        <div class="d-flex border overflow-auto flex-column justify-content-center align-items-center inpt-box mt-3 mb-3">
             <!-- <Transition name="nested" duration="550"> -->
             <div class="row w-75">
                 <FormCompanyInfo />
@@ -28,12 +28,16 @@
             <div class="row w-75">
                 <FormWorkInfo />
             </div>
+
+            <div class="row border w-100">
+                <FormConfirmation />
+            </div>
         </div>
 
-        <!-- <div class="row">
+        <div class="row">
             <button class="col-2 mx-auto btn outline-gray">ยกเลิก</button>
             <button class="col-2 mx-auto btn outline-red ms-auto">ถัดไป</button>
-        </div> -->
+        </div>
 
     </div>
 </template>
@@ -45,6 +49,7 @@ import FormAddress from './AddInternForm/FormAddress.vue'
 import FormContract from './AddInternForm/FormContract.vue'
 import FormMilitaryStatus from './AddInternForm/FormMilitaryStatus.vue'
 import FormWorkInfo from './AddInternForm/FormWorkInfo.vue'
+import FormConfirmation from './AddInternForm/FormConfirmation.vue'
 
 import { ref } from 'vue'
 
@@ -53,7 +58,7 @@ const show = ref(true)
 
 <style scoped>
 .inpt-box {
-    height: 70vh;
+    height: 75vh;
 }
 
 .nested-enter-active,
