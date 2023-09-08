@@ -6,7 +6,7 @@
 
     <form @submit.prevent="createInterns">
         <div class="row mt-2 table-wrapper-scroll-y my-custom-scrollbar">
-            <table class="table table-borderless fixed-head">
+            <table class="table table-borderless fixed-head" id="tb-data">
                 <thead class="text-center bg-red">
                     <tr>
                         <th scope="col" class="col-2 border-left">รหัสนักศึกษาฝึกงาน</th>
@@ -22,7 +22,7 @@
                     <tr v-for="(data, index) in excelData">
                         <td scope="row" class="d-flex justify-content-start">
                             <input @change="unSelectAll" name="tb-check" type="checkbox"
-                                class="my-auto form-check-input rounded-circle ms-2">
+                                class="my-auto form-check-input rounded-circle ms-2" />
                             <label for="" class="mx-auto">{{ index + 1 }}</label>
                         </td>
                         <td scope="row">{{ data[8] }}</td>
@@ -49,7 +49,9 @@
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import { ref } from 'vue';
+import $ from 'jquery'
 
+const selectedIndex = ref([])
 const selectedData = ref([])
 const props = defineProps({
     excelData: Array
@@ -66,7 +68,6 @@ function checkAll() {
 
 function unSelectAll() {
     let main = document.getElementById("main")
-
     main.checked = false
 }
 
@@ -103,32 +104,46 @@ function confirmation() {
 }
 
 async function createInterns() {
-    props.excelData.forEach((data) => {
-        let name = data[8].split(" ")
-        let row = {
-            section: data[2],
-            department: data[3],
-            team: data[4],
-            mentor: data[5],
-            role: data[6],
-            prefix: data[7],
-            fname: name[0],
-            lname: name[1],
-            nickname: data[9],
-            start_date: dateFormat(data[10]),
-            end_date: dateFormat(data[11]),
-            tel: data[13],
-            email: data[14],
-            university: data[15],
-            faculty: data[16],
-            major: data[17],
+
+    let checked = $('[name="tb-check"]')
+
+    $.each(checked, function () {
+        let $this = $(this)
+
+        if ($this.is(":checked")) {
+            let index = $(this).parent().parent().index()
+            selectedIndex.value.push(index)
         }
-
-     selectedData.value.push(row)
-
     })
 
-    await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, selectedData.value)
+    selectedIndex.value.forEach((index) => {
+        let rawData = props.excelData
+        let name = rawData[index][8].split(" ")
+        let row = {
+            section: rawData[index][2],
+            department: rawData[index][3],
+            team: rawData[index][4],
+            mentor: rawData[index][5],
+            role: rawData[index][6],
+            prefix: rawData[index][7],
+            fname: name[0],
+            lname: name[1],
+            nickname: rawData[index][9],
+            start_date: dateFormat(rawData[index][10]),
+            end_date: dateFormat(rawData[index][11]),
+            tel: rawData[index][13],
+            email: rawData[index][14],
+            university: rawData[index][15],
+            faculty: rawData[index][16],
+            major: rawData[index][17],
+        }
+
+        selectedData.value.push(row)
+    })
+
+    console.log(selectedData.value)
+
+    /* await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, selectedData.value)
         .then((response) => console.log(response)).then(() => {
             Swal.fire({
                 icon: 'success',
@@ -137,7 +152,7 @@ async function createInterns() {
                 timer: 3000
             }).then(() => {
             })
-        })
+        }) */
 }
 
 </script>
