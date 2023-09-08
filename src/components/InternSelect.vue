@@ -21,7 +21,8 @@
                 <tbody>
                     <tr v-for="(data, index) in excelData">
                         <td scope="row" class="d-flex justify-content-start">
-                            <input @change="unSelectAll" name="tb-check" type="checkbox" class="my-auto form-check-input rounded-circle ms-2">
+                            <input @change="unSelectAll" name="tb-check" type="checkbox"
+                                class="my-auto form-check-input rounded-circle ms-2">
                             <label for="" class="mx-auto">{{ index + 1 }}</label>
                         </td>
                         <td scope="row">{{ data[8] }}</td>
@@ -38,8 +39,8 @@
 
     <div class="row mt-2">
         <hr>
-        <span class="col">รายการทั้งหมด {{ excelData.length || 0 }} รายการ</span>
 
+        <span class="col">รายการทั้งหมด {{ excelData.length || 0 }} รายการ</span>
         <button @click="confirmation" type="button" class="col-sm-2 btn outline-red ms-auto">บันทึก</button>
     </div>
 </template>
@@ -47,7 +48,9 @@
 <script setup>
 import axios from 'axios';
 import Swal from 'sweetalert2'
+import { ref } from 'vue';
 
+const selectedData = ref([])
 const props = defineProps({
     excelData: Array
 })
@@ -63,7 +66,7 @@ function checkAll() {
 
 function unSelectAll() {
     let main = document.getElementById("main")
-    
+
     main.checked = false
 }
 
@@ -80,7 +83,6 @@ function dateFormat(date) {
 }
 
 function confirmation() {
-    console.log(JSON.stringify(props.excelData, null, 2))
 
     Swal.fire({
         text: 'คุณต้องการบันทึกข้อมูลหรือไม่',
@@ -89,24 +91,53 @@ function confirmation() {
         showConfirmButton: true,
         confirmButtonText: 'ยืนยัน',
         cancelButtonText: 'ยกเลิก',
-        confirmButtonColor: '#var(--main-color)',
+        confirmButtonColor: 'var(--main-color)',
         reverseButtons: true,
         focusConfirm: false,
     }).then((result) => {
+
         if (result.isConfirmed) {
+            createInterns()
+        }
+    })
+}
+
+async function createInterns() {
+    props.excelData.forEach((data) => {
+        let name = data[8].split(" ")
+        let row = {
+            section: data[2],
+            department: data[3],
+            team: data[4],
+            mentor: data[5],
+            role: data[6],
+            prefix: data[7],
+            fname: name[0],
+            lname: name[1],
+            nickname: data[9],
+            start_date: dateFormat(data[10]),
+            end_date: dateFormat(data[11]),
+            tel: data[13],
+            email: data[14],
+            university: data[15],
+            faculty: data[16],
+            major: data[17],
+        }
+
+     selectedData.value.push(row)
+
+    })
+
+    await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, selectedData.value)
+        .then((response) => console.log(response)).then(() => {
             Swal.fire({
                 icon: 'success',
                 text: 'บันทึกข้อมูลเสร็จสิ้น',
                 showConfirmButton: false,
                 timer: 3000
+            }).then(() => {
             })
-        }
-    })
-}
-
-function createInterns() {
-    axios.post(`${import.meta.env.VITE_API_HOST}/interns`)
-        .then((response) => console.log(response))
+        })
 }
 
 </script>

@@ -34,7 +34,7 @@ import readXlsxFile from 'read-excel-file'
 import InternSelect from './InternSelect.vue'
 import { ref } from 'vue';
 
-const excelData = ref([])
+const excelData = ref({})
 let isUploaded = ref(false)
 
 function showFileName(callback) {

@@ -46,7 +46,8 @@
     <table class="table table-borderless" id="myTable">
         <thead class="text-center bg-red">
             <tr>
-                <th scope="col" class="col-2 border-left">รหัสนักศึกษาฝึกงาน</th>
+                <th scope="col" class="col-auto border-left"></th>
+                <th scope="col" class="col-auto">รหัสนักศึกษาฝึกงาน</th>
                 <th scope="col">ชื่อ - นามสกุล</th>
                 <th scope="col">ชื่อเล่น</th>
                 <th scope="col">ตำแหน่ง</th>
@@ -56,7 +57,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr @mouseup="$router.push('/intern')" class="tb-hov" v-for="intern in interns">
+            <tr @click="$router.push('/intern')" class="tb-hov" v-for="intern in interns">
+                <td scope="row" class="text-end"><img src="../assets/images/person-nm.png" alt="" width="30" ></td>
                 <td scope="row" class="text-center">{{ intern.intn_id }}</td>
                 <td scope="row">{{ intern.intn_prefix + intern.intn_fname + " " + intern.intn_lname }}</td>
                 <td scope="row" class="text-center">{{ intern.intn_nickname }}</td>
