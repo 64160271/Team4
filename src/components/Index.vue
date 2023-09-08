@@ -92,7 +92,7 @@ const getAllIntern = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/interns`)
         .then((response) => {
             interns.value = response.data
-            $("#myTable").DataTable({
+            /* $("#myTable").DataTable({
                 data: response.data,
                 columns: [
                     { data: "intn_id" },
@@ -104,7 +104,7 @@ const getAllIntern = async () => {
                     { data: "intn_start_date" },
                     { data: `intn_end_date` }
                 ]
-            })
+            }) */
         })
 }
 
