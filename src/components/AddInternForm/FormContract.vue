@@ -40,6 +40,11 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
+const datas = ref({
+    house_number: '',
+})
 
 </script>
 

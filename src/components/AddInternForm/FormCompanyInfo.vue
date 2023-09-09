@@ -17,25 +17,23 @@
                 </svg>
                 อัปโหลดรูปภาพ
             </button>
-
-
         </div>
     </div>
 
     <div class="col-md-5 mx-auto">
         <div class="row text-start mb-4">
             <label for="" class="form-label">รหัสพนักงาน <font color="#e1032b">*</font></label>
-            <input type="text" class="form-control" placeholder="000000" required>
+            <input v-model="datas.id" type="text" class="form-control" placeholder="000000" required>
         </div>
 
         <div class="row text-start mb-4">
             <label for="" class="form-label">อีเมลพนักงาน <font color="#e1032b">*</font></label>
-            <input type="email" class="form-control" placeholder="example@clicknext.com" required>
+            <input v-model="datas.email" type="email" class="form-control" placeholder="example@clicknext.com" required>
         </div>
 
         <div class="row text-start mb-4">
             <label for="" class="form-label">สถานะพนักงาน <font color="#e1032b">*</font></label>
-            <select name="status" id="status" class="form-control" required>
+            <select v-model="datas.status" name="status" id="status" class="form-control" required>
                 <option value="กำลังทำงาน">กำลังทำงาน</option>
                 <option value="พ้นสภาพ">พ้นสภาพ</option>
             </select>
@@ -43,15 +41,27 @@
 
         <div class="row text-start mb-4">
             <label for="" class="form-label">ตำแหน่ง <font color="#e1032b">*</font></label>
-            <select name="position" id="position" class="form-control" required>
+            <select v-model="datas.role" name="position" id="position" class="form-control" required>
                 <option value="-">-</option>
                 <option value="-">-</option>
             </select>
         </div>
     </div>
+
+    <div class="row">
+        <button @click="console.log(datas)" class="btn btn-primary col-3">test</button>
+    </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
+const datas = ref({
+    id: '',
+    email: '',
+    status: '',
+    role: '',
+})
 
 </script>
 

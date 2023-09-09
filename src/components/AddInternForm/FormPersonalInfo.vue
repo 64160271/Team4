@@ -179,7 +179,26 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 
+const datas = ref({
+    prefix: [],
+    fname: [],
+    lname: [],
+    nickname: [],
+    citizen_id: '',
+    birth_date: '',
+    gender: '',
+    blood_type: '',
+    weight: '',
+    height: '',
+    nationality: '',
+    nation: '',
+    religion: '',
+    university: '',
+    faculty: '',
+    major: '',
+})
 </script>
 
 <style scoped></style>
