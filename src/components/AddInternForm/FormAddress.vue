@@ -65,7 +65,7 @@
 
         <div class="col">
             <label for="" class="form-label">อีเมลส่วนตัว</label>
-            <input type="text" class="form-control" placeholder="example@gmail.com">
+            <input type="email" class="form-control" placeholder="example@gmail.com">
         </div>
     </div>
 </template>
