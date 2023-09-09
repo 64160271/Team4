@@ -8,28 +8,36 @@
     <div class="row mb-4">
         <div class="col">
             <label for="" class="form-label">พี่เลี้ยง <font color="#e1032b">*</font></label>
-            <input type="text" class="form-control" placeholder="พี่เลี้ยง" required>
+            <select name="menter" id="menter" class="form-control" required>
+                <option value="-">-</option>
+            </select>
         </div>
     </div>
 
     <div class="row mb-4">
         <div class="col">
             <label for="" class="form-label">ฝ่าย</label>
-            <input type="text" class="form-control" placeholder="ฝ่าย" >
+            <select name="faction" id="faction" class="form-control" required>
+                <option value="-">-</option>
+            </select>
         </div>
     </div>
 
     <div class="row mb-4">
         <div class="col">
             <label for="" class="form-label">แผนก</label>
-            <input type="text" class="form-control" placeholder="แผนก" >
+            <select name="department" id="department" class="form-control" required>
+                <option value="-">-</option>
+            </select>
         </div>
     </div>
 
     <div class="row mb-4">
         <div class="col">
             <label for="" class="form-label">ตำแหน่งงาน</label>
-            <input type="text" class="form-control" placeholder="ตำแหน่งงาน" >
+            <select name="position" id="position" class="form-control" required>
+                <option value="-">-</option>
+            </select>
         </div>
     </div>
 
