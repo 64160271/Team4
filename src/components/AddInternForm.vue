@@ -5,41 +5,40 @@
         <div class="d-flex overflow-y-auto justify-content-center inpt-box mt-3">
             <!-- <Transition name="nested" duration="550"> -->
             <div class="row w-75 my-auto" v-if="pageShow==1">
-                <FormCompanyInfo />
+                <FormCompanyInfo :setParentData="setFormData" />
             </div>
             <!-- </Transition> -->
 
             <div class="w-75" v-if="pageShow==2">
-                <FormPersonalInfo />
+                <FormPersonalInfo :setParentData="setFormData" />
             </div>
 
             <div class="w-75" v-if="pageShow==3">
-                <FormAddress />
+                <FormAddress :setParentData="setFormData" />
             </div>
 
             <div class="w-75" v-if="pageShow==4">
-                <FormContract />
+                <FormContract :setParentData="setFormData" />
             </div>
 
             <div class="w-75" v-if="pageShow==5">
-                <FormMilitaryStatus />
+                <FormMilitaryStatus :setParentData="setFormData" />
             </div>
 
             <div class="w-75" v-if="pageShow==6">
-                <FormWorkInfo />
+                <FormWorkInfo :setParentData="setFormData" />
             </div>
 
             <div class="row w-100 mt-3" v-if="pageShow==7">
-                <FormConfirmation />
+                <FormConfirmation :formData="formData" />
             </div>
         </div>
 
         <hr>
         <div class="row">
-            <button class="col-2 mx-auto btn outline-gray" @click="--pageShow">ย้อนกลับ</button>
-            <button class="col-2 mx-auto btn outline-red ms-auto" @click="++pageShow">ถัดไป</button>
+            <button class="col-2 mx-auto btn outline-gray rounded-pill" @click="--pageShow">ย้อนกลับ</button>
+            <button class="col-2 mx-auto btn outline-red ms-auto rounded-pill" @click="++pageShow">ถัดไป</button>
         </div>
-
     </div>
 </template>
 
@@ -55,6 +54,12 @@ import FormConfirmation from './AddInternForm/FormConfirmation.vue'
 import { ref } from 'vue'
 
 const pageShow = ref(1)
+const formData = ref([])
+
+function setFormData(index, data) {
+    formData.value[index] = data
+}
+
 </script>
 
 <style scoped>

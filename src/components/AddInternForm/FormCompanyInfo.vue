@@ -23,44 +23,69 @@
     <div class="col-md-5 mx-auto">
         <div class="row text-start mb-4">
             <label for="" class="form-label">รหัสพนักงาน <font color="#e1032b">*</font></label>
-            <input v-model="datas.id" type="text" class="form-control" placeholder="000000" required>
+            <input v-model="data.id" type="text" class="form-control" placeholder="000000" required>
         </div>
 
         <div class="row text-start mb-4">
             <label for="" class="form-label">อีเมลพนักงาน <font color="#e1032b">*</font></label>
-            <input v-model="datas.email" type="email" class="form-control" placeholder="example@clicknext.com" required>
+            <input v-model="data.emp_email" type="email" class="form-control" placeholder="example@clicknext.com" required>
         </div>
 
         <div class="row text-start mb-4">
             <label for="" class="form-label">สถานะพนักงาน <font color="#e1032b">*</font></label>
-            <select v-model="datas.status" name="status" id="status" class="form-control" required>
-                <option value="กำลังทำงาน">กำลังทำงาน</option>
-                <option value="พ้นสภาพ">พ้นสภาพ</option>
+            <select v-model="data.status" name="status" id="status" class="form-select" required autocomplete="off">
+                <option disabled selected value="">--- เลือก ---</option>
+                <option v-for="(stat, index) in status" :value="stat">{{ stat }}</option>
             </select>
         </div>
 
         <div class="row text-start mb-4">
             <label for="" class="form-label">ตำแหน่ง <font color="#e1032b">*</font></label>
-            <select v-model="datas.role" name="position" id="position" class="form-control" required>
-                <option value="-">-</option>
-                <option value="-">-</option>
+            <select v-model="data.role" name="position" id="position" class="form-select" required autocomplete="off">
+                <option disabled selected value="">--- เลือก ---</option>
+                <option v-for="(role, index) in roles" :value="role">{{ role.role_name }}</option>
             </select>
         </div>
     </div>
-
-    <div class="row">
-        <button @click="console.log(datas)" class="btn btn-primary col-3">test</button>
-    </div>
+    
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import { onUnmounted, onMounted } from 'vue'
+import axios from 'axios';
 
-const datas = ref({
+const status = ref([
+    'กำลังทำงาน',
+    'พ้นสภาพ'
+])
+
+const roles = ref({})
+
+const data = ref({
     id: '',
-    email: '',
+    emp_email: '',
     status: '',
     role: '',
+})
+
+const prop = defineProps({
+    setParentData: Function
+})
+
+const getAllRole = async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/roles`)
+        .then((response) => {
+            roles.value = response.data
+        })
+}
+
+onMounted(() => {
+    getAllRole()
+})
+
+onUnmounted(() => {
+    prop.setParentData(0, data.value)
 })
 
 </script>

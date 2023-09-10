@@ -25,7 +25,6 @@
 
         <InternSelect v-if="isUploaded" :excelData="excelData" />
 
-        <!-- ใช้ v-if check function ว่า อัปโหลดไฟล์หรีอยัง -->
     </div>
 </template>
 

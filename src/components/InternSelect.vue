@@ -155,6 +155,10 @@ async function createInterns() {
         }) */
 }
 
+onMounted(() => {
+    console.log(props.excelData)
+})
+
 </script>
 
 <style scoped>
