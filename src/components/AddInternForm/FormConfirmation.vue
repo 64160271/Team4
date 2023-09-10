@@ -1,6 +1,6 @@
 <template>
-    <div class="col-2 img rounded-circle mb-3">
-        <img src="" alt="">
+    <div class="col-2 img-size rounded-circle mb-3">
+        <img src="" alt="" id="blah" class="img rounded-circle">
     </div>
 
     <div class="col ms-5">
@@ -256,7 +256,6 @@ const fullName = ref(
     }
 )
 
-const age = ref()
 const mergedData = ref({})
 const prop = defineProps({
     formData: Array
@@ -275,12 +274,23 @@ onMounted(() => {
             }
         }
     })
-    console.log(mergedData.value)
+
+    const file = mergedData.value.img
+
+    if (file) {
+        blah.src = URL.createObjectURL(file)
+    }
+
 })
 </script>
 
 <style scoped>
 .img {
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+}
+.img-size {
     width: 150px;
     height: 150px;
     background-color: #90969E;

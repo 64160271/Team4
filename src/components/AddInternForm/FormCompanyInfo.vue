@@ -1,12 +1,13 @@
 <template>
     <div class="col-md-5">
-        <div class="row img rounded-circle mx-auto">
-            <img src="" alt="">
-            <img src="#" alt="" id="myImg">
+        <div class="row img-size rounded-circle mx-auto">
+            <img id="blah" src="#" alt="" class="img rounded-circle">
         </div>
 
         <div class="row mt-4">
-            <button class="mx-auto col-sm-6 btn btn-sm outline-red" id="picture">
+            <button class="mx-auto col-sm-6 btn btn-sm outline-red position-relative" id="picture">
+                <input @change="showImg" type="file" id="img-upload" accept="image/*" />
+
                 <svg width="35" height="35" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M19.9474 36.5556H5.21053C4.09383 36.5556 3.02286 36.0873 2.23323 35.2538C1.44361 34.4203 1 33.2899 1 32.1111V12.1111C1 10.9324 1.44361 9.80191 2.23323 8.96841C3.02286 8.13492 4.09383 7.66667 5.21053 7.66667H7.31579C8.43249 7.66667 9.50345 7.19841 10.2931 6.36492C11.0827 5.53142 11.5263 4.40096 11.5263 3.22222C11.5263 2.63285 11.7481 2.06762 12.1429 1.65087C12.5377 1.23413 13.0732 1 13.6316 1H26.2632C26.8215 1 27.357 1.23413 27.7518 1.65087C28.1466 2.06762 28.3684 2.63285 28.3684 3.22222C28.3684 4.40096 28.812 5.53142 29.6017 6.36492C30.3913 7.19841 31.4622 7.66667 32.5789 7.66667H34.6842C35.8009 7.66667 36.8719 8.13492 37.6615 8.96841C38.4511 9.80191 38.8947 10.9324 38.8947 12.1111V19.8889"
@@ -67,6 +68,7 @@ const data = ref({
     emp_email: '',
     status: '',
     role: '',
+    img: ''
 })
 
 const prop = defineProps({
@@ -78,6 +80,17 @@ const getAllRole = async () => {
         .then((response) => {
             roles.value = response.data
         })
+}
+
+function showImg() {
+    const imgUpload = document.getElementById("img-upload")
+    const [file] = imgUpload.files
+
+    if (file) {
+        blah.src = URL.createObjectURL(file)
+        data.value.img = file
+    }
+    
 }
 
 onMounted(() => {
@@ -92,12 +105,28 @@ onUnmounted(() => {
 
 <style scoped>
 .img {
-    width: 250px;
-    height: 250px;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+.img-size {
+    width: 230px;
+    height: 230px;
     background-color: #90969E;
 }
 
 .outline-red:hover .stroke-white {
     stroke: white;
+}
+
+#img-upload {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
 }
 </style>

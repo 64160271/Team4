@@ -10,7 +10,7 @@
             <label for="" class="form-label">พี่เลี้ยง <font color="#e1032b">*</font></label>
             <select v-model=data.mentor name="menter" id="menter" class="form-select" required>
                 <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="(mentor, index) in mentors" :value="mentor">{{ mentor }}</option>
+                <option v-for="(mentor, index) in mentors" :value="mentor">{{ mentor.fname + " " + mentor.lname }}</option>
             </select>
         </div>
     </div>
@@ -20,7 +20,7 @@
             <label for="" class="form-label">ฝ่าย</label>
             <select v-model="data.section" name="faction" id="faction" class="form-select" required>
                 <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="(section, index) in sections" :value="secton">{{ section }}</option>
+                <option v-for="(section, index) in sections" :value="secton">{{ section.sec_name }}</option>
             </select>
         </div>
     </div>

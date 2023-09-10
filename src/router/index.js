@@ -4,6 +4,7 @@ import Login from '../components/Login.vue'
 import InternData from '../components/InternData.vue'
 import AddInternForm from '../components/AddInternForm.vue'
 import AddInternFile from '../components/AddInternFile.vue'
+import AddInternFormV2 from '../components/AddInternFormV2.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -32,6 +33,11 @@ const router = createRouter({
             path: '/interns/add-file',
             name: 'addInternFile',
             component: AddInternFile
+        },
+        {
+            path: '/interns/key-data-v2',
+            name: 'addInternFormV2',
+            component: AddInternFormV2
         }
     ]
 })

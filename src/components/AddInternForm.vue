@@ -4,32 +4,32 @@
 
         <div class="d-flex overflow-y-auto justify-content-center inpt-box mt-3">
             <!-- <Transition name="nested" duration="550"> -->
-            <div class="row w-75 my-auto" v-if="pageShow==1">
+            <div class="row w-75 my-auto" v-if="pageShow == 1">
                 <FormCompanyInfo :setParentData="setFormData" />
             </div>
             <!-- </Transition> -->
 
-            <div class="w-75" v-if="pageShow==2">
+            <div class="w-75" v-if="pageShow == 2">
                 <FormPersonalInfo :setParentData="setFormData" />
             </div>
 
-            <div class="w-75" v-if="pageShow==3">
+            <div class="w-75" v-if="pageShow == 3">
                 <FormAddress :setParentData="setFormData" />
             </div>
 
-            <div class="w-75" v-if="pageShow==4">
+            <div class="w-75" v-if="pageShow == 4">
                 <FormContract :setParentData="setFormData" />
             </div>
 
-            <div class="w-75" v-if="pageShow==5">
+            <div class="w-75" v-if="pageShow == 5">
                 <FormMilitaryStatus :setParentData="setFormData" />
             </div>
 
-            <div class="w-75" v-if="pageShow==6">
+            <div class="w-75" v-show="showSaveButton == false" v-if="pageShow == 6">
                 <FormWorkInfo :setParentData="setFormData" />
             </div>
 
-            <div class="row w-100 mt-3" v-if="pageShow==7">
+            <div class="row w-100 mt-3" v-show="showSaveButton = true" v-if="pageShow == 7">
                 <FormConfirmation :formData="formData" />
             </div>
         </div>
@@ -37,7 +37,10 @@
         <hr>
         <div class="row">
             <button class="col-2 mx-auto btn outline-gray rounded-pill" @click="--pageShow">ย้อนกลับ</button>
-            <button class="col-2 mx-auto btn outline-red ms-auto rounded-pill" @click="++pageShow">ถัดไป</button>
+            <button v-if="showSaveButton == false" class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
+                @click="++pageShow">ถัดไป</button>
+            <button v-if="showSaveButton == true" class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
+                @click="confirmation">บันทึก</button>
         </div>
     </div>
 </template>
@@ -52,13 +55,50 @@ import FormWorkInfo from './AddInternForm/FormWorkInfo.vue'
 import FormConfirmation from './AddInternForm/FormConfirmation.vue'
 
 import { ref } from 'vue'
+import Swal from 'sweetalert2'
 
+const showSaveButton = ref(false)
 const pageShow = ref(1)
 const formData = ref([])
 
 function setFormData(index, data) {
     formData.value[index] = data
 }
+
+function confirmation() {
+
+    Swal.fire({
+        text: 'คุณต้องการบันทึกข้อมูลหรือไม่',
+        icon: 'warning',
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก',
+        confirmButtonColor: 'var(--main-color)',
+        reverseButtons: true,
+        focusConfirm: false,
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+            createInterns()
+        }
+    })
+}
+
+async function createInterns() {
+
+    /* await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, formData.value)
+        .then((response) => console.log(response)).then(() => {
+            Swal.fire({
+                icon: 'success',
+                text: 'บันทึกข้อมูลเสร็จสิ้น',
+                showConfirmButton: false,
+                timer: 3000
+            }).then(() => {
+            })
+        }) */
+}
+
 
 </script>
 

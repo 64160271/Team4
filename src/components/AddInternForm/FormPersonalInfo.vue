@@ -237,10 +237,14 @@ function changeFacultyData() {
     data.value.faculty = ''
     data.value.major = ''
 
-    console.log(university)
-
     faculties.value = university.faculties
-    majors.value = universities.faculties.majors
+}
+
+function changeMajorData() {
+    let faculty = data.value.faculty
+    data.value.major = ''
+
+    majors.value = faculty.majors
 }
 
 function getAge(birthdate) {
@@ -263,8 +267,6 @@ const getAllFaculty = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/faculties`)
         .then((response) => {
             faculties.value = response.data
-
-            console.log(faculties.value)
         })
 }
 

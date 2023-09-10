@@ -13,7 +13,7 @@
 
         <div class="col">
             <label for="" class="form-label">หมู่</label>
-            <input v-model="data.house_number" type="text" class="form-control" placeholder="0" >
+            <input v-model="data.village_number" type="text" class="form-control" placeholder="0" >
         </div>
         
         <div class="col">
