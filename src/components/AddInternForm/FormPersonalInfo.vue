@@ -23,7 +23,7 @@
     <div class="row mb-4">
         <div class="col">
             <label for="" class="form-label">ชื่อจริง (ไทย) <font color="#e1032b">*</font></label>
-            <input v-model="data.fname[0]" type="text" class="form-control" placeholder="พนิดา" required>
+            <input v-model="data.fname[0]" name="fname" type="text" class="form-control" placeholder="พนิดา" required>
         </div>
 
         <div class="col">
@@ -35,7 +35,7 @@
     <div class="row mb-4">
         <div class="col">
             <label for="" class="form-label">นามสกุล (ไทย) <font color="#e1032b">*</font></label>
-            <input v-model="data.lname[0]" type="text" class="form-control" placeholder="ถำวาปี" required>
+            <input v-model="data.lname[0]" name="lname" type="text" class="form-control" placeholder="ถำวาปี" required>
         </div>
 
         <div class="col">
@@ -71,7 +71,7 @@
         </div>
 
         <div class="col">
-            <label for="" class="form-label">อายุ</label>
+            <label for="" class="form-label">อายุ (ปี)</label>
             <input v-model="data.age" type="text" class="form-control" placeholder="0" disabled>
         </div>
 
@@ -95,12 +95,12 @@
 
         <div class="col">
             <label for="" class="form-label">น้ำหนัก (กิโลกรัม)</label>
-            <input v-model="data.weight" type="text" class="form-control" placeholder="50.00">
+            <input v-model="data.weight" type="number" class="form-control" placeholder="50.00">
         </div>
 
         <div class="col">
             <label for="" class="form-label">ส่วนสูง (เซนติเมตร)</label>
-            <input v-model="data.height" type="text" class="form-control" placeholder="170.00">
+            <input v-model="data.height" type="number" class="form-control" placeholder="170.00">
         </div>
     </div>
 
@@ -151,7 +151,7 @@
         <div class="col">
             <label for="" class="form-label">คณะ <font color="#e1032b">*</font></label>
             <select @change="changeMajorData" v-model="data.faculty" name="faculty" id="faculty" class="form-select" required>
-                <option disabled selected value="">--- เลือก ---</option>
+                <option disabled selected value="">--- เลือกสถานศึกษา ---</option>
                 <option v-for="(faculty, index) in faculties" :value="faculty">{{ faculty.fac_name }}</option>
             </select>
         </div>
@@ -161,9 +161,30 @@
         <div class="col">
             <label for="" class="form-label">สาขาวิชา <font color="#e1032b">*</font></label>
             <select v-model="data.major" name="major" id="major" class="form-select" required>
-                <option disabled selected value="">--- เลือก ---</option>
+                <option disabled selected value="">--- เลือกคณะ ---</option>
                 <option v-for="(major, index) in majors" :value="major">{{ major.maj_name }}</option>
             </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <span>สถานภาพทางทหาร</span>
+    </div>
+
+    <hr>
+
+    <div class="row mb-5">
+        <div class="col">
+            <label for="" class="form-label">สถานภาพทางทหาร</label>
+            <select v-model="data.military_status" name="military_status" id="military_status" class="form-select" required>
+                <option disabled selected value="">--- เลือก ---</option>
+                <option v-for="military_status in militaryStatus" :value="military_status">{{ military_status }}</option>
+            </select>
+        </div>
+
+        <div class="col">
+            <label for="" class="form-label">เหตุผล</label>
+            <input v-model="data.reason" type="text" class="form-control" placeholder="">
         </div>
     </div>
 </template>
@@ -178,6 +199,13 @@ const dummyPrefix = ref('')
 const universities = ref({})
 const faculties = ref({})
 const majors = ref({})
+
+const militaryStatus = ref([
+    'ยังไม่เกณฑ์ทหาร',
+    'กำลังประจำกองทหาร',
+    'ผ่านการเกณฑ์ทหารมาแล้ว',
+    'ได้รับการยกเว้นการเกณฑ์ทหาร'
+])
 
 const prefixes = ref([
     ['นาย', 'Mr.'],
@@ -219,7 +247,9 @@ const data = ref({
     faculty: '',
     major: '',
     marital_status: '',
-    age: Number(0)
+    age: Number(0),
+    military_status: '',
+    reason: '',
 })
 
 const prop = defineProps({

@@ -65,7 +65,7 @@
 
         <div class="col">
             <label for="" class="form-label">อีเมลส่วนตัว</label>
-            <input v-model="data.email" type="email" class="form-control" placeholder="example@gmail.com">
+            <input v-model="data.email" name="email" type="email" class="form-control" placeholder="example@gmail.com">
         </div>
     </div>
 

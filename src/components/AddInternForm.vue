@@ -21,22 +21,22 @@
                 <FormContract :setParentData="setFormData" />
             </div>
 
-            <div class="w-75" v-if="pageShow == 5">
+            <!-- <div class="w-75" v-if="pageShow == 5">
                 <FormMilitaryStatus :setParentData="setFormData" />
-            </div>
+            </div> -->
 
-            <div class="w-75" v-show="showSaveButton == false" v-if="pageShow == 6">
+           <!--  <div class="w-75" v-if="pageShow == 5">
                 <FormWorkInfo :setParentData="setFormData" />
-            </div>
+            </div> -->
 
-            <div class="row w-100 mt-3" v-show="showSaveButton = true" v-if="pageShow == 7">
+            <div class="row w-100 mt-3" v-show="showSaveButton = true" v-if="pageShow == 5">
                 <FormConfirmation :formData="formData" />
             </div>
         </div>
 
         <hr>
         <div class="row">
-            <button class="col-2 mx-auto btn outline-gray rounded-pill" @click="--pageShow">ย้อนกลับ</button>
+            <button class="col-2 mx-auto btn outline-gray rounded-pill" @click="--pageShow, checkPage()">ย้อนกลับ</button>
             <button v-if="showSaveButton == false" class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
                 @click="++pageShow">ถัดไป</button>
             <button v-if="showSaveButton == true" class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
@@ -63,6 +63,14 @@ const formData = ref([])
 
 function setFormData(index, data) {
     formData.value[index] = data
+}
+
+function checkPage() {
+    if (pageShow.value < 1) {
+        window.location.href = `${import.meta.env.VITE_BASE_URL}/`
+    } else if (pageShow.value < 5) {
+        showSaveButton.value = false
+    }
 }
 
 function confirmation() {

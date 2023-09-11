@@ -9,252 +9,305 @@
             </div>
 
             <div class="col ms-5">
-                <span class="row h5">ข้อมูลส่วนตัวเกี่ยวกับบริษัท</span>
+                <span class="row h5 mb-3">ข้อมูลส่วนตัวเกี่ยวกับบริษัท</span>
 
                 <div class="row mb-2">
                     <label for="" class="col-2 col-form-label text-gray">รหัสพนักงาน</label>
-                    <div class="col">
-                        <input type="text" class="form-control-plaintext" v-model="mergedData.id" readonly>
+                    <div class="col me-5">
+                        <input type="text" class="form-control mb-2" v-model="mergedData.id">
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">สถานะพนักงาน</label>
                     <div class="col">
-                        <input type="text" class="form-control-plaintext" v-model="mergedData.status" readonly>
+                        <select class="form-select mb-2" v-model="mergedData.status">
+
+                        </select>
                     </div>
                 </div>
 
                 <div class="row mb-2">
                     <label for="" class="col-2 col-form-label text-gray">อีเมลพนักงาน</label>
-                    <div class="col">
-                        <input type="text" class="form-control-plaintext" v-model="mergedData.emp_email" readonly>
+                    <div class="col me-5">
+                        <input type="text" class="form-control mb-2" v-model="mergedData.emp_email">
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">ตำแหน่งงาน</label>
                     <div class="col">
-                        <input type="text" class="form-control-plaintext" v-model="mergedData.role" readonly>
+                        <select class="form-select mb-2" v-model="mergedData.role">
+
+                        </select>
                     </div>
                 </div>
             </div>
 
             <hr>
 
-            <span class="h5">ข้อมูลส่วนตัว</span>
+            <span class="h5 mb-3">ข้อมูลส่วนตัว</span>
 
             <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">ชื่อ-นามสกุล (ไทย)</label>
-                <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="fullName.thai" readonly>
+
+                <div class="col-2 ms-5">
+                    <label for="" class="form-label text-gray">คำนำหน้าชื่อ (ไทย) <font color="#e1032b">*</font></label>
+                    <select class="form-select mb-2" v-model="mergedData.university" required>
+
+                    </select>
                 </div>
 
-                <label for="" class="col-2 col-form-label text-gray">ชื่อเล่น (ไทย)</label>
                 <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="fullName.nickname_th" readonly>
+                    <label for="" class="form-label text-gray">ชื่อจริง (ไทย) <font color="#e1032b">*</font></label>
+                    <input type="text" class="form-control mb-2" v-model="mergedData.university" required>
+                </div>
+
+                <div class="col">
+                    <label for="" class="form-label text-gray">นามสกุล (ไทย) <font color="#e1032b">*</font></label>
+                    <input type="text" class="form-control mb-2" v-model="mergedData.faculty" required>
+                </div>
+
+                <div class="col-2">
+                    <label for="" class="form-label text-gray">ชื่อเล่น (ไทย) <font color="#e1032b">*</font></label>
+                    <input type="text" class="form-control mb-2" v-model="mergedData.major" required>
                 </div>
             </div>
 
-            <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">ชื่อ-นามสกุล (อังกฤษ)</label>
-                <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="fullName.eng" readonly>
+            <div class="row mb-4">
+                <div class="col-2 ms-5">
+                    <label for="" class="form-label text-gray">คำนำหน้าชื่อ (อังกฤษ) <font color="#e1032b">*</font>
+                    </label>
+                    <input type="text" class="form-select" v-model="mergedData.university" required>
                 </div>
 
-                <label for="" class="col-2 col-form-label text-gray">ชื่อเล่น (อังกฤษ)</label>
                 <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="fullName.nickname_en" readonly>
+                    <label for="" class="form-label text-gray">ชื่อจริง (อังกฤษ) <font color="#e1032b">*</font></label>
+                    <input type="text" class="form-control" v-model="mergedData.university" required>
+                </div>
+
+                <div class="col">
+                    <label for="" class="form-label text-gray">นามสกุล (อังกฤษ) <font color="#e1032b">*</font></label>
+                    <input type="text" class="form-control" v-model="mergedData.faculty" required>
+                </div>
+
+                <div class="col-2">
+                    <label for="" class="form-label text-gray">ชื่อเล่น (อังกฤษ) <font color="#e1032b">*</font></label>
+                    <input type="text" class="form-control" v-model="mergedData.major" required>
                 </div>
             </div>
 
             <div class="row mb-2">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">เลขบัตรประชาชน / พาสปอร์ต</label>
-                <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.citizen_id" readonly>
+                <div class="col me-5">
+                    <input type="text" class="form-control mb-2" v-model="mergedData.citizen_id">
                 </div>
 
-                <div class="col-2">
+                <div class="col">
                     <div class="row">
-                        <label for="" class="col-4 col-form-label text-gray">วันเกิด</label>
-                        <input type="text" class="col form-control-plaintext" v-model="mergedData.birth_date" readonly>
+                        <label for="" class="col-2 col-form-label text-gray">วันเกิด</label>
+                        <input type="date" class="col form-control mb-2" v-model="mergedData.birth_date">
                     </div>
                 </div>
 
 
-                <div class="col">
+                <div class="col-2">
                     <div class="row">
-                        <label for="" class="col-2 col-form-label text-gray">อายุ</label>
-                        <input type="text" class="col form-control-plaintext" v-model="mergedData.age" readonly>
+                        <label for="" class="col-4 col-form-label text-gray">อายุ (ปี)</label>
+                        <input type="text" class="col form-control mb-2" v-model="mergedData.age" readonly>
                     </div>
                 </div>
             </div>
 
             <div class="row mb-2">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">เพศ</label>
-                <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.gender" readonly>
+                <div class="col me-5">
+                    <select class="form-select mb-2" v-model="mergedData.gender">
+
+                    </select>
                 </div>
 
                 <label for="" class="col-2 col-form-label text-gray">หมู่เลือด</label>
                 <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.blood_type" readonly>
+                    <select class="form-select mb-2" v-model="mergedData.blood_type">
+
+                    </select>
                 </div>
             </div>
 
             <div class="row mb-2">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">น้ำหนัก (กิโลกรัม)</label>
-                <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.weight" readonly>
+                <div class="col me-5">
+                    <input type="text" class="form-control mb-2" v-model="mergedData.weight">
                 </div>
 
                 <label for="" class="col-2 col-form-label text-gray">ส่วนสูง (เซนติเมตร)</label>
                 <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.height" readonly>
+                    <input type="text" class="form-control mb-2" v-model="mergedData.height">
                 </div>
             </div>
 
             <div class="row mb-2">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">สัญชาติ</label>
-                <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.nationality" readonly>
+                <div class="col me-5">
+                    <input type="text" class="form-control mb-2" v-model="mergedData.nationality">
                 </div>
 
                 <label for="" class="col-2 col-form-label text-gray">เชื้อชาติ</label>
                 <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.nation" readonly>
+                    <input type="text" class="form-control mb-2" v-model="mergedData.nation">
                 </div>
             </div>
 
             <div class="row mb-4">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">ศาสนา</label>
-                <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.religion" readonly>
+                <div class="col me-5">
+                    <select class="form-select mb-2" v-model="mergedData.religion">
+
+                    </select>
                 </div>
 
                 <label for="" class="col-2 col-form-label text-gray">สถานภาพสมรส</label>
                 <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.marital_status" readonly>
+                    <select class="form-select mb-2" v-model="mergedData.marital_status">
+
+                    </select>
                 </div>
             </div>
 
             <hr>
 
-            <span class="h5">สถานศึกษา</span>
+            <span class="h5 mb-3">สถานศึกษา</span>
 
             <div class="row mb-4">
-                <div class="col ms-5">
+                <div class="col me-5 ms-5">
                     <label for="" class="form-label text-gray">ชื่อสถานศึกษา <font color="#e1032b">*</font></label>
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.university" required readonly>
+                    <select class="form-select mb-2" v-model="mergedData.university" required>
+
+                    </select>
                 </div>
 
-                <div class="col">
+                <div class="col me-5">
                     <label for="" class="form-label text-gray">คณะ <font color="#e1032b">*</font></label>
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.faculty" required readonly>
+                    <select class="form-select mb-2" v-model="mergedData.faculty" required>
+
+                    </select>
                 </div>
 
                 <div class="col">
                     <label for="" class="form-label text-gray">สาขาวิชา <font color="#e1032b">*</font></label>
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.major" required readonly>
+                    <select class="form-select mb-2" v-model="mergedData.major" required>
+
+                    </select>
                 </div>
             </div>
 
             <hr>
 
-            <span class="h5">ข้อมูลที่อยู่ / ติดต่อ</span>
+            <span class="h5 mb-3">ข้อมูลที่อยู่ / ติดต่อ</span>
 
             <div class="row mb-2">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">บ้านเลขที่</label>
-                <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.house_number" readonly>
+                <div class="col me-5">
+                    <input type="text" class="form-control mb-2" v-model="mergedData.house_number">
                 </div>
 
                 <label for="" class="col-2 col-form-label text-gray">ซอย</label>
                 <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.alley" readonly>
+                    <input type="text" class="form-control mb-2" v-model="mergedData.alley">
                 </div>
             </div>
 
-            <div class="row mb-2">
+            <div class="row mb-2 me-5">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">หมู่</label>
-                <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.village_number" readonly>
+                <div class="col me-5">
+                    <input type="text" class="form-control mb-2" v-model="mergedData.village_number">
                 </div>
 
                 <label for="" class="col-2 col-form-label text-gray">ถนน</label>
                 <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.street" readonly>
+                    <input type="text" class="form-control mb-2" v-model="mergedData.street">
                 </div>
             </div>
 
             <div class="row mb-2">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">จังหวัด</label>
-                <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.province" readonly>
+                <div class="col me-5">
+                    <input type="text" class="form-control mb-2" v-model="mergedData.province">
                 </div>
 
                 <label for="" class="col-2 col-form-label text-gray">อำเภอ / เขต</label>
                 <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.district" readonly>
+                    <input type="text" class="form-control mb-2" v-model="mergedData.district">
                 </div>
             </div>
 
             <div class="row mb-2">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">ตำบล / แขวง</label>
-                <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.subdistrict" readonly>
+                <div class="col me-5">
+                    <input type="text" class="form-control mb-2" v-model="mergedData.subdistrict">
                 </div>
 
                 <label for="" class="col-2 col-form-label text-gray">รหัสไปรษณีย์</label>
                 <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.post_code" readonly>
+                    <input type="text" class="form-control mb-2" v-model="mergedData.post_code">
                 </div>
             </div>
 
             <div class="row mb-4">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">เบอร์โทรศัพท์</label>
-                <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.tel" readonly>
+                <div class="col me-5">
+                    <input type="text" class="form-control mb-2" v-model="mergedData.tel">
                 </div>
 
                 <label for="" class="col-2 col-form-label text-gray">อีเมลส่วนตัว</label>
                 <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.email" readonly>
+                    <input type="text" class="form-control mb-2" v-model="mergedData.email">
                 </div>
             </div>
 
             <hr>
 
-            <span class="h5">สถานภาพทางทหาร</span>
+            <span class="h5 mb-3">สถานภาพทางทหาร</span>
 
             <div class="row mb-4">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">สถานภาพทางทหาร</label>
-                <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.military_status" readonly>
+                <div class="col me-5">
+                    <select class="form-select mb-2" v-model="mergedData.military_status">
+
+                    </select>
                 </div>
 
                 <label for="" class="col-2 col-form-label text-gray">เหตุผล</label>
                 <div class="col">
-                    <input type="text" class="form-control-plaintext" v-model="mergedData.reason" readonly>
+                    <input type="text" class="form-control mb-2" v-model="mergedData.reason">
                 </div>
             </div>
 
             <hr>
 
-            <span class="h5">หมายเหตุอื่น ๆ เกี่ยวกับนักศึกษา</span>
+            <span class="h5 mb-3">หมายเหตุอื่น ๆ เกี่ยวกับนักศึกษา</span>
 
             <div class="row">
                 <label for="" class="col form-label ms-5 text-gray">หมายเหตุ</label>
             </div>
 
             <div class="row mb-4">
-                <textarea name="" class="form-control col ms-5" id="" rows="2"></textarea>
+                <textarea name="" class="form-control mb-2 col ms-5" id="" rows="2"></textarea>
             </div>
 
         </div>
 
+        <hr>
+        
+        <div class="row">
+            <button class="col-2 mx-auto btn outline-gray rounded-pill" @click="pageShow">ย้อนกลับ
+            </button>
+            <button class="col-2 mx-auto btn outline-red ms-auto rounded-pill" @click="confirmation">บันทึก
+            </button>
+        </div>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { onUnmounted, onMounted } from 'vue'
+import Swal from 'sweetalert2'
 
 const fullName = ref(
     {
@@ -266,9 +319,7 @@ const fullName = ref(
 )
 
 const mergedData = ref({})
-const prop = defineProps({
-    formData: Array
-});
+const formData = ref({})
 
 onMounted(() => {
     prop.formData.forEach((data) => {
@@ -291,6 +342,41 @@ onMounted(() => {
     }
 
 })
+
+function confirmation() {
+
+    Swal.fire({
+        text: 'คุณต้องการบันทึกข้อมูลหรือไม่',
+        icon: 'warning',
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก',
+        confirmButtonColor: 'var(--main-color)',
+        reverseButtons: true,
+        focusConfirm: false,
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+            createInterns()
+        }
+    })
+}
+
+async function createInterns() {
+
+    /* await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, formData.value)
+        .then((response) => console.log(response)).then(() => {
+            Swal.fire({
+                icon: 'success',
+                text: 'บันทึกข้อมูลเสร็จสิ้น',
+                showConfirmButton: false,
+                timer: 3000
+            }).then(() => {
+            })
+        }) */
+}
+
 </script>
 
 <style scoped>

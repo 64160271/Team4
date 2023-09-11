@@ -1,4 +1,5 @@
 <template>
+
     <div class="row mb-3">
         <span>ข้อมูลการทำงาน</span>
     </div>
@@ -10,7 +11,7 @@
             <label for="" class="form-label">พี่เลี้ยง <font color="#e1032b">*</font></label>
             <select v-model=data.mentor name="menter" id="menter" class="form-select" required>
                 <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="(mentor, index) in mentors" :value="mentor">{{ mentor.fname + " " + mentor.lname }}</option>
+                <option v-for="(mentor, index) in mentors" :value="mentor">{{ mentor.ment_fname + " " + mentor.ment_lname }}</option>
             </select>
         </div>
     </div>
@@ -40,7 +41,7 @@
             <label for="" class="form-label">ตำแหน่งงาน</label>
             <select v-model="data.role" name="position" id="position" class="form-select" required>
                 <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="(role, index) in roles" :value="role">{{ role }}</option>
+                <option v-for="(role, index) in roles" :value="role">{{ role.role_name }}</option>
             </select>
         </div>
     </div>
@@ -71,28 +72,28 @@ const prop = defineProps({
 const getAllMentor = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/mentors`)
         .then((response) => {
-            majors.value = response.data
+            mentors.value = response.data
         })
 }
 
 const getAllSection = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/sections`)
         .then((response) => {
-            majors.value = response.data
+            sections.value = response.data
         })
 }
 
 const getAllDepartment = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/departments`)
         .then((response) => {
-            majors.value = response.data
+            departments.value = response.data
         })
 }
 
 const getAllRole = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/roles`)
         .then((response) => {
-            majors.value = response.data
+            roles.value = response.data
         })
 }
 

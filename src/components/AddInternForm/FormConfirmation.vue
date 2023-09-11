@@ -26,7 +26,7 @@
 
             <label for="" class="col-2 col-form-label text-gray">ตำแหน่งงาน</label>
             <div class="col">
-                <input type="text" class="form-control-plaintext" v-model="mergedData.role" readonly>
+                <input type="text" class="form-control-plaintext" v-model="dummyData.role_name" readonly>
             </div>
         </div>
     </div>
@@ -136,17 +136,17 @@
     <div class="row mb-4">
         <div class="col ms-5">
             <label for="" class="form-label text-gray">ชื่อสถานศึกษา <font color="#e1032b">*</font></label>
-            <input type="text" class="form-control-plaintext" v-model="mergedData.university" required readonly>
+            <input type="text" class="form-control-plaintext" v-model="dummyData.uni_name" required readonly>
         </div>
 
         <div class="col">
             <label for="" class="form-label text-gray">คณะ <font color="#e1032b">*</font></label>
-            <input type="text" class="form-control-plaintext" v-model="mergedData.faculty" required readonly>
+            <input type="text" class="form-control-plaintext" v-model="dummyData.fac_name" required readonly>
         </div>
 
         <div class="col">
             <label for="" class="form-label text-gray">สาขาวิชา <font color="#e1032b">*</font></label>
-            <input type="text" class="form-control-plaintext" v-model="mergedData.major" required readonly>
+            <input type="text" class="form-control-plaintext" v-model="dummyData.maj_name" required readonly>
         </div>
     </div>
 
@@ -247,6 +247,13 @@
 import { ref } from 'vue';
 import { onUnmounted, onMounted } from 'vue'
 
+const dummyData = ref({
+    uni_name: '',
+    fac_name: '',
+    maj_name: '',
+    role_name: '',
+})
+
 const fullName = ref(
     {
         thai: "",
@@ -271,9 +278,17 @@ onMounted(() => {
                 eng: data.prefix[1] + data.fname[1] + " " + data.lname[1],
                 nickname_th: data.nickname[0],
                 nickname_en: data.nickname[1]
+            },
+
+            dummyData.value = {
+                uni_name: data.university.uni_name,
+                fac_name: data.faculty.fac_name,
+                maj_name: data.major.maj_name
             }
         }
     })
+
+    dummyData.value.role_name = mergedData.value.role.role_name
 
     const file = mergedData.value.img
 

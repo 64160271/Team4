@@ -29,7 +29,7 @@
 
         <div class="row text-start mb-4">
             <label for="" class="form-label">อีเมลพนักงาน <font color="#e1032b">*</font></label>
-            <input v-model="data.emp_email" type="email" class="form-control" placeholder="example@clicknext.com" required>
+            <input v-model="data.emp_email" name="email" type="email" class="form-control" placeholder="example@clicknext.com" required>
         </div>
 
         <div class="row text-start mb-4">
@@ -42,7 +42,7 @@
 
         <div class="row text-start mb-4">
             <label for="" class="form-label">ตำแหน่ง <font color="#e1032b">*</font></label>
-            <select v-model="data.role" name="position" id="position" class="form-select" required autocomplete="off">
+            <select @change="console.log(data.role)" v-model="data.role" name="position" id="position" class="form-select" required autocomplete="off">
                 <option disabled selected value="">--- เลือก ---</option>
                 <option v-for="(role, index) in roles" :value="role">{{ role.role_name }}</option>
             </select>

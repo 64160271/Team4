@@ -25,7 +25,7 @@
                                 class="my-auto form-check-input rounded-circle ms-2" />
                             <label for="" class="mx-auto">{{ index + 1 }}</label>
                         </td>
-                        <td scope="row">{{ data[8] }}</td>
+                        <td scope="row">{{ data[7] + data[8] }}</td>
                         <td scope="row" class="text-center">{{ data[9] }}</td>
                         <td scope="row">{{ data[6] }}</td>
                         <td scope="row">{{ data[15] }}</td>
@@ -48,7 +48,7 @@
 <script setup>
 import axios from 'axios';
 import Swal from 'sweetalert2'
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import $ from 'jquery'
 
 const selectedIndex = ref([])
@@ -141,9 +141,7 @@ async function createInterns() {
         selectedData.value.push(row)
     })
 
-    console.log(selectedData.value)
-
-    /* await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, selectedData.value)
+    await axios.post(`${import.meta.env.VITE_API_HOST}/interns/file`, selectedData.value)
         .then((response) => console.log(response)).then(() => {
             Swal.fire({
                 icon: 'success',
@@ -151,8 +149,9 @@ async function createInterns() {
                 showConfirmButton: false,
                 timer: 3000
             }).then(() => {
+                selectedData.value = []
             })
-        }) */
+        })
 }
 
 onMounted(() => {
