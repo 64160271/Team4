@@ -150,6 +150,8 @@ async function createInterns() {
                 timer: 3000
             }).then(() => {
                 selectedData.value = []
+                selectedIndex.value = []
+                /* window.location.href = `${import.meta.env.VITE_BASE_URL}/` */
             })
         })
 }
