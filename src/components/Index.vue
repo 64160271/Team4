@@ -177,6 +177,7 @@ import { ref, onMounted } from 'vue';
 import DataTable from 'datatables.net-vue3'
 import DataTablesCore from 'datatables.net-bs5'
 import $ from 'jquery'
+import { computed } from 'vue'
 
 DataTable.use(DataTablesCore)
 
@@ -205,7 +206,7 @@ const getAllIntern = async () => {
         })
 }
 
-onMounted(() => getAllIntern())
+onMounted( () => getAllIntern())
 
 function dateFormat(date) {
 
@@ -220,14 +221,14 @@ function dateFormat(date) {
     return day + "/" + month + "/" + year
 }
 
-function filterData() {
-    let keyword = searchData.value
+const filterData = computed(() => {
+    
+    console.log(interns.value)
+    /* let keyword = searchData.value.trim()
     return interns.value.filter(intern => {
-        console.log(intern)
-        return intern.intn_fname.includes(keyword)
-    })
-}
-
+        return intern.intn_fname.indexOf(keyword) > -1
+    }) */
+})
 </script>
   
 <style scoped>
