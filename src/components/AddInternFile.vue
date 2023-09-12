@@ -20,6 +20,7 @@
         </div>
 
         <div class="d-flex mt-5" id="import-btn">
+            <button type="button" class="outline-gray btn" @click="$router.push('/')">ย้อนกลับ</button>
             <button type="button" class="outline-red btn ms-auto" @click="uploaded()">Import</button>
         </div>
 

@@ -5,8 +5,16 @@
     font-family: 'Kanit', sans-serif;
 }
 
+.tooltip-inner {
+    font-size: 0.875rem !important;
+}
+
 :root {
-    --main-color: #0d942f;
+    --main-color: #098a74;
+}
+
+.text-custom {
+    color: var(--main-color)
 }
 
 .text-gray {
@@ -14,7 +22,7 @@
 }
 
 .bg-red {
-    background-color: var(--main-color);
+    background-color: var(--main-color) !important;
 }
 
 .outline-gray {

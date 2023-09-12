@@ -31,6 +31,11 @@
                         <td scope="row">{{ data[15] }}</td>
                         <td scope="row" class="text-center">{{ dateFormat(data[10]) }}</td>
                         <td scope="row" class="text-center">{{ dateFormat(data[11]) || '-' }}</td>
+                        <td v-if="data.duplicate" class="text-center" @mouseover.once="openTooltip">
+                            <img src="../assets/images/warning.png" width="24" alt=""
+                            data-bs-toggle="tooltip" data-bs-placement="left"
+                            title="มีข้อมูลนี้อยู่ในระบบอยู่แล้ว หากทำการเพิ่มข้อมูลจะเป็นการแก้ไขข้อมูลที่มีอยู่">
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -50,12 +55,20 @@ import axios from 'axios';
 import Swal from 'sweetalert2'
 import { ref, onMounted } from 'vue';
 import $ from 'jquery'
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
+import { Tooltip } from 'bootstrap/dist/js/bootstrap.esm.min.js'
 
 const selectedIndex = ref([])
 const selectedData = ref([])
 const props = defineProps({
     excelData: Array
 })
+
+function openTooltip() {
+    let tooltipList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipList.forEach(tooltipNode => new Tooltip(tooltipNode))
+}
 
 function checkAll() {
     let main = document.getElementById("main")
@@ -103,6 +116,32 @@ function confirmation() {
     })
 }
 
+const getAllIntern = async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/interns`)
+        .then((response) => {
+            const interns = response.data
+            let fname = ''
+            let lname = ''
+
+            if (Array.isArray(interns)) {
+                props.excelData.forEach((data, index) => {
+
+                    let name = data[8].split(" ")
+                    fname = name[0]
+                    lname = name[1]
+
+                    interns.forEach((element) => {
+
+                        if (element.intn_fname == fname
+                            && element.intn_lname == lname) {
+                            props.excelData[index].duplicate = true
+                        }
+                    })
+                })
+            }
+        })
+}
+
 async function createInterns() {
 
     let checked = $('[name="tb-check"]')
@@ -136,8 +175,10 @@ async function createInterns() {
             university: rawData[index][15],
             faculty: rawData[index][16],
             major: rawData[index][17],
+            duplicate: rawData[index]["duplicate"]
         }
 
+        console.log(row)
         selectedData.value.push(row)
     })
 
@@ -157,7 +198,7 @@ async function createInterns() {
 }
 
 onMounted(() => {
-    console.log(props.excelData)
+    getAllIntern()
 })
 
 </script>
@@ -170,6 +211,10 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked {
     border: 1px solid var(--main-color);
     background-color: var(--main-color);
+}
+
+.tooltip-inner {
+    font-size: 0.875rem !important;
 }
 
 .fixed-head {
