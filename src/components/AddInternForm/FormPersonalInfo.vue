@@ -8,7 +8,8 @@
     <div class="row mb-4">
         <div class="col">
             <label for="" class="form-label">คำนำหน้า (ไทย) <font color="#e1032b">*</font></label>
-            <select @change="setPrefix(dummyPrefix)" v-model="dummyPrefix" name="prefix_thai" id="prefix_thai" class="form-select" required>
+            <select @change="setPrefix(dummyPrefix)" v-model="dummyPrefix" name="prefix_thai" id="prefix_thai"
+                class="form-select" required>
                 <option disabled selected value="">--- เลือก ---</option>
                 <option v-for="(prefix, index) in prefixes" :value="prefix">{{ prefix[0] }}</option>
             </select>
@@ -78,8 +79,8 @@
         <div class="col">
             <label for="" class="form-label">เพศ <font color="#e1032b">*</font></label>
             <select v-model="data.gender" name="gender" id="gender" class="form-select" required>
-                <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="gender in genders" :value="gender">{{ gender }}</option>
+                <option disabled selected :value="{name: ''}">--- เลือก ---</option>
+                <option v-for="gender in genders" :value="gender">{{ gender.name }}</option>
             </select>
         </div>
     </div>
@@ -124,9 +125,9 @@
     <div class="row mb-5">
         <div class="col">
             <label for="" class="form-label">สถานภาพสมรส <font color="#e1032b">*</font></label>
-            <select v-model=data.marital_status name="marital_status" id="marital_status" class="form-select" required>
-                <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="(martial, index) in martialStatus" :value="martial">{{ martial }}</option>
+            <select v-model=data.martial_status name="marital_status" id="marital_status" class="form-select" required>
+                <option disabled selected :value="{name: ''}">--- เลือก ---</option>
+                <option v-for="(martial, index) in martialStatus" :value="martial">{{ martial.name }}</option>
             </select>
         </div>
     </div>
@@ -140,7 +141,8 @@
     <div class="row mb-4">
         <div class="col">
             <label for="" class="form-label">ชื่อสถานศึกษา <font color="#e1032b">*</font></label>
-            <select @change="changeFacultyData" v-model="data.university" name="university" id="university" class="form-select" required>
+            <select @change="changeFacultyData" v-model="data.university" name="university" id="university"
+                class="form-select" required>
                 <option disabled selected value="">--- เลือก ---</option>
                 <option v-for="(university, index) in universities" :value="university">{{ university.uni_name }}</option>
             </select>
@@ -150,7 +152,8 @@
     <div class="row mb-4">
         <div class="col">
             <label for="" class="form-label">คณะ <font color="#e1032b">*</font></label>
-            <select @change="changeMajorData" v-model="data.faculty" name="faculty" id="faculty" class="form-select" required>
+            <select @change="changeMajorData" v-model="data.faculty" name="faculty" id="faculty" class="form-select"
+                required>
                 <option disabled selected value="">--- เลือกสถานศึกษา ---</option>
                 <option v-for="(faculty, index) in faculties" :value="faculty">{{ faculty.fac_name }}</option>
             </select>
@@ -177,8 +180,8 @@
         <div class="col">
             <label for="" class="form-label">สถานภาพทางทหาร <font color="#e1032b">*</font></label>
             <select v-model="data.military_status" name="military_status" id="military_status" class="form-select" required>
-                <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="military_status in militaryStatus" :value="military_status">{{ military_status }}</option>
+                <option disabled selected :value="{name: ''}">--- เลือก ---</option>
+                <option v-for="military_status in militaryStatus" :value="military_status">{{ military_status.name }}</option>
             </select>
         </div>
 
@@ -201,10 +204,10 @@ const faculties = ref({})
 const majors = ref({})
 
 const militaryStatus = ref([
-    'ยังไม่เกณฑ์ทหาร',
-    'กำลังประจำกองทหาร',
-    'ผ่านการเกณฑ์ทหารมาแล้ว',
-    'ได้รับการยกเว้นการเกณฑ์ทหาร'
+    { id: 1, name: 'ยังไม่เกณฑ์ทหาร' },
+    { id: 2, name: 'กำลังประจำกองทหาร' },
+    { id: 3, name: 'ผ่านการเกณฑ์ทหารมาแล้ว' },
+    { id: 4, name: 'ได้รับการยกเว้นการเกณฑ์ทหาร' }
 ])
 
 const prefixes = ref([
@@ -214,9 +217,9 @@ const prefixes = ref([
 ])
 
 const genders = ref([
-    'ชาย', 
-    'หญิง',
-    'ไม่ระบุ'
+    { id: 1, name: 'ชาย' },
+    { id: 2, name: 'หญิง' },
+    { id: 9, name: 'ไม่ระบุ' }
 ])
 
 const bloodTypes = ref([
@@ -224,9 +227,14 @@ const bloodTypes = ref([
 ])
 
 const martialStatus = ref([
-    'โสด', 'มีแฟนแล้ว', 'หมั้น',
-    'สมรส', 'แยกกันอยู่', 'หย่าร้าง',
-    'หม้าย', 'ซับซ้อน'
+    { id: 1, name: 'โสด' },
+    { id: 2, name: 'มีแฟนแล้ว' },
+    { id: 3, name: 'หมั้น' },
+    { id: 4, name: 'สมรส' },
+    { id: 5, name: 'แยกกันอยู่' },
+    { id: 6, name: 'หย่าร้าง' },
+    { id: 7, name: 'หม้าย' },
+    { id: 8, name: 'ซับซ้อน' }
 ])
 
 const data = ref({
@@ -236,7 +244,9 @@ const data = ref({
     nickname: ['', ''],
     citizen_id: '',
     birth_date: '',
-    gender: '',
+    gender: {
+        name: ''
+    },
     blood_type: '',
     weight: '',
     height: '',
@@ -246,9 +256,13 @@ const data = ref({
     university: '',
     faculty: '',
     major: '',
-    marital_status: '',
+    martial_status: {
+        name: ''
+    },
     age: Number(0),
-    military_status: '',
+    military_status: {
+        name: ''
+    },
     reason: '',
 })
 
@@ -311,9 +325,9 @@ onMounted(() => {
     getAllUniversity()
 }),
 
-onUnmounted(() => {
-    prop.setParentData(1, data.value)
-})
+    onUnmounted(() => {
+        prop.setParentData(1, data.value)
+    })
 
 </script>
 

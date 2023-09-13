@@ -14,7 +14,7 @@
 
             <label for="" class="col-2 col-form-label text-gray">สถานะพนักงาน <font color="#e1032b">*</font></label>
             <div class="col">
-                <input type="text" class="form-control-plaintext" v-model="mergedData.status" readonly>
+                <input type="text" class="form-control-plaintext" v-model="dummyData.stat_name" readonly>
             </div>
         </div>
 
@@ -60,14 +60,14 @@
     </div>
 
     <div class="row mb-2">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">เลขบัตรประชาชน / พาสปอร์ต <font color="#e1032b">*</font></label>
+        <label for="" class="col-auto col-form-label ms-5 text-gray">เลขบัตรประชาชน / พาสปอร์ต <font color="#e1032b">*</font></label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.citizen_id" readonly>
         </div>
 
         <div class="col-2">
             <div class="row">
-                <label for="" class="col-4 col-form-label text-gray">วันเกิด <font color="#e1032b">*</font></label>
+                <label for="" class="col-5 col-form-label text-gray">วันเกิด <font color="#e1032b">*</font></label>
                 <input type="text" class="col form-control-plaintext" v-model="mergedData.birth_date" readonly>
             </div>
         </div>
@@ -84,7 +84,7 @@
     <div class="row mb-2">
         <label for="" class="col-2 col-form-label ms-5 text-gray">เพศ <font color="#e1032b">*</font></label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="mergedData.gender" readonly>
+            <input type="text" class="form-control-plaintext" v-model="dummyData.gen_name" readonly>
         </div>
 
         <label for="" class="col-2 col-form-label text-gray">หมู่เลือด <font color="#e1032b">*</font></label>
@@ -125,7 +125,7 @@
 
         <label for="" class="col-2 col-form-label text-gray">สถานภาพสมรส <font color="#e1032b">*</font></label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="mergedData.marital_status" readonly>
+            <input type="text" class="form-control-plaintext" v-model="dummyData.martial_name" readonly>
         </div>
     </div>
 
@@ -221,7 +221,7 @@
     <div class="row mb-4">
         <label for="" class="col-2 col-form-label ms-5 text-gray">สถานภาพทางทหาร <font color="#e1032b">*</font></label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="mergedData.military_status" readonly>
+            <input type="text" class="form-control-plaintext" v-model="dummyData.mili_name" readonly>
         </div>
 
         <label for="" class="col-2 col-form-label text-gray">เหตุผล <font color="#e1032b">*</font></label>
@@ -252,20 +252,23 @@ const dummyData = ref({
     fac_name: '',
     maj_name: '',
     role_name: '',
+    gen_name: '',
+    stat_name: '',
+    martial_name: '',
+    mili_name: '',
 })
 
-const fullName = ref(
-    {
+const fullName = ref({
         thai: "",
         eng: "",
         nickname_th: "",
         nickname_en: "",
-    }
-)
+    })
 
 const mergedData = ref({})
 const prop = defineProps({
-    formData: Array
+    formData: Array,
+    setConfirmationData: Function,
 });
 
 onMounted(() => {
@@ -283,18 +286,26 @@ onMounted(() => {
             dummyData.value = {
                 uni_name: data.university.uni_name,
                 fac_name: data.faculty.fac_name,
-                maj_name: data.major.maj_name
+                maj_name: data.major.maj_name,
+                gen_name: data.gender?.name,
+                martial_name: data.martial_status?.name,
+                mili_name: data.military_status?.name,
             }
         }
     })
 
+    dummyData.value.stat_name = mergedData.value.status.name
     dummyData.value.role_name = mergedData.value.role.role_name
+
+    console.log(mergedData.value)
 
     const file = mergedData.value.img
 
     if (file) {
         blah.src = URL.createObjectURL(file)
     }
+
+    prop.setConfirmationData(mergedData.value)
 
 })
 </script>

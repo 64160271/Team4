@@ -9,8 +9,8 @@
         <div class="col">
             <label for="" class="form-label">ประเภทพนักงาน <font color="#e1032b">*</font></label>
             <select v-model="data.emp_type" name="type" id="type" class="form-select" required>
-                <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="(intern_type, index) in internType">{{ intern_type }}</option>
+                <option disabled selected :value="{name: ''}">--- เลือก ---</option>
+                <option v-for="(intern_type, index) in internType">{{ intern_type.name }}</option>
             </select>
         </div>
 
@@ -28,9 +28,9 @@
 
         <div class="col">
             <label for="" class="form-label">วันที่ทำงานวันสุดท้าย </label>
-            <input v-model="data.last_work_date" type="date" class="form-control" placeholder="DD/MM/YYYY" >
+            <input v-model="data.last_work_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
         </div>
-        
+
         <div class="col">
             <label for="" class="form-label">วันที่สิ้นสุดสัญญาการฝึกงาน <font color="#e1032b">*</font></label>
             <input v-model="data.contract_end_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
@@ -48,7 +48,8 @@
             <label for="" class="form-label">พี่เลี้ยง <font color="#e1032b">*</font></label>
             <select v-model=data.mentor name="menter" id="menter" class="form-select" required>
                 <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="(mentor, index) in mentors" :value="mentor">{{ mentor.ment_fname + " " + mentor.ment_lname }}</option>
+                <option v-for="(mentor, index) in mentors" :value="mentor">{{ mentor.ment_fname + " " + mentor.ment_lname }}
+                </option>
             </select>
         </div>
     </div>
@@ -58,7 +59,7 @@
             <label for="" class="form-label">ฝ่าย <font color="#e1032b">*</font></label>
             <select v-model="data.section" name="faction" id="faction" class="form-select" required>
                 <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="(section, index) in sections" :value="secton">{{ section.sec_name }}</option>
+                <option v-for="(section, index) in sections" :value="section">{{ section.sec_name }}</option>
             </select>
         </div>
     </div>
@@ -80,9 +81,9 @@ import { onUnmounted, onMounted } from 'vue'
 import axios from 'axios'
 
 const internType = ref([
-    'นักศึกษาฝึกงาน',
-    'พนักงานประจำ',
-    'พนักงานพาร์ทไทม์'
+    { id: 1, name: 'นักศึกษาฝึกงาน' },
+    { id: 2, name: 'พนักงานประจำ' },
+    { id: 3, name: 'พนักงานพาร์ทไทม์' }
 ])
 
 const mentors = ref({})
@@ -91,7 +92,9 @@ const departments = ref({})
 const roles = ref({})
 
 const data = ref({
-    emp_type: '',
+    emp_type: {
+        name: ''
+    },
     contract_number: '',
     start_date: '',
     last_work_date: '',
@@ -102,7 +105,7 @@ const data = ref({
 })
 
 const prop = defineProps({
-    setParentData: Function
+    setParentData: Function,
 })
 
 const getAllMentor = async () => {
@@ -135,9 +138,9 @@ const getAllRole = async () => {
 
 onMounted(() => {
     getAllMentor(),
-    getAllSection(),
-    getAllDepartment(),
-    getAllRole()
+        getAllSection(),
+        getAllDepartment(),
+        getAllRole()
 })
 
 onUnmounted(() => {
@@ -146,6 +149,4 @@ onUnmounted(() => {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -22,7 +22,10 @@ const router = createRouter({
         {
             path: '/interns',
             name: 'internData',
-            component: InternData
+            component: InternData,
+            beforeMount() {
+                getAllIntern()
+            },
         },
         {
             path: '/interns/key-data',

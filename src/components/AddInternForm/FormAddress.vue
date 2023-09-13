@@ -78,13 +78,13 @@ import { onUnmounted } from 'vue'
 
 const data = ref({
     house_number: '',
-    village_number: '',
+    village_number: Number(null),
     alley: '',
     street: '',
     subdistrict: '',
     district: '',
     province: '',
-    post_code: '',
+    post_code: Number(null),
     tel: '',
     email: '',
 })

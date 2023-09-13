@@ -34,15 +34,15 @@
 
         <div class="row text-start mb-4">
             <label for="" class="form-label">สถานะพนักงาน <font color="#e1032b">*</font></label>
-            <select v-model="data.status" name="status" id="status" class="form-select" required autocomplete="off">
-                <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="(stat, index) in status" :value="stat">{{ stat }}</option>
+            <select @change="console.log(data.status)" v-model="data.status" name="status" id="status" class="form-select" required autocomplete="off">
+                <option disabled selected :value="{name: ''}">--- เลือก ---</option>
+                <option v-for="(stat, index) in status" :value="stat">{{ stat.name }}</option>
             </select>
         </div>
 
         <div class="row text-start mb-4">
             <label for="" class="form-label">ตำแหน่ง <font color="#e1032b">*</font></label>
-            <select @change="console.log(data.role)" v-model="data.role" name="position" id="position" class="form-select" required autocomplete="off">
+            <select v-model="data.role" name="position" id="position" class="form-select" required autocomplete="off">
                 <option disabled selected value="">--- เลือก ---</option>
                 <option v-for="(role, index) in roles" :value="role">{{ role.role_name }}</option>
             </select>
@@ -57,16 +57,19 @@ import { onUnmounted, onMounted } from 'vue'
 import axios from 'axios';
 
 const status = ref([
-    'กำลังทำงาน',
-    'พ้นสภาพ'
+    { id: 1, name: 'กำลังทำงาน' },
+    { id: 2, name: 'พ้นสภาพ'}
 ])
 
 const roles = ref({})
 
+const space = ref('') 
 const data = ref({
     id: '',
     emp_email: '',
-    status: '',
+    status: {
+        name: ''
+    },
     role: '',
     img: ''
 })
@@ -99,6 +102,7 @@ onMounted(() => {
 
 onUnmounted(() => {
     prop.setParentData(0, data.value)
+    console.log(data.value)
 })
 
 </script>

@@ -135,8 +135,13 @@
                     </td>
                     <td scope="row">{{ intern.intn_prefix + intern.intn_fname + " " + intern.intn_lname }}</td>
                     <td scope="row" class="text-center">{{ intern.intn_nickname || '-' }}</td>
-                    <td scope="row">{{ currentDate }}</td>
-                    <td scope="row">{{ intern.college_info.col_uni.uni_name || '-' }}</td>
+                    <td scope="row" class="text-center" v-if="intern.work_infos[0] != undefined">
+                        {{ intern.work_infos[0].work_role.role_name }}
+                    </td>
+                    <td scope="row" class="text-center" v-else>
+                        {{ '-' }}
+                    </td>
+                    <td scope="row" class="text-center">{{ intern.college_info.col_uni.uni_name || '-' }}</td>
                     <td scope="row" class="text-center">{{ intern.intn_start_date }}</td>
                     <td scope="row" class="text-center">{{ intern.intn_end_date || '-' }}</td>
                 </tr>
@@ -184,8 +189,11 @@ DataTable.use(DataTablesCore)
 
 const date = new Date()
 const currentDate = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
-const interns = ref([])
+const interns = ref([{}])
 const searchData = ref('')
+const dummyData = ref([{
+
+}])
 
 /* const interns = ref([{
     intn_id: 1,
@@ -239,7 +247,6 @@ function dateFormat(date) {
 
 const filterData = computed(() => {
 
-    console.log(interns.value)
     let keyword = searchData.value.trim()
     return interns.value.filter(intern => {
         return (intern.intn_fname?.indexOf(keyword) > -1 ||

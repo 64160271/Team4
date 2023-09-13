@@ -25,12 +25,12 @@
                 <FormMilitaryStatus :setParentData="setFormData" />
             </div> -->
 
-           <!--  <div class="w-75" v-if="pageShow == 5">
+            <!--  <div class="w-75" v-if="pageShow == 5">
                 <FormWorkInfo :setParentData="setFormData" />
             </div> -->
 
             <div class="row w-100 mt-3" v-show="showSaveButton = true" v-if="pageShow == 5">
-                <FormConfirmation :formData="formData" />
+                <FormConfirmation :formData="formData" :setConfirmationData="setConfirmationData" />
             </div>
         </div>
 
@@ -57,10 +57,16 @@ import FormConfirmation from './AddInternForm/FormConfirmation.vue'
 import { ref } from 'vue'
 import Swal from 'sweetalert2'
 import router from '@/router'
+import axios from 'axios'
 
+const confirmationData = ref([{}])
 const showSaveButton = ref(false)
 const pageShow = ref(1)
 const formData = ref([])
+
+function setConfirmationData(data) {
+    confirmationData.value = data
+}
 
 function setFormData(index, data) {
     formData.value[index] = data
@@ -96,7 +102,7 @@ function confirmation() {
 
 async function createInterns() {
 
-    /* await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, formData.value)
+    await axios.post(`${import.meta.env.VITE_API_HOST}/interns/key`, confirmationData.value)
         .then((response) => console.log(response)).then(() => {
             Swal.fire({
                 icon: 'success',
@@ -104,8 +110,9 @@ async function createInterns() {
                 showConfirmButton: false,
                 timer: 3000
             }).then(() => {
+                router.push({ name: 'index' })
             })
-        }) */
+        })
 }
 
 
