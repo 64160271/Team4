@@ -176,6 +176,7 @@
     </main>
 </template>
   
+
 <script setup>
 import LayoutSidebar from './layouts/LayoutSidebar.vue';
 import axios from 'axios';
@@ -191,9 +192,6 @@ const date = new Date()
 const currentDate = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
 const interns = ref([{}])
 const searchData = ref('')
-const dummyData = ref([{
-
-}])
 
 /* const interns = ref([{
     intn_id: 1,
@@ -256,7 +254,8 @@ const filterData = computed(() => {
             intern.intn_prefix?.indexOf(keyword) > -1 ||
             /* intern.intn_id?.indexOf(keyword) > -1 || */
             intern.college_info?.col_uni.uni_name.indexOf(keyword) > -1 ||
-            intern.intn_nickname?.indexOf(keyword) > -1
+            intern.intn_nickname?.indexOf(keyword) > -1 ||
+            intern.work_infos?.work_role?.role_name.indexOf(keyword)
         )
     })
 })

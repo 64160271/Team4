@@ -13,9 +13,9 @@
 
         <div class="col">
             <label for="" class="form-label">หมู่ </label>
-            <input v-model="data.village_number" type="text" class="form-control" placeholder="0" >
+            <input v-model="data.village_number" type="text" class="form-control" placeholder="0">
         </div>
-        
+
         <div class="col">
             <label for="" class="form-label">ซอย</label>
             <input v-model="data.alley" type="text" class="form-control" placeholder="ซอย">
@@ -30,24 +30,24 @@
 
         <div class="col">
             <label for="" class="form-label">ตำบล/แขวง </label>
-            <input v-model="data.subdistrict" type="text" class="form-control" placeholder="ตำบล" >
+            <input v-model="data.subdistrict" id="district" type="text" class="form-control" placeholder="ตำบล">
         </div>
-        
+
         <div class="col">
             <label for="" class="form-label">อำเภอ/เขต </label>
-            <input v-model="data.district" type="text" class="form-control" placeholder="อำเภอ">
+            <input v-model="data.district" type="text" id="amphoe" class="form-control" placeholder="อำเภอ">
         </div>
     </div>
 
     <div class="row mb-5">
         <div class="col">
             <label for="" class="form-label">จังหวัด </label>
-            <input v-model="data.province" type="text" class="form-control" placeholder="ัจังหวัด">
+            <input v-model="data.province" type="text" id="province" class="form-control" placeholder="ัจังหวัด">
         </div>
 
         <div class="col">
             <label for="" class="form-label">รหัสไปรษณีย์ </label>
-            <input v-model="data.post_code" type="text" class="form-control" placeholder="10000">
+            <input v-model="data.post_code" type="text" id="zipcode" class="form-control" placeholder="10000">
         </div>
     </div>
 
@@ -68,23 +68,41 @@
             <input v-model="data.email" name="email" type="email" class="form-control" placeholder="example@gmail.com">
         </div>
     </div>
-
-    
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { onUnmounted } from 'vue'
+import { onUnmounted, onMounted } from 'vue'
+
+$.Thailand({
+    $district: $('#district'), // input ของตำบล
+    $amphoe: $('#amphoe'), // input ของอำเภอ
+    $province: $('#province'), // input ของจังหวัด
+    $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
+    onDataFill: function (data) {
+
+        console.info('Data Filled', data);
+
+    },
+
+    onLoad: function () {
+
+        console.info('Autocomplete is ready!');
+
+        $('#loader, .demo').toggle();
+
+    }
+});
 
 const data = ref({
     house_number: '',
-    village_number: Number(null),
+    village_number: Number(),
     alley: '',
     street: '',
     subdistrict: '',
     district: '',
     province: '',
-    post_code: Number(null),
+    post_code: Number(),
     tel: '',
     email: '',
 })
@@ -93,11 +111,37 @@ const prop = defineProps({
     setParentData: Function
 })
 
+/* onMounted(() => {
+    let recaptchaScript1 = document.createElement('script')
+    let recaptchaScript2 = document.createElement('script')
+    let recaptchaScript3 = document.createElement('script')
+    let recaptchaScript4 = document.createElement('script')
+
+    recaptchaScript4.setAttribute('src', 'https://code.jquery.com/jquery-3.2.1.min.js')
+    recaptchaScript1.setAttribute('src', 'https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dependencies/JQL.min.js')
+    recaptchaScript2.setAttribute('src', 'https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dependencies/typeahead.bundle.js')
+    recaptchaScript3.setAttribute('src', 'https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dist/jquery.Thailand.min.js')
+
+    document.head.appendChild(recaptchaScript1)
+    document.head.appendChild(recaptchaScript2)
+    document.head.appendChild(recaptchaScript3)
+    document.head.appendChild(recaptchaScript4)
+}) */
+
 onUnmounted(() => {
     prop.setParentData(2, data.value)
 })
 </script>
 
 <style scoped>
+hr {
+    background-color: var(--main-color);
+    height: 1px;
+    border: none;
+}
+
+span {
+    color: var(--main-color);
+}
 
 </style>

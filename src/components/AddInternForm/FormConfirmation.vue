@@ -216,6 +216,37 @@
 
     <hr>
 
+    <span class="h5">สัญญาการจ้างงาน</span>
+
+    <div class="row mb-4">
+        <div class="col ms-5">
+            <label for="" class="form-label text-gray">ประเภทพนักงาน <font color="#e1032b">*</font></label>
+            <input type="text" class="form-control-plaintext" v-model="dummyData.emp_type_name" required readonly>
+        </div>
+
+        <div class="col">
+            <label for="" class="form-label text-gray">เลขที่สัญญาจ้าง <font color="#e1032b">*</font></label>
+            <input type="text" class="form-control-plaintext" v-model="mergedData.contract_number" required readonly>
+        </div>
+
+        <div class="col">
+            <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน <font color="#e1032b">*</font></label>
+            <input type="text" class="form-control-plaintext" v-model="mergedData.start_date" required readonly>
+        </div>
+        
+        <div class="col">
+            <label for="" class="form-label text-gray">วันที่ทำงานวันสุดท้าย <font color="#e1032b">*</font></label>
+            <input type="text" class="form-control-plaintext" v-model="mergedData.last_work_date" required readonly>
+        </div>
+
+        <div class="col">
+            <label for="" class="form-label text-gray">วันที่สิ้นสุดสัญญาการฝึกงาน <font color="#e1032b">*</font></label>
+            <input type="text" class="form-control-plaintext" v-model="mergedData.contract_end_date" required readonly>
+        </div>
+    </div>
+
+    <hr>
+
     <span class="h5">สถานภาพทางทหาร</span>
 
     <div class="row mb-4">
@@ -224,7 +255,7 @@
             <input type="text" class="form-control-plaintext" v-model="dummyData.mili_name" readonly>
         </div>
 
-        <label for="" class="col-2 col-form-label text-gray">เหตุผล <font color="#e1032b">*</font></label>
+        <label for="" class="col-2 col-form-label text-gray">เหตุผล</label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.reason" readonly>
         </div>
@@ -256,6 +287,7 @@ const dummyData = ref({
     stat_name: '',
     martial_name: '',
     mili_name: '',
+    emp_type_name: '',
 })
 
 const fullName = ref({
@@ -294,6 +326,7 @@ onMounted(() => {
         }
     })
 
+    dummyData.value.emp_type_name = mergedData.value.emp_type.name
     dummyData.value.stat_name = mergedData.value.status.name
     dummyData.value.role_name = mergedData.value.role.role_name
 
@@ -311,6 +344,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: var(--main-color);
+}
+
 .img {
     height: 100%;
     width: 100%;

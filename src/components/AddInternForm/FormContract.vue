@@ -10,7 +10,7 @@
             <label for="" class="form-label">ประเภทพนักงาน <font color="#e1032b">*</font></label>
             <select v-model="data.emp_type" name="type" id="type" class="form-select" required>
                 <option disabled selected :value="{name: ''}">--- เลือก ---</option>
-                <option v-for="(intern_type, index) in internType">{{ intern_type.name }}</option>
+                <option v-for="(intern_type, index) in internType" :value="intern_type">{{ intern_type.name }}</option>
             </select>
         </div>
 
@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="row mb-4">
+    <div class="row mb-5">
         <div class="col">
             <label for="" class="form-label">วันที่เริ่มฝึกงาน <font color="#e1032b">*</font></label>
             <input v-model="data.start_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
@@ -149,4 +149,14 @@ onUnmounted(() => {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+hr {
+    background-color: var(--main-color);
+    height: 1px;
+    border: none;
+}
+
+span {
+    color: var(--main-color);
+}
+</style>

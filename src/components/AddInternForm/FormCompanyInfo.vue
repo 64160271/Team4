@@ -133,4 +133,14 @@ onUnmounted(() => {
     width: 100%;
     height: 100%;
 }
+
+hr {
+    background-color: var(--main-color);
+    height: 1px;
+    border: none;
+}
+
+span {
+    color: var(--main-color);
+}
 </style>

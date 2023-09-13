@@ -160,7 +160,7 @@
         </div>
     </div>
 
-    <div class="row mb-4">
+    <div class="row mb-5">
         <div class="col">
             <label for="" class="form-label">สาขาวิชา <font color="#e1032b">*</font></label>
             <select v-model="data.major" name="major" id="major" class="form-select" required>
@@ -186,7 +186,7 @@
         </div>
 
         <div class="col">
-            <label for="" class="form-label">เหตุผล <font color="#e1032b">*</font></label>
+            <label for="" class="form-label">เหตุผล</label>
             <input v-model="data.reason" type="text" class="form-control" placeholder="">
         </div>
     </div>
@@ -331,4 +331,14 @@ onMounted(() => {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+hr {
+    background-color: var(--main-color);
+    height: 1px;
+    border: none;
+}
+
+span {
+    color: var(--main-color);
+}
+</style>
