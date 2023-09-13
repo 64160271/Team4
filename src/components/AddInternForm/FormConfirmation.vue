@@ -203,12 +203,12 @@
     </div>
 
     <div class="row mb-4">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">เบอร์โทรศัพท์ </label>
+        <label for="" class="col-2 col-form-label ms-5 text-gray">เบอร์โทรศัพท์ <font color="#e1032b">*</font></label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.tel" readonly>
         </div>
 
-        <label for="" class="col-2 col-form-label text-gray">อีเมลส่วนตัว </label>
+        <label for="" class="col-2 col-form-label text-gray">อีเมลส่วนตัว <font color="#e1032b">*</font></label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.email" readonly>
         </div>

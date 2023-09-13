@@ -59,12 +59,12 @@
 
     <div class="row mb-5">
         <div class="col">
-            <label for="" class="form-label">เบอร์โทรศัพท์มือถือ </label>
+            <label for="" class="form-label">เบอร์โทรศัพท์มือถือ <font color="#e1032b">*</font></label>
             <input v-model="data.tel" type="text" class="form-control" placeholder="099-999-9999">
         </div>
 
         <div class="col">
-            <label for="" class="form-label">อีเมลส่วนตัว </label>
+            <label for="" class="form-label">อีเมลส่วนตัว <font color="#e1032b">*</font></label>
             <input v-model="data.email" name="email" type="email" class="form-control" placeholder="example@gmail.com">
         </div>
     </div>
