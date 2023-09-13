@@ -56,6 +56,7 @@ import FormConfirmation from './AddInternForm/FormConfirmation.vue'
 
 import { ref } from 'vue'
 import Swal from 'sweetalert2'
+import router from '@/router'
 
 const showSaveButton = ref(false)
 const pageShow = ref(1)
@@ -67,7 +68,7 @@ function setFormData(index, data) {
 
 function checkPage() {
     if (pageShow.value < 1) {
-        window.location.href = `${import.meta.env.VITE_BASE_URL}/`
+        router.push({ name: 'index' })
     } else if (pageShow.value < 5) {
         showSaveButton.value = false
     }

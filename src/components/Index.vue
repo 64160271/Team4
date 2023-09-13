@@ -118,8 +118,7 @@
         <table class="table table-borderless" id="myTable">
             <thead class="text-center bg-red">
                 <tr>
-                    <th scope="col" class="col-auto border-left"></th>
-                    <th scope="col" class="col-auto">รหัสนักศึกษาฝึกงาน</th>
+                    <th scope="col" class="col-auto border-left">รหัสนักศึกษาฝึกงาน</th>
                     <th scope="col">ชื่อ - นามสกุล</th>
                     <th scope="col">ชื่อเล่น</th>
                     <th scope="col">ตำแหน่ง</th>
@@ -130,8 +129,10 @@
             </thead>
             <tbody>
                 <tr @click="$router.push('/intern')" class="tb-hov" v-for="intern in filterData">
-                    <td scope="row" class="text-end"><img src="../assets/images/person-nm.png" alt="" width="30"></td>
-                    <td scope="row" class="text-center">{{ intern.intn_id }}</td>
+                    <td scope="row" class="col">
+                        <img class="ms-2" src="../assets/images/person-nm.png" alt="" width="30">
+                        <span class="ms-lg-5 ms-sm-2">{{ intern.intn_id }}</span>
+                    </td>
                     <td scope="row">{{ intern.intn_prefix + intern.intn_fname + " " + intern.intn_lname }}</td>
                     <td scope="row" class="text-center">{{ intern.intn_nickname || '-' }}</td>
                     <td scope="row">{{ currentDate }}</td>
@@ -183,10 +184,10 @@ DataTable.use(DataTablesCore)
 
 const date = new Date()
 const currentDate = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
-/* const interns = ref({}) */
+const interns = ref([])
 const searchData = ref('')
 
-const interns = ref([{
+/* const interns = ref([{
     intn_id: 1,
     intn_prefix: 'นาย',
     intn_nickname: 'กัน',
@@ -199,7 +200,7 @@ const interns = ref([{
             uni_name: 'มหาวิทยาลัยบูรพา'
         }
     }
-}])
+}]) */
 
 const getAllIntern = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/interns`)
@@ -221,7 +222,7 @@ const getAllIntern = async () => {
         })
 }
 
-/* onMounted( () => getAllIntern()) */
+onMounted(() => getAllIntern())
 
 function dateFormat(date) {
 
@@ -237,18 +238,18 @@ function dateFormat(date) {
 }
 
 const filterData = computed(() => {
-    
+
     console.log(interns.value)
     let keyword = searchData.value.trim()
     return interns.value.filter(intern => {
-        return (intern.intn_fname.indexOf(keyword) > -1 ||
-                intern.intn_lname.indexOf(keyword) > -1 ||
-                intern.intn_start_date.indexOf(keyword) > -1 ||
-                intern.intn_end_date.indexOf(keyword) > -1 ||
-                intern.intn_prefix.indexOf(keyword) > -1 ||
-                /* intern.intn_id.indexOf(keyword) > -1 || */
-                intern.college_info.col_uni.uni_name.indexOf(keyword) > -1 ||
-                intern.intn_nickname.indexOf(keyword) > -1
+        return (intern.intn_fname?.indexOf(keyword) > -1 ||
+            intern.intn_lname?.indexOf(keyword) > -1 ||
+            intern.intn_start_date?.indexOf(keyword) > -1 ||
+            intern.intn_end_date?.indexOf(keyword) > -1 ||
+            intern.intn_prefix?.indexOf(keyword) > -1 ||
+            /* intern.intn_id?.indexOf(keyword) > -1 || */
+            intern.college_info?.col_uni.uni_name.indexOf(keyword) > -1 ||
+            intern.intn_nickname?.indexOf(keyword) > -1
         )
     })
 })
@@ -280,7 +281,7 @@ th {
     color: white;
     background-color: transparent;
     text-overflow: ellipsis;
-    white-space: nowrap; 
+    white-space: nowrap;
     border-collapse: collapse;
     overflow: hidden;
 }
