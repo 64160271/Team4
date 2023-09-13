@@ -155,7 +155,7 @@
     <span class="h5">ข้อมูลที่อยู่ / ติดต่อ</span>
 
     <div class="row mb-2">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">บ้านเลขที่ <font color="#e1032b">*</font></label>
+        <label for="" class="col-2 col-form-label ms-5 text-gray">บ้านเลขที่ </label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.house_number" readonly>
         </div>
@@ -167,48 +167,48 @@
     </div>
 
     <div class="row mb-2">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">หมู่ <font color="#e1032b">*</font></label>
+        <label for="" class="col-2 col-form-label ms-5 text-gray">หมู่ </label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.village_number" readonly>
         </div>
 
-        <label for="" class="col-2 col-form-label text-gray">ถนน <font color="#e1032b">*</font></label>
+        <label for="" class="col-2 col-form-label text-gray">ถนน </label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.street" readonly>
         </div>
     </div>
 
     <div class="row mb-2">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">จังหวัด <font color="#e1032b">*</font></label>
+        <label for="" class="col-2 col-form-label ms-5 text-gray">จังหวัด </label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.province" readonly>
         </div>
 
-        <label for="" class="col-2 col-form-label text-gray">อำเภอ / เขต <font color="#e1032b">*</font></label>
+        <label for="" class="col-2 col-form-label text-gray">อำเภอ / เขต </label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.district" readonly>
         </div>
     </div>
 
     <div class="row mb-2">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">ตำบล / แขวง <font color="#e1032b">*</font></label>
+        <label for="" class="col-2 col-form-label ms-5 text-gray">ตำบล / แขวง </label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.subdistrict" readonly>
         </div>
 
-        <label for="" class="col-2 col-form-label text-gray">รหัสไปรษณีย์ <font color="#e1032b">*</font></label>
+        <label for="" class="col-2 col-form-label text-gray">รหัสไปรษณีย์ </label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.post_code" readonly>
         </div>
     </div>
 
     <div class="row mb-4">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">เบอร์โทรศัพท์ <font color="#e1032b">*</font></label>
+        <label for="" class="col-2 col-form-label ms-5 text-gray">เบอร์โทรศัพท์ </label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.tel" readonly>
         </div>
 
-        <label for="" class="col-2 col-form-label text-gray">อีเมลส่วนตัว <font color="#e1032b">*</font></label>
+        <label for="" class="col-2 col-form-label text-gray">อีเมลส่วนตัว </label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.email" readonly>
         </div>
@@ -224,7 +224,7 @@
             <input type="text" class="form-control-plaintext" v-model="mergedData.military_status" readonly>
         </div>
 
-        <label for="" class="col-2 col-form-label text-gray">เหตุผล </label>
+        <label for="" class="col-2 col-form-label text-gray">เหตุผล <font color="#e1032b">*</font></label>
         <div class="col">
             <input type="text" class="form-control-plaintext" v-model="mergedData.reason" readonly>
         </div>

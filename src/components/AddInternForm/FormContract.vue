@@ -27,7 +27,7 @@
         </div>
 
         <div class="col">
-            <label for="" class="form-label">วันที่ทำงานวันสุดท้าย <font color="#e1032b">*</font></label>
+            <label for="" class="form-label">วันที่ทำงานวันสุดท้าย </label>
             <input v-model="data.last_work_date" type="date" class="form-control" placeholder="DD/MM/YYYY" >
         </div>
         

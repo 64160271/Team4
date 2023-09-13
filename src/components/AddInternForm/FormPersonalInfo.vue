@@ -46,12 +46,12 @@
 
     <div class="row mb-4">
         <div class="col">
-            <label for="" class="form-label">ชื่อเล่น (ไทย) <font color="#e1032b">*</font></label>
+            <label for="" class="form-label">ชื่อเล่น (ไทย) </label>
             <input v-model="data.nickname[0]" type="text" class="form-control" placeholder="ไอซ์" required>
         </div>
 
         <div class="col">
-            <label for="" class="form-label">ชื่อเล่น (อังกฤษ) <font color="#e1032b">*</font></label>
+            <label for="" class="form-label">ชื่อเล่น (อังกฤษ) </label>
             <input v-model="data.nickname[1]" type="text" class="form-control" placeholder="Ice" required>
         </div>
     </div>
@@ -183,7 +183,7 @@
         </div>
 
         <div class="col">
-            <label for="" class="form-label">เหตุผล</label>
+            <label for="" class="form-label">เหตุผล <font color="#e1032b">*</font></label>
             <input v-model="data.reason" type="text" class="form-control" placeholder="">
         </div>
     </div>
