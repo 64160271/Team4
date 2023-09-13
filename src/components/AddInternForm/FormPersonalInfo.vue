@@ -175,7 +175,7 @@
 
     <div class="row mb-5">
         <div class="col">
-            <label for="" class="form-label">สถานภาพทางทหาร</label>
+            <label for="" class="form-label">สถานภาพทางทหาร <font color="#e1032b">*</font></label>
             <select v-model="data.military_status" name="military_status" id="military_status" class="form-select" required>
                 <option disabled selected value="">--- เลือก ---</option>
                 <option v-for="military_status in militaryStatus" :value="military_status">{{ military_status }}</option>

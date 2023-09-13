@@ -7,7 +7,7 @@
 
     <div class="row mb-4">
         <div class="col">
-            <label for="" class="form-label">ประเภทพนักงาน</label>
+            <label for="" class="form-label">ประเภทพนักงาน <font color="#e1032b">*</font></label>
             <select v-model="data.emp_type" name="type" id="type" class="form-select" required>
                 <option disabled selected value="">--- เลือก ---</option>
                 <option v-for="(intern_type, index) in internType">{{ intern_type }}</option>
@@ -15,24 +15,24 @@
         </div>
 
         <div class="col">
-            <label for="" class="form-label">เลขที่สัญญาจ้าง</label>
+            <label for="" class="form-label">เลขที่สัญญาจ้าง <font color="#e1032b">*</font></label>
             <input v-model="data.contract_number" type="text" class="form-control" placeholder="10000">
         </div>
     </div>
 
     <div class="row mb-4">
         <div class="col">
-            <label for="" class="form-label">วันที่เริ่มฝึกงาน </label>
+            <label for="" class="form-label">วันที่เริ่มฝึกงาน <font color="#e1032b">*</font></label>
             <input v-model="data.start_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
         </div>
 
         <div class="col">
-            <label for="" class="form-label">วันที่ทำงานวันสุดท้าย</label>
+            <label for="" class="form-label">วันที่ทำงานวันสุดท้าย <font color="#e1032b">*</font></label>
             <input v-model="data.last_work_date" type="date" class="form-control" placeholder="DD/MM/YYYY" >
         </div>
         
         <div class="col">
-            <label for="" class="form-label">วันที่สิ้นสุดสัญญาการฝึกงาน</label>
+            <label for="" class="form-label">วันที่สิ้นสุดสัญญาการฝึกงาน <font color="#e1032b">*</font></label>
             <input v-model="data.contract_end_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
         </div>
     </div>
@@ -55,7 +55,7 @@
 
     <div class="row mb-4">
         <div class="col">
-            <label for="" class="form-label">ฝ่าย</label>
+            <label for="" class="form-label">ฝ่าย <font color="#e1032b">*</font></label>
             <select v-model="data.section" name="faction" id="faction" class="form-select" required>
                 <option disabled selected value="">--- เลือก ---</option>
                 <option v-for="(section, index) in sections" :value="secton">{{ section.sec_name }}</option>
@@ -65,7 +65,7 @@
 
     <div class="row mb-4">
         <div class="col">
-            <label for="" class="form-label">แผนก</label>
+            <label for="" class="form-label">แผนก <font color="#e1032b">*</font></label>
             <select v-model="data.department" name="department" id="department" class="form-select" required>
                 <option disabled selected value="">--- เลือก ---</option>
                 <option v-for="(department, index) in departments" :value="department">{{ department.dept_name }}</option>
