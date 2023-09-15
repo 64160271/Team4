@@ -58,8 +58,8 @@
                             d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                     </svg>
                 </span>
-                <input v-model="searchData" type="text" class="bg-grays-200 form-control" placeholder="Search" aria-label=""
-                    aria-describedby="basic-addon1">
+                <input v-model="searchData" type="text" id="search-bar" class="bg-grays-200 form-control"
+                    placeholder="Search" aria-label="" aria-describedby="basic-addon1">
             </div>
 
         </form>
@@ -128,14 +128,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr @click="$router.push('/intern')" class="tb-hov" v-for="intern in filterData">
-                    <td scope="row" class="col">
-                        <img class="ms-2" src="../assets/images/person-nm.png" alt="" width="30">
+                <tr @click="$router.push('/interns/' + intern.intn_id)" class="tb-hov" v-for="intern in filterData">
+                    <td scope="" class="col">
+                        <img v-if="intern.intn_image" class="img-custom ms-2" :src="getImage(intern.intn_image)" width="35"
+                            height="35" alt="" />
+                        <img v-else class="ms-2" src="../assets/images/person-nm.png" alt="" width="35">
                         <span class="ms-lg-5 ms-sm-2">{{ intern.intn_id }}</span>
                     </td>
-                    <td scope="row">{{ intern.intn_prefix + intern.intn_fname + " " + intern.intn_lname }}</td>
-                    <td scope="row" class="text-center">{{ intern.intn_nickname || '-' }}</td>
-                    <td scope="row" class="text-center" v-if="intern.work_infos[0] != undefined">
+                    <td scope="">{{ intern.intn_prefix + intern.intn_fname + " " + intern.intn_lname }}</td>
+                    <td scope="" class="text-center">{{ intern.intn_nickname || '-' }}</td>
+                    <td scope="" class="text-center" v-if="intern.work_infos[0] != undefined">
                         {{ intern.work_infos[0].work_role.role_name }}
                     </td>
                     <td scope="row" class="text-center" v-else>
@@ -212,6 +214,7 @@ const getAllIntern = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/interns`)
         .then((response) => {
             interns.value = response.data
+            console.log(interns.value)
             /* $("#myTable").DataTable({
                 data: response.data,
                 columns: [
@@ -230,6 +233,10 @@ const getAllIntern = async () => {
 
 onMounted(() => getAllIntern())
 
+function getImage(img) {
+    return `src/assets/images/interns/${img}`
+}
+
 function dateFormat(date) {
 
     if (!date) {
@@ -247,6 +254,7 @@ const filterData = computed(() => {
 
     let keyword = searchData.value.trim()
     return interns.value.filter(intern => {
+
         return (intern.intn_fname?.indexOf(keyword) > -1 ||
             intern.intn_lname?.indexOf(keyword) > -1 ||
             intern.intn_start_date?.indexOf(keyword) > -1 ||
@@ -255,13 +263,26 @@ const filterData = computed(() => {
             /* intern.intn_id?.indexOf(keyword) > -1 || */
             intern.college_info?.col_uni.uni_name.indexOf(keyword) > -1 ||
             intern.intn_nickname?.indexOf(keyword) > -1 ||
-            intern.work_infos?.work_role?.role_name.indexOf(keyword)
+            /* intern.work_infos?.work_role?.role_name.indexOf(keyword) > -1 || */
+            intern.college_info?.col_faculty.fac_name.indexOf(keyword) > -1 ||
+            intern.college_info?.col_major.maj_name.indexOf(keyword) > -1
         )
     })
 })
 </script>
   
 <style scoped>
+#search-bar:focus {
+    box-shadow: none !important;
+}
+
+.img-custom {
+    border-radius: 50%;
+    border: 1px solid black;
+    width: 35px;
+    height: 35px;
+}
+
 .bg-grays-200 {
     background-color: #8d969b30 !important;
 }

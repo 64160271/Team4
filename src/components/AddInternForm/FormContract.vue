@@ -23,17 +23,17 @@
     <div class="row mb-5">
         <div class="col">
             <label for="" class="form-label">วันที่เริ่มฝึกงาน <font color="#e1032b">*</font></label>
-            <input v-model="data.start_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
+            <input min="2564-01-01" max="2566-12-31" v-model="data.start_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
         </div>
 
         <div class="col">
             <label for="" class="form-label">วันที่ทำงานวันสุดท้าย </label>
-            <input v-model="data.last_work_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
+            <input min="2564-01-01" max="2566-12-31" v-model="data.last_work_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
         </div>
 
         <div class="col">
             <label for="" class="form-label">วันที่สิ้นสุดสัญญาการฝึกงาน <font color="#e1032b">*</font></label>
-            <input v-model="data.contract_end_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
+            <input min="2564-01-01" max="2566-12-31" v-model="data.contract_end_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
         </div>
     </div>
 
@@ -79,6 +79,7 @@
 import { ref } from 'vue';
 import { onUnmounted, onMounted } from 'vue'
 import axios from 'axios'
+import { useContractStore } from '../../stores/formData';
 
 const internType = ref([
     { id: 1, name: 'นักศึกษาฝึกงาน' },
@@ -91,7 +92,8 @@ const sections = ref({})
 const departments = ref({})
 const roles = ref({})
 
-const data = ref({
+const data = ref(useContractStore())
+/* const data = ref({
     emp_type: {
         name: ''
     },
@@ -102,7 +104,7 @@ const data = ref({
     mentor: '',
     section: '',
     department: '',
-})
+}) */
 
 const prop = defineProps({
     setParentData: Function,
@@ -158,5 +160,6 @@ hr {
 
 span {
     color: var(--main-color);
+    font-size: 1.1rem;
 }
 </style>

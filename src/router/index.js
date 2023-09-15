@@ -20,12 +20,9 @@ const router = createRouter({
             component: Login
         },
         {
-            path: '/interns',
+            path: '/interns/:id',
             name: 'internData',
             component: InternData,
-            beforeMount() {
-                getAllIntern()
-            },
         },
         {
             path: '/interns/key-data',

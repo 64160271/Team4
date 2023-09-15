@@ -68,7 +68,7 @@
         <div class="col">
             <label for="" class="form-label">วัน/เดือน/ปีเกิด <font color="#e1032b">*</font></label>
             <input @change="getAge(data.birth_date)" v-model="data.birth_date" type="date" class="form-control"
-                placeholder="DD/MM/YYYY" required>
+                min="2530-01-01" max="2566-12-31" placeholder="DD/MM/YYYY" required>
         </div>
 
         <div class="col">
@@ -79,7 +79,7 @@
         <div class="col">
             <label for="" class="form-label">เพศ <font color="#e1032b">*</font></label>
             <select v-model="data.gender" name="gender" id="gender" class="form-select" required>
-                <option disabled selected :value="{name: ''}">--- เลือก ---</option>
+                <option disabled selected :value="{ name: '' }">--- เลือก ---</option>
                 <option v-for="gender in genders" :value="gender">{{ gender.name }}</option>
             </select>
         </div>
@@ -126,7 +126,7 @@
         <div class="col">
             <label for="" class="form-label">สถานภาพสมรส <font color="#e1032b">*</font></label>
             <select v-model=data.martial_status name="marital_status" id="marital_status" class="form-select" required>
-                <option disabled selected :value="{name: ''}">--- เลือก ---</option>
+                <option disabled selected :value="{ name: '' }">--- เลือก ---</option>
                 <option v-for="(martial, index) in martialStatus" :value="martial">{{ martial.name }}</option>
             </select>
         </div>
@@ -180,8 +180,9 @@
         <div class="col">
             <label for="" class="form-label">สถานภาพทางทหาร <font color="#e1032b">*</font></label>
             <select v-model="data.military_status" name="military_status" id="military_status" class="form-select" required>
-                <option disabled selected :value="{name: ''}">--- เลือก ---</option>
-                <option v-for="military_status in militaryStatus" :value="military_status">{{ military_status.name }}</option>
+                <option disabled selected :value="{ name: '' }">--- เลือก ---</option>
+                <option v-for="military_status in militaryStatus" :value="military_status">{{ military_status.name }}
+                </option>
             </select>
         </div>
 
@@ -196,6 +197,7 @@
 import { ref } from 'vue';
 import { onUnmounted, onMounted } from 'vue'
 import axios from 'axios';
+import { usePersonalStore } from '../../stores/formData';
 
 const dummyPrefix = ref('')
 
@@ -237,7 +239,9 @@ const martialStatus = ref([
     { id: 8, name: 'ซับซ้อน' }
 ])
 
-const data = ref({
+const data = ref(usePersonalStore())
+
+/* const data = ref({
     prefix: ['', ''],
     fname: ['', ''],
     lname: ['', ''],
@@ -264,7 +268,7 @@ const data = ref({
         name: ''
     },
     reason: '',
-})
+}) */
 
 const prop = defineProps({
     setParentData: Function
@@ -294,7 +298,7 @@ function changeMajorData() {
 function getAge(birthdate) {
     birthdate = new Date(birthdate)
     const today = new Date();
-    const age = today.getFullYear() - birthdate.getFullYear() -
+    const age = today.getFullYear() - birthdate.getFullYear()+543 -
         (today.getMonth() < birthdate.getMonth() ||
             (today.getMonth() === birthdate.getMonth() && today.getDate() < birthdate.getDate()));
     data.value.age = age
@@ -325,9 +329,9 @@ onMounted(() => {
     getAllUniversity()
 }),
 
-    onUnmounted(() => {
-        prop.setParentData(1, data.value)
-    })
+onUnmounted(() => {
+    prop.setParentData(1, data.value)
+})
 
 </script>
 
@@ -340,5 +344,6 @@ hr {
 
 span {
     color: var(--main-color);
+    font-size: 1.1rem;
 }
 </style>

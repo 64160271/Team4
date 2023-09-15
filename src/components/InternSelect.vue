@@ -9,7 +9,7 @@
             <table class="table table-borderless fixed-head" id="tb-data">
                 <thead class="text-center bg-red">
                     <tr>
-                        <th scope="col" class="col-2 border-left">รหัสนักศึกษาฝึกงาน</th>
+                        <th scope="col" class="col-2 border-left">ลำดับ</th>
                         <th scope="col">ชื่อ - นามสกุล</th>
                         <th scope="col">ชื่อเล่น</th>
                         <th scope="col">ตำแหน่ง</th>
@@ -27,8 +27,8 @@
                         </td>
                         <td scope="row">{{ data[7] + data[8] }}</td>
                         <td scope="row" class="text-center">{{ data[9] }}</td>
-                        <td scope="row">{{ data[6] }}</td>
-                        <td scope="row">{{ data[15] }}</td>
+                        <td scope="row" class="text-center">{{ data[6] }}</td>
+                        <td scope="row" class="text-center">{{ data[15] }}</td>
                         <td scope="row" class="text-center">{{ dateFormat(data[10]) }}</td>
                         <td scope="row" class="text-center">{{ dateFormat(data[11]) || '-' }}</td>
                         <td v-if="data.duplicate" class="text-center" @mouseover.once="openTooltip">
@@ -58,6 +58,7 @@ import $ from 'jquery'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import { Tooltip } from 'bootstrap/dist/js/bootstrap.esm.min.js'
+import router from '@/router'
 
 const selectedIndex = ref([])
 const selectedData = ref([])
@@ -178,7 +179,6 @@ async function createInterns() {
             duplicate: rawData[index]["duplicate"]
         }
 
-        console.log(row)
         selectedData.value.push(row)
     })
 
@@ -192,7 +192,7 @@ async function createInterns() {
             }).then(() => {
                 selectedData.value = []
                 selectedIndex.value = []
-                /* window.location.href = `${import.meta.env.VITE_BASE_URL}/` */
+                router.push({name: 'index'})
             })
         })
 }

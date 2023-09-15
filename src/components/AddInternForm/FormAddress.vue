@@ -1,6 +1,6 @@
 <template>
     <div class="row mb-3">
-        <span>ข้อมูลที่อยู่</span>
+        <span>ข้อมูลที่อยู่ (สามารถข้ามได้)</span>
     </div>
 
     <hr>
@@ -73,6 +73,7 @@
 <script setup>
 import { ref } from 'vue';
 import { onUnmounted, onMounted } from 'vue'
+import { useAddressStore } from '../../stores/formData';
 
 $.Thailand({
     $district: $('#district'), // input ของตำบล
@@ -94,7 +95,8 @@ $.Thailand({
     }
 });
 
-const data = ref({
+const data = ref(useAddressStore())
+/* const data = ref({
     house_number: '',
     village_number: Number(),
     alley: '',
@@ -105,7 +107,7 @@ const data = ref({
     post_code: Number(),
     tel: '',
     email: '',
-})
+}) */
 
 const prop = defineProps({
     setParentData: Function
@@ -128,6 +130,10 @@ const prop = defineProps({
     document.head.appendChild(recaptchaScript4)
 }) */
 
+onMounted(() => {
+    console.log(data.value)
+})
+
 onUnmounted(() => {
     prop.setParentData(2, data.value)
 })
@@ -142,6 +148,7 @@ hr {
 
 span {
     color: var(--main-color);
+    font-size: 1.1rem;
 }
 
 </style>

@@ -1,6 +1,6 @@
 <template>
-    <div class="col-2 img-size rounded-circle mb-3">
-        <img src="" alt="" id="blah" class="img rounded-circle">
+    <div class="col-auto mb-3">
+        <img src="" alt="" id="blah" class="img bg-grays-200">
     </div>
 
     <div class="col ms-5">
@@ -9,24 +9,24 @@
         <div class="row mb-2">
             <label for="" class="col-2 col-form-label text-gray">รหัสพนักงาน <font color="#e1032b">*</font></label>
             <div class="col">
-                <input type="text" class="form-control-plaintext" v-model="mergedData.id" readonly>
+                <input type="text" class="form-control-plaintext" v-model="mergedData.id" readonly required>
             </div>
 
             <label for="" class="col-2 col-form-label text-gray">สถานะพนักงาน <font color="#e1032b">*</font></label>
             <div class="col">
-                <input type="text" class="form-control-plaintext" v-model="dummyData.stat_name" readonly>
+                <input type="text" class="form-control-plaintext" v-model="dummyData.stat_name" readonly required>
             </div>
         </div>
 
         <div class="row mb-2">
             <label for="" class="col-2 col-form-label text-gray">อีเมลพนักงาน <font color="#e1032b">*</font></label>
             <div class="col">
-                <input type="text" class="form-control-plaintext" v-model="mergedData.emp_email" readonly>
+                <input type="text" class="form-control-plaintext" v-model="mergedData.emp_email" readonly required>
             </div>
 
             <label for="" class="col-2 col-form-label text-gray">ตำแหน่งงาน <font color="#e1032b">*</font></label>
             <div class="col">
-                <input type="text" class="form-control-plaintext" v-model="dummyData.role_name" readonly>
+                <input type="text" class="form-control-plaintext" v-model="dummyData.role_name" readonly required>
             </div>
         </div>
     </div>
@@ -36,39 +36,42 @@
     <span class="h5">ข้อมูลส่วนตัว</span>
 
     <div class="row mb-2">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">ชื่อ-นามสกุล (ไทย) <font color="#e1032b">*</font></label>
+        <label for="" class="col-2 col-form-label ms-5 text-gray">ชื่อ-นามสกุล (ไทย) <font color="#e1032b">*</font>
+        </label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="fullName.thai" readonly>
+            <input type="text" class="form-control-plaintext" v-model="fullName.thai" readonly required>
         </div>
 
-        <label for="" class="col-2 col-form-label text-gray">ชื่อเล่น (ไทย) <font color="#e1032b">*</font></label>
+        <label for="" class="col-2 col-form-label text-gray">ชื่อเล่น (ไทย)</label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="fullName.nickname_th"  readonly>
-        </div>
-    </div>
-
-    <div class="row mb-2">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">ชื่อ-นามสกุล (อังกฤษ) <font color="#e1032b">*</font></label>
-        <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="fullName.eng" readonly>
-        </div>
-
-        <label for="" class="col-2 col-form-label text-gray">ชื่อเล่น (อังกฤษ) <font color="#e1032b">*</font></label>
-        <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="fullName.nickname_en" readonly>
+            <input type="text" class="form-control-plaintext" v-model="fullName.nickname_th" readonly required>
         </div>
     </div>
 
     <div class="row mb-2">
-        <label for="" class="col-auto col-form-label ms-5 text-gray">เลขบัตรประชาชน / พาสปอร์ต <font color="#e1032b">*</font></label>
+        <label for="" class="col-2 col-form-label ms-5 text-gray">ชื่อ-นามสกุล (อังกฤษ) <font color="#e1032b">*</font>
+        </label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="mergedData.citizen_id" readonly>
+            <input type="text" class="form-control-plaintext" v-model="fullName.eng" readonly required>
+        </div>
+
+        <label for="" class="col-2 col-form-label text-gray">ชื่อเล่น (อังกฤษ)</label>
+        <div class="col">
+            <input type="text" class="form-control-plaintext" v-model="fullName.nickname_en" readonly required>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <label for="" class="col-auto col-form-label ms-5 text-gray">เลขบัตรประชาชน / พาสปอร์ต <font color="#e1032b">*
+            </font></label>
+        <div class="col">
+            <input type="text" class="form-control-plaintext" v-model="mergedData.citizen_id" readonly required>
         </div>
 
         <div class="col-2">
             <div class="row">
                 <label for="" class="col-5 col-form-label text-gray">วันเกิด <font color="#e1032b">*</font></label>
-                <input type="text" class="col form-control-plaintext" v-model="mergedData.birth_date" readonly>
+                <input type="text" class="col form-control-plaintext" v-model="mergedData.birth_date" readonly required>
             </div>
         </div>
 
@@ -84,12 +87,12 @@
     <div class="row mb-2">
         <label for="" class="col-2 col-form-label ms-5 text-gray">เพศ <font color="#e1032b">*</font></label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="dummyData.gen_name" readonly>
+            <input type="text" class="form-control-plaintext" v-model="dummyData.gen_name" readonly required>
         </div>
 
         <label for="" class="col-2 col-form-label text-gray">หมู่เลือด <font color="#e1032b">*</font></label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="mergedData.blood_type" readonly>
+            <input type="text" class="form-control-plaintext" v-model="mergedData.blood_type" readonly required>
         </div>
     </div>
 
@@ -108,24 +111,24 @@
     <div class="row mb-2">
         <label for="" class="col-2 col-form-label ms-5 text-gray">สัญชาติ <font color="#e1032b">*</font></label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="mergedData.nationality" readonly>
+            <input type="text" class="form-control-plaintext" v-model="mergedData.nationality" readonly required>
         </div>
 
         <label for="" class="col-2 col-form-label text-gray">เชื้อชาติ <font color="#e1032b">*</font></label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="mergedData.nation" readonly>
+            <input type="text" class="form-control-plaintext" v-model="mergedData.nation" readonly required>
         </div>
     </div>
 
     <div class="row mb-4">
         <label for="" class="col-2 col-form-label ms-5 text-gray">ศาสนา <font color="#e1032b">*</font></label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="mergedData.religion" readonly>
+            <input type="text" class="form-control-plaintext" v-model="mergedData.religion" readonly required>
         </div>
 
         <label for="" class="col-2 col-form-label text-gray">สถานภาพสมรส <font color="#e1032b">*</font></label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="dummyData.martial_name" readonly>
+            <input type="text" class="form-control-plaintext" v-model="dummyData.martial_name" readonly required>
         </div>
     </div>
 
@@ -205,12 +208,12 @@
     <div class="row mb-4">
         <label for="" class="col-2 col-form-label ms-5 text-gray">เบอร์โทรศัพท์ <font color="#e1032b">*</font></label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="mergedData.tel" readonly>
+            <input type="text" class="form-control-plaintext" v-model="mergedData.tel" readonly required>
         </div>
 
         <label for="" class="col-2 col-form-label text-gray">อีเมลส่วนตัว <font color="#e1032b">*</font></label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="mergedData.email" readonly>
+            <input type="text" class="form-control-plaintext" v-model="mergedData.email" readonly required>
         </div>
     </div>
 
@@ -233,14 +236,15 @@
             <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน <font color="#e1032b">*</font></label>
             <input type="text" class="form-control-plaintext" v-model="mergedData.start_date" required readonly>
         </div>
-        
+
         <div class="col">
             <label for="" class="form-label text-gray">วันที่ทำงานวันสุดท้าย <font color="#e1032b">*</font></label>
             <input type="text" class="form-control-plaintext" v-model="mergedData.last_work_date" required readonly>
         </div>
 
         <div class="col">
-            <label for="" class="form-label text-gray">วันที่สิ้นสุดสัญญาการฝึกงาน <font color="#e1032b">*</font></label>
+            <label for="" class="form-label text-gray">วันที่สิ้นสุดสัญญาการฝึกงาน <font color="#e1032b">*</font>
+            </label>
             <input type="text" class="form-control-plaintext" v-model="mergedData.contract_end_date" required readonly>
         </div>
     </div>
@@ -252,7 +256,7 @@
     <div class="row mb-4">
         <label for="" class="col-2 col-form-label ms-5 text-gray">สถานภาพทางทหาร <font color="#e1032b">*</font></label>
         <div class="col">
-            <input type="text" class="form-control-plaintext" v-model="dummyData.mili_name" readonly>
+            <input type="text" class="form-control-plaintext" v-model="dummyData.mili_name" readonly required>
         </div>
 
         <label for="" class="col-2 col-form-label text-gray">เหตุผล</label>
@@ -291,11 +295,11 @@ const dummyData = ref({
 })
 
 const fullName = ref({
-        thai: "",
-        eng: "",
-        nickname_th: "",
-        nickname_en: "",
-    })
+    thai: "",
+    eng: "",
+    nickname_th: "",
+    nickname_en: "",
+})
 
 const mergedData = ref({})
 const prop = defineProps({
@@ -315,22 +319,20 @@ onMounted(() => {
                 nickname_en: data.nickname[1]
             },
 
-            dummyData.value = {
-                uni_name: data.university.uni_name,
-                fac_name: data.faculty.fac_name,
-                maj_name: data.major.maj_name,
-                gen_name: data.gender?.name,
-                martial_name: data.martial_status?.name,
-                mili_name: data.military_status?.name,
-            }
+                dummyData.value = {
+                    uni_name: data.university.uni_name,
+                    fac_name: data.faculty.fac_name,
+                    maj_name: data.major.maj_name,
+                    gen_name: data.gender?.name,
+                    martial_name: data.martial_status?.name,
+                    mili_name: data.military_status?.name,
+                }
         }
     })
 
     dummyData.value.emp_type_name = mergedData.value.emp_type.name
     dummyData.value.stat_name = mergedData.value.status.name
     dummyData.value.role_name = mergedData.value.role.role_name
-
-    console.log(mergedData.value)
 
     const file = mergedData.value.img
 
@@ -344,6 +346,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.bg-grays-200 {
+    background-color: #8d969b30 !important;
+}
 
 hr {
     border: none;
@@ -352,13 +357,15 @@ hr {
 }
 
 .img {
-    height: 100%;
-    width: 100%;
-    object-fit: fill;
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    border: 1px solid var(--main-color)
 }
-.img-size {
+
+/* .img-size {
     width: 150px;
     height: 150px;
     background-color: #90969E;
-}
+} */
 </style>

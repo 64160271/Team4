@@ -15,7 +15,7 @@
   </div>
 
   <div v-if="['index'].includes($route.name)" class="container-fluid vh-100 p-0 row">
-      <router-view />
+    <router-view />
   </div>
 </template>
 

@@ -38,9 +38,11 @@
         <div class="row">
             <button class="col-2 mx-auto btn outline-gray rounded-pill" @click="--pageShow, checkPage()">ย้อนกลับ</button>
             <button v-if="showSaveButton == false" class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
-                @click="++pageShow">ถัดไป</button>
+                @click="++pageShow">ถัดไป
+            </button>
             <button v-if="showSaveButton == true" class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
-                @click="confirmation">บันทึก</button>
+                @click="confirmation">บันทึก
+            </button>
         </div>
     </div>
 </template>
@@ -54,15 +56,23 @@ import FormMilitaryStatus from './AddInternForm/FormMilitaryStatus.vue'
 import FormWorkInfo from './AddInternForm/FormWorkInfo.vue'
 import FormConfirmation from './AddInternForm/FormConfirmation.vue'
 
-import { ref } from 'vue'
+import { ref, toRaw } from 'vue'
 import Swal from 'sweetalert2'
 import router from '@/router'
 import axios from 'axios'
+import 'fs'
 
 const confirmationData = ref([{}])
 const showSaveButton = ref(false)
 const pageShow = ref(1)
 const formData = ref([])
+const nonRequired = [
+    'reason', 'nickname', 'house_number',
+    'village_number', 'alley', 'street',
+    'subdistrict', 'district', 'province',
+    'post_code', 'last_work_date', 'img',
+    'height', 'weight'
+]
 
 function setConfirmationData(data) {
     confirmationData.value = data
@@ -80,7 +90,45 @@ function checkPage() {
     }
 }
 
-function confirmation() {
+function checkEmpty(object) {
+    if (object == '') {
+        return true
+    }
+
+    for (let key in object) {
+        if (object[key] == '' || object[key] == undefined)
+            return true;
+    }
+
+    return false;
+}
+
+async function confirmation() {
+
+    for (const key in confirmationData.value) {
+        let pass = false
+
+        if (checkEmpty(confirmationData.value[key])) {
+            for (const data in nonRequired) {
+                if (key == nonRequired[data]) {
+
+                    pass = true
+                    break
+
+                }
+            }
+
+            if (pass == false) {
+                Swal.fire({
+                    icon: 'error',
+                    text: 'กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน',
+                })
+
+                return
+            }
+
+        }
+    }
 
     Swal.fire({
         text: 'คุณต้องการบันทึกข้อมูลหรือไม่',
@@ -102,6 +150,18 @@ function confirmation() {
 
 async function createInterns() {
 
+    /* const postData = axios.create({
+        baseURL: `${import.meta.env.VITE_API_HOST}/interns/key/`,
+        withCredentials: false,
+        headers: {
+            "Content-Type": "multipart/form-data",
+        }
+    })
+
+    let form = new FormData();
+
+    form.append('file', confirmationData.value.img, 'intntest') */
+
     await axios.post(`${import.meta.env.VITE_API_HOST}/interns/key`, confirmationData.value)
         .then((response) => console.log(response)).then(() => {
             Swal.fire({
@@ -114,7 +174,6 @@ async function createInterns() {
             })
         })
 }
-
 
 </script>
 

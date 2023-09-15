@@ -1,7 +1,7 @@
 <template>
     <div class="col-md-5">
-        <div class="row img-size rounded-circle mx-auto">
-            <img id="blah" src="#" alt="" class="img rounded-circle">
+        <div class="text-center">
+            <img id="blah" src="#" alt="" class="img bg-grays-200">
         </div>
 
         <div class="row mt-4">
@@ -22,20 +22,28 @@
     </div>
 
     <div class="col-md-5 mx-auto">
+
+        <!--
+
+            55555
+
+          -->
         <div class="row text-start mb-4">
             <label for="" class="form-label">รหัสพนักงาน <font color="#e1032b">*</font></label>
-            <input v-model="data.id" type="text" class="form-control" placeholder="000000" required>
+            <input v-model="data.id" number type="number" class="form-control" placeholder="000000" required>
         </div>
 
         <div class="row text-start mb-4">
             <label for="" class="form-label">อีเมลพนักงาน <font color="#e1032b">*</font></label>
-            <input v-model="data.emp_email" name="email" type="email" class="form-control" placeholder="example@clicknext.com" required>
+            <input v-model="data.emp_email" name="email" type="email" class="form-control"
+                placeholder="example@clicknext.com" required>
         </div>
 
         <div class="row text-start mb-4">
             <label for="" class="form-label">สถานะพนักงาน <font color="#e1032b">*</font></label>
-            <select @change="console.log(data.status)" v-model="data.status" name="status" id="status" class="form-select" required autocomplete="off">
-                <option disabled selected :value="{name: ''}">--- เลือก ---</option>
+            <select @change="console.log(data.status)" v-model="data.status" name="status" id="status" class="form-select"
+                required autocomplete="off">
+                <option disabled selected :value="{ name: '' }">--- เลือก ---</option>
                 <option v-for="(stat, index) in status" :value="stat">{{ stat.name }}</option>
             </select>
         </div>
@@ -48,23 +56,23 @@
             </select>
         </div>
     </div>
-    
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { onUnmounted, onMounted } from 'vue'
 import axios from 'axios';
+import { useCompanyStore } from '../../stores/formData';
 
 const status = ref([
     { id: 1, name: 'กำลังทำงาน' },
-    { id: 2, name: 'พ้นสภาพ'}
+    { id: 2, name: 'พ้นสภาพ' }
 ])
 
 const roles = ref({})
+const space = ref('')
 
-const space = ref('') 
-const data = ref({
+/* const data = ref({
     id: '',
     emp_email: '',
     status: {
@@ -72,8 +80,9 @@ const data = ref({
     },
     role: '',
     img: ''
-})
+}) */
 
+const data = ref(useCompanyStore())
 const prop = defineProps({
     setParentData: Function
 })
@@ -87,17 +96,20 @@ const getAllRole = async () => {
 
 function showImg() {
     const imgUpload = document.getElementById("img-upload")
-    const [file] = imgUpload.files
 
-    if (file) {
-        blah.src = URL.createObjectURL(file)
-        data.value.img = file
+    if (imgUpload.files[0] != undefined) {
+        data.value.img = imgUpload.files[0]
     }
-    
+
+    if (data.value.img) {
+        blah.src = URL.createObjectURL(data.value.img)
+    }
 }
 
 onMounted(() => {
     getAllRole()
+    console.log(data.value)
+    showImg()
 })
 
 onUnmounted(() => {
@@ -109,14 +121,19 @@ onUnmounted(() => {
 
 <style scoped>
 .img {
-    height: 100%;
-    width: 100%;
-    object-fit: contain;
+    height: 230px;
+    width: 230px;
+    border-radius: 50%;
+    border: 1px solid var(--main-color)
 }
+
 .img-size {
     width: 230px;
     height: 230px;
-    background-color: #90969E;
+}
+
+.bg-grays-200 {
+    background-color: #8d969b30 !important;
 }
 
 .outline-red:hover .stroke-white {
@@ -142,5 +159,6 @@ hr {
 
 span {
     color: var(--main-color);
+    font-size: 1.1rem;
 }
 </style>
