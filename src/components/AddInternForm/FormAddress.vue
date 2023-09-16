@@ -74,7 +74,7 @@
 import { ref } from 'vue';
 import { onUnmounted, onMounted } from 'vue'
 import { useAddressStore } from '../../stores/formData';
-
+/* 
 $.Thailand({
     $district: $('#district'), // input ของตำบล
     $amphoe: $('#amphoe'), // input ของอำเภอ
@@ -93,7 +93,7 @@ $.Thailand({
         $('#loader, .demo').toggle();
 
     }
-});
+}); */
 
 const data = ref(useAddressStore())
 /* const data = ref({

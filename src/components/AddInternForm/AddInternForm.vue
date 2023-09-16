@@ -48,13 +48,11 @@
 </template>
 
 <script setup>
-import FormCompanyInfo from './AddInternForm/FormCompanyInfo.vue'
-import FormPersonalInfo from './AddInternForm/FormPersonalInfo.vue'
-import FormAddress from './AddInternForm/FormAddress.vue'
-import FormContract from './AddInternForm/FormContract.vue'
-import FormMilitaryStatus from './AddInternForm/FormMilitaryStatus.vue'
-import FormWorkInfo from './AddInternForm/FormWorkInfo.vue'
-import FormConfirmation from './AddInternForm/FormConfirmation.vue'
+import FormCompanyInfo from './FormCompanyInfo.vue'
+import FormPersonalInfo from './FormPersonalInfo.vue'
+import FormAddress from './FormAddress.vue'
+import FormContract from './FormContract.vue'
+import FormConfirmation from './FormConfirmation.vue'
 
 import { ref, toRaw } from 'vue'
 import Swal from 'sweetalert2'

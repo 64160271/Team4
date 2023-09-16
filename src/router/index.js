@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Index from '../components/Index.vue'
 import Login from '../components/Login.vue'
-import InternData from '../components/InternData.vue'
-import AddInternForm from '../components/AddInternForm.vue'
-import AddInternFile from '../components/AddInternFile.vue'
+import InternData from '../components/InternInfo/InternData.vue'
+import AddInternForm from '../components/AddInternForm/AddInternForm.vue'
+import AddInternFile from '../components/AddInternByFile/AddInternFile.vue'
 import AddInternFormV2 from '../components/AddInternFormV2.vue'
 import ShowCertificate from '../components/Certificate/ShowCertificate.vue'
 import SalaryReport from '../components/Report/SalaryReport.vue'
