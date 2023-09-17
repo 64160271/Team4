@@ -10,7 +10,7 @@
 }
 
 :root {
-    --main-color: #0351e1;
+    --main-color: #e1032cb6;
 }
 
 .text-custom {
@@ -51,4 +51,9 @@
 
 .outline-red:hover .x-red {
     fill: var(--main-color) !important;
+}
+
+.outline-black:hover {
+    border: 1px solid var(--main-color) !important;
+    color: var(--main-color) !important;
 }
