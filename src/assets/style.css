@@ -57,3 +57,12 @@
     border: 1px solid var(--main-color) !important;
     color: var(--main-color) !important;
 }
+
+.bg-custom {
+    background-color: var(--main-color) !important;
+    color: white !important;
+}
+
+.modal-open.in {
+    opacity: 0.5 !important;
+}

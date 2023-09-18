@@ -4,9 +4,10 @@
 
         <button class="col-2 btn outline-red ms-auto">เพิ่มมหาวิทยาลัย</button>
     </div>
+    
 
-    <div class="row w-75 mx-auto mt-3" v-for="(university, index) in universities">
-        <div class="card outline-black">
+    <div class="row w-75 mx-auto mt-2" v-for="(university, index) in universities">
+        <div class="card outline-black mb-3">
             <div class="card-body">
                 <div class="row" @click="showDetail[index] = !showDetail[index]">
                     <label class="col">{{ university.uni_name }}</label>
@@ -20,9 +21,21 @@
                                     <li class="list-group-item bg-red text-white">คณะ {{ faculty.fac_name }}</li>
                                     <ol class="list-group-item list-group-numbered">
                                         สาขา
-                                        <li v-for="major in faculty.majors" class="list-group-item border-0">{{ major.maj_name }}</li>
+                                        <li v-for="major in faculty.majors" class="list-group-item border-0">
+                                            {{ major.maj_name }}
+                                        </li>
                                     </ol>
                                 </ul>
+                            </div>
+                        </div>
+
+                        <div class="col my-auto">
+                            <div class="card border-0">
+                                <div class="card-body text-center">
+                                    <button class="btn bg-custom">
+                                        เพิ่มคณะ
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
