@@ -2,6 +2,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import Index from '../components/Index.vue'
 import Login from '../components/Login.vue'
 import InternData from '../components/InternInfo/InternData.vue'
+import WorkInfo from '../components/InternInfo/WorkInfo.vue'
+import SalaryInfo from '../components/InternInfo/SalaryInfo.vue'
+import LeaveInfo from '../components/InternInfo/LeaveInfo.vue'
+import DocumentInfo from '../components/InternInfo/DocumentInfo.vue'
 import AddInternForm from '../components/AddInternForm/AddInternForm.vue'
 import AddInternFile from '../components/AddInternByFile/AddInternFile.vue'
 import AddInternFormV2 from '../components/AddInternFormV2.vue'
@@ -28,6 +32,24 @@ const router = createRouter({
             path: '/interns/:id',
             name: 'internData',
             component: InternData,
+            children: [
+                {
+                    path: 'work-info',
+                    component: WorkInfo,
+                },
+                {
+                    path: 'salary-info',
+                    component: SalaryInfo,
+                },
+                {
+                    path: 'leave-info',
+                    component: LeaveInfo,
+                },
+                {
+                    path: 'document-info',
+                    component: DocumentInfo
+                }
+            ]
         },
         {
             path: '/interns/key-data',
@@ -68,7 +90,7 @@ const router = createRouter({
             path: '/companies',
             name: 'manageCompany',
             component: ManageCompany
-        }
+        },
     ]
 })
 

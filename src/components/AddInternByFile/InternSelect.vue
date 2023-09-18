@@ -32,7 +32,7 @@
                         <td scope="row" class="text-center">{{ dateFormat(data[10]) }}</td>
                         <td scope="row" class="text-center">{{ dateFormat(data[11]) || '-' }}</td>
                         <td v-if="data.duplicate" class="text-center" @mouseover.once="openTooltip">
-                            <img src="../assets/images/warning.png" width="24" alt=""
+                            <img src="../../assets/images/warning.png" width="24" alt=""
                             data-bs-toggle="tooltip" data-bs-placement="left"
                             title="มีข้อมูลนี้อยู่ในระบบอยู่แล้ว หากทำการเพิ่มข้อมูลจะเป็นการแก้ไขข้อมูลที่มีอยู่">
                         </td>
