@@ -32,24 +32,26 @@ const router = createRouter({
             path: '/interns/:id',
             name: 'internData',
             component: InternData,
-            children: [
-                {
-                    path: 'work-info',
-                    component: WorkInfo,
-                },
-                {
-                    path: 'salary-info',
-                    component: SalaryInfo,
-                },
-                {
-                    path: 'leave-info',
-                    component: LeaveInfo,
-                },
-                {
-                    path: 'document-info',
-                    component: DocumentInfo
-                }
-            ]
+        },
+        {
+            path: '/interns/:id/work-info',
+            name: 'workInfo',
+            component: WorkInfo,
+        },
+        {
+            path: '/interns/:id/salary-info',
+            name: 'salaryInfo',
+            component: SalaryInfo,
+        },
+        {
+            path: '/interns/:id/leave-info',
+            name: 'leaveInfo',
+            component: LeaveInfo,
+        },
+        {
+            path: '/interns/:id/document-info',
+            name: 'documentInfo',
+            component: DocumentInfo
         },
         {
             path: '/interns/key-data',

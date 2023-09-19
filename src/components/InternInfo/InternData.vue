@@ -2,6 +2,9 @@
     <div class="d-flex flex-column mb-3">
         <span class="h5 my-auto front">ข้อมูลนักศึกษาฝึกงาน > {{ dummyData.name_th }}</span>
 
+        <LayoutMenu />
+        <hr>
+
         <div class="d-flex overflow-y-auto justify-content-center mt-3">
             <div class="row w-100">
                 <div class="col-auto mb-3">
@@ -9,16 +12,32 @@
                 </div>
 
                 <div class="col ms-5">
-                    <span class="row h5">ข้อมูลส่วนตัวเกี่ยวกับบริษัท</span>
+                    <div class="row">
+                        <span class="col h5 my-auto">ข้อมูลส่วนตัวเกี่ยวกับบริษัท</span>
+                        <a @click="isEdit = !isEdit, editData()" class="btn btn-sm rounded-custom col-auto" id="editButton">
+                            <svg class="" width="27" height="32" viewBox="0 0 42 42" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M8.05878 10.4102H5.70585C4.45778 10.4102 3.26083 10.9059 2.37831 11.7885C1.49579 12.671 1 13.8679 1 15.116V36.2923C1 37.5404 1.49579 38.7374 2.37831 39.6199C3.26083 40.5024 4.45778 40.9982 5.70585 40.9982H26.8822C28.1303 40.9982 29.3272 40.5024 30.2097 39.6199C31.0922 38.7374 31.588 37.5404 31.588 36.2923V33.9394"
+                                    stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path
+                                    d="M29.2361 5.7061L36.2949 12.7649M39.5537 9.43549C40.4804 8.5088 41.001 7.25194 41.001 5.9414C41.001 4.63086 40.4804 3.37399 39.5537 2.4473C38.627 1.52061 37.3701 1 36.0596 1C34.7491 1 33.4922 1.52061 32.5655 2.4473L12.7656 22.1766V29.2354H19.8244L39.5537 9.43549Z"
+                                    stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                    </div>
 
-                    <div class="row mb-2">
-                        <label for="" class="col-2 col-form-label text-gray">รหัสพนักงาน <font color="#e1032b">*</font>
+
+                    <div class="row mb-2 mt-2">
+                        <label for="" class="col-2 col-form-label text-gray">
+                            รหัสพนักงาน
                         </label>
                         <div class="col">
                             <input type="text" class="form-control-plaintext" v-model="intern.intn_id" readonly required>
                         </div>
 
-                        <label for="" class="col-2 col-form-label text-gray">สถานะพนักงาน <font color="#e1032b">*</font>
+                        <label for="" class="col-2 col-form-label text-gray">
+                            สถานะพนักงาน
                         </label>
                         <div class="col">
                             <input type="text" class="form-control-plaintext" v-model="dummyData.status" readonly required>
@@ -26,14 +45,16 @@
                     </div>
 
                     <div class="row mb-2">
-                        <label for="" class="col-2 col-form-label text-gray">อีเมลพนักงาน <font color="#e1032b">*</font>
+                        <label for="" class="col-2 col-form-label text-gray">
+                            อีเมลพนักงาน
                         </label>
                         <div class="col">
                             <input type="text" class="form-control-plaintext" v-model="intern.intn_intern_email" readonly
                                 required>
                         </div>
 
-                        <label for="" class="col-2 col-form-label text-gray">ตำแหน่งงาน <font color="#e1032b">*</font>
+                        <label for="" class="col-2 col-form-label text-gray">
+                            ตำแหน่งงาน
                         </label>
                         <div class="col">
                             <input type="text" class="form-control-plaintext" v-model="dummyData.role" readonly required>
@@ -47,8 +68,8 @@
                 <span class="h5">ข้อมูลส่วนตัว</span>
 
                 <div class="row mb-2">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">ชื่อ-นามสกุล (ไทย) <font color="#e1032b">*
-                        </font>
+                    <label for="" class="col-2 col-form-label ms-5 text-gray">
+                        ชื่อ-นามสกุล (ไทย)
                     </label>
                     <div class="col">
                         <input type="text" class="form-control-plaintext" v-model="dummyData.name_th" readonly required>
@@ -61,8 +82,8 @@
                 </div>
 
                 <div class="row mb-2">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">ชื่อ-นามสกุล (อังกฤษ) <font color="#e1032b">*
-                        </font>
+                    <label for="" class="col-2 col-form-label ms-5 text-gray">
+                        ชื่อ-นามสกุล (อังกฤษ)
                     </label>
                     <div class="col">
                         <input type="text" class="form-control-plaintext" v-model="dummyData.name_en" readonly required>
@@ -75,9 +96,7 @@
                 </div>
 
                 <div class="row mb-2">
-                    <label for="" class="col-auto col-form-label ms-5 text-gray">เลขบัตรประชาชน / พาสปอร์ต <font
-                            color="#e1032b">*
-                        </font></label>
+                    <label for="" class="col-auto col-form-label ms-5 text-gray">เลขบัตรประชาชน / พาสปอร์ต</label>
                     <div class="col">
                         <input type="text" class="form-control-plaintext" v-model="intern.intn_citizen_id" readonly
                             required>
@@ -85,7 +104,8 @@
 
                     <div class="col-2">
                         <div class="row">
-                            <label for="" class="col-5 col-form-label text-gray">วันเกิด <font color="#e1032b">*</font>
+                            <label for="" class="col-5 col-form-label text-gray">
+                                วันเกิด
                             </label>
                             <input type="text" class="col form-control-plaintext" v-model="intern.intn_birth_date" readonly
                                 required>
@@ -102,12 +122,12 @@
                 </div>
 
                 <div class="row mb-2">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">เพศ <font color="#e1032b">*</font></label>
+                    <label for="" class="col-2 col-form-label ms-5 text-gray">เพศ </label>
                     <div class="col">
                         <input type="text" class="form-control-plaintext" v-model="dummyData.gender" readonly required>
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">หมู่เลือด <font color="#e1032b">*</font></label>
+                    <label for="" class="col-2 col-form-label text-gray">หมู่เลือด</label>
                     <div class="col">
                         <input type="text" class="form-control-plaintext" v-model="intern.intn_blood_type" readonly
                             required>
@@ -127,25 +147,25 @@
                 </div>
 
                 <div class="row mb-2">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">สัญชาติ <font color="#e1032b">*</font></label>
+                    <label for="" class="col-2 col-form-label ms-5 text-gray">สัญชาติ </label>
                     <div class="col">
                         <input type="text" class="form-control-plaintext" v-model="intern.intn_nationality" readonly
                             required>
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">เชื้อชาติ <font color="#e1032b">*</font></label>
+                    <label for="" class="col-2 col-form-label text-gray">เชื้อชาติ</label>
                     <div class="col">
                         <input type="text" class="form-control-plaintext" v-model="intern.intn_nation" readonly required>
                     </div>
                 </div>
 
                 <div class="row mb-4">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">ศาสนา <font color="#e1032b">*</font></label>
+                    <label for="" class="col-2 col-form-label ms-5 text-gray">ศาสนา </label>
                     <div class="col">
                         <input type="text" class="form-control-plaintext" v-model="intern.intn_religion" readonly required>
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">สถานภาพสมรส <font color="#e1032b">*</font></label>
+                    <label for="" class="col-2 col-form-label text-gray">สถานภาพสมรส </label>
                     <div class="col">
                         <input type="text" class="form-control-plaintext" v-model="dummyData.martial_status" readonly
                             required>
@@ -158,17 +178,17 @@
 
                 <div class="row mb-4">
                     <div class="col ms-5">
-                        <label for="" class="form-label text-gray">ชื่อสถานศึกษา <font color="#e1032b">*</font></label>
+                        <label for="" class="form-label text-gray">ชื่อสถานศึกษา</label>
                         <input type="text" class="form-control-plaintext" v-model="dummyData.university" required readonly>
                     </div>
 
                     <div class="col">
-                        <label for="" class="form-label text-gray">คณะ <font color="#e1032b">*</font></label>
+                        <label for="" class="form-label text-gray">คณะ </label>
                         <input type="text" class="form-control-plaintext" v-model="dummyData.faculty" required readonly>
                     </div>
 
                     <div class="col">
-                        <label for="" class="form-label text-gray">สาขาวิชา <font color="#e1032b">*</font></label>
+                        <label for="" class="form-label text-gray">สาขาวิชา </label>
                         <input type="text" class="form-control-plaintext" v-model="dummyData.major" required readonly>
                     </div>
                 </div>
@@ -226,13 +246,14 @@
                 </div>
 
                 <div class="row mb-4">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">เบอร์โทรศัพท์ <font color="#e1032b">*</font>
+                    <label for="" class="col-2 col-form-label ms-5 text-gray">
+                        เบอร์โทรศัพท์
                     </label>
                     <div class="col">
                         <input type="text" class="form-control-plaintext" v-model="intern.intn_tel" readonly required>
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">อีเมลส่วนตัว <font color="#e1032b">*</font></label>
+                    <label for="" class="col-2 col-form-label text-gray">อีเมลส่วนตัว </label>
                     <div class="col">
                         <input type="text" class="form-control-plaintext" v-model="intern.intn_email" readonly required>
                     </div>
@@ -244,32 +265,33 @@
 
                 <div class="row mb-4">
                     <div class="col ms-5">
-                        <label for="" class="form-label text-gray">ประเภทพนักงาน <font color="#e1032b">*</font></label>
+                        <label for="" class="form-label text-gray">ประเภทพนักงาน </label>
                         <input type="text" class="form-control-plaintext" v-model="dummyData.intern_type" required readonly>
                     </div>
 
                     <div class="col">
-                        <label for="" class="form-label text-gray">เลขที่สัญญาจ้าง <font color="#e1032b">*</font></label>
+                        <label for="" class="form-label text-gray">เลขที่สัญญาจ้าง</label>
                         <input type="text" class="form-control-plaintext" v-model="intern.intn_contact_num" required
                             readonly>
                     </div>
 
                     <div class="col">
-                        <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน <font color="#e1032b">*</font></label>
+                        <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน</label>
                         <input type="text" class="form-control-plaintext" v-model="intern.intn_start_date" required
                             readonly>
                     </div>
 
                     <div class="col">
-                        <label for="" class="form-label text-gray">วันที่ทำงานวันสุดท้าย <font color="#e1032b">*</font>
+                        <label for="" class="form-label text-gray">
+                            วันที่ทำงานวันสุดท้าย
                         </label>
                         <input type="text" class="form-control-plaintext" v-model="intern.intn_last_work_date" required
                             readonly>
                     </div>
 
                     <div class="col">
-                        <label for="" class="form-label text-gray">วันที่สิ้นสุดสัญญาการฝึกงาน <font color="#e1032b">*
-                            </font>
+                        <label for="" class="form-label text-gray">
+                            วันที่สิ้นสุดสัญญาการฝึกงาน
                         </label>
                         <input type="text" class="form-control-plaintext" v-model="intern.intn_contract_end_date" required
                             readonly>
@@ -281,7 +303,8 @@
                 <span class="h5">สถานภาพทางทหาร</span>
 
                 <div class="row mb-4">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">สถานภาพทางทหาร <font color="#e1032b">*</font>
+                    <label for="" class="col-2 col-form-label ms-5 text-gray">
+                        สถานภาพทางทหาร
                     </label>
                     <div class="col">
                         <input type="text" class="form-control-plaintext" v-model="dummyData.military_status" readonly
@@ -315,10 +338,12 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
 import axios from 'axios'
+import LayoutMenu from './LayoutMenu.vue'
 
 const intern = ref({})
 const route = useRoute()
 const id = route.params.id
+const isEdit = ref(false)
 
 const dummyData = ref({
     name_th: '',
@@ -365,7 +390,6 @@ const genders = ref(
         'ชาย',
         'หญิง',
         'ไม่ระบุ'
-
     ]
 )
 
@@ -404,15 +428,46 @@ const getInternById = async () => {
     dummyData.value.nickname_th = nickname[0]
     dummyData.value.nickname_en = nickname[1]
 
-    if (Array.isArray(intern.work_infos)) {
+    /* if (Array.isArray(intern.work_infos)) {
         dummyData.value.role = intern.work_infos[0].work_role.role_name
     }
 
     dummyData.value.university = intern.value.intn_college_info.col_uni.uni_name
     dummyData.value.faculty = intern.value.intn_college_info.col_faculty.fac_name
-    dummyData.value.major = intern.value.intn_college_info.col_major.maj_name
+    dummyData.value.major = intern.value.intn_college_info.col_major.maj_name */
 
-    console.log(dummyData.value)
+}
+
+function editData() {
+    let editButton = document.getElementById("editButton")
+
+    if (isEdit.value) {
+        let inputs = document.querySelectorAll(".form-control-plaintext")
+
+        editButton.classList.remove("rounded-custom")
+        editButton.classList.add("rounded-active")
+
+        inputs.forEach((element) => {
+            element.classList.remove("form-control-plaintext")
+            element.classList.add("form-control")
+            element.classList.add("form-control-sm")
+            element.removeAttribute('readonly')
+
+        })
+
+    } else if (!isEdit.value) {
+        let inputs = document.querySelectorAll(".form-control-sm")
+
+        editButton.classList.add("rounded-custom")
+        editButton.classList.remove("rounded-active")
+
+        inputs.forEach((element) => {
+            element.classList.remove("form-control")
+            element.classList.remove("form-control-sm")
+            element.classList.add("form-control-plaintext")
+            element.setAttribute('readonly', true)
+        })
+    }
 
 }
 
@@ -469,5 +524,26 @@ hr {
     width: 150px;
     border-radius: 50%;
     border: 1px solid var(--main-color)
+}
+
+.rounded-custom {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+}
+
+.rounded-custom:hover path {
+    stroke: var(--main-color) !important;
+}
+
+.rounded-active {
+    background-color: var(--main-color) !important;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+}
+
+.rounded-active path {
+    stroke: white !important;
 }
 </style>
