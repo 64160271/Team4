@@ -221,19 +221,7 @@ const getAllIntern = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/interns`)
         .then((response) => {
             interns.value = response.data
-            /* $("#myTable").DataTable({
-                data: response.data,
-                columns: [
-                    { data: "intn_id" },
-                    { data: `intn_prefix` },
-                    { data: "intn_nickname" },
-                    { data: "intn_fname" },
-                    { data: "college_info.col_uni.uni_name" },
-                    { data: "college_info.col_uni.uni_name" },
-                    { data: "intn_start_date" },
-                    { data: `intn_end_date` }
-                ]
-            }) */
+          
         })
 }
 

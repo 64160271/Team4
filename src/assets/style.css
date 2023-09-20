@@ -3,6 +3,7 @@
 * {
     font-size: 16px;
     font-family: 'Kanit', sans-serif;
+    font-weight: 400 !important;
 }
 
 .tooltip-inner {
@@ -10,7 +11,7 @@
 }
 
 :root {
-    --main-color: #dd4170;
+    --main-color: #e04d68;
 }
 
 .text-custom {
