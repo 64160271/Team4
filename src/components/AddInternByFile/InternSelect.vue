@@ -1,3 +1,10 @@
+<!--
+ InternSelect
+ display intern data from excel
+ Author : Rawich Piboonsin
+ Created date : 04-09-2566
+-->
+
 <template>
     <div class="form-check mt-3">
         <input @change="checkAll" id="main" type="checkbox" class="form-check-input rounded-circle" />

@@ -11,7 +11,7 @@
             <div class="col ms-5">
                 <span class="row h5 mb-3">ข้อมูลส่วนตัวเกี่ยวกับบริษัท</span>
 
-                <div class="row mb-2">
+                <div class="row mb-2 grid">
                     <label for="" class="col-2 col-form-label text-gray">รหัสพนักงาน</label>
                     <div class="col me-5">
                         <input type="text" class="form-control mb-2" v-model="mergedData.id">

@@ -1,3 +1,10 @@
+<!--
+ LayoutMenu
+ Display menu bar for view intern's information detail
+ Author : Rawich Piboonsin
+ Created date : 17-09-2566
+-->
+
 <template>
     <div class="row mt-4 text-center">
         <router-link :to="{ name: 'internData', params: { id: internId }}" class="text-decoration-none col h5 my-0 text-custom">

@@ -1,3 +1,10 @@
+<!--
+ InternData
+ Display intern's information detail
+ Author : Rawich Piboonsin
+ Created date : 14-09-2566
+-->
+
 <template>
     <div class="d-flex flex-column mb-3">
         <span class="h5 my-auto front">ข้อมูลนักศึกษาฝึกงาน > {{ dummyData.name_th }}</span>
@@ -450,20 +457,22 @@ function editData() {
         inputs.forEach((element) => {
             element.classList.remove("form-control-plaintext")
             element.classList.add("form-control")
-            element.classList.add("form-control-sm")
+            element.classList.add("d-class")
+            element.classList.add("mb-2")
             element.removeAttribute('readonly')
 
         })
 
     } else if (!isEdit.value) {
-        let inputs = document.querySelectorAll(".form-control-sm")
+        let inputs = document.querySelectorAll(".d-class")
 
         editButton.classList.add("rounded-custom")
         editButton.classList.remove("rounded-active")
 
         inputs.forEach((element) => {
             element.classList.remove("form-control")
-            element.classList.remove("form-control-sm")
+            element.classList.remove("d-class")
+            element.classList.remove("mb-2")
             element.classList.add("form-control-plaintext")
             element.setAttribute('readonly', true)
         })

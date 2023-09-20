@@ -1,3 +1,10 @@
+<!--
+ LayoutSidebar
+ Display system's main sidebar menu
+ Author : Rawich Piboonsin
+ Created date : 24-08-2566
+-->
+
 <template>
   <div class="position-fixed d-flex flex-column p-4 bg-white border-end vh-sidebar col-auto"
     style="width: 280px; margin-top: 63px;">

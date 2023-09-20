@@ -1,3 +1,10 @@
+<!--
+ FormCompany
+ Display company input form
+ Author : Rawich Piboonsin
+ Created date : 04-09-2566
+-->
+
 <template>
     <div class="col-md-5">
         <div class="text-center">
@@ -23,11 +30,6 @@
 
     <div class="col-md-5 mx-auto">
 
-        <!--
-
-            55555
-
-          -->
         <div class="row text-start mb-4">
             <label for="" class="form-label">รหัสพนักงาน <font color="#e1032b">*</font></label>
             <input v-model="data.id" number type="number" class="form-control" placeholder="000000" required>

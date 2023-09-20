@@ -1,3 +1,10 @@
+<!--
+ AddInternForm
+ Parent of module add intern by form
+ Author : Rawich Piboonsin
+ Created date : 04-09-2566
+-->
+
 <template>
     <div class="d-flex flex-column mb-3">
         <span class="h5 my-auto front">เพิ่มแบบฟอร์ม</span>

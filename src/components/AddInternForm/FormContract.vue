@@ -1,3 +1,10 @@
+<!--
+ FormContract
+ Display contract input form
+ Author : Rawich Piboonsin
+ Created date : 04-09-2566
+-->
+
 <template>
     <div class="row mb-3">
         <span>สัญญาการจ้างงาน</span>
