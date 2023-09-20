@@ -314,6 +314,20 @@ const prop = defineProps({
     setConfirmationData: Function,
 });
 
+function formatDate(strDate) {
+    if (!strDate) {
+        return
+    }
+
+    strDate = new Date(strDate)
+
+    const day = strDate.getDate()
+    const month = strDate.getMonth() + 1
+    const year = strDate.getFullYear()
+
+    return day + "/" + month + "/" + year
+}
+
 onMounted(() => {
     prop.formData.forEach((data) => {
         mergedData.value = Object.assign(mergedData.value, data)

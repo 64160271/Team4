@@ -159,10 +159,10 @@
 
         <hr>
 
-        <div class="row mt-2">
+        <div class="row my-2">
             <span class="col-5">รายการทั้งหมด {{ filterData.length || 0 }} รายการ</span>
 
-            <div class="col">
+            <!-- <div class="col">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item">
@@ -180,7 +180,7 @@
                         </li>
                     </ul>
                 </nav>
-            </div>
+            </div> -->
         </div>
     </main>
 </template>
@@ -221,7 +221,6 @@ const getAllIntern = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/interns`)
         .then((response) => {
             interns.value = response.data
-          
         })
 }
 
