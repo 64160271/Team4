@@ -22,7 +22,8 @@
                         <button class="col-auto btn btn-sm outline-red position-relative px-4" id="picture">
                             <input @change="showImg" type="file" id="img-upload" accept="image/*" />
 
-                            <svg class="me-1" width="28" height="28" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="me-1" width="28" height="28" viewBox="0 0 42 42" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M19.9474 36.5556H5.21053C4.09383 36.5556 3.02286 36.0873 2.23323 35.2538C1.44361 34.4203 1 33.2899 1 32.1111V12.1111C1 10.9324 1.44361 9.80191 2.23323 8.96841C3.02286 8.13492 4.09383 7.66667 5.21053 7.66667H7.31579C8.43249 7.66667 9.50345 7.19841 10.2931 6.36492C11.0827 5.53142 11.5263 4.40096 11.5263 3.22222C11.5263 2.63285 11.7481 2.06762 12.1429 1.65087C12.5377 1.23413 13.0732 1 13.6316 1H26.2632C26.8215 1 27.357 1.23413 27.7518 1.65087C28.1466 2.06762 28.3684 2.63285 28.3684 3.22222C28.3684 4.40096 28.812 5.53142 29.6017 6.36492C30.3913 7.19841 31.4622 7.66667 32.5789 7.66667H34.6842C35.8009 7.66667 36.8719 8.13492 37.6615 8.96841C38.4511 9.80191 38.8947 10.9324 38.8947 12.1111V19.8889"
                                     stroke="var(--main-color)" stroke-width="2" stroke-linecap="round"
@@ -42,26 +43,30 @@
                 <span class="row h5 mb-3">ข้อมูลส่วนตัวเกี่ยวกับบริษัท</span>
 
                 <div class="row mb-2 grid">
-                    <label for="" class="col-2 col-form-label text-gray">รหัสพนักงาน <span class="text-danger">*</span></label>
+                    <label for="" class="col-2 col-form-label text-gray">รหัสพนักงาน <span
+                            class="text-danger">*</span></label>
                     <div class="col me-5">
                         <input type="text" class="form-control mb-2" v-model="mergedData.id">
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">สถานะพนักงาน <span class="text-danger">*</span></label>
+                    <label for="" class="col-2 col-form-label text-gray">สถานะพนักงาน <span
+                            class="text-danger">*</span></label>
                     <div class="col">
                         <select class="form-select mb-2">
-                            <option v-for="status in statusList" :value="status">{{ status }}</option>
+                            <option v-for="(status, index) in statusList" :value="status">{{ status }}</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="row mb-2">
-                    <label for="" class="col-2 col-form-label text-gray">อีเมลพนักงาน <span class="text-danger">*</span></label>
+                    <label for="" class="col-2 col-form-label text-gray">อีเมลพนักงาน <span
+                            class="text-danger">*</span></label>
                     <div class="col me-5">
                         <input type="text" class="form-control mb-2" v-model="mergedData.emp_email">
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">ตำแหน่งงาน <span class="text-danger">*</span></label>
+                    <label for="" class="col-2 col-form-label text-gray">ตำแหน่งงาน <span
+                            class="text-danger">*</span></label>
                     <div class="col">
                         <select class="form-select mb-2">
 
@@ -123,23 +128,26 @@
             </div>
 
             <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">เลขบัตรประชาชน / พาสปอร์ต <span class="text-danger">*</span></label>
+                <label for="" class="col-2 col-form-label ms-5 text-gray">เลขบัตรประชาชน / พาสปอร์ต <span
+                        class="text-danger">*</span></label>
                 <div class="col me-5">
                     <input type="text" class="form-control mb-2" v-model="mergedData.citizen_id">
                 </div>
 
                 <div class="col">
                     <div class="row">
-                        <label for="" class="col-auto col-form-label text-gray">วันเกิด <span class="text-danger">*</span></label>
-                        <input type="date" class="col form-control mb-2" v-model="mergedData.birth_date">
+                        <label for="" class="col-auto col-form-label text-gray">วันเกิด <span
+                                class="text-danger">*</span></label>
+                        <input type="date" class="col form-control mb-2" v-model="selectedBirthDate">
                     </div>
                 </div>
 
 
-                <div class="col-2">
+                <div class="col-md-2">
                     <div class="row">
                         <label for="" class="col-auto col-form-label text-gray">อายุ (ปี)</label>
-                        <input type="text" class="col form-control mb-2" v-model="mergedData.age" readonly>
+                        <input type="text" class="col form-control mb-2" :value="getAge(selectedBirthDate) || 0" readonly
+                            disabled>
                     </div>
                 </div>
             </div>
@@ -206,21 +214,21 @@
 
             <div class="row mb-4">
                 <div class="col me-5 ms-5">
-                    <label for="" class="form-label text-gray">ชื่อสถานศึกษา <font color="#e1032b">*</font></label>
+                    <label for="" class="form-label text-gray">ชื่อสถานศึกษา <span class="text-danger">*</span></label>
                     <select class="form-select mb-2" v-model="mergedData.university" required>
 
                     </select>
                 </div>
 
                 <div class="col me-5">
-                    <label for="" class="form-label text-gray">คณะ <font color="#e1032b">*</font></label>
+                    <label for="" class="form-label text-gray">คณะ <span class="text-danger">*</span></label>
                     <select class="form-select mb-2" v-model="mergedData.faculty" required>
 
                     </select>
                 </div>
 
                 <div class="col">
-                    <label for="" class="form-label text-gray">สาขาวิชา <font color="#e1032b">*</font></label>
+                    <label for="" class="form-label text-gray">สาขาวิชา <span class="text-danger">*</span></label>
                     <select class="form-select mb-2" v-model="mergedData.major" required>
 
                     </select>
@@ -229,48 +237,87 @@
 
             <hr>
 
+            <span class="h5 mb-3">สัญญาการจ้างงาน</span>
+
+            <div class="row mb-4">
+                <div class="col ms-5">
+                    <label for="" class="form-label text-gray">ประเภทพนักงาน <span class="text-danger">*</span></label>
+                    <select class="form-select mb-2" v-model="mergedData.university" required>
+
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="" class="form-label text-gray">เลขที่สัญญาจ้าง <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control mb-2">
+                </div>
+
+                <div class="col">
+                    <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control mb-2" id="datepicker">
+                </div>
+
+                <div class="col">
+                    <label for="" class="form-label text-gray">วันที่ผ่านทดลองงาน</label>
+                    <input type="date" class="form-control mb-2">
+                </div>
+
+                <div class="col">
+                    <label for="" class="form-label text-gray">วันสุดท้ายที่มาทำงาน <span
+                            class="text-danger">*</span></label>
+                    <input type="date" class="form-control mb-2">
+                </div>
+
+                <div class="col">
+                    <label for="" class="form-label text-gray">วันที่สิ้นสุดสัญญา <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control mb-2">
+                </div>
+            </div>
+
+            <hr>
+
             <span class="h5 mb-3">ข้อมูลที่อยู่ / ติดต่อ</span>
 
-            <div class="row mb-2">
+            <div class="row mb-3">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">บ้านเลขที่</label>
                 <div class="col me-5">
-                    <input type="text" class="form-control mb-2" v-model="mergedData.house_number">
+                    <input type="text" class="form-control" v-model="mergedData.house_number">
                 </div>
 
                 <label for="" class="col-2 col-form-label text-gray">ซอย</label>
                 <div class="col">
-                    <input type="text" class="form-control mb-2" v-model="mergedData.alley">
+                    <input type="text" class="form-control" v-model="mergedData.alley">
                 </div>
             </div>
 
             <div class="row mb-2 me-5">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">หมู่</label>
                 <div class="col me-5">
-                    <input type="text" class="form-control mb-2" v-model="mergedData.village_number">
+                    <input type="text" class="form-control mb-2">
                 </div>
 
                 <label for="" class="col-2 col-form-label text-gray">ถนน</label>
                 <div class="col">
-                    <input type="text" class="form-control mb-2" v-model="mergedData.street">
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">จังหวัด</label>
-                <div class="col me-5">
-                    <input type="text" class="form-control mb-2" v-model="mergedData.province">
-                </div>
-
-                <label for="" class="col-2 col-form-label text-gray">อำเภอ / เขต</label>
-                <div class="col">
-                    <input type="text" class="form-control mb-2" v-model="mergedData.district">
+                    <input type="text" class="form-control mb-2">
                 </div>
             </div>
 
             <div class="row mb-2">
                 <label for="" class="col-2 col-form-label ms-5 text-gray">ตำบล / แขวง</label>
                 <div class="col me-5">
-                    <input type="text" class="form-control mb-2" v-model="mergedData.subdistrict">
+                    <input type="text" class="form-control mb-2">
+                </div>
+
+                <label for="" class="col-2 col-form-label text-gray">อำเภอ / เขต</label>
+                <div class="col">
+                    <input type="text" class="form-control mb-2">
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <label for="" class="col-2 col-form-label ms-5 text-gray">จังหวัด</label>
+                <div class="col me-5">
+                    <input type="text" class="form-control mb-2">
                 </div>
 
                 <label for="" class="col-2 col-form-label text-gray">รหัสไปรษณีย์</label>
@@ -280,7 +327,8 @@
             </div>
 
             <div class="row mb-4">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">เบอร์โทรศัพท์ <span class="text-danger">*</span></label>
+                <label for="" class="col-2 col-form-label ms-5 text-gray">เบอร์โทรศัพท์ <span
+                        class="text-danger">*</span></label>
                 <div class="col me-5">
                     <input type="text" class="form-control mb-2" v-model="mergedData.tel">
                 </div>
@@ -326,7 +374,8 @@
         <hr>
 
         <div class="row mb-4">
-            <button type="button" class="col-2 mx-auto btn outline-gray rounded-pill" @click="$router.push({ name: 'index' })">ย้อนกลับ
+            <button type="button" class="col-2 mx-auto btn outline-gray rounded-pill"
+                @click="$router.push({ name: 'index' })">ย้อนกลับ
             </button>
             <button type="button" class="col-2 mx-auto btn outline-red ms-auto rounded-pill" @click="confirmation">บันทึก
             </button>
@@ -343,7 +392,9 @@ import { useMilitaryStatus } from '../../stores/constData'
 import { useGenderData } from '../../stores/constData'
 import { useMartialStatus } from '../../stores/constData'
 import { useInternType } from '../../stores/constData'
+import { getAge } from '../../assets/js/func'
 
+const selectedBirthDate = ref()
 const mergedData = ref({})
 const formData = ref({})
 const image = ref()
@@ -400,6 +451,7 @@ function showImg() {
 }
 
 onMounted(() => {
+    console.log(statusList.value.id)
 })
 
 </script>

@@ -1,6 +1,7 @@
 import './assets/style.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
+import './assets/js/func.js'
 
 import { createApp } from 'vue'
 import App from './App.vue'
