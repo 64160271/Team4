@@ -1,5 +1,15 @@
 import { defineStore } from "pinia";
 
+export const userPrefixData = defineStore('prefix', {
+    state: () => {
+        return [
+            'นาย',
+            'นาง',
+            'นางสาว'
+        ]
+    }
+})
+
 export const useStatusData = defineStore('status', {
     state: () => {
         return [
