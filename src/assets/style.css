@@ -11,7 +11,11 @@
 }
 
 :root {
+<<<<<<< HEAD
     --main-color: #e1032b;
+=======
+    --main-color: #a32e55d2;
+>>>>>>> 9613fc4cace370dc9c7d206703e7dc02e7a5945f
 }
 
 .text-custom {

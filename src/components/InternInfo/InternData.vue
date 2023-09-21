@@ -40,14 +40,16 @@
                             รหัสพนักงาน
                         </label>
                         <div class="col">
-                            <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_id" readonly required>
+                            <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_id"
+                                readonly required>
                         </div>
 
                         <label for="" class="col-2 col-form-label text-gray">
                             สถานะพนักงาน
                         </label>
                         <div class="col">
-                            <input placeholder="-"  type="text" class="form-control-plaintext" v-model="dummyData.status" readonly required>
+                            <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.status"
+                                readonly required>
                         </div>
                     </div>
 
@@ -56,15 +58,16 @@
                             อีเมลพนักงาน
                         </label>
                         <div class="col">
-                            <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_intern_email" readonly
-                                required>
+                            <input placeholder="-" type="text" class="form-control-plaintext"
+                                v-model="intern.intn_intern_email" readonly required>
                         </div>
 
                         <label for="" class="col-2 col-form-label text-gray">
                             ตำแหน่งงาน
                         </label>
                         <div class="col">
-                            <input placeholder="-" type="text" class="form-control-plaintext" :value="getWorkRole" readonly required>
+                            <input placeholder="-" type="text" class="form-control-plaintext" :value="getWorkRole" readonly
+                                required>
                         </div>
 
                     </div>
@@ -79,12 +82,14 @@
                         ชื่อ-นามสกุล (ไทย)
                     </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.name_th" readonly required>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.name_th"
+                            readonly required>
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">ชื่อเล่น (ไทย)</label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.nickname_th" readonly required>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.nickname_th"
+                            readonly required>
                     </div>
                 </div>
 
@@ -93,20 +98,22 @@
                         ชื่อ-นามสกุล (อังกฤษ)
                     </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.name_en" readonly required>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.name_en"
+                            readonly required>
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">ชื่อเล่น (อังกฤษ)</label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.nickname_en" readonly required>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.nickname_en"
+                            readonly required>
                     </div>
                 </div>
 
                 <div class="row mb-2">
                     <label for="" class="col-2 col-form-label ms-5 text-gray">เลขบัตรประชาชน / พาสปอร์ต</label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_citizen_id" readonly
-                            required>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_citizen_id"
+                            readonly required>
                     </div>
 
                     <div class="col-2">
@@ -114,8 +121,8 @@
                             <label for="" class="col-5 col-form-label text-gray">
                                 วันเกิด
                             </label>
-                            <input placeholder="-" type="text" class="col form-control-plaintext" :value="formatDate(intern.intn_birth_date)" readonly
-                                required>
+                            <input placeholder="-" type="text" class="col form-control-plaintext"
+                                :value="formatDate(intern.intn_birth_date)" readonly required>
                         </div>
                     </div>
 
@@ -123,7 +130,8 @@
                     <div class="col">
                         <div class="row">
                             <label for="" class="col-2 col-form-label text-gray">อายุ</label>
-                            <input placeholder="-" type="text" class="col form-control-plaintext" :value="getAge()" readonly>
+                            <input placeholder="-" type="text" class="col form-control-plaintext" :value="getAge()"
+                                readonly>
                         </div>
                     </div>
                 </div>
@@ -131,51 +139,56 @@
                 <div class="row mb-2">
                     <label for="" class="col-2 col-form-label ms-5 text-gray">เพศ </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.gender" readonly required>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.gender"
+                            readonly required>
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">หมู่เลือด</label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_blood_type" readonly
-                            required>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_blood_type"
+                            readonly required>
                     </div>
                 </div>
 
                 <div class="row mb-2">
                     <label for="" class="col-2 col-form-label ms-5 text-gray">น้ำหนัก (กิโลกรัม)</label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_weight" readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_weight"
+                            readonly>
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">ส่วนสูง (เซนติเมตร)</label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_height" readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_height"
+                            readonly>
                     </div>
                 </div>
 
                 <div class="row mb-2">
                     <label for="" class="col-2 col-form-label ms-5 text-gray">สัญชาติ </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_nationality" readonly
-                            required>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_nationality"
+                            readonly required>
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">เชื้อชาติ</label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_nation" readonly required>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_nation"
+                            readonly required>
                     </div>
                 </div>
 
                 <div class="row mb-4">
                     <label for="" class="col-2 col-form-label ms-5 text-gray">ศาสนา </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_religion" readonly required>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_religion"
+                            readonly required>
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">สถานภาพสมรส </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.martial_status" readonly
-                            required>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.martial_status"
+                            readonly required>
                     </div>
                 </div>
 
@@ -186,17 +199,20 @@
                 <div class="row mb-4">
                     <div class="col ms-5">
                         <label for="" class="form-label text-gray">ชื่อสถานศึกษา</label>
-                        <input placeholder="-" type="text" class="form-control-plaintext" :value="intern.college_info?.col_uni.uni_name" required readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            :value="intern.college_info?.col_uni.uni_name" required readonly>
                     </div>
 
                     <div class="col">
                         <label for="" class="form-label text-gray">คณะ </label>
-                        <input placeholder="-" type="text" class="form-control-plaintext" :value="intern.college_info?.col_faculty.fac_name" required readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            :value="intern.college_info?.col_faculty.fac_name" required readonly>
                     </div>
 
                     <div class="col">
                         <label for="" class="form-label text-gray">สาขาวิชา </label>
-                        <input placeholder="-" type="text" class="form-control-plaintext" :value="intern.college_info?.col_major.maj_name" required readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            :value="intern.college_info?.col_major.maj_name" required readonly>
                     </div>
                 </div>
 
@@ -207,48 +223,56 @@
                 <div class="row mb-2">
                     <label for="" class="col-2 col-form-label ms-5 text-gray">บ้านเลขที่ </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_house_number" readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_house_number"
+                            readonly>
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">ซอย</label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_alley" readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_alley"
+                            readonly>
                     </div>
                 </div>
 
                 <div class="row mb-2">
                     <label for="" class="col-2 col-form-label ms-5 text-gray">หมู่ </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_village_number" readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            v-model="intern.intn_village_number" readonly>
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">ถนน </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_street" readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_street"
+                            readonly>
                     </div>
                 </div>
 
                 <div class="row mb-2">
                     <label for="" class="col-2 col-form-label ms-5 text-gray">จังหวัด </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_province" readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_province"
+                            readonly>
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">อำเภอ / เขต </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_district" readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_district"
+                            readonly>
                     </div>
                 </div>
 
                 <div class="row mb-2">
                     <label for="" class="col-2 col-form-label ms-5 text-gray">ตำบล / แขวง </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_subdistrict" readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_subdistrict"
+                            readonly>
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">รหัสไปรษณีย์ </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_post_code" readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_post_code"
+                            readonly>
                     </div>
                 </div>
 
@@ -257,12 +281,14 @@
                         เบอร์โทรศัพท์
                     </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_tel" readonly required>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_tel" readonly
+                            required>
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">อีเมลส่วนตัว </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_email" readonly required>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_email"
+                            readonly required>
                     </div>
                 </div>
 
@@ -273,35 +299,36 @@
                 <div class="row mb-4">
                     <div class="col ms-5">
                         <label for="" class="form-label text-gray">ประเภทพนักงาน </label>
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.intern_type" required readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.intern_type"
+                            required readonly>
                     </div>
 
                     <div class="col">
                         <label for="" class="form-label text-gray">เลขที่สัญญาจ้าง</label>
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_contact_num" required
-                            readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_contact_num"
+                            required readonly>
                     </div>
 
                     <div class="col">
                         <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน</label>
-                        <input placeholder="-" type="text" class="form-control-plaintext" :value="formatDate(intern.intn_start_date)" required
-                            readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            :value="formatDate(intern.intn_start_date)" required readonly>
                     </div>
 
                     <div class="col">
                         <label for="" class="form-label text-gray">
                             วันที่ทำงานวันสุดท้าย
                         </label>
-                        <input placeholder="-" type="text" class="form-control-plaintext" :value="formatDate(intern.intn_last_work_date)" required
-                            readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            :value="formatDate(intern.intn_last_work_date)" required readonly>
                     </div>
 
                     <div class="col">
                         <label for="" class="form-label text-gray">
                             วันที่สิ้นสุดสัญญาการฝึกงาน
                         </label>
-                        <input placeholder="-" type="text" class="form-control-plaintext" :value="formatDate(intern.intn_contract_end_date)" required
-                            readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            :value="formatDate(intern.intn_contract_end_date)" required readonly>
                     </div>
                 </div>
 
@@ -314,13 +341,14 @@
                         สถานภาพทางทหาร
                     </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="dummyData.military_status" readonly
-                            required>
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            v-model="dummyData.military_status" readonly required>
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">เหตุผล</label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_reason" readonly>
+                        <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_reason"
+                            readonly>
                     </div>
                 </div>
 
@@ -346,6 +374,11 @@ import { useRoute } from 'vue-router'
 import router from '@/router'
 import axios from 'axios'
 import LayoutMenu from './LayoutMenu.vue'
+import { useStatusData } from '../../stores/constData'
+import { useMilitaryStatus } from '../../stores/constData'
+import { useGenderData } from '../../stores/constData'
+import { useMartialStatus } from '../../stores/constData'
+import { useInternType } from '../../stores/constData'
 
 const intern = ref({})
 const route = useRoute()
@@ -368,52 +401,13 @@ const dummyData = ref({
     major: '',
 })
 
-const status = ref(
-    [
-        'กำลังทำงาน',
-        'พ้นสภาพ'
-    ]
-)
+const status = ref(useStatusData())
+const internType = ref(useInternType())
+const militaryStatus = ref(useMilitaryStatus())
+const genders = ref(useGenderData())
+const martialStatus = ref(useMartialStatus())
 
-const internType = ref(
-    [
-        'นักศึกษาฝึกงาน',
-        'พนักงานประจำ',
-        'พนักงานพาร์ทไทม์'
-    ]
-)
-
-const militaryStatus = ref(
-    [
-        'ยังไม่เกณฑ์ทหาร',
-        'กำลังประจำกองทหาร',
-        'ผ่านการเกณฑ์ทหารมาแล้ว',
-        'ได้รับการยกเว้นการเกณฑ์ทหาร'
-    ]
-)
-
-const genders = ref(
-    [
-        'ชาย',
-        'หญิง',
-        'ไม่ระบุ'
-    ]
-)
-
-const martialStatus = ref(
-    [
-        'โสด',
-        'มีแฟนแล้ว',
-        'หมั้น',
-        'สมรส',
-        'แยกกันอยู่',
-        'หย่าร้าง',
-        'หม้าย',
-        'ซับซ้อน'
-    ]
-)
-
-const getWorkRole = computed (() => {
+const getWorkRole = computed(() => {
     if (intern.value.work_infos) {
         return intern.value.work_infos[0]?.work_role.role_name
     }
@@ -443,10 +437,6 @@ const getInternById = async () => {
     dummyData.value.nickname_th = nickname[0]
     dummyData.value.nickname_en = nickname[1]
 
-    dummyData.value.university = intern.value.college_info.col_uni.uni_name
-    dummyData.value.faculty = intern.value.college_info.col_faculty.fac_name
-    dummyData.value.major = intern.value.college_info.col_major.maj_name
-    
     if (dummyData.value.name_en == "NaN undefined") dummyData.value.name_en = undefined
 }
 
@@ -559,5 +549,4 @@ hr {
 
 .rounded-active path {
     stroke: white !important;
-}
-</style>
+}</style>
