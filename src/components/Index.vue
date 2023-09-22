@@ -284,17 +284,12 @@ const filterData = computed(() => {
     z-index: 99;
 }
 
-table {
-    border-collapse: collapse;
-    overflow: hidden;
-}
-
 .border-left {
-    border-radius: 30px 0 0 30px;
+    border-radius: 8px 0 0 8px;
 }
 
 .border-right {
-    border-radius: 0 30px 30px 0;
+    border-radius: 0 8px 8px 0;
 }
 
 th {
@@ -310,12 +305,10 @@ tr {
     line-height: 40px;
     min-height: 30px;
     height: 30px;
-    border-collapse: collapse;
-    overflow: hidden;
 }
 
 .tb-hov:hover {
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .tb-hov:hover td {
