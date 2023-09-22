@@ -81,14 +81,15 @@
 </style> -->
 
 <template>
-    <div class="d-flex mb-3">
-        <div>
-            <label style="font-size: 20px;" for="">จัดการข้อมูลเอกสารรับรอง<font style="font-size: 20px; color: var(--main-color);"> >
-                    บริษัท</font></label>
+    <div class="d-flex mb-3" style="width: 100%;">
+        <div style="width: 80%;">
+            <label style="font-size: 20px" for="">จัดการข้อมูลเอกสารรับรอง
+                <font style="font-size: 20px; color: var(--main-color)"> > บริษัท</font>
+            </label>
         </div>
-        <div style="margin-left: 55%;">
+        <div style="width: 20%;">
             <!-- Button trigger modal -->
-            <button type="button" class="btn_add  btn outline-red btn-primary" data-bs-toggle="modal" data-bs-target="#add">
+            <button type="button" class="btn_add btn outline-red btn-primary" data-bs-toggle="modal" data-bs-target="#add">
                 เพิ่มข้อมูล
             </button>
         </div>
@@ -96,7 +97,7 @@
     <div>
         <div class="card card_sign outline-card stroke_edit">
             <div class="">
-                <button class="btn" style="margin-left: 80%; " data-bs-toggle="modal" data-bs-target="#edit">
+                <button class="btn" style="margin-left: 80%" data-bs-toggle="modal" data-bs-target="#edit">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 23 22" fill="none">
                         <path
                             d="M5.02942 5.70312H3.85294C3.2289 5.70313 2.63042 5.95102 2.18916 6.39229C1.7479 6.83355 1.5 7.43204 1.5 8.05608V18.6444C1.5 19.2684 1.7479 19.8669 2.18916 20.3082C2.63042 20.7494 3.2289 20.9973 3.85294 20.9973H14.4412C15.0652 20.9973 15.6637 20.7494 16.105 20.3082C16.5462 19.8669 16.7941 19.2684 16.7941 18.6444V17.4679" />
@@ -106,33 +107,33 @@
                 </button>
             </div>
             <div class="card-body">
-                <label class="card-title " style="font-size: 14px;" for="">ClickNext Co.,Ltd.</label>
-                <br><br>
-                <label class="card-text " style="font-size: 14px; font-weight: bold;" for="">กรุงเทพมหานคร ฯ</label>
-                <br><br>
-                <label class="card-content " style="font-size: 14px; text-align: left;" for="">พญาไท พลาซ่า 128/323-333 ชั้น 30 ถ. พญาไท แขวงทุ่งพญาไทย เขตราชเทวี
-            กรุงเทพมหานคร 10400</label>
+                <label class="card-title" style="font-size: 14px" for="">ClickNext Co.,Ltd.</label>
+                <br /><br />
+                <label class="card-text" style="font-size: 14px; font-weight: bold" for="">กรุงเทพมหานคร ฯ</label>
+                <br /><br />
+                <label class="card-content" style="font-size: 14px; text-align: left" for="">พญาไท พลาซ่า 128/323-333 ชั้น
+                    30 ถ. พญาไท แขวงทุ่งพญาไทย เขตราชเทวี
+                    กรุงเทพมหานคร 10400</label>
             </div>
         </div>
     </div>
 
-    <!-- Modal add sign-->
-    <div class="modal " id="add" tabindex="-1" aria-labelledby="add" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered ">
-            <div class="modal-content rounded-5 ">
-
+    <!-- Modal Add sign-->
+    <div class="modal" id="add" tabindex="-1" aria-labelledby="add" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-5">
                 <div class="modal-body">
-                    <div style="margin-top: 10%;">
+                    <div style="margin-top: 10%">
                         <label class="size_font_modal" for="">ชื่อบริษัท</label>
                     </div>
                     <div>
-                        <input class="size_input_modal" type="text" placeholder="ชื่อบริษัท">
+                        <input class="size_input_modal" type="text" placeholder="ชื่อบริษัท" />
                     </div>
                     <div>
                         <label class="size_font_modal" for="">สาขา</label>
                     </div>
                     <div>
-                        <input class="size_input_modal" type="text" placeholder="สาขา">
+                        <input class="size_input_modal" type="text" placeholder="สาขา" />
                     </div>
                     <div>
                         <label class="size_font_modal" for="">ที่อยู่</label>
@@ -140,63 +141,191 @@
                     <div>
                         <textarea class="size_font_modal" name="" id="" cols="30" rows="4" placeholder="ที่อยู่"></textarea>
                     </div>
-                    <div class="d-flex mb-2 " style="margin-left: 10%; margin-top: 20px;">
+                    <div class="d-flex mb-2" style="margin-left: 10%; margin-top: 20px">
                         <div class="">
-                            <button type="button" class="btn btn-secondary size_btn_modal"
-                                data-bs-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-secondary size_btn_modal" data-bs-dismiss="modal">
+                                ยกเลิก
+                            </button>
                         </div>
-                        <div class="" style="margin-left: 18%;">
-                            <button type="button" class="btn btn-primary size_btn_modal_save">บันทึก</button>
+                        <div class="" style="margin-left: 18%">
+                            <button type="button" class="btn btn-primary size_btn_modal_save" data-bs-toggle="modal"
+                                data-bs-target="#add-confirm">
+                                บันทึก
+                            </button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal edit sign-->
-    <div class="modal " id="edit" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered ">
-            <div class="modal-content rounded-5 ">
-
+    <!-- Modal Add-Confirm-add sign-->
+    <div class="modal" id="add-confirm" tabindex="-1" aria-labelledby="add-confirm" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-5">
                 <div class="modal-body">
-                    <div style="margin-top: 10%;">
+                    <div style="width: 100%; text-align: center; padding-top: 30%; padding-bottom: 30%;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-exclamation-triangle-fill mb-3" viewBox="0 0 16 16"
+                            style="color: rgb(243, 207, 0); width: 50px; height: 50px;">
+                            <path
+                                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                        </svg>
+                        <div class="mb-3" style="width: 100%;">
+                            <h3>คุณต้องการบันทึกข้อมูลหรือไม่</h3>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-secondary size_btn_modal" data-bs-dismiss="modal">
+                                ยกเลิก
+                            </button>
+
+                            <button id="SUCCESS" @click="out()" type="button" class="btn btn-primary size_btn_modal_save"
+                                data-bs-toggle="modal" data-bs-target="#add-success">
+                                ยืนยัน
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Add-Success sign-->
+    <div class="modal" id="add-success" tabindex="-1" aria-labelledby="add-success" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-5">
+                <div class="modal-body">
+                    <div style="width: 100%; text-align: center; padding-top: 30%; padding-bottom: 30%;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-check-circle-fill" viewBox="0 0 16 16"
+                            style="color: rgb(0, 160, 0); width: 100px; height: 100px;">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                        </svg>
+
+                        <div>
+                            <br>
+                            <h3>บันทึกข้อมูลเสร็จสิ้น</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit sign-->
+    <div class="modal" id="edit" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-5">
+                <div class="modal-body">
+                    <div style="margin-top: 10%">
                         <label class="size_font_modal" for="">ชื่อบริษัท</label>
                     </div>
                     <div>
-                        <input class="size_input_modal" type="text" placeholder="ClickNext Co.,Ltd.">
+                        <input class="size_input_modal" type="text" placeholder="ClickNext Co.,Ltd." />
                     </div>
                     <div>
                         <label class="size_font_modal" for="">สาขา</label>
                     </div>
                     <div>
-                        <input class="size_input_modal" type="text" placeholder="กรุงเทพมหานคร ฯ">
+                        <input class="size_input_modal" type="text" placeholder="กรุงเทพมหานคร ฯ" />
                     </div>
                     <div>
                         <label class="size_font_modal" for="">ที่อยู่</label>
                     </div>
                     <div>
-                        <textarea class="size_font_modal" name="" id="" cols="30" rows="4" placeholder="เลขที่ 22/14-15 ถนนบางแสน สาย4 เหนือ ตำบลแสนสุข อำเภอเมืองชลบุรี จังหวัดชลบุรี 20130"></textarea>
+                        <textarea class="size_font_modal" name="" id="" cols="30" rows="4"
+                            placeholder="เลขที่ 22/14-15 ถนนบางแสน สาย4 เหนือ ตำบลแสนสุข อำเภอเมืองชลบุรี จังหวัดชลบุรี 20130"></textarea>
                     </div>
-                    <div class="d-flex mb-2 " style="margin-left: 10%; margin-top: 20px;">
+                    <div class="d-flex mb-2" style="margin-left: 10%; margin-top: 20px">
                         <div class="">
-                            <button type="button" class="btn btn-secondary size_btn_modal"
-                                data-bs-dismiss="modal">ยกเลิก</button>
+                            <button type="button" class="btn btn-secondary size_btn_modal" data-bs-dismiss="modal">
+                                ยกเลิก
+                            </button>
                         </div>
-                        <div class="" style="margin-left: 18%;">
-                            <button type="button" class="btn size_btn_modal_save">บันทึก</button>
+                        <div class="" style="margin-left: 18%">
+                            <button type="button" class="btn size_btn_modal_save" data-bs-toggle="modal"
+                                data-bs-target="#edit-confirm">
+                                บันทึก
+                            </button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Modal Edit-Confirm-add sign-->
+    <div class="modal" id="edit-confirm" tabindex="-1" aria-labelledby="edit-confirm" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-5">
+                <div class="modal-body">
+                    <div style="width: 100%; text-align: center; padding-top: 30%; padding-bottom: 30%;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-exclamation-triangle-fill mb-3" viewBox="0 0 16 16"
+                            style="color: rgb(243, 207, 0); width: 50px; height: 50px;">
+                            <path
+                                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                        </svg>
+                        <div class="mb-3" style="width: 100%;">
+                            <h3>คุณต้องการบันทึกข้อมูลหรือไม่</h3>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-secondary size_btn_modal" data-bs-dismiss="modal">
+                                ยกเลิก
+                            </button>
+
+                            <button type="button" class="btn btn-primary size_btn_modal_save" data-bs-toggle="modal"
+                                data-bs-target="#edit-success">
+                                ยืนยัน
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit-Success sign-->
+    <div class="modal" id="edit-success" tabindex="-1" aria-labelledby="edit-success" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-5">
+                <div class="modal-body">
+                    <div style="width: 100%; text-align: center; padding-top: 30%; padding-bottom: 30%;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-check-circle-fill" viewBox="0 0 16 16"
+                            style="color: rgb(0, 160, 0); width: 100px; height: 100px;">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                        </svg>
+
+                        <div>
+                            <br>
+                            <h3>บันทึกข้อมูลเสร็จสิ้น</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<script setup>
+<script>
+export default {
+    mathods: {
+        out() {
+            const showModalButton = document.getElementById('SUCCESS');
+            const modal = document.getElementById('add-success');
 
+            showModalButton.addEventListener('click', () => {
+                // ตั้งเวลาปิดโมเดลหลังจาก 3 วินาที
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 3000);
+            });
+        }
+    }
+}
 </script>
 
 <style scoped>
@@ -217,7 +346,6 @@
     border-radius: 20px;
     text-align: center;
 }
-
 
 .size_font_modal {
     font-size: 16px;
@@ -241,11 +369,12 @@
     background-color: white;
 }
 
-.size_btn_modal_save{
+.size_btn_modal_save {
     border: 1px solid black;
     border-radius: 20px;
     width: 150px;
     color: var(--main-color);
+    border: 1px solid var(--main-color);
     background-color: white;
 }
 
@@ -254,6 +383,7 @@
     border-radius: 20px;
     width: 150px;
     color: white;
+    border: 1px solid var(--main-color);
     background-color: var(--main-color);
 }
 

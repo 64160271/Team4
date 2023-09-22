@@ -1,10 +1,11 @@
 <template>
-    <div class="d-flex mb-3">
-        <div>
-            <label style="font-size: 20px;" for="">จัดการข้อมูลเอกสารรับรอง<font color="#e1032b" style="font-size: 20px;"> >
-                    ลายเซ็น</font></label>
+    <div class="d-flex mb-3" style="width: 100%;">
+        <div style="width: 80%">
+            <label style="font-size: 20px;" for="">จัดการข้อมูลเอกสารรับรอง
+                <font style="font-size: 20px; color: var(--main-color);"> > ลายเซ็น</font>
+            </label>
         </div>
-        <div style="margin-left: 55%;">
+        <div style="width: 20%;">
             <!-- Button trigger modal -->
             <button type="button" class="btn_add  btn outline-red btn-primary" data-bs-toggle="modal" data-bs-target="#add">
                 เพิ่มข้อมูล
