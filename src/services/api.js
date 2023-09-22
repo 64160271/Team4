@@ -37,17 +37,17 @@ export default class apiService {
             })
     }
 
+    getInternById = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/interns/${id}`)
+            .then((response) => {
+                return response.data
+            })
+        }
+
     createIntern = async (data) => {
-        await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, data)
-            .then((response) => console.log(response)).then(() => {
-                Swal.fire({
-                    icon: 'success',
-                    text: 'บันทึกข้อมูลเสร็จสิ้น',
-                    showConfirmButton: false,
-                    timer: 3000
-                }).then(() => {
-                    
-                })
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/interns/key`, data)
+            .then((response) => {
+                return response
             })
     }
 

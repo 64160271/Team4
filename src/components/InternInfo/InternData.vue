@@ -379,11 +379,14 @@ import { useMilitaryStatus } from '../../stores/constData'
 import { useGenderData } from '../../stores/constData'
 import { useMartialStatus } from '../../stores/constData'
 import { useInternType } from '../../stores/constData'
+import apiService from '../../services/api'
+import { formatDate } from '../../assets/js/func'
 
 const intern = ref({})
 const route = useRoute()
 const id = route.params.id
 const isEdit = ref(false)
+const apiCall = new apiService()
 
 const dummyData = ref({
     name_th: '',
@@ -475,20 +478,6 @@ function editData() {
 
 }
 
-function formatDate(strDate) {
-    if (!strDate) {
-        return
-    }
-
-    strDate = new Date(strDate)
-
-    const day = strDate.getDate()
-    const month = strDate.getMonth() + 1
-    const year = strDate.getFullYear()
-
-    return day + "/" + month + "/" + year
-}
-
 function getImage(img) {
     if (img != null || img != '') {
         return `../src/assets/images/interns/${img}`
@@ -508,6 +497,7 @@ function getAge() {
 
 onMounted(() =>
     getInternById(),
+    intern.value = await apiCall.getInternById(id),
 )
 
 </script>

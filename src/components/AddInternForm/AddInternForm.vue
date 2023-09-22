@@ -6,7 +6,7 @@
 -->
 
 <template>
-  <form @submit="createInterns">
+  <form enctype="multipart/form-data" @submit.prevent="submitForm()" id="form">
     <div class="row mb-3">
       <span class="h5 my-auto front">เพิ่มแบบฟอร์ม</span>
 
@@ -19,7 +19,7 @@
 
         <div class="row mt-3">
           <div class="col">
-            <button class="col-auto btn btn-sm outline-red position-relative px-4" id="picture">
+            <button type="button" class="col-auto btn btn-sm outline-red position-relative px-4" id="picture">
               <input @change="showImg" type="file" id="img-upload" accept="image/*" />
 
               <svg class="me-1" width="28" height="28" viewBox="0 0 42 42" fill="none"
@@ -43,7 +43,8 @@
         <div class="row mb-2 grid">
           <label for="" class="col-2 col-form-label text-gray">รหัสพนักงาน <span class="text-danger">*</span></label>
           <div class="col me-5">
-            <input id="id" placeholder="660000" v-model="formData.id" type="number" class="form-control mb-2" required />
+            <input id="id" placeholder="660000" v-model="formData.id" type="number" class="form-control mb-2"
+              required />
           </div>
 
           <label for="" class="col-2 col-form-label text-gray">สถานะพนักงาน <span class="text-danger">*</span></label>
@@ -61,7 +62,8 @@
           <label for="" class="col-2 col-form-label text-gray">อีเมลพนักงาน <span class="text-danger">*</span></label>
           <div class="col me-5">
             <div class="input-group">
-              <input id="internemail" type="text" class="form-control" placeholder="660000" required />
+              <input v-model="formData.intern_email" id="internemail" type="text" class="form-control"
+                placeholder="660000" required />
               <span class="input-group-text">@clicknext.com</span>
             </div>
           </div>
@@ -88,7 +90,8 @@
           <div class="col">
             <select id="mentor" class="form-select mb-2" v-model="formData.mentor">
               <option disabled selected value=""> เลือก (ต้องเลือกฝ่ายก่อน) </option>
-              <option v-for="mentor in mentors" :value="mentor">{{ mentor.ment_fname + ' ' + mentor.ment_lname }}</option>
+              <option v-for="mentor in mentors" :value="mentor">{{ mentor.ment_fname + ' ' + mentor.ment_lname }}
+              </option>
             </select>
           </div>
         </div>
@@ -111,19 +114,20 @@
 
         <div class="col">
           <label for="" class="form-label text-gray">ชื่อจริง (ไทย) <span class="text-danger">*</span></label>
-          <input id="fname_th" v-model="formData.fname[0]" type="text" placeholder="สมศรี" name="fname" class="form-control mb-2"
-            required />
+          <input id="fname_th" v-model="formData.fname[0]" type="text" placeholder="สมศรี" name="fname"
+            class="form-control mb-2" required />
         </div>
 
         <div class="col">
           <label for="" class="form-label text-gray">นามสกุล (ไทย) <span class="text-danger">*</span></label>
-          <input id="lname_th" v-model="formData.lname[0]" placeholder="ลามากุล" type="text" name="lname" class="form-control mb-2"
-            required />
+          <input id="lname_th" v-model="formData.lname[0]" placeholder="ลามากุล" type="text" name="lname"
+            class="form-control mb-2" required />
         </div>
 
         <div class="col-2">
           <label for="" class="form-label text-gray">ชื่อเล่น (ไทย)</label>
-          <input id="nickname_th" v-model="formData.nickname[0]" placeholder="นวล" type="text" class="form-control mb-2" required />
+          <input id="nickname_th" v-model="formData.nickname[0]" placeholder="นวล" type="text" class="form-control mb-2"
+            required />
         </div>
       </div>
 
@@ -136,17 +140,20 @@
 
         <div class="col">
           <label for="" class="form-label text-gray">ชื่อจริง (อังกฤษ) <span class="text-danger">*</span></label>
-          <input id="fname_en" placeholder="Somsri" v-model="formData.fname[1]" type="text" class="form-control" required />
+          <input id="fname_en" placeholder="Somsri" v-model="formData.fname[1]" type="text" class="form-control"
+            required />
         </div>
 
         <div class="col">
           <label for="" class="form-label text-gray">นามสกุล (อังกฤษ) <span class="text-danger">*</span></label>
-          <input id="lname_en" placeholder="Lamakul" v-model="formData.lname[1]" type="text" class="form-control" required />
+          <input id="lname_en" placeholder="Lamakul" v-model="formData.lname[1]" type="text" class="form-control"
+            required />
         </div>
 
         <div class="col-2">
           <label for="" class="form-label text-gray">ชื่อเล่น (อังกฤษ)</label>
-          <input id="nickname_en" v-model="formData.nickname[1]" placeholder="Nual" type="text" class="form-control" required />
+          <input id="nickname_en" v-model="formData.nickname[1]" placeholder="Nual" type="text" class="form-control"
+            required />
         </div>
       </div>
 
@@ -154,7 +161,8 @@
         <label for="" class="col-2 col-form-label ms-5 text-gray">เลขบัตรประชาชน/พาสปอร์ต <span
             class="text-danger">*</span></label>
         <div class="col me-5">
-          <input id="citizenid" v-model="formData.citizen_id" maxlength="13" type="text" class="form-control mb-2" required />
+          <input id="citizenid" v-model="formData.citizen_id" maxlength="13" type="text" class="form-control mb-2"
+            required />
         </div>
 
         <div class="col">
@@ -210,19 +218,22 @@
       <div class="row mb-2">
         <label for="" class="col-2 col-form-label ms-5 text-gray">สัญชาติ <span class="text-danger">*</span></label>
         <div class="col me-5">
-          <input id="nationality" placeholder="ไทย" v-model="formData.nationality" type="text" class="form-control mb-2" required />
+          <input id="nationality" placeholder="ไทย" v-model="formData.nationality" type="text" class="form-control mb-2"
+            required />
         </div>
 
         <label for="" class="col-2 col-form-label text-gray">เชื้อชาติ <span class="text-danger">*</span></label>
         <div class="col">
-          <input id="nation" placeholder="ไทย" v-model="formData.nation" type="text" class="form-control mb-2" required />
+          <input id="nation" placeholder="ไทย" v-model="formData.nation" type="text" class="form-control mb-2"
+            required />
         </div>
       </div>
 
       <div class="row mb-4">
         <label for="" class="col-2 col-form-label ms-5 text-gray">ศาสนา <span class="text-danger">*</span></label>
         <div class="col me-5">
-          <input id="religion" placeholder="พุทธ" v-model="formData.religion" type="text" class="form-control mb-2" required />
+          <input id="religion" placeholder="พุทธ" v-model="formData.religion" type="text" class="form-control mb-2"
+            required />
         </div>
 
         <label for="" class="col-2 col-form-label text-gray">สถานภาพสมรส</label>
@@ -367,7 +378,8 @@
         <label for="" class="col-2 col-form-label ms-5 text-gray">เบอร์โทรศัพท์ <span
             class="text-danger">*</span></label>
         <div class="col me-5">
-          <input id="tel" placeholder="xxx-xxx-xxxx" v-model="formData.tel" maxlength="10" type="text" class="form-control mb-2" required />
+          <input id="tel" placeholder="xxx-xxx-xxxx" v-model="formData.tel" maxlength="10" type="text"
+            class="form-control mb-2" required />
         </div>
 
         <label for="" class="col-2 col-form-label text-gray">อีเมลส่วนตัว <span class="text-danger">*</span></label>
@@ -415,8 +427,7 @@
     <hr />
 
     <div class="row mb-4">
-      <button type="button" class="col-2 btn outline-gray"
-        @click="$router.push({ name: 'index' })">
+      <button type="button" class="col-2 btn outline-gray" @click="$router.push({ name: 'index' })">
         ย้อนกลับ
       </button>
       <button type="button" class="col-2 align-self-end btn outline-red ms-auto" @click="confirmation">
@@ -440,8 +451,9 @@
     useBloodType,
   } from "../../stores/constData";
   import { useInternFormData } from "../../stores/addInternFormData";
-  import { getAge } from "../../assets/js/func";
+  import { getAge, isRequire } from "../../assets/js/func";
   import apiService from "../../services/api";
+  import router from '@/router';
 
   const selectedBirthDate = ref();
   const mergedData = ref({});
@@ -461,25 +473,40 @@
   const martialStatusList = ref(useMartialStatus());
   const bloodTypeList = ref(useBloodType());
 
-  function confirmation() {
-    console.log(formData.value);
-    Swal.fire({
-      text: "คุณต้องการบันทึกข้อมูลหรือไม่",
-      icon: "warning",
-      showCancelButton: true,
-      showConfirmButton: true,
-      confirmButtonText: "ยืนยัน",
-      cancelButtonText: "ยกเลิก",
-      confirmButtonColor: "var(--main-color)",
-      reverseButtons: true,
-      focusConfirm: false,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        apiCall.createInterns(formData.value);
-      }
-    });
+  async function submitForm() {
+
+    await apiCall.createIntern(formData.value)
+      .then((result) => {
+        Swal.fire({
+          icon: 'success',
+          text: 'บันทึกข้อมูลเสร็จสิ้น',
+          showConfirmButton: false,
+          timer: 3000
+        }).then(() => {
+          router.push({ name: 'index' })
+        })
+      })
   }
 
+  async function confirmation() {
+    if (isRequire()) {
+      Swal.fire({
+        text: "คุณต้องการบันทึกข้อมูลหรือไม่",
+        icon: "warning",
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonText: "ยืนยัน",
+        cancelButtonText: "ยกเลิก",
+        confirmButtonColor: "var(--main-color)",
+        reverseButtons: true,
+        focusConfirm: false,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          submitForm()
+        }
+      });
+    }
+  }
 
   function setEngPrefix() {
     $("#enprefix").val($("#thprefix").val().split(",")[1]);
@@ -516,7 +543,11 @@
   onMounted(async () => {
     universities.value = await apiCall.getAllUniversity();
     sections.value = await apiCall.getSectionWithMentor();
-    roles.value = await apiCall.getAllRole()
+    roles.value = await apiCall.getAllRole();
+    setEngPrefix();
+    setMentor();
+    setFaculty();
+    setMajor();
   });
 </script>
 
