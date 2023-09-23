@@ -89,7 +89,7 @@
         </div>
         <div style="width: 20%;">
             <!-- Button trigger modal -->
-            <button type="button" class="btn_add btn outline-red btn-primary" data-bs-toggle="modal" data-bs-target="#add">
+            <button type="button" class="btn_add btn outline-red" data-bs-toggle="modal" data-bs-target="#add">
                 เพิ่มข้อมูล
             </button>
         </div>
@@ -122,8 +122,8 @@
     <div class="modal" id="add" tabindex="-1" aria-labelledby="add" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-5">
-                <div class="modal-body">
-                    <div style="margin-top: 10%">
+                <div class="modal-body" style="margin: 2rem 0rem 2rem 0rem;">
+                    <div>
                         <label class="size_font_modal" for="">ชื่อบริษัท</label>
                     </div>
                     <div>
@@ -318,10 +318,9 @@ export default {
             const modal = document.getElementById('add-success');
 
             showModalButton.addEventListener('click', () => {
-                // ตั้งเวลาปิดโมเดลหลังจาก 3 วินาที
                 setTimeout(() => {
                     modal.style.display = 'none';
-                }, 3000);
+                }, 1);
             });
         }
     }
@@ -332,7 +331,7 @@ export default {
 .btn_add {
     background-color: white;
     border: 1px solid red;
-    border-radius: 20px;
+    border-radius: 5px;
     color: red;
     width: 150px;
     height: 35px;
