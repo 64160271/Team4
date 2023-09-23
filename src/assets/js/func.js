@@ -7,10 +7,20 @@ export function getAge(birthdate) {
     return age
 }
 
+export function getAgeBuddisht(birthdate) {
+    birthdate = new Date(birthdate)
+    const today = new Date();
+    const age = today.getFullYear() - birthdate.getFullYear() + 543 -
+        (today.getMonth() < birthdate.getMonth() ||
+            (today.getMonth() === birthdate.getMonth() && today.getDate() < birthdate.getDate()));
+    return age
+}
+
 export function isRequire() {
     let form = $("#form")[0]
 
-    if (form.reportValidity()) {
+    if (form.reportValidity() && 
+        !($('select').filter(['required']).find('option:selected').attr('disabled'))) {
         return true
     }
 

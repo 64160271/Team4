@@ -41,13 +41,13 @@
         <span class="row h5 mb-3">ข้อมูลส่วนตัวเกี่ยวกับบริษัท</span>
 
         <div class="row mb-2 grid">
-          <label for="" class="col-2 col-form-label text-gray">รหัสพนักงาน <span class="text-danger">*</span></label>
+          <label for="" class="col-md-2 col-form-label text-gray">รหัสพนักงาน <span class="text-danger">*</span></label>
           <div class="col me-5">
             <input id="id" placeholder="660000" v-model="formData.id" type="number" class="form-control mb-2"
               required />
           </div>
 
-          <label for="" class="col-2 col-form-label text-gray">สถานะพนักงาน <span class="text-danger">*</span></label>
+          <label for="" class="col-md-2 col-form-label text-gray">สถานะพนักงาน <span class="text-danger">*</span></label>
           <div class="col">
             <select id="status" v-model="formData.status" class="form-select mb-2" required>
               <option disabled selected value=""> เลือก </option>
@@ -59,7 +59,7 @@
         </div>
 
         <div class="row mb-2">
-          <label for="" class="col-2 col-form-label text-gray">อีเมลพนักงาน <span class="text-danger">*</span></label>
+          <label for="" class="col-md-2 col-form-label text-gray">อีเมลพนักงาน <span class="text-danger">*</span></label>
           <div class="col me-5">
             <div class="input-group">
               <input v-model="formData.intern_email" id="internemail" type="text" class="form-control"
@@ -68,9 +68,9 @@
             </div>
           </div>
 
-          <label for="" class="col-2 col-form-label text-gray">ตำแหน่งงาน <span class="text-danger">*</span></label>
+          <label for="" class="col-md-2 col-form-label text-gray">ตำแหน่งงาน <span class="text-danger">*</span></label>
           <div class="col">
-            <select id="role" class="form-select mb-2" v-model="formData.role">
+            <select id="role" class="form-select mb-2" v-model="formData.role" required>
               <option disabled selected value=""> เลือก </option>
               <option v-for="role in roles" :value="role">{{ role.role_name }}</option>
             </select>
@@ -78,17 +78,17 @@
         </div>
 
         <div class="row mb-2">
-          <label for="" class="col-2 col-form-label text-gray">ฝ่าย <span class="text-danger">*</span></label>
+          <label for="" class="col-md-2 col-form-label text-gray">ฝ่าย <span class="text-danger">*</span></label>
           <div class="col me-5">
-            <select @change="setMentor" id="section" class="form-select mb-2" v-model="formData.section">
+            <select @change="setMentor" id="section" class="form-select mb-2" v-model="formData.section" required>
               <option disabled selected value=""> เลือก </option>
               <option v-for="section in sections" :value="section">{{ section.sec_name }}</option>
             </select>
           </div>
 
-          <label for="" class="col-2 col-form-label text-gray">พี่เลี้ยง <span class="text-danger">*</span></label>
+          <label for="" class="col-md-2 col-form-label text-gray">พี่เลี้ยง <span class="text-danger">*</span></label>
           <div class="col">
-            <select id="mentor" class="form-select mb-2" v-model="formData.mentor">
+            <select id="mentor" class="form-select mb-2" v-model="formData.mentor" required>
               <option disabled selected value=""> เลือก (ต้องเลือกฝ่ายก่อน) </option>
               <option v-for="mentor in mentors" :value="mentor">{{ mentor.ment_fname + ' ' + mentor.ment_lname }}
               </option>
@@ -104,7 +104,7 @@
       <div class="row mb-2">
         <div class="col-2 ms-5">
           <label for="" class="form-label text-gray">คำนำหน้าชื่อ (ไทย) <span class="text-danger">*</span></label>
-          <select id="thprefix" class="form-select mb-2" v-model="formData.prefix" @change="setEngPrefix()" required>
+          <select id="thprefix" class="form-select mb-2" v-model="formData.prefix" required>
             <option disabled selected :value="['', '']"> เลือก </option>
             <option v-for="(prefix, index) in prefixList.list" :value="prefix">
               {{ prefix[0] }}
@@ -126,8 +126,7 @@
 
         <div class="col-2">
           <label for="" class="form-label text-gray">ชื่อเล่น (ไทย)</label>
-          <input id="nickname_th" v-model="formData.nickname[0]" placeholder="นวล" type="text" class="form-control mb-2"
-            required />
+          <input id="nickname_th" v-model="formData.nickname[0]" placeholder="นวล" type="text" class="form-control mb-2" />
         </div>
       </div>
 
@@ -135,7 +134,7 @@
         <div class="col-2 ms-5">
           <label for="" class="form-label text-gray">คำนำหน้าชื่อ (อังกฤษ) <span class="text-danger">*</span>
           </label>
-          <input type="text" class="form-control" id="enprefix" readonly required />
+          <input :value="formData.prefix[1]" type="text" class="form-control" id="enprefix" readonly required />
         </div>
 
         <div class="col">
@@ -152,8 +151,7 @@
 
         <div class="col-2">
           <label for="" class="form-label text-gray">ชื่อเล่น (อังกฤษ)</label>
-          <input id="nickname_en" v-model="formData.nickname[1]" placeholder="Nual" type="text" class="form-control"
-            required />
+          <input id="nickname_en" v-model="formData.nickname[1]" placeholder="Nual" type="text" class="form-control" />
         </div>
       </div>
 
@@ -455,8 +453,6 @@
   import apiService from "../../services/api";
   import router from '@/router';
 
-  const selectedBirthDate = ref();
-  const mergedData = ref({});
   const formData = ref(useInternFormData());
   const apiCall = new apiService();
   const roles = ref({})
@@ -474,7 +470,6 @@
   const bloodTypeList = ref(useBloodType());
 
   async function submitForm() {
-
     await apiCall.createIntern(formData.value)
       .then((result) => {
         Swal.fire({
@@ -506,10 +501,6 @@
         }
       });
     }
-  }
-
-  function setEngPrefix() {
-    $("#enprefix").val($("#thprefix").val().split(",")[1]);
   }
 
   function setFaculty() {
@@ -544,7 +535,6 @@
     universities.value = await apiCall.getAllUniversity();
     sections.value = await apiCall.getSectionWithMentor();
     roles.value = await apiCall.getAllRole();
-    setEngPrefix();
     setMentor();
     setFaculty();
     setMajor();
@@ -567,17 +557,6 @@
     width: 150px;
     border-radius: 50%;
     border: 1px solid var(--main-color);
-  }
-
-  #img-upload {
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
   }
 
   .text-gray {

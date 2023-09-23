@@ -54,3 +54,46 @@
 .outline-red:hover .x-red {
     fill: var(--main-color) !important;
 }
+
+.img {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    border: 1px solid var(--main-color);
+}
+
+.rounded-custom {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+}
+
+.rounded-custom:hover path {
+    stroke: var(--main-color) !important;
+}
+
+.rounded-active {
+    background-color: var(--main-color) !important;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+}
+
+.rounded-active path {
+    stroke: white !important;
+}
+
+.bg-grays-200 {
+    background-color: #8d969b30 !important;
+}
+
+#img-upload {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
