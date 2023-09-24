@@ -11,7 +11,7 @@
 
     <ul class="nav nav-pills flex-column">
       <li class="nav-item py-2">
-        <router-link to="/" class="nav-link text-dark hov-red act-red"
+        <router-link to="/" @click="changeActiveMenu($event)" class="nav-link text-dark hov-red active"
         active-class="active">
           <svg class="bi me-3" width="25" height="25" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -23,7 +23,7 @@
       </li>
 
       <li class="nav-item py-2">
-        <router-link to="/certificates"  class="nav-link text-dark hov-red"
+        <router-link to="/certificates" @click="changeActiveMenu($event)" class="nav-link text-dark hov-red"
         active-class="active">
           <svg class="bi me-3" width="25" height="25" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -36,7 +36,7 @@
       </li>
 
       <li class="nav-item py-2">
-        <router-link to="/reports" class="nav-link text-dark hov-red"
+        <router-link to="/reports" @click="changeActiveMenu($event)" class="nav-link text-dark hov-red"
         active-class="active">
           <svg class="bi me-3" width="25" height="25" viewBox="0 0 36 35" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -49,7 +49,7 @@
       </li>
 
       <li class="nav-item py-2">
-        <router-link to="/universities" class="nav-link text-dark hov-red"
+        <router-link to="/universities" @click="changeActiveMenu($event)" class="nav-link text-dark hov-red"
         active-class="active">
           <svg class="bi me-3" width="25" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M25.5 13.8612H19.6941V12.939H24.2795L22.2953 7.89845H17.3086V6.97656H22.7902L25.5 13.8612Z"
@@ -98,8 +98,7 @@
 
       <li class="py-2">
         <a @click="showDropdown = !showDropdown" 
-          class="btn nav-link text-dark text-start dropdown-toggle hov-red" type="button"
-          active-class="active">
+          class="btn nav-link text-dark text-start dropdown-toggle hov-red" type="button">
           <svg class="bi me-3" width="25" height="25" viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M29.4464 19.3863H29.0239C2 8.7189 19.3863 28.4689 19.1362 28.4689 18.8325C28.4689 18.6775 28.5352 18.5375 28.6352 18.4375L28.9302 18.1437C29.1464 17.9275 29.1464 17.5712 28.9302 17.3562L28.1464 16.5712C27.9302 16.355 27.5739 16.355 27.3589 16.5712L27.0739 16.855C26.9739 16.9675 26.8289 17.0325 26.6689 17.0325C26.3639 17.0325 26.1139 16.7825 26.1139 16.4775V16.055C26.1139 15.75 25.8639 15.5 25.5589 15.5H24.4464C24.1427 15.5 23.8927 15.75 23.8927 16.055V16.4775C23.8927 16.7825 23.6427 17.0325 23.3377 17.0325C23.1752 17.0325 23.0314 16.9662 22.9314 16.855L22.6477 16.5712C22.4314 16.355 22.0752 16.355 21.8602 16.5712L21.0752 17.355C20.8589 17.5712 20.8589 17.9275 21.0752 18.1425C21.1802 18.2487 21.2977 18.3487 21.3977 18.46C21.4977 18.5762 21.5352 18.6762 21.5352 18.8325C21.5352 19.1375 21.2852 19.3875 20.9814 19.3875H20.5589C20.2539 19.3875 20.0039 19.6375 20.0039 19.9425V21.055C20.0039 21.3587 20.2539 21.6088 20.5589 21.6088H20.9814C21.2864 21.6088 21.5364 21.8588 21.5364 22.1638C21.5364 22.32 21.4964 22.42 21.3964 22.5387C21.2964 22.6487 21.1802 22.7488 21.0739 22.8538C20.8577 23.07 20.8577 23.4262 21.0739 23.6412L21.8577 24.4262C22.0739 24.6425 22.4302 24.6425 22.6452 24.4262L22.9302 24.1425C23.0302 24.03 23.1752 23.965 23.3352 23.965C23.6389 23.965 23.8889 24.215 23.8889 24.5212V24.9437C23.8889 25.2487 24.1389 25.4987 24.4439 25.4987H25.5564C25.8602 25.4987 26.1102 25.2487 26.1102 24.9437V24.5212C26.1102 24.2163 26.3602 23.9662 26.6652 23.9662C26.8277 23.9662 26.9702 24.0337 27.0702 24.145L27.3539 24.4287C27.5702 24.645 27.9264 24.645 28.1414 24.4287L28.9264 23.645C29.1427 23.4287 29.1427 23.0725 28.9264 22.8575L28.6314 22.5612C28.5314 22.4612 28.4652 22.3237 28.4652 22.1662C28.4652 21.8612 28.7152 21.6112 29.0202 21.6112H29.4427C29.7477 21.6112 29.9977 21.3612 29.9977 21.0562V19.9437C29.9977 19.6437 29.7477 19.3937 29.4427 19.3937L29.4464 19.3863ZM25.0014 22.1662C24.0789 22.1662 23.3352 21.4212 23.3352 20.5C23.3352 19.5775 24.0802 18.8337 25.0014 18.8337C25.9227 18.8337 26.6677 19.5787 26.6677 20.5C26.6677 21.4225 25.9239 22.1662 25.0014 22.1662Z"
@@ -115,8 +114,18 @@
         <Transition>
           <div v-if="showDropdown">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-5">
-              <li><router-link to="/signatures" class="nav-link text-dark hov-red" active-class="active">ลายเซ็น</router-link></li>
-              <li><router-link to="/companies" class="nav-link text-dark hov-red" active-class="active">บริษัท</router-link></li>
+              <li>
+                <router-link to="/signatures" class="nav-link text-dark hov-red" active-class="active"
+                @click="changeActiveMenu($event)">
+                  ลายเซ็น
+                </router-link>
+              </li>
+              <li>
+                <router-link to="/companies" class="nav-link text-dark hov-red" active-class="active"
+                @click="changeActiveMenu($event)">
+                  บริษัท
+                </router-link>
+              </li>
             </ul>
           </div>
         </Transition>
@@ -145,6 +154,13 @@ import { ref, onMounted } from 'vue'
 
 const showDropdown = ref(false)
 
+function changeActiveMenu(event) {
+  const active = document.querySelector(".active")
+  const element = event.target
+  element.classList.add("active")
+  active.classList.remove("active")
+}
+
 </script>
 
 <style scoped>
@@ -158,7 +174,7 @@ const showDropdown = ref(false)
 }
 
 .active {
-  background-color: var(--main-color) !important ;
+  background-color: var(--main-color) !important;
   color: white !important;
 }
 
@@ -168,7 +184,7 @@ const showDropdown = ref(false)
 
 .hov-red:hover {
   color: white !important;
-  background-color: var(--main-color) !important;
+  background-color: var(--main-color);
 }
 
 .hov-red:hover svg path {
