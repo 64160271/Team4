@@ -9,7 +9,7 @@
     <div class="row mb-3">
         <span class="h5 my-auto front">ข้อมูลนักศึกษาฝึกงาน > {{ intern.intn_name_th }}</span>
 
-        <LayoutMenu class="mb-3" />
+        <LayoutMenu class="mb-3" :name="intern.intn_name_th" />
 
         <div class="row position-relative">
             <a class="btn btn-sm rounded-circle col-auto top-0 end-0 position-absolute" id="editButton"

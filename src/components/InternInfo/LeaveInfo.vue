@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex flex-column mb-3">
-        <span class="h5 my-auto front">ข้อมูลนักศึกษาฝึกงาน > </span>
+        <span class="h5 my-auto front">ข้อมูลนักศึกษาฝึกงาน > {{ $route.params.id }} </span>
 
         <LayoutMenu />
 
