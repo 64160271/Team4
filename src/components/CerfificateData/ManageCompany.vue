@@ -107,13 +107,16 @@
                 </button>
             </div>
             <div class="card-body">
-                <label class="card-title" style="font-size: 14px" for="">ClickNext Co.,Ltd.</label>
-                <br /><br />
-                <label class="card-text" style="font-size: 14px; font-weight: bold" for="">กรุงเทพมหานคร ฯ</label>
-                <br /><br />
-                <label class="card-content" style="font-size: 14px; text-align: left" for="">พญาไท พลาซ่า 128/323-333 ชั้น
-                    30 ถ. พญาไท แขวงทุ่งพญาไทย เขตราชเทวี
-                    กรุงเทพมหานคร 10400</label>
+                <div class="card-content">
+                    <label class="card-title" style="font-size: 14px" for="">ClickNext Co.,Ltd.</label>
+                    <br /><br />
+                    <label class="card-text" style="font-size: 14px; font-weight: bold" for="">กรุงเทพมหานคร ฯ</label>
+                    <br /><br />
+                    <label class="card-content" style="font-size: 14px; text-align: left" for="">พญาไท พลาซ่า 128/323-333
+                        ชั้น
+                        30 ถ. พญาไท แขวงทุ่งพญาไทย เขตราชเทวี
+                        กรุงเทพมหานคร 10400</label>
+                </div>
             </div>
         </div>
     </div>
@@ -175,7 +178,7 @@
                             <h3>คุณต้องการบันทึกข้อมูลหรือไม่</h3>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-secondary size_btn_modal" data-bs-dismiss="modal">
+                            <button type="button" class="btn btn-secondary size_btn_modal" data-bs-dismiss="modal" style="margin-right: 10%;">
                                 ยกเลิก
                             </button>
 
@@ -271,7 +274,7 @@
                             <h3>คุณต้องการบันทึกข้อมูลหรือไม่</h3>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-secondary size_btn_modal" data-bs-dismiss="modal">
+                            <button type="button" class="btn btn-secondary size_btn_modal" data-bs-dismiss="modal" style="margin-right: 10%;">
                                 ยกเลิก
                             </button>
 
@@ -340,10 +343,14 @@ export default {
 
 .card_sign {
     border: 1px solid black;
-    width: 200px;
-    height: 280px;
+    width: 15rem;
+    height: 20rem;
     border-radius: 20px;
     text-align: center;
+}
+
+.card-content {
+    margin: 0rem 1rem 0rem 1rem;
 }
 
 .size_font_modal {
@@ -366,6 +373,7 @@ export default {
     width: 150px;
     color: gray;
     background-color: white;
+    /* margin-right: 3rem; */
 }
 
 .size_btn_modal_save {
