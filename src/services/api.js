@@ -42,12 +42,19 @@ export default class apiService {
             .then((response) => {
                 return response.data
             })
-        }
+    }
 
     createIntern = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/interns/key`, data)
             .then((response) => {
                 return response
+            })
+    }
+
+    editInternData = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/interns/${id}`, data)
+            .then((response) => {
+                return response.data
             })
     }
 

@@ -10,7 +10,6 @@
         <span class="h5 my-auto front">ข้อมูลนักศึกษาฝึกงาน > {{ intern.intn_name_th }}</span>
 
         <LayoutMenu class="mb-3" />
-        <hr />
 
         <div class="row position-relative">
             <a class="btn btn-sm rounded-circle col-auto top-0 end-0 position-absolute" id="editButton"
@@ -28,7 +27,8 @@
 
         <InternDetail v-if="!isEdit" :intern="intern" />
         
-        <EditInternData v-if="isEdit" :intern="intern" />
+        <EditInternData v-if="isEdit" :intern="intern" :cancelEdit="cancelEdit" />
+        
     </div>
 
 </template>
@@ -74,6 +74,11 @@
         if (dummyData.value.name_en == "NaN undefined") dummyData.value.name_en = undefined
     } */
 
+    function cancelEdit() {
+        isEdit.value = false
+        editData()
+    }
+
     function editData() {
         let editButton = document.getElementById("editButton")
     
@@ -92,7 +97,6 @@
 
     onMounted(async () => {
         intern.value = await apiCall.getInternById(id);
-        console.log(intern.value)
     })
 </script>
 

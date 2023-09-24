@@ -1,7 +1,7 @@
 <template>
     <form enctype="multipart/form-data" @submit.prevent="submitForm()" id="form">
         <div class="row mb-3">
-            <div class="col-auto my-3">
+            <div class="col-auto mb-3">
                 <div class="row">
                     <div class="col text-center">
                         <img :src="getImage(intern.intn_image)" alt="" id="blah" class="img bg-grays-200" />
@@ -448,7 +448,7 @@
         <hr />
 
         <div class="row mb-4">
-            <button type="button" class="col-2 btn outline-gray" @click="$router.push({ name: 'index' })">
+            <button type="button" class="col-2 btn outline-gray" @click="cancelEdit">
                 ย้อนกลับ
             </button>
             <button type="button" class="col-2 align-self-end btn outline-red ms-auto" @click="confirmation">
@@ -476,6 +476,7 @@
     } from "../../stores/constData";
     import { useInternFormData } from "../../stores/addInternFormData";
     import { getAge, isRequire } from "../../assets/js/func";
+    import Swal from 'sweetalert2'
 
     const formData = ref(useInternFormData());
     const apiCall = new apiService();
@@ -494,24 +495,44 @@
     const bloodTypeList = ref(useBloodType());
 
     const internProp = defineProps({
-        intern: Object
+        intern: Object,
+        cancelEdit: Function
     })
 
-    const getWorkRole = computed(() => {
-        if (internProp.intern.work_infos) {
-            return internProp.intern.work_infos[0]?.work_role.role_name
-        }
+    async function submitForm() {
+        await apiCall.editInternData(formData.value, internProp.intern.intn_id)
+            .then((result) => {
+                console.log(result)
+                Swal.fire({
+                    icon: 'success',
+                    text: 'บันทึกข้อมูลเสร็จสิ้น',
+                    showConfirmButton: false,
+                    timer: 3000
+                }).then(() => {
+                    /* router.push({ name: 'internData', params: { id: internId }}) */
+                    
+                })
+            })
+    }
 
-        return '-'
-    })
+    async function confirmation() {
+        Swal.fire({
+            text: "คุณต้องการบันทึกข้อมูลหรือไม่",
+            icon: "warning",
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: "ยืนยัน",
+            cancelButtonText: "ยกเลิก",
+            confirmButtonColor: "var(--main-color)",
+            reverseButtons: true,
+            focusConfirm: false,
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                submitForm()
+            }
+        });
+    }
 
-    const getSection = computed(() => {
-        if (internProp.intern.work_infos) {
-            return internProp.intern.work_infos[0]?.work_sec.sec_name
-        }
-
-        return '-'
-    })
 
     function setFaculty() {
         faculties.value = formData.value.university.faculties;
@@ -549,7 +570,6 @@
 
     onMounted(async () => {
         formData.value.setData(internProp.intern)
-        console.log(formData.value)
 
         universities.value = await apiCall.getAllUniversity();
         sections.value = await apiCall.getSectionWithMentor();

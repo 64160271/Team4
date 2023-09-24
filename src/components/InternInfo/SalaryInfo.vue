@@ -3,7 +3,6 @@
         <span class="h5 my-auto front">ข้อมูลนักศึกษาฝึกงาน > </span>
 
         <LayoutMenu />
-        <hr>
 
         <div class="d-flex overflow-y-auto justify-content-center mt-3">
 

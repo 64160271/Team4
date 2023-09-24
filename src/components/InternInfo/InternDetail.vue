@@ -1,171 +1,174 @@
 <template>
-    <div class="col-auto">
-        <img :src="getImage(intern.intn_image)" alt="" id="blah" class="img bg-grays-200" />
+    <div class="row border-bottom">
+        <div class="col-auto">
+            <img :src="getImage(intern.intn_image)" alt="" id="blah" class="img bg-grays-200" />
+        </div>
+
+        <div class="col ms-5 align-self-center mb-2 mt-1">
+            <div class="row mb-2">
+                <span class="col h5 my-auto">ข้อมูลส่วนตัวเกี่ยวกับบริษัท</span>
+            </div>
+
+            <div class="row mb-2 ms-2">
+                <label for="" class="col-md-2 col-form-label text-gray"> รหัสพนักงาน </label>
+                <div class="col">
+                    <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_id" readonly
+                        required />
+                </div>
+
+                <label for="" class="col-md-2 col-form-label text-gray"> สถานะพนักงาน </label>
+                <div class="col">
+                    <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_work_status"
+                        readonly required />
+                </div>
+            </div>
+
+            <div class="row mb-2 ms-2">
+                <label for="" class="col-md-2 col-form-label text-gray"> อีเมลพนักงาน </label>
+                <div class="col">
+                    <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_intern_email"
+                        readonly required />
+                </div>
+
+                <label for="" class="col-md-2 col-form-label text-gray"> ตำแหน่งงาน </label>
+                <div class="col">
+                    <input placeholder="-" type="text" class="form-control-plaintext" :value="getWorkRole" readonly
+                        required />
+                </div>
+            </div>
+
+            <div class="row mb-2 ms-2">
+                <label for="" class="col-md-2 col-form-label text-gray"> ฝ่าย </label>
+                <div class="col">
+                    <input placeholder="-" type="text" class="form-control-plaintext" :value="getSection" readonly
+                        required />
+                </div>
+
+                <label for="" class="col-md-2 col-form-label text-gray"> พี่เลี้ยง </label>
+                <div class="col">
+                    <input placeholder="-" type="text" class="form-control-plaintext"
+                        :value="intern.intn_mentor?.ment_name" readonly required />
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="col ms-5 align-self-center mb-2">
+    <div class="row">
+        <span class="h5">ข้อมูลส่วนตัว</span>
+
         <div class="row mb-2">
-            <span class="col h5 my-auto">ข้อมูลส่วนตัวเกี่ยวกับบริษัท</span>
-        </div>
-
-        <div class="row mb-2 ms-2">
-            <label for="" class="col-md-2 col-form-label text-gray"> รหัสพนักงาน </label>
+            <label for="" class="col-2 col-form-label ms-5 text-gray">
+                ชื่อ-นามสกุล (ไทย)
+            </label>
             <div class="col">
-                <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_id" readonly
+                <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_name_th" readonly
                     required />
             </div>
 
-            <label for="" class="col-md-2 col-form-label text-gray"> สถานะพนักงาน </label>
+            <label for="" class="col-2 col-form-label text-gray">ชื่อเล่น (ไทย)</label>
             <div class="col">
-                <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_work_status"
+                <input placeholder="-" type="text" class="form-control-plaintext" :value="intern.intn_nickname_th"
                     readonly required />
             </div>
         </div>
 
-        <div class="row mb-2 ms-2">
-            <label for="" class="col-md-2 col-form-label text-gray"> อีเมลพนักงาน </label>
+        <div class="row mb-2">
+            <label for="" class="col-2 col-form-label ms-5 text-gray">
+                ชื่อ-นามสกุล (อังกฤษ)
+            </label>
             <div class="col">
-                <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_intern_email"
+                <input placeholder="-" type="text" class="form-control-plaintext" :value="intern.intn_name_en" readonly
+                    required />
+            </div>
+
+            <label for="" class="col-2 col-form-label text-gray">ชื่อเล่น (อังกฤษ)</label>
+            <div class="col">
+                <input placeholder="-" type="text" class="form-control-plaintext" :value="intern.intn_nickname_en"
+                    readonly required />
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <label for="" class="col-2 col-form-label ms-5 text-gray">เลขบัตรประชาชน/พาสปอร์ต</label>
+            <div class="col">
+                <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_citizen_id"
                     readonly required />
             </div>
 
-            <label for="" class="col-md-2 col-form-label text-gray"> ตำแหน่งงาน </label>
+            <div class="col-2">
+                <div class="row">
+                    <label for="" class="col-5 col-form-label text-gray"> วันเกิด </label>
+                    <input placeholder="-" type="text" class="col form-control-plaintext"
+                        :value="formatDate(intern.intn_birth_date)" readonly required />
+                </div>
+            </div>
+
             <div class="col">
-                <input placeholder="-" type="text" class="form-control-plaintext" :value="getWorkRole" readonly
+                <div class="row">
+                    <label for="" class="col-2 col-form-label text-gray">อายุ</label>
+                    <input placeholder="-" type="text" class="col form-control-plaintext"
+                        :value="getAgeBuddisht(intern.intn_birth_date)" readonly />
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <label for="" class="col-2 col-form-label ms-5 text-gray">เพศ </label>
+            <div class="col">
+                <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_gender" readonly
+                    required />
+            </div>
+
+            <label for="" class="col-2 col-form-label text-gray">หมู่เลือด</label>
+            <div class="col">
+                <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_blood_type"
+                    readonly required />
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <label for="" class="col-2 col-form-label ms-5 text-gray">น้ำหนัก (กิโลกรัม)</label>
+            <div class="col">
+                <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_weight"
+                    readonly />
+            </div>
+
+            <label for="" class="col-2 col-form-label text-gray">ส่วนสูง (เซนติเมตร)</label>
+            <div class="col">
+                <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_height"
+                    readonly />
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <label for="" class="col-2 col-form-label ms-5 text-gray">สัญชาติ </label>
+            <div class="col">
+                <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_nationality"
+                    readonly required />
+            </div>
+
+            <label for="" class="col-2 col-form-label text-gray">เชื้อชาติ</label>
+            <div class="col">
+                <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_nation" readonly
                     required />
             </div>
         </div>
 
-        <div class="row mb-2 ms-2">
-            <label for="" class="col-md-2 col-form-label text-gray"> ฝ่าย </label>
+        <div class="row mb-4">
+            <label for="" class="col-2 col-form-label ms-5 text-gray">ศาสนา </label>
             <div class="col">
-                <input placeholder="-" type="text" class="form-control-plaintext" :value="getSection" readonly
-                    required />
+                <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_religion"
+                    readonly required />
             </div>
 
-            <label for="" class="col-md-2 col-form-label text-gray"> พี่เลี้ยง </label>
+            <label for="" class="col-2 col-form-label text-gray">สถานภาพสมรส </label>
             <div class="col">
-                <input placeholder="-" type="text" class="form-control-plaintext" :value="intern.intn_mentor?.ment_name"
+                <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_martial_status"
                     readonly required />
             </div>
         </div>
+
     </div>
-
-    <hr />
-
-    <span class="h5">ข้อมูลส่วนตัว</span>
-
-    <div class="row mb-2">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">
-            ชื่อ-นามสกุล (ไทย)
-        </label>
-        <div class="col">
-            <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_name_th" readonly
-                required />
-        </div>
-
-        <label for="" class="col-2 col-form-label text-gray">ชื่อเล่น (ไทย)</label>
-        <div class="col">
-            <input placeholder="-" type="text" class="form-control-plaintext" :value="intern.intn_nickname_th" readonly
-                required />
-        </div>
-    </div>
-
-    <div class="row mb-2">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">
-            ชื่อ-นามสกุล (อังกฤษ)
-        </label>
-        <div class="col">
-            <input placeholder="-" type="text" class="form-control-plaintext" :value="intern.intn_name_en" readonly
-                required />
-        </div>
-
-        <label for="" class="col-2 col-form-label text-gray">ชื่อเล่น (อังกฤษ)</label>
-        <div class="col">
-            <input placeholder="-" type="text" class="form-control-plaintext" :value="intern.intn_nickname_en" readonly
-                required />
-        </div>
-    </div>
-
-    <div class="row mb-2">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">เลขบัตรประชาชน/พาสปอร์ต</label>
-        <div class="col">
-            <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_citizen_id" readonly
-                required />
-        </div>
-
-        <div class="col-2">
-            <div class="row">
-                <label for="" class="col-5 col-form-label text-gray"> วันเกิด </label>
-                <input placeholder="-" type="text" class="col form-control-plaintext"
-                    :value="formatDate(intern.intn_birth_date)" readonly required />
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="row">
-                <label for="" class="col-2 col-form-label text-gray">อายุ</label>
-                <input placeholder="-" type="text" class="col form-control-plaintext"
-                    :value="getAgeBuddisht(intern.intn_birth_date)" readonly />
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-2">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">เพศ </label>
-        <div class="col">
-            <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_gender" readonly
-                required />
-        </div>
-
-        <label for="" class="col-2 col-form-label text-gray">หมู่เลือด</label>
-        <div class="col">
-            <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_blood_type" readonly
-                required />
-        </div>
-    </div>
-
-    <div class="row mb-2">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">น้ำหนัก (กิโลกรัม)</label>
-        <div class="col">
-            <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_weight" readonly />
-        </div>
-
-        <label for="" class="col-2 col-form-label text-gray">ส่วนสูง (เซนติเมตร)</label>
-        <div class="col">
-            <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_height" readonly />
-        </div>
-    </div>
-
-    <div class="row mb-2">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">สัญชาติ </label>
-        <div class="col">
-            <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_nationality" readonly
-                required />
-        </div>
-
-        <label for="" class="col-2 col-form-label text-gray">เชื้อชาติ</label>
-        <div class="col">
-            <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_nation" readonly
-                required />
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <label for="" class="col-2 col-form-label ms-5 text-gray">ศาสนา </label>
-        <div class="col">
-            <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_religion" readonly
-                required />
-        </div>
-
-        <label for="" class="col-2 col-form-label text-gray">สถานภาพสมรส </label>
-        <div class="col">
-            <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_martial_status"
-                readonly required />
-        </div>
-    </div>
-
-    <hr />
 
     <span class="h5">สถานศึกษา</span>
 
