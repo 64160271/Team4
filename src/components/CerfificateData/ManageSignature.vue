@@ -1,7 +1,5 @@
 <template>
-    <div>
-        จัดการลายเซ็น
-    </div>
+    <LayoutMenuName pageName="จัดการข้อมูลลายเซ็น" />
 </template>
 
 <script setup>

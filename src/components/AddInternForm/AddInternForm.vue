@@ -7,8 +7,7 @@
 
 <template>
   <form enctype="multipart/form-data" @submit.prevent="submitForm()" id="form">
-    <div class="row mb-3">
-      <span class="h5 my-auto front">เพิ่มแบบฟอร์ม</span>
+      <LayoutMenuName pageName="เพิ่มแบบฟอร์ม" />
 
       <div class="row border-bottom">
         <div class="col-auto my-3">
@@ -359,24 +358,24 @@
         <div class="row mb-2">
           <label for="" class="col-2 col-form-label ms-5 text-gray">ตำบล / แขวง</label>
           <div class="col me-5">
-            <input v-model="formData.subdistrict" type="text" class="form-control mb-2" />
+            <input id="district" v-model="formData.subdistrict" type="text" class="form-control mb-2" />
           </div>
 
           <label for="" class="col-2 col-form-label text-gray">อำเภอ / เขต</label>
           <div class="col">
-            <input v-model="formData.district" type="text" class="form-control mb-2" />
+            <input id="amphoe" v-model="formData.district" type="text" class="form-control mb-2" />
           </div>
         </div>
 
         <div class="row mb-2">
           <label for="" class="col-2 col-form-label ms-5 text-gray">จังหวัด</label>
           <div class="col me-5">
-            <input v-model="formData.province" type="text" class="form-control mb-2" />
+            <input id="province" v-model="formData.province" type="text" class="form-control mb-2" />
           </div>
 
           <label for="" class="col-2 col-form-label text-gray">รหัสไปรษณีย์</label>
           <div class="col">
-            <input v-model="formData.post_code" type="number" class="form-control mb-2" />
+            <input id="zipcode" v-model="formData.post_code" type="number" class="form-control mb-2" />
           </div>
         </div>
 
@@ -430,10 +429,9 @@
           <textarea name="" class="form-control mb-2 col ms-5" id="" rows="2"></textarea>
         </div>
       </div>
-    </div>
 
 
-    <div class="row mb-4">
+    <div class="row my-4">
       <button type="button" class="col-2 btn outline-gray" @click="$router.push({ name: 'index' })">
         ย้อนกลับ
       </button>
@@ -547,6 +545,26 @@ onMounted(async () => {
   setMentor();
   setFaculty();
   setMajor();
+
+  $.Thailand({
+    $district: $('#district'), // input ของตำบล
+    $amphoe: $('#amphoe'), // input ของอำเภอ
+    $province: $('#province'), // input ของจังหวัด
+    $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
+    onDataFill: function (data) {
+
+        console.info('Data Filled', data);
+
+    },
+
+    onLoad: function () {
+
+        console.info('Autocomplete is ready!');
+
+        $('#loader, .demo').toggle();
+
+    }
+});
 });
 </script>
 
@@ -575,4 +593,5 @@ hr {
 .border-bottom {
   border-color: var(--main-color) !important;
   margin-bottom: 12px;
-}</style>
+}
+</style>

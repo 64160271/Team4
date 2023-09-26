@@ -7,7 +7,6 @@
 
 <template>
     <div class="row mb-3">
-        <span class="h5 my-auto front">ข้อมูลนักศึกษาฝึกงาน > {{ intern.intn_name_th }}</span>
 
         <LayoutMenu class="mb-3" :name="intern.intn_name_th" />
 
@@ -25,9 +24,9 @@
             </a>
         </div>
 
-        <InternDetail v-if="!isEdit" :intern="intern" />
+        <InternDetail v-if="!isEdit" :intern="intern" class="mt-3" />
         
-        <EditInternData v-if="isEdit" :intern="intern" :cancelEdit="cancelEdit" />
+        <EditInternData v-if="isEdit" :intern="intern" :cancelEdit="cancelEdit" class="mt-3" />
         
     </div>
 

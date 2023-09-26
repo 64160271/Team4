@@ -7,7 +7,7 @@
 
 <template>
     <div class="d-flex flex-column mb-3">
-        <span class="h5 my-auto">เพิ่มไฟล์ Excel</span>
+        <LayoutMenuName pageName="เพิ่มไฟล์ Excel" />
 
         <div class="d-flex justify-content-center align-items-center mt-3 upload-box upload" id="upload-box">
             <input @change="showFileName(readDataInFile)" accept=".xlsx" type="file" name="" id="file" />
@@ -94,7 +94,7 @@ input {
     position: relative;
     text-align: center;
     border: 1px black dotted;
-    height: 70vh;
+    height: 75vh;
 }
 
 .upload-box:hover {

@@ -58,4 +58,11 @@ export default class apiService {
             })
     }
 
+    getSalaryByInternId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/salaries/interns/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
 }

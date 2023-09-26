@@ -1,5 +1,5 @@
 <template>
-    <div class="row border-bottom">
+    <div class="row border-bottom mt-3">
         <div class="col-auto">
             <img :src="getImage(intern.intn_image)" alt="" id="blah" class="img bg-grays-200" />
         </div>

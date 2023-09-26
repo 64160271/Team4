@@ -81,26 +81,6 @@
 import { ref } from 'vue';
 import { onUnmounted, onMounted } from 'vue'
 import { useAddressStore } from '../../stores/formData';
-/* 
-$.Thailand({
-    $district: $('#district'), // input ของตำบล
-    $amphoe: $('#amphoe'), // input ของอำเภอ
-    $province: $('#province'), // input ของจังหวัด
-    $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
-    onDataFill: function (data) {
-
-        console.info('Data Filled', data);
-
-    },
-
-    onLoad: function () {
-
-        console.info('Autocomplete is ready!');
-
-        $('#loader, .demo').toggle();
-
-    }
-}); */
 
 const data = ref(useAddressStore())
 /* const data = ref({

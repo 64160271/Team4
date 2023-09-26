@@ -237,7 +237,7 @@ th {
 }
 
 .my-custom-scrollbar {
-    height: 70vh;
+    height: 75vh;
     overflow: auto;
 }
 

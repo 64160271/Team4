@@ -6,8 +6,10 @@
 -->
 
 <template>
-  <div class="position-fixed d-flex flex-column p-4 bg-white border-end vh-sidebar col-auto"
-    style="width: 280px; margin-top: 63px;">
+  <div class="position-fixed d-flex flex-column p-4 bg-white border-end vh-100"
+    style="width: 280px">
+ 
+    <ClicknextLogo class="mb-3" />
 
     <ul class="nav nav-pills flex-column">
       <li class="nav-item py-2">
@@ -151,6 +153,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import ClicknextLogo from '../icons/ClicknextLogo.vue'
 
 const showDropdown = ref(false)
 

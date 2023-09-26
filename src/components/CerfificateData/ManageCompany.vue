@@ -1,7 +1,5 @@
 <template>
-    <div>
-        จัดการบริษัท
-    </div>
+    <LayoutMenuName pageName="จัดการข้อมูลบริษัท" />
 </template>
 
 <script setup>

@@ -2,6 +2,7 @@ import './assets/style.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 import './assets/js/func.js'
+import LayoutMenuName from './components/layouts/LayoutMenuName.vue'
 
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -11,4 +12,4 @@ import router from './router'
 import { createPinia } from 'pinia'
 
 const pinia = createPinia()
-createApp(App).use(VueAxios, axios).use(router).use(pinia).mount('#app')
+createApp(App).use(VueAxios, axios).use(router).use(pinia).component('LayoutMenuName', LayoutMenuName).mount('#app')

@@ -1,6 +1,7 @@
 <template>
+    <LayoutMenuName pageName="จัดการข้อมูลมหาวิทยาลัย" />
+    
     <div class="row">
-        <span class="col h5">จัดการข้อมูลมหาวิทยาลัย</span>
 
         <button class="col-2 btn outline-red ms-auto">เพิ่มมหาวิทยาลัย</button>
     </div>
