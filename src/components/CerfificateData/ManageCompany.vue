@@ -314,20 +314,7 @@
 </template>
 
 <script>
-export default {
-    mathods: {
-        out() {
-            const showModalButton = document.getElementById('SUCCESS');
-            const modal = document.getElementById('add-success');
 
-            showModalButton.addEventListener('click', () => {
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                }, 1);
-            });
-        }
-    }
-}
 </script>
 
 <style scoped>
@@ -344,13 +331,13 @@ export default {
 .card_sign {
     border: 1px solid black;
     width: 15rem;
-    height: 20rem;
+    height: 18rem;
     border-radius: 20px;
     text-align: center;
 }
 
 .card-content {
-    margin: 0rem 1rem 0rem 1rem;
+    margin: 0rem 5px 0rem 5px;
 }
 
 .size_font_modal {
