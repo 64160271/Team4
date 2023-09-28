@@ -65,4 +65,11 @@ export default class apiService {
             })
     }
 
+    getLeaveInfoByInternId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/leavesinfo/interns/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
 }

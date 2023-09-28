@@ -3,12 +3,59 @@
 
         <LayoutMenu />
 
-        
+        <div class="row mb-3">
+            <button class="btn outline-red col-auto ms-auto">เพิ่มข้อมูลการลา</button>
+        </div>
+
+        <div class="row">
+            <table class="table table-borderless table-striped">
+                <thead class="bg-red">
+                    <tr class="text-center tr-custom">
+                        <th scope="col" class="th-custom border-left">วันที่แก้ไข</th>
+                        <th scope="col" class="th-custom">เลขที่ใบลา</th>
+                        <th scope="col" class="th-custom">ประเภทการลา</th>
+                        <th scope="col" class="th-custom">จำนวนวัน</th>
+                        <th scope="col" class="th-custom border-right">ผู้ทำการแก้ไข</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="tr-custom" v-for="(leave, index) in leavesInfo">
+                        <td class="text-center border-left">{{ formatDate(leave.lvs_edit_date || '-') }}</td>
+                        <td class="text-center">{{ leave.lvs_id }}</td>
+                        <td class="text-center">{{ leave.lvs_type }}</td>
+                        <td class="text-center">{{ formatDate(leave.lvs_to_date) }}</td>
+                        <td class="text-center border-right">{{ leave.lvs_edit_by_user.user_name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="text-center mt-5" v-if="leavesInfo == 0">
+                <span class="h5">----- ไม่มีข้อมูลการลา -----</span>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
 import LayoutMenu from './LayoutMenu.vue'
+import apiService from '../../services/api'
+import { useRoute } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import { formatDate } from "../../assets/js/func";
+
+const internId = useRoute().params.id
+const leavesInfo = ref({})
+const apiCall = new apiService()
+
+onMounted(async () => {
+    leavesInfo.value = await apiCall.getLeaveInfoByInternId(internId)
+    console.log(leavesInfo.value)
+})
 </script>
 
-<style scoped></style>
+<style scoped>
+button {
+    height: 50px;
+}
+</style>

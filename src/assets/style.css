@@ -12,7 +12,7 @@
 }
 
 :root {
-    --main-color: #eb497f;
+    --main-color: #6149eb;
 }
 
 .text-custom {
@@ -141,3 +141,4 @@
 .tb-hov:hover td {
     color: var(--main-color);
 }
+

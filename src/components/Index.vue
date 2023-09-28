@@ -133,7 +133,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr @click="$router.push('/interns/' + intern.intn_id)" class="tb-hov tr-custom" v-for="intern in filterData">
+            <tr @click="$router.push('/interns/' + intern.intn_id)" class="tb-hov tr-custom"
+                v-for="intern in filterData">
                 <td scope="" class="col">
                     <img v-if="intern.intn_image" class="img-custom ms-2" :src="getImage(intern.intn_image)" width="35"
                         height="35" alt="" />
@@ -288,5 +289,4 @@
     .border-right {
         border-radius: 0 8px 8px 0;
     }
-
 </style>
