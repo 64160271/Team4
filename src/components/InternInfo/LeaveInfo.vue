@@ -15,7 +15,8 @@
                         <th scope="col" class="th-custom">เลขที่ใบลา</th>
                         <th scope="col" class="th-custom">ประเภทการลา</th>
                         <th scope="col" class="th-custom">จำนวนวัน</th>
-                        <th scope="col" class="th-custom border-right">ผู้ทำการแก้ไข</th>
+                        <th scope="col" class="th-custom">ผู้ทำการแก้ไข</th>
+                        <th scope="col" class="th-custom border-right">หลักฐาน</th>
                     </tr>
                 </thead>
 
@@ -23,9 +24,10 @@
                     <tr class="tr-custom" v-for="(leave, index) in leavesInfo">
                         <td class="text-center border-left">{{ formatDate(leave.lvs_edit_date || '-') }}</td>
                         <td class="text-center">{{ leave.lvs_id }}</td>
-                        <td class="text-center">{{ leave.lvs_type }}</td>
-                        <td class="text-center">{{ formatDate(leave.lvs_to_date) }}</td>
-                        <td class="text-center border-right">{{ leave.lvs_edit_by_user.user_name }}</td>
+                        <td class="text-center">{{ leave.lvs_type_name }}</td>
+                        <td class="text-center">{{ leave.lvs_leave_day }}</td>
+                        <td class="text-center">{{ leave.lvs_edit_by_user.user_name }}</td>
+                        <td class="text-center border-right"></td>
                     </tr>
                 </tbody>
             </table>
