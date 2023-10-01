@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 export function getAge(birthdate) {
     birthdate = new Date(birthdate)
     const today = new Date();
@@ -19,7 +21,7 @@ export function getAgeBuddisht(birthdate) {
 export function isRequire() {
     let form = $("#form")[0]
 
-    if (form.reportValidity() && 
+    if (form.reportValidity() &&
         !($('select').filter(['required']).find('option:selected').attr('disabled'))) {
         return true
     }
@@ -40,3 +42,19 @@ export function formatDate(strDate) {
 
     return day + "/" + month + "/" + year
 }
+
+export async function confirmation() {
+    let result = await Swal.fire({
+        text: "คุณต้องการบันทึกข้อมูลหรือไม่",
+        icon: "warning",
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonText: "ยืนยัน",
+        cancelButtonText: "ยกเลิก",
+        confirmButtonColor: "var(--main-color)",
+        reverseButtons: true,
+        focusConfirm: false,
+    });
+
+    return result.isConfirmed
+} 

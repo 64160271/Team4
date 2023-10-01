@@ -72,4 +72,11 @@ export default class apiService {
             })
     }
 
+    createSalaryData = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/salaries`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
 }

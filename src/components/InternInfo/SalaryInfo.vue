@@ -1,10 +1,11 @@
 <template>
     <div class="row mb-3">
-
         <LayoutMenu />
 
         <div class="row mb-3">
-            <button class="btn btn-std outline-red col-auto ms-auto" @click="openModal">แก้ไขข้อมูลเบี้ยเลี้ยง</button>
+            <button class="btn btn-std outline-red col-auto ms-auto" @click="openModal">
+                แก้ไขข้อมูลเบี้ยเลี้ยง
+            </button>
         </div>
 
         <div class="row">
@@ -21,11 +22,15 @@
 
                 <tbody>
                     <tr class="tr-custom" v-for="(salary, index) in salaries">
-                        <td class="text-center border-left">{{ formatDate(salary.sal_edit_date || '-') }}</td>
+                        <td class="text-center border-left">
+                            {{ formatDate(salary.sal_edit_date || "-") }}
+                        </td>
                         <td class="text-center">{{ formatDate(salary.sal_from_date) }}</td>
-                        <td class="text-center">{{ salaries[index + 1]?.sal_salary || '-' }}</td>
+                        <td class="text-center">{{ salaries[index + 1]?.sal_salary || "-" }}</td>
                         <td class="text-center">{{ salary.sal_salary }}</td>
-                        <td class="text-center border-right">{{ salary.sal_edit_by_user.user_name || '-' }}</td>
+                        <td class="text-center border-right">
+                            {{ salary.sal_edit_by_user.user_name || "-" }}
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -51,16 +56,18 @@
                                 <label for="" class="form-label text-gray">วันที่แก้ไข
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="date" class="form-control" name="" id="">
+                                <input v-model="formData.edit_date" type="date" class="datepicker form-control" name=""
+                                    id="" />
                             </div>
                         </div>
-                        
+
                         <div class="row mb-4 mx-2">
                             <div class="col">
                                 <label for="" class="form-label text-gray">วันที่เริ่มต้นได้รับเบี้ยเลี้ยง
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="date" class="form-control" name="" id="">
+                                <input v-model="formData.from_date" type="date" class="datepicker form-control" name=""
+                                    id="" />
                             </div>
                         </div>
 
@@ -69,7 +76,7 @@
                                 <label for="" class="form-label text-gray">เบี้ยเลี้ยงปัจจุบัน (บาท)
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="number" class="form-control" name="" id="">
+                                <input :value="lastSalary" type="number" class="form-control" name="" id="" readonly />
                             </div>
                         </div>
 
@@ -78,15 +85,16 @@
                                 <label for="" class="form-label text-gray">เบี้ยเลี้ยงที่ทำการแก้ไข (บาท)
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="number" class="form-control" name="" id="">
+                                <input v-model="formData.salary" type="number" class="form-control" name="" id="" />
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer justify-content-center gap-4">
-                    <button type="button" class="col-md-3 btn outline-gray" data-bs-dismiss="modal"
-                        @click="closeModal">ยกเลิก</button>
-                    <button type="button" class="col-md-3 btn outline-red">บันทึก</button>
+                    <button type="button" class="col-md-3 btn outline-gray" data-bs-dismiss="modal" @click="closeModal">
+                        ยกเลิก
+                    </button>
+                    <button @click="formSubmit" type="button" class="col-md-3 btn outline-red">บันทึก</button>
                 </div>
             </div>
         </div>
@@ -94,30 +102,65 @@
 </template>
 
 <script setup>
-import LayoutMenu from './LayoutMenu.vue'
-import apiService from '../../services/api'
-import { useRoute } from 'vue-router'
-import { onMounted, ref, computed } from 'vue'
-import { formatDate, getAgeBuddisht } from "../../assets/js/func";
+import LayoutMenu from "./LayoutMenu.vue";
+import apiService from "../../services/api";
+import { useRoute } from "vue-router";
+import { onMounted, ref, computed } from "vue";
+import { formatDate, getAgeBuddisht, confirmation } from "../../assets/js/func";
+import moment from "moment";
+import { useAddSalaryForm } from "../../stores/addSalaryFormdata";
+import Swal from "sweetalert2";
+import router from '@/router';
 
-const internId = useRoute().params.id
-const salaries = ref({})
-const apiCall = new apiService()
-const modal = ref()
+const internId = useRoute().params.id;
+const salaries = ref({});
+const apiCall = new apiService();
+const formData = ref(useAddSalaryForm())
+const modal = ref();
 
-onMounted(async () => {
-    salaries.value = await apiCall.getSalaryByInternId(internId)
-    modal.value = new bootstrap.Modal('#modal', {})
+const lastSalary = computed(() => {
+    return salaries.value[salaries.value.length - 1]?.sal_salary || 0
 })
 
+let today = moment().format('DD/MM/YYYY')
+
+onMounted(async () => {
+    salaries.value = await apiCall.getSalaryByInternId(internId);
+    modal.value = new bootstrap.Modal("#modal", {});
+    /*  $('.datepicker').datepicker({
+       format: "dd/mm/yyyy",
+       todaybtn: true,
+       todayHighlight: true,
+     });
+   
+     $('.today').text(today) */
+});
+
+async function formSubmit() {
+    const result = await confirmation()
+    if (result) {
+        formData.value.intern_id = internId
+        await apiCall.createSalaryData(formData.value)
+            .then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    text: 'บันทึกข้อมูลเสร็จสิ้น',
+                    showConfirmButton: false,
+                    timer: 3000
+                }).then(() => {
+                    localtion.reload()
+                })
+            })
+    }
+}
+
 function openModal() {
-    modal.value.show()
+    modal.value.show();
 }
 
 function closeModal() {
-    modal.value.hide()
+    modal.value.hide();
 }
-
 </script>
 
 <style scoped></style>
