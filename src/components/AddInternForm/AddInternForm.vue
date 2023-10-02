@@ -46,7 +46,7 @@
               <label for="" class="form-label text-gray">รหัสพนักงาน <span class="text-danger">*</span></label>
               <div class="col me-5">
                 <input id="id" placeholder="INT-XXXXXX" v-model="formData.code" type="text" class="form-control"
-                  required :class="{ 'is-invalid': v$.code.$error }" />
+                 :class="{ 'is-invalid': v$.code.$error }" />
                 <span v-for="error in v$.code.$errors" :key="error.$uid" class="invalid-feedback">
                   กรุณากรอกข้อมูล
                 </span>
