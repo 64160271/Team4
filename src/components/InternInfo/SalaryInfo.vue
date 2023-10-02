@@ -145,7 +145,7 @@ async function formSubmit() {
                     showConfirmButton: false,
                     timer: 3000
                 }).then(() => {
-                    localtion.reload()
+                    location.reload()
                 })
             })
     }
