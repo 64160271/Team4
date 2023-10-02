@@ -107,7 +107,6 @@ import apiService from "../../services/api";
 import { useRoute } from "vue-router";
 import { onMounted, ref, computed } from "vue";
 import { formatDate, getAgeBuddisht, confirmation } from "../../assets/js/func";
-import moment from "moment";
 import { useAddSalaryForm } from "../../stores/addSalaryFormdata";
 import Swal from "sweetalert2";
 import router from '@/router';
@@ -121,8 +120,6 @@ const modal = ref();
 const lastSalary = computed(() => {
     return salaries.value[salaries.value.length - 1]?.sal_salary || 0
 })
-
-let today = moment().format('DD/MM/YYYY')
 
 onMounted(async () => {
     salaries.value = await apiCall.getSalaryByInternId(internId);

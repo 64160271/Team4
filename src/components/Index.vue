@@ -139,7 +139,7 @@
                     <img v-if="intern.intn_image" class="img-custom ms-2" :src="getImage(intern.intn_image)" width="35"
                         height="35" alt="" />
                     <img v-else class="ms-2" src="../assets/images/person-nm.png" alt="" width="35">
-                    <span class="ms-lg-5 ms-sm-2">{{ intern.intn_id }}</span>
+                    <span class="ms-lg-5 ms-sm-2">{{ intern.intn_code }}</span>
                 </td>
                 <td scope="">{{ intern.intn_prefix + intern.intn_fname + " " + intern.intn_lname }}</td>
                 <td scope="" class="text-center">{{ intern.intn_nickname || '-' }}</td>
@@ -219,6 +219,7 @@
         await axios.get(`${import.meta.env.VITE_API_HOST}/interns`)
             .then((response) => {
                 interns.value = response.data
+                console.log(interns.value)
             })
     }
 

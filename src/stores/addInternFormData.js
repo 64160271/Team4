@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 export const useInternFormData = defineStore("internFormData", {
     state: () => {
         return {
-            id: '',
+            code: '',
             intern_email: '',
             status: '',
             role: '',
@@ -56,7 +56,7 @@ export const useInternFormData = defineStore("internFormData", {
             const fnameSplitted = intern.intn_fname.split("|")
             const lnameSplitted = intern.intn_lname.split("|")
             const nicknameSplitted = intern.intn_nickname.split("|")
-            this.id = intern.intn_id
+            this.code = intern.intn_id
             this.intern_email = intern.intn_intern_email
             this.status = intern.intn_work_status
             this.role = intern.work_infos[0]?.work_role

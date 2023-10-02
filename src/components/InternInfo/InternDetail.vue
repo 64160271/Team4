@@ -12,7 +12,7 @@
             <div class="row mb-2 ms-2">
                 <label for="" class="col-md-2 col-form-label text-gray"> รหัสพนักงาน </label>
                 <div class="col">
-                    <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_id" readonly
+                    <input placeholder="-" type="text" class="form-control-plaintext" v-model="intern.intn_code" readonly
                         required />
                 </div>
 
