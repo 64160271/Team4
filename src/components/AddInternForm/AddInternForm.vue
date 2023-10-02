@@ -41,11 +41,11 @@
         <div class="col ms-5 align-self-center">
           <span class="row h5 mb-3">ข้อมูลส่วนตัวเกี่ยวกับบริษัท</span>
 
-          <div class="row mb-1 grid">
+          <div class="row mb-1 grid mb-3">
             <div class="col-md-6">
               <label for="" class="form-label text-gray">รหัสพนักงาน <span class="text-danger">*</span></label>
               <div class="col me-5">
-                <input id="id" placeholder="INT-XXXXXX" v-model="formData.code" type="text" class="form-control mb-2"
+                <input id="id" placeholder="INT-XXXXXX" v-model="formData.code" type="text" class="form-control"
                   required :class="{ 'is-invalid': v$.code.$error }" />
                 <span v-for="error in v$.code.$errors" :key="error.$uid" class="invalid-feedback">
                   กรุณากรอกข้อมูล
@@ -56,17 +56,21 @@
             <div class="col-md-6">
               <label for="" class="form-label text-gray">สถานะพนักงาน <span class="text-danger">*</span></label>
               <div class="col">
-                <select id="status" v-model="formData.status" class="form-select mb-2" required>
+                <select id="status" v-model="formData.status" class="form-select"
+                  :class="{ 'is-invalid': v$.status.$error }" required>
                   <option disabled selected value=""> เลือก </option>
                   <option v-for="(status, index) in statusList.list" :value="status">
                     {{ status }}
                   </option>
                 </select>
+                <span v-for="error in v$.status.$errors" :key="error.$uid" class="invalid-feedback">
+                  กรุณากรอกข้อมูล
+                </span>
               </div>
             </div>
           </div>
 
-          <div class="row mb-1">
+          <div class="row mb-3">
             <div class="col-md-6">
               <label for="" class="form-label text-gray">อีเมลพนักงาน</label>
               <div class="col me-5">
@@ -81,10 +85,14 @@
             <div class="col-md-6">
               <label for="" class="form-label text-gray">ตำแหน่งงาน <span class="text-danger">*</span></label>
 
-              <select id="role" class="form-select mb-2" v-model="formData.role" required>
+              <select id="role" class="form-select" v-model="formData.role" required
+                :class="{ 'is-invalid': v$.role.$error }">
                 <option disabled selected value=""> เลือก </option>
                 <option v-for="role in roles" :value="role">{{ role.role_name }}</option>
               </select>
+              <span v-for="error in v$.role.$errors" :key="error.$uid" class="invalid-feedback">
+                กรุณากรอกข้อมูล
+              </span>
             </div>
           </div>
 
@@ -92,21 +100,29 @@
             <div class="col-md-6">
               <label for="" class="form-label text-gray">ฝ่าย <span class="text-danger">*</span></label>
               <div class="col me-5">
-                <select @change="setMentor" id="section" class="form-select mb-2" v-model="formData.section" required>
+                <select @change="setMentor" id="section" class="form-select" v-model="formData.section"
+                  :class="{ 'is-invalid': v$.section.$error }" required>
                   <option disabled selected value=""> เลือก </option>
                   <option v-for="section in sections" :value="section">{{ section.sec_name }}</option>
                 </select>
+                <span v-for="error in v$.section.$errors" :key="error.$uid" class="invalid-feedback">
+                  กรุณากรอกข้อมูล
+                </span>
               </div>
             </div>
 
             <div class="col-md-6">
               <label for="" class="form-label text-gray">พี่เลี้ยง <span class="text-danger">*</span></label>
               <div class="col">
-                <select id="mentor" class="form-select mb-2" v-model="formData.mentor" required>
+                <select id="mentor" class="form-select" v-model="formData.mentor"
+                  :class="{ 'is-invalid': v$.mentor.$error }" required>
                   <option disabled selected value=""> เลือก (ต้องเลือกฝ่ายก่อน) </option>
                   <option v-for="mentor in mentors" :value="mentor">{{ mentor.ment_fname + ' ' + mentor.ment_lname }}
                   </option>
                 </select>
+                <span v-for="error in v$.mentor.$errors" :key="error.$uid" class="invalid-feedback">
+                  กรุณากรอกข้อมูล
+                </span>
               </div>
             </div>
           </div>
@@ -118,32 +134,45 @@
         <span class="h5 mb-3">ข้อมูลส่วนตัว</span>
 
         <div class="row mb-2">
-          <div class="col-md-2 ms-1">
+          <div class="col-md-2 ms-1 mb-2">
             <label for="" class="form-label text-gray">คำนำหน้า (ไทย) <span class="text-danger">*</span></label>
-            <select id="thprefix" class="form-select mb-2" v-model="formData.prefix" required>
+            <select id="thprefix" class="form-select" v-model="formData.prefix"
+              :class="{ 'is-invalid': v$.prefix.$error }" required>
               <option disabled selected :value="['', '']"> เลือก </option>
               <option v-for="(prefix, index) in prefixList.list" :value="prefix">
                 {{ prefix[0] }}
               </option>
             </select>
+            <span v-for="error in v$.prefix.$errors" :key="error.$uid" class="invalid-feedback">
+              กรุณากรอกข้อมูล
+            </span>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">ชื่อจริง (ไทย) <span class="text-danger">*</span></label>
             <input id="fname_th" v-model="formData.fname[0]" type="text" placeholder="สมศรี" name="fname"
-              class="form-control mb-2" required />
+              class="form-control" :class="{ 'is-invalid': v$.fname.$error }" required />
+            <span v-for="error in v$.fname.$errors" :key="error.$uid" class="invalid-feedback">
+              กรุณากรอกข้อมูล
+            </span>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">นามสกุล (ไทย) <span class="text-danger">*</span></label>
             <input id="lname_th" v-model="formData.lname[0]" placeholder="ลามากุล" type="text" name="lname"
-              class="form-control mb-2" required />
+              class="form-control" :class="{ 'is-invalid': v$.lname.$error }" required />
+            <span v-for="error in v$.lname.$errors" :key="error.$uid" class="invalid-feedback">
+              กรุณากรอกข้อมูล
+            </span>
           </div>
 
           <div class="col-md-2">
             <label for="" class="form-label text-gray">ชื่อเล่น (ไทย) <span class="text-danger">*</span></label>
-            <input id="nickname_th" v-model="formData.nickname[0]" placeholder="นวล" type="text" class="form-control mb-2"
-              required />
+            <input id="nickname_th" v-model="formData.nickname[0]" placeholder="นวล" type="text" class="form-control"
+              :class="{ 'is-invalid': v$.nickname.$error }" required />
+            <span v-for="error in v$.nickname.$errors" :key="error.$uid" class="invalid-feedback">
+              กรุณากรอกข้อมูล
+            </span>
           </div>
         </div>
 
@@ -167,7 +196,8 @@
 
           <div class="col-2">
             <label for="" class="form-label text-gray">ชื่อเล่น (อังกฤษ)</label>
-            <input id="nickname_en" v-model="formData.nickname[1]" placeholder="Nual" type="text" class="form-control" />
+            <input id="nickname_en" v-model="formData.nickname[1]" placeholder="Nual" type="text"
+              class="form-control" />
           </div>
         </div>
 
@@ -175,7 +205,8 @@
           <div class="col-md-6 ms-1">
             <label for="" class="form-label text-gray">เลขบัตรประชาชน/พาสปอร์ต</label>
             <div class="col me-5">
-              <input id="citizenid" v-model="formData.citizen_id" maxlength="13" type="text" class="form-control mb-2" />
+              <input id="citizenid" v-model="formData.citizen_id" maxlength="13" type="text"
+                class="form-control mb-2" />
             </div>
           </div>
 
@@ -195,12 +226,16 @@
           <div class="col ms-1">
             <label for="" class="form-label text-gray">เพศ <span class="text-danger">*</span></label>
             <div class="col me-5">
-              <select id="gender" v-model="formData.gender" class="form-select mb-2" required>
+              <select id="gender" v-model="formData.gender" class="form-select"
+                :class="{ 'is-invalid': v$.gender.$error }" required>
                 <option disabled selected value=""> เลือก </option>
                 <option v-for="gender in genderList.list" :value="gender">
                   {{ gender }}
                 </option>
               </select>
+              <span v-for="error in v$.gender.$errors" :key="error.$uid" class="invalid-feedback">
+                กรุณากรอกข้อมูล
+              </span>
             </div>
           </div>
 
@@ -254,7 +289,8 @@
           <div class="col ms-1">
             <label for="" class="form-label text-gray">ศาสนา</label>
             <div class="col me-5">
-              <input id="religion" placeholder="พุทธ" v-model="formData.religion" type="text" class="form-control mb-2" />
+              <input id="religion" placeholder="พุทธ" v-model="formData.religion" type="text"
+                class="form-control mb-2" />
             </div>
           </div>
 
@@ -279,30 +315,42 @@
         <div class="row mb-4">
           <div class="col ms-1">
             <label for="" class="form-label text-gray">ชื่อสถานศึกษา <span class="text-danger">*</span></label>
-            <select id="university" class="form-select mb-2" v-model="formData.university" @change="setFaculty" required>
+            <select id="university" class="form-select" v-model="formData.university" @change="setFaculty"
+              :class="{ 'is-invalid': v$.university.$error }" required>
               <option disabled selected value=""> เลือก </option>
               <option v-for="university in universities" :value="university">
                 {{ university.uni_name }}
               </option>
             </select>
+            <span v-for="error in v$.university.$errors" :key="error.$uid" class="invalid-feedback">
+              กรุณากรอกข้อมูล
+            </span>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">คณะ <span class="text-danger">*</span></label>
-            <select id="faculty" class="form-select mb-2" v-model="formData.faculty" @change="setMajor" required>
+            <select id="faculty" class="form-select" v-model="formData.faculty" @change="setMajor"
+              :class="{ 'is-invalid': v$.faculty.$error }" required>
               <option disabled selected value=""> เลือก (ต้องเลือกสถานศึกษาก่อน) </option>
               <option v-for="faculty in faculties" :value="faculty">
                 {{ faculty.fac_name }}
               </option>
             </select>
+            <span v-for="error in v$.faculty.$errors" :key="error.$uid" class="invalid-feedback">
+              กรุณากรอกข้อมูล
+            </span>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">สาขาวิชา <span class="text-danger">*</span></label>
-            <select id="major" class="form-select mb-2" v-model="formData.major" required>
+            <select id="major" class="form-select" v-model="formData.major" :class="{ 'is-invalid': v$.major.$error }"
+              required>
               <option disabled selected value=""> เลือก (ต้องเลือกคณะก่อน) </option>
               <option v-for="major in majors" :value="major">{{ major.maj_name }}</option>
             </select>
+            <span v-for="error in v$.major.$errors" :key="error.$uid" class="invalid-feedback">
+              กรุณากรอกข้อมูล
+            </span>
           </div>
         </div>
 
@@ -314,17 +362,21 @@
         <div class="row mb-2">
           <div class="col-md-6 ms-1">
             <label for="" class="form-label text-gray">ประเภทพนักงาน <span class="text-danger">*</span></label>
-            <select id="interntype" v-model="formData.intern_type" class="form-select mb-2" required>
-              <option disabled selected value=""> เลือก </option>
+            <select id="interntype" v-model="formData.intern_type" class="form-select"
+              :class="{ 'is-invalid': v$.intern_type.$error }" required>
+              <option disabled value=""> เลือก </option>
               <option v-for="internType in internTypeList.list" :value="internType">
                 {{ internType }}
               </option>
             </select>
+            <span v-for="error in v$.intern_type.$errors" :key="error.$uid" class="invalid-feedback">
+              กรุณากรอกข้อมูล
+            </span>
           </div>
 
           <div class="col">
-            <label for="" class="form-label text-gray">เลขที่สัญญาจ้าง <span class="text-danger">*</span></label>
-            <input id="contractnum" v-model="formData.contract_number" type="text" class="form-control mb-2" required />
+            <label for="" class="form-label text-gray">เลขที่สัญญาจ้าง</label>
+            <input id="contractnum" v-model="formData.contract_number" type="text" class="form-control mb-2" />
           </div>
 
         </div>
@@ -332,8 +384,13 @@
         <div class="row mb-4">
           <div class="col ms-1">
             <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน <span class="text-danger">*</span></label>
-            <input id="startdate" v-model="formData.start_date" type="date" class="form-control mb-2" required />
+            <input id="startdate" v-model="formData.start_date" type="date" class="form-control"
+              :class="{ 'is-invalid': v$.start_date.$error }" required />
+            <span v-for="error in v$.start_date.$errors" :key="error.$uid" class="invalid-feedback">
+              กรุณากรอกข้อมูล
+            </span>
           </div>
+
           <div class="col">
             <label for="" class="form-label text-gray">วันที่ผ่านทดลองงาน</label>
             <input id="enddate" v-model="formData.end_date" type="date" class="form-control mb-2" />
@@ -425,7 +482,10 @@
             <label for="" class="form-label text-gray">เบอร์โทรศัพท์ <span class="text-danger">*</span></label>
             <div class="col me-5">
               <input id="tel" placeholder="xxx-xxx-xxxx" v-model="formData.tel" maxlength="10" type="text"
-                class="form-control mb-2" required />
+                class="form-control" :class="{ 'is-invalid': v$.tel.$error }" required />
+              <span v-for="error in v$.tel.$errors" :key="error.$uid" class="invalid-feedback">
+                กรุณากรอกข้อมูล
+              </span>
             </div>
           </div>
 
@@ -433,8 +493,10 @@
             <label for="" class="form-label text-gray">อีเมลส่วนตัว <span class="text-danger">*</span></label>
             <div class="col">
               <input id="email" placeholder="example@gmail.com" name="email" v-model="formData.email" type="text"
-                class="form-control mb-2" required />
-              <div class="invalid-feedback">กรุณากรอกข้อมูลให้ถูกต้อง</div>
+                class="form-control" :class="{ 'is-invalid': v$.email.$error }" required />
+              <span v-for="error in v$.email.$errors" :key="error.$uid" class="invalid-feedback">
+                กรุณากรอกข้อมูล
+              </span>
             </div>
 
           </div>
@@ -494,165 +556,190 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { onUnmounted, onMounted } from "vue";
-import Swal from "sweetalert2";
-import {
-  usePrefixData,
-  useStatusData,
-  useMilitaryStatus,
-  useGenderData,
-  useMartialStatus,
-  useInternType,
-  useBloodType,
-} from "../../stores/constData";
-import { useInternFormData } from "../../stores/addInternFormData";
-import { getAge, isRequire } from "../../assets/js/func";
-import apiService from "../../services/api";
-import router from '@/router';
-import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+  import { ref, computed } from "vue";
+  import { onUnmounted, onMounted } from "vue";
+  import Swal from "sweetalert2";
+  import {
+    usePrefixData,
+    useStatusData,
+    useMilitaryStatus,
+    useGenderData,
+    useMartialStatus,
+    useInternType,
+    useBloodType,
+  } from "../../stores/constData";
+  import { useInternFormData } from "../../stores/addInternFormData";
+  import { getAge, isRequire } from "../../assets/js/func";
+  import apiService from "../../services/api";
+  import router from '@/router';
+  import useVuelidate from '@vuelidate/core'
+  import { required } from '@vuelidate/validators'
 
-const formData = ref(useInternFormData());
-const apiCall = new apiService();
-const roles = ref({})
-const sections = ref({});
-const mentors = ref()
-const universities = ref({});
-const faculties = ref();
-const majors = ref();
-const prefixList = ref(usePrefixData());
-const statusList = ref(useStatusData());
-const internTypeList = ref(useInternType());
-const militaryStatusList = ref(useMilitaryStatus());
-const genderList = ref(useGenderData());
-const martialStatusList = ref(useMartialStatus());
-const bloodTypeList = ref(useBloodType());
-const valid = ref(false)
+  const formData = ref(useInternFormData());
+  const apiCall = new apiService();
+  const roles = ref({})
+  const sections = ref({});
+  const mentors = ref()
+  const universities = ref({});
+  const faculties = ref();
+  const majors = ref();
+  const prefixList = ref(usePrefixData());
+  const statusList = ref(useStatusData());
+  const internTypeList = ref(useInternType());
+  const militaryStatusList = ref(useMilitaryStatus());
+  const genderList = ref(useGenderData());
+  const martialStatusList = ref(useMartialStatus());
+  const bloodTypeList = ref(useBloodType());
+  const valid = ref(false)
 
-const rules = {
-  code: { required }
-}
+  const rules = {
+    code: { required },
+    status: { required },
+    role: { required },
+    section: { required },
+    mentor: { required },
+    prefix: {
+      "0": { required },
+    },
+    fname: {
+      "0": { required },
+    },
+    lname: {
+      "0": { required },
+    },
+    nickname: {
+      "0": { required },
+    },
+    gender: { required },
+    university: { required },
+    faculty: { required },
+    major: { required },
+    tel: { required },
+    email: { required },
+    intern_type: { required },
+    start_date: { required },
+  }
 
-const v$ = useVuelidate(rules, formData.value)
+  const v$ = useVuelidate(rules, formData.value)
 
-async function submitForm() {
-  await apiCall.createIntern(formData.value)
-    .then(() => {
-      Swal.fire({
-        icon: 'success',
-        text: 'บันทึกข้อมูลเสร็จสิ้น',
-        showConfirmButton: false,
-        timer: 3000
-      }).then(() => {
-        router.push({ name: 'index' })
+  async function submitForm() {
+    await apiCall.createIntern(formData.value)
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          text: 'บันทึกข้อมูลเสร็จสิ้น',
+          showConfirmButton: false,
+          timer: 3000
+        }).then(() => {
+          router.push({ name: 'index' })
+        })
       })
-    })
-}
+  }
 
-async function confirmation() {
-  const result = await v$.value.$validate()
-  if (result) {
-    Swal.fire({
-      text: "คุณต้องการบันทึกข้อมูลหรือไม่",
-      icon: "warning",
-      showCancelButton: true,
-      showConfirmButton: true,
-      confirmButtonText: "ยืนยัน",
-      cancelButtonText: "ยกเลิก",
-      confirmButtonColor: "var(--main-color)",
-      reverseButtons: true,
-      focusConfirm: false,
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        submitForm()
+  async function confirmation() {
+    const result = await v$.value.$validate()
+    if (result) {
+      console.log(formData.value)
+      Swal.fire({
+        text: "คุณต้องการบันทึกข้อมูลหรือไม่",
+        icon: "warning",
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonText: "ยืนยัน",
+        cancelButtonText: "ยกเลิก",
+        confirmButtonColor: "var(--main-color)",
+        reverseButtons: true,
+        focusConfirm: false,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          submitForm()
+        }
+      });
+    }
+  }
+
+  function setFaculty() {
+    faculties.value = formData.value.university.faculties;
+    formData.value.major = '';
+    formData.value.faculty = '';
+  }
+
+  function setMajor() {
+    majors.value = formData.value.faculty.majors;
+    formData.value.major = '';
+  }
+
+  function setMentor() {
+    mentors.value = formData.value.section.mentors
+    formData.value.mentor = '';
+  }
+
+  function showImg() {
+    const imgUpload = document.getElementById("img-upload");
+
+    if (imgUpload.files[0] != undefined) {
+      formData.value.image = imgUpload.files[0];
+    }
+
+    if (formData.value.image) {
+      blah.src = URL.createObjectURL(formData.value.image);
+    }
+  }
+
+  onMounted(async () => {
+    universities.value = await apiCall.getAllUniversity();
+    sections.value = await apiCall.getSectionWithMentor();
+    roles.value = await apiCall.getAllRole();
+    setMentor();
+    setFaculty();
+    setMajor();
+
+    $.Thailand({
+      $district: $('#district'), // input ของตำบล
+      $amphoe: $('#amphoe'), // input ของอำเภอ
+      $province: $('#province'), // input ของจังหวัด
+      $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
+      onDataFill: function (data) {
+
+        console.info('Data Filled', data);
+
+      },
+
+      onLoad: function () {
+
+        console.info('Autocomplete is ready!');
+
+        $('#loader, .demo').toggle();
+
       }
     });
-  }
-}
-
-function setFaculty() {
-  faculties.value = formData.value.university.faculties;
-  formData.value.major = '';
-  formData.value.faculty = '';
-}
-
-function setMajor() {
-  majors.value = formData.value.faculty.majors;
-  formData.value.major = '';
-}
-
-function setMentor() {
-  mentors.value = formData.value.section.mentors
-  formData.value.mentor = '';
-}
-
-function showImg() {
-  const imgUpload = document.getElementById("img-upload");
-
-  if (imgUpload.files[0] != undefined) {
-    formData.value.image = imgUpload.files[0];
-  }
-
-  if (formData.value.image) {
-    blah.src = URL.createObjectURL(formData.value.image);
-  }
-}
-
-onMounted(async () => {
-  universities.value = await apiCall.getAllUniversity();
-  sections.value = await apiCall.getSectionWithMentor();
-  roles.value = await apiCall.getAllRole();
-  setMentor();
-  setFaculty();
-  setMajor();
-
-  $.Thailand({
-    $district: $('#district'), // input ของตำบล
-    $amphoe: $('#amphoe'), // input ของอำเภอ
-    $province: $('#province'), // input ของจังหวัด
-    $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
-    onDataFill: function (data) {
-
-      console.info('Data Filled', data);
-
-    },
-
-    onLoad: function () {
-
-      console.info('Autocomplete is ready!');
-
-      $('#loader, .demo').toggle();
-
-    }
   });
-});
 </script>
 
 <style scoped>
-.bg-grays-200 {
-  background-color: #8d969b30 !important;
-}
+  .bg-grays-200 {
+    background-color: #8d969b30 !important;
+  }
 
-hr {
-  border: none;
-  height: 1px;
-  background-color: var(--main-color);
-}
+  hr {
+    border: none;
+    height: 1px;
+    background-color: var(--main-color);
+  }
 
-.img {
-  height: 150px;
-  width: 150px;
-  border-radius: 50%;
-  border: 1px solid var(--main-color);
-}
+  .img {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    border: 1px solid var(--main-color);
+  }
 
-.text-gray {
-  color: #90969e !important;
-}
+  .text-gray {
+    color: #90969e !important;
+  }
 
-.border-bottom {
-  border-color: var(--main-color) !important;
-  margin-bottom: 12px;
-}
+  .border-bottom {
+    border-color: var(--main-color) !important;
+    margin-bottom: 12px;
+  }
 </style>

@@ -38,7 +38,7 @@ export const useInternFormData = defineStore("internFormData", {
             post_code: '',
             tel: '',
             email: '',
-            intern_type: '',
+            intern_type: 'นักศึกษาฝึกงาน',
             contract_number: '',
             start_date: '',
             end_date: '',
