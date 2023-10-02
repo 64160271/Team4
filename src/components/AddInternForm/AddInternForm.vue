@@ -572,8 +572,8 @@
   import { getAge, isRequire } from "../../assets/js/func";
   import apiService from "../../services/api";
   import router from '@/router';
-  import useVuelidate from '@vuelidate/core'
-  import { required } from '@vuelidate/validators'
+  import useVuelidate from '@vuelidate/core' // validate
+  import { required } from '@vuelidate/validators' // validate
 
   const formData = ref(useInternFormData());
   const apiCall = new apiService();
@@ -590,8 +590,9 @@
   const genderList = ref(useGenderData());
   const martialStatusList = ref(useMartialStatus());
   const bloodTypeList = ref(useBloodType());
-  const valid = ref(false)
+  const valid = ref(false) // validate
 
+  // validate
   const rules = {
     code: { required },
     status: { required },
@@ -620,7 +621,7 @@
     start_date: { required },
   }
 
-  const v$ = useVuelidate(rules, formData.value)
+  const v$ = useVuelidate(rules, formData.value) // validate
 
   async function submitForm() {
     await apiCall.createIntern(formData.value)
