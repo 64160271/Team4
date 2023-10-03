@@ -23,6 +23,20 @@ export default class apiService {
             })
     }
 
+    getAllSection = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/sections`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getMentorBySectionId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/mentors/section/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
     getSectionWithMentor = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/sections/mentors`)
             .then((response) => {

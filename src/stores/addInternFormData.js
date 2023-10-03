@@ -52,11 +52,12 @@ export const useInternFormData = defineStore("internFormData", {
     },
     actions: {
         setData(intern) {
+
             const prefixSplitted = intern.intn_prefix.split("|")
             const fnameSplitted = intern.intn_fname.split("|")
             const lnameSplitted = intern.intn_lname.split("|")
             const nicknameSplitted = intern.intn_nickname.split("|")
-            this.code = intern.intn_id
+            this.code = intern.intn_code
             this.intern_email = intern.intn_intern_email
             this.status = intern.intn_work_status
             this.role = intern.work_infos[0]?.work_role
@@ -98,8 +99,8 @@ export const useInternFormData = defineStore("internFormData", {
             this.mentor = intern.intn_mentor.ment_name
             this.section = intern.work_infos[0]?.work_sec
             this.department = intern.work_infos[0]?.work_dept?.dept_name
-            
-        }
+        
+        },
     },
     getters: {
 

@@ -41,7 +41,7 @@
         <div class="col ms-5 align-self-center">
           <span class="row h5 mb-3">ข้อมูลส่วนตัวเกี่ยวกับบริษัท</span>
 
-          <div class="row mb-1 grid mb-3">
+          <div class="row grid mb-3">
             <div class="col-md-6">
               <label for="" class="form-label text-gray">รหัสพนักงาน <span class="text-danger">*</span></label>
               <div class="col me-5">
@@ -133,8 +133,8 @@
       <div class="row border-bottom">
         <span class="h5 mb-3">ข้อมูลส่วนตัว</span>
 
-        <div class="row mb-2">
-          <div class="col-md-2 ms-1 mb-2">
+        <div class="row mb-3">
+          <div class="col-md-2 ms-1">
             <label for="" class="form-label text-gray">คำนำหน้า (ไทย) <span class="text-danger">*</span></label>
             <select id="thprefix" class="form-select" v-model="formData.prefix"
               :class="{ 'is-invalid': v$.prefix.$error }" required>
@@ -201,7 +201,7 @@
           </div>
         </div>
 
-        <div class="row mb-2">
+        <div class="row mb-3">
           <div class="col-md-6 ms-1">
             <label for="" class="form-label text-gray">เลขบัตรประชาชน/พาสปอร์ต</label>
             <div class="col me-5">
@@ -222,7 +222,7 @@
           </div>
         </div>
 
-        <div class="row mb-2">
+        <div class="row mb-3">
           <div class="col ms-1">
             <label for="" class="form-label text-gray">เพศ <span class="text-danger">*</span></label>
             <div class="col me-5">
@@ -252,7 +252,7 @@
           </div>
         </div>
 
-        <div class="row mb-2">
+        <div class="row mb-3">
           <div class="col ms-1">
             <label for="" class="form-label text-gray">น้ำหนัก (กิโลกรัม)</label>
             <div class="col me-5">
@@ -268,7 +268,7 @@
           </div>
         </div>
 
-        <div class="row mb-2">
+        <div class="row mb-3">
           <div class="col ms-1">
             <label for="" class="form-label text-gray">สัญชาติ</label>
             <div class="col me-5">
@@ -359,7 +359,7 @@
       <div class="row border-bottom">
         <span class="h5 mb-3">สัญญาการจ้างงาน</span>
 
-        <div class="row mb-2">
+        <div class="row mb-3">
           <div class="col-md-6 ms-1">
             <label for="" class="form-label text-gray">ประเภทพนักงาน <span class="text-danger">*</span></label>
             <select id="interntype" v-model="formData.intern_type" class="form-select"
@@ -429,7 +429,7 @@
           </div>
         </div>
 
-        <div class="row mb-2 me-5">
+        <div class="row mb-3 me-5">
           <div class="col ms-1">
             <label for="" class="form-label text-gray">หมู่</label>
             <div class="col me-5">
@@ -445,7 +445,7 @@
           </div>
         </div>
 
-        <div class="row mb-2">
+        <div class="row mb-3">
           <div class="col ms-1">
             <label for="" class="form-label text-gray">ตำบล / แขวง</label>
             <div class="col me-5">
@@ -461,7 +461,7 @@
           </div>
         </div>
 
-        <div class="row mb-2">
+        <div class="row mb-3">
           <div class="col ms-1">
             <label for="" class="form-label text-gray">จังหวัด</label>
             <div class="col me-5">
