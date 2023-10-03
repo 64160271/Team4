@@ -1,5 +1,5 @@
 <template>
-    <form enctype="multipart/form-data" @submit.prevent="submitForm()" id="form">
+    <form enctype="multipart/form-data" @submit.prevent="submitForm()" class="mx-auto" id="form" style="width:80%">
         <div class="row mb-3">
             <div class="row border-bottom">
                 <div class="col-auto mb-3">
@@ -37,65 +37,92 @@
 
                     <div class="row mb-2 grid">
                         <div class="col">
-                            <label for="" class="form-label text-gray">รหัสพนักงาน <span
+                            <div class="col">
+                                <label for="" class="form-label text-gray">รหัสพนักงาน <span
+                                        class="text-danger">*</span></label>
+                                <div class="col me-5">
+                                    <input id="id" placeholder="660000" v-model="formData.code" type="number"
+                                        class="form-control mb-2" required :class="{ 'is-invalid': v$.code.$error }" />
+                                    <span v-for="error in v$.code.$errors" :key="error.$uid" class="invalid-feedback">
+                                        กรุณากรอกข้อมูล
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <label for="" class="form-label text-gray">สถานะพนักงาน <span
+                                    class="text-danger">*</span></label>
+                            <div class="col">
+                                <select id="status" v-model="formData.status" class="form-select mb-2" required
+                                    :class="{ 'is-invalid': v$.status.$error }">
+                                    <option disabled selected value=""> เลือก </option>
+                                    <option v-for="(status, index) in statusList.list" :value="status">
+                                        {{ status }}
+                                    </option>
+                                </select>
+                                <span v-for="error in v$.status.$errors" :key="error.$uid" class="invalid-feedback">
+                                    กรุณากรอกข้อมูล
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label for="" class="form-label text-gray">อีเมลพนักงาน <span
                                     class="text-danger">*</span></label>
                             <div class="col me-5">
-                                <input id="id" placeholder="660000" v-model="formData.id" type="number"
-                                    class="form-control mb-2" required />
+                                <div class="input-group">
+                                    <input v-model="formData.intern_email" id="internemail" type="text" class="form-control"
+                                        placeholder="660000" required />
+                                </div>
                             </div>
                         </div>
 
-                        <label for="" class="col-md-2 col-form-label text-gray">สถานะพนักงาน <span
-                                class="text-danger">*</span></label>
                         <div class="col">
-                            <select id="status" v-model="formData.status" class="form-select mb-2" required>
-                                <option disabled selected value=""> เลือก </option>
-                                <option v-for="(status, index) in statusList.list" :value="status">
-                                    {{ status }}
-                                </option>
-                            </select>
+                            <label for="" class="form-label text-gray">ตำแหน่งงาน <span class="text-danger">*</span></label>
+                            <div class="col">
+                                <select id="role" class="form-select mb-2" v-model="formData.role" required
+                                    :class="{ 'is-invalid': v$.role.$error }">
+                                    <option disabled selected value=""> เลือก </option>
+                                    <option v-for="role in roles" :value="role">{{ role.role_name }}</option>
+                                </select>
+                                <span v-for="error in v$.role.$errors" :key="error.$uid" class="invalid-feedback">
+                                    กรุณากรอกข้อมูล
+                                </span>
+                            </div>
                         </div>
                     </div>
 
                     <div class="row mb-2">
-                        <label for="" class="col-md-2 col-form-label text-gray">อีเมลพนักงาน <span
-                                class="text-danger">*</span></label>
-                        <div class="col me-5">
-                            <div class="input-group">
-                                <input v-model="formData.intern_email" id="internemail" type="text" class="form-control"
-                                    placeholder="660000" required />
+                        <div class="col">
+                            <label for="" class="form-label text-gray">ฝ่าย <span class="text-danger">*</span></label>
+                            <div class="col me-5">
+                                <select @change="setMentor" id="section" class="form-select mb-2" v-model="formData.section"
+                                    required :class="{ 'is-invalid': v$.section.$error }">
+                                    <option disabled selected value=""> เลือก </option>
+                                    <option v-for="section in sections" :value="section">{{ section.sec_name }}</option>
+                                </select>
+                                <span v-for="error in v$.section.$errors" :key="error.$uid" class="invalid-feedback">
+                                    กรุณากรอกข้อมูล
+                                </span>
                             </div>
                         </div>
 
-                        <label for="" class="col-md-2 col-form-label text-gray">ตำแหน่งงาน <span
-                                class="text-danger">*</span></label>
                         <div class="col">
-                            <select id="role" class="form-select mb-2" v-model="formData.role" required>
-                                <option disabled selected value=""> เลือก </option>
-                                <option v-for="role in roles" :value="role">{{ role.role_name }}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row mb-2">
-                        <label for="" class="col-md-2 col-form-label text-gray">ฝ่าย <span
-                                class="text-danger">*</span></label>
-                        <div class="col me-5">
-                            <select @change="setMentor" id="section" class="form-select mb-2" v-model="formData.section"
-                                required>
-                                <option disabled selected value=""> เลือก </option>
-                                <option v-for="section in sections" :value="section">{{ section.sec_name }}</option>
-                            </select>
-                        </div>
-
-                        <label for="" class="col-md-2 col-form-label text-gray">พี่เลี้ยง <span
-                                class="text-danger">*</span></label>
-                        <div class="col">
-                            <select id="mentor" class="form-select mb-2" v-model="formData.mentor" required>
-                                <option disabled selected value=""> เลือก (ต้องเลือกฝ่ายก่อน) </option>
-                                <option v-for="mentor in mentors" :value="mentor">{{ mentor.ment_name }}
-                                </option>
-                            </select>
+                            <label for="" class="form-label text-gray">พี่เลี้ยง <span class="text-danger">*</span></label>
+                            <div class="col">
+                                <select id="mentor" class="form-select mb-2" v-model="formData.mentor" required
+                                    :class="{ 'is-invalid': v$.mentor.$error }">
+                                    <option disabled selected value=""> เลือก (ต้องเลือกฝ่ายก่อน) </option>
+                                    <option v-for="mentor in mentors" :value="mentor">{{ mentor.ment_name }}
+                                    </option>
+                                </select>
+                                <span v-for="error in v$.mentor.$errors" :key="error.$uid" class="invalid-feedback">
+                                    กรุณากรอกข้อมูล
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -106,42 +133,52 @@
                 <span class="h5 mb-3">ข้อมูลส่วนตัว</span>
 
                 <div class="row mb-2">
-                    <div class="col-2 ms-5">
+                    <div class="col-md-2 ms-1 mb-2">
                         <label for="" class="form-label text-gray">คำนำหน้าชื่อ (ไทย) <span
                                 class="text-danger">*</span></label>
-                        <select id="thprefix" class="form-select mb-2" v-model="formData.prefix" required>
+                        <select id="thprefix" class="form-select mb-2" v-model="formData.prefix" required
+                            :class="{ 'is-invalid': v$.prefix.$error }">
                             <option disabled selected :value="['', '']"> เลือก </option>
                             <option v-for="(prefix, index) in prefixList.list" :value="prefix">
                                 {{ prefix[0] }}
                             </option>
                         </select>
+                        <span v-for="error in v$.prefix.$errors" :key="error.$uid" class="invalid-feedback">
+                            กรุณากรอกข้อมูล
+                        </span>
                     </div>
 
                     <div class="col">
-                        <label for="" class="form-label text-gray">ชื่อจริง (ไทย) <span
-                                class="text-danger">*</span></label>
+                        <label for="" class="form-label text-gray">ชื่อจริง (ไทย) <span class="text-danger">*</span></label>
                         <input id="fname_th" v-model="formData.fname[0]" type="text" placeholder="สมศรี" name="fname"
-                            class="form-control mb-2" required />
+                            class="form-control mb-2" required :class="{ 'is-invalid': v$.fname.$error }" />
+                        <span v-for="error in v$.fname.$errors" :key="error.$uid" class="invalid-feedback">
+                            กรุณากรอกข้อมูล
+                        </span>
                     </div>
 
                     <div class="col">
-                        <label for="" class="form-label text-gray">นามสกุล (ไทย) <span
-                                class="text-danger">*</span></label>
+                        <label for="" class="form-label text-gray">นามสกุล (ไทย) <span class="text-danger">*</span></label>
                         <input id="lname_th" v-model="formData.lname[0]" placeholder="ลามากุล" type="text" name="lname"
-                            class="form-control mb-2" required />
+                            class="form-control mb-2" required :class="{ 'is-invalid': v$.lname.$error }" />
+                        <span v-for="error in v$.lname.$errors" :key="error.$uid" class="invalid-feedback">
+                            กรุณากรอกข้อมูล
+                        </span>
                     </div>
 
                     <div class="col-2">
                         <label for="" class="form-label text-gray">ชื่อเล่น (ไทย)</label>
                         <input id="nickname_th" v-model="formData.nickname[0]" placeholder="นวล" type="text"
-                            class="form-control mb-2" />
+                            class="form-control mb-2" :class="{ 'is-invalid': v$.nickname.$error }" />
+                        <span v-for="error in v$.nickname.$errors" :key="error.$uid" class="invalid-feedback">
+                            กรุณากรอกข้อมูล
+                        </span>
                     </div>
                 </div>
 
                 <div class="row mb-4">
-                    <div class="col-2 ms-5">
-                        <label for="" class="form-label text-gray">คำนำหน้าชื่อ (อังกฤษ) <span
-                                class="text-danger">*</span>
+                    <div class="col-md-2 ms-1 mb-2">
+                        <label for="" class="form-label text-gray">คำนำหน้าชื่อ (อังกฤษ) <span class="text-danger">*</span>
                         </label>
                         <input :value="formData.prefix[1]" type="text" class="form-control" id="enprefix" readonly
                             required />
@@ -169,99 +206,115 @@
                 </div>
 
                 <div class="row mb-2">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">เลขบัตรประชาชน/พาสปอร์ต <span
-                            class="text-danger">*</span></label>
-                    <div class="col me-5">
-                        <input id="citizenid" v-model="formData.citizen_id" maxlength="13" type="text"
-                            class="form-control mb-2" required />
-                    </div>
-
-                    <div class="col">
-                        <div class="row">
-                            <label for="" class="col-auto col-form-label text-gray">วันเกิด <span
-                                    class="text-danger">*</span></label>
-                            <input id="birthdate" v-model="formData.birth_date" type="date"
-                                class="col form-control mb-2" required />
+                    <div class="col-md-6 ms-1">
+                        <label for="" class="form-label text-gray">เลขบัตรประชาชน/พาสปอร์ต <span
+                                class="text-danger">*</span></label>
+                        <div class="col me-4">
+                            <input id="citizenid" v-model="formData.citizen_id" maxlength="13" type="text"
+                                class="form-control mb-2" required />
                         </div>
                     </div>
 
-                    <div class="col-md-2">
-                        <div class="row">
-                            <label for="" class="col-auto col-form-label text-gray">อายุ (ปี)</label>
-                            <input type="text" class="col form-control mb-2"
-                                :value="getAgeBuddisht(formData.birth_date) || 0" readonly disabled />
+
+                    <div class="col">
+                        <label for="" class="form-label text-gray">วันเกิด <span class="text-danger">*</span></label>
+                        <input id="birthdate" v-model="formData.birth_date" type="date" class="col form-control mb-2"
+                            required />
+                    </div>
+
+
+
+                    <div class="col">
+                        <label for="" class="form-label text-gray">อายุ (ปี)</label>
+                        <input type="text" class="col form-control mb-2" :value="getAgeBuddisht(formData.birth_date) || 0"
+                            readonly disabled />
+                    </div>
+
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col ms-1">
+                        <label for="" class="form-label text-gray">เพศ <span class="text-danger">*</span></label>
+                        <div class="col me-5">
+                            <select id="gender" v-model="formData.gender" class="form-select mb-2" required
+                                :class="{ 'is-invalid': v$.gender.$error }">
+                                <option disabled selected value=""> เลือก </option>
+                                <option v-for="gender in genderList.list" :value="gender">
+                                    {{ gender }}
+                                </option>
+                            </select>
+                            <span v-for="error in v$.gender.$errors" :key="error.$uid" class="invalid-feedback">
+                                กรุณากรอกข้อมูล
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <label for="" class="form-label text-gray">หมู่เลือด <span class="text-danger">*</span></label>
+                        <div class="col">
+                            <select id="bloodtype" v-model="formData.blood_type" class="form-select mb-2" required>
+                                <option disabled selected value=""> เลือก </option>
+                                <option v-for="bloodType in bloodTypeList.list" :value="bloodType">
+                                    {{ bloodType }}
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
 
                 <div class="row mb-2">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">เพศ <span
-                            class="text-danger">*</span></label>
-                    <div class="col me-5">
-                        <select id="gender" v-model="formData.gender" class="form-select mb-2" required>
-                            <option disabled selected value=""> เลือก </option>
-                            <option v-for="gender in genderList.list" :value="gender">
-                                {{ gender }}
-                            </option>
-                        </select>
+                    <div class="col ms-1">
+                        <label for="" class="form-labeltext-gray">น้ำหนัก (กิโลกรัม)</label>
+                        <div class="col me-5">
+                            <input id="weight" v-model="formData.weight" type="number" class="form-control mb-2" />
+                        </div>
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">หมู่เลือด <span
-                            class="text-danger">*</span></label>
                     <div class="col">
-                        <select id="bloodtype" v-model="formData.blood_type" class="form-select mb-2" required>
-                            <option disabled selected value=""> เลือก </option>
-                            <option v-for="bloodType in bloodTypeList.list" :value="bloodType">
-                                {{ bloodType }}
-                            </option>
-                        </select>
+                        <label for="" class="form-label text-gray">ส่วนสูง (เซนติเมตร)</label>
+                        <div class="col">
+                            <input id="height" v-model="formData.height" type="number" class="form-control mb-2" />
+                        </div>
                     </div>
                 </div>
 
                 <div class="row mb-2">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">น้ำหนัก (กิโลกรัม)</label>
-                    <div class="col me-5">
-                        <input id="weight" v-model="formData.weight" type="number" class="form-control mb-2" />
+                    <div class="col ms-1">
+                        <label for="" class="form-label text-gray">สัญชาติ <span class="text-danger">*</span></label>
+                        <div class="col me-5">
+                            <input id="nationality" placeholder="ไทย" v-model="formData.nationality" type="text"
+                                class="form-control mb-2" required />
+                        </div>
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">ส่วนสูง (เซนติเมตร)</label>
                     <div class="col">
-                        <input id="height" v-model="formData.height" type="number" class="form-control mb-2" />
-                    </div>
-                </div>
-
-                <div class="row mb-2">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">สัญชาติ <span
-                            class="text-danger">*</span></label>
-                    <div class="col me-5">
-                        <input id="nationality" placeholder="ไทย" v-model="formData.nationality" type="text"
-                            class="form-control mb-2" required />
-                    </div>
-
-                    <label for="" class="col-2 col-form-label text-gray">เชื้อชาติ <span
-                            class="text-danger">*</span></label>
-                    <div class="col">
-                        <input id="nation" placeholder="ไทย" v-model="formData.nation" type="text"
-                            class="form-control mb-2" required />
+                        <label for="" class="form-label text-gray">เชื้อชาติ <span class="text-danger">*</span></label>
+                        <div class="col">
+                            <input id="nation" placeholder="ไทย" v-model="formData.nation" type="text"
+                                class="form-control mb-2" required />
+                        </div>
                     </div>
                 </div>
 
                 <div class="row mb-4">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">ศาสนา <span
-                            class="text-danger">*</span></label>
-                    <div class="col me-5">
-                        <input id="religion" placeholder="พุทธ" v-model="formData.religion" type="text"
-                            class="form-control mb-2" required />
+                    <div class="col ms-1">
+                        <label for="" class="form-label text-gray">ศาสนา <span class="text-danger">*</span></label>
+                        <div class="col me-5">
+                            <input id="religion" placeholder="พุทธ" v-model="formData.religion" type="text"
+                                class="form-control mb-2" required />
+                        </div>
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">สถานภาพสมรส</label>
                     <div class="col">
-                        <select id="martial" v-model="formData.martial_status" class="form-select mb-2">
-                            <option disabled selected value=""> เลือก </option>
-                            <option v-for="martialStatus in martialStatusList.list" :value="martialStatus">
-                                {{ martialStatus }}
-                            </option>
-                        </select>
+                        <label for="" class="form-label text-gray">สถานภาพสมรส</label>
+                        <div class="col">
+                            <select id="martial" v-model="formData.martial_status" class="form-select mb-2">
+                                <option disabled selected value=""> เลือก </option>
+                                <option v-for="martialStatus in martialStatusList.list" :value="martialStatus">
+                                    {{ martialStatus }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -271,11 +324,10 @@
                 <span class="h5 mb-3">สถานศึกษา</span>
 
                 <div class="row mb-4">
-                    <div class="col me-5 ms-5">
-                        <label for="" class="form-label text-gray">ชื่อสถานศึกษา <span
-                                class="text-danger">*</span></label>
-                        <select id="university" class="form-select mb-2" v-model="formData.university"
-                            @change="setFaculty" required>
+                    <div class="col me-5 ms-1">
+                        <label for="" class="form-label text-gray">ชื่อสถานศึกษา <span class="text-danger">*</span></label>
+                        <select id="university" class="form-select mb-2" v-model="formData.university" @change="setFaculty"
+                            required>
                             <option disabled selected value=""> เลือก </option>
                             <option v-for="university in universities" :value="university">
                                 {{ university.uni_name }}
@@ -285,21 +337,28 @@
 
                     <div class="col me-5">
                         <label for="" class="form-label text-gray">คณะ <span class="text-danger">*</span></label>
-                        <select id="faculty" class="form-select mb-2" v-model="formData.faculty" @change="setMajor"
-                            required>
+                        <select id="faculty" class="form-select mb-2" v-model="formData.faculty" @change="setMajor" required
+                            :class="{ 'is-invalid': v$.faculty.$error }">
                             <option disabled selected value=""> เลือก (ต้องเลือกสถานศึกษาก่อน) </option>
                             <option v-for="faculty in faculties" :value="faculty">
                                 {{ faculty.fac_name }}
                             </option>
                         </select>
+                        <span v-for="error in v$.faculty.$errors" :key="error.$uid" class="invalid-feedback">
+                            กรุณากรอกข้อมูล
+                        </span>
                     </div>
 
                     <div class="col">
                         <label for="" class="form-label text-gray">สาขาวิชา <span class="text-danger">*</span></label>
-                        <select id="major" class="form-select mb-2" v-model="formData.major" required>
+                        <select id="major" class="form-select mb-2" v-model="formData.major" required
+                            :class="{ 'is-invalid': v$.major.$error }">
                             <option disabled selected value=""> เลือก (ต้องเลือกคณะก่อน) </option>
                             <option v-for="major in majors" :value="major">{{ major.maj_name }}</option>
                         </select>
+                        <span v-for="error in v$.major.$errors" :key="error.$uid" class="invalid-feedback">
+                            กรุณากรอกข้อมูล
+                        </span>
                     </div>
                 </div>
             </div>
@@ -307,30 +366,38 @@
             <div class="row border-bottom">
                 <span class="h5 mb-3">สัญญาการจ้างงาน</span>
 
-                <div class="row mb-4">
-                    <div class="col ms-5">
-                        <label for="" class="form-label text-gray">ประเภทพนักงาน <span
-                                class="text-danger">*</span></label>
-                        <select id="interntype" v-model="formData.intern_type" class="form-select mb-2" required>
+                <div class="row mb-2">
+                    <div class="col-md-6 ms-1">
+                        <label for="" class="form-label text-gray">ประเภทพนักงาน <span class="text-danger">*</span></label>
+                        <select id="interntype" v-model="formData.intern_type" class="form-select mb-2" required
+                            :class="{ 'is-invalid': v$.intern_type.$error }">
                             <option disabled selected value=""> เลือก </option>
                             <option v-for="internType in internTypeList.list" :value="internType">
                                 {{ internType }}
                             </option>
                         </select>
+                        <span v-for="error in v$.intern_type.$errors" :key="error.$uid" class="invalid-feedback">
+                            กรุณากรอกข้อมูล
+                        </span>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col">
                         <label for="" class="form-label text-gray">เลขที่สัญญาจ้าง <span
                                 class="text-danger">*</span></label>
                         <input id="contractnum" v-model="formData.contract_number" type="text" class="form-control mb-2"
                             required />
                     </div>
+                </div>
 
-                    <div class="col">
+                <div class="row mb-4">
+                    <div class="col ms-1">
                         <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน <span
                                 class="text-danger">*</span></label>
-                        <input id="startdate" v-model="formData.start_date" type="date" class="form-control mb-2"
-                            required />
+                        <input id="startdate" v-model="formData.start_date" type="date" class="form-control mb-2" required
+                            :class="{ 'is-invalid': v$.start_date.$error }" />
+                        <span v-for="error in v$.start_date.$errors" :key="error.$uid" class="invalid-feedback">
+                            กรุณากรอกข้อมูล
+                        </span>
                     </div>
 
                     <div class="col">
@@ -348,77 +415,102 @@
                     <div class="col">
                         <label for="" class="form-label text-gray">วันที่สิ้นสุดสัญญา <span
                                 class="text-danger">*</span></label>
-                        <input id="contractend" v-model="formData.contract_end_date" type="date"
-                            class="form-control mb-2" required />
+                        <input id="contractend" v-model="formData.contract_end_date" type="date" class="form-control mb-2"
+                            required />
                     </div>
                 </div>
+
             </div>
 
             <div class="row border-bottom">
                 <span class="h5 mb-3">ข้อมูลที่อยู่ / ติดต่อ</span>
 
                 <div class="row mb-3">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">บ้านเลขที่</label>
-                    <div class="col me-5">
-                        <input v-model="formData.house_number" type="text" class="form-control" />
+                    <div class="col ms-1">
+                        <label for="" class="form-label text-gray">บ้านเลขที่</label>
+                        <div class="col me-5">
+                            <input v-model="formData.house_number" type="text" class="form-control" />
+                        </div>
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">ซอย</label>
                     <div class="col">
-                        <input v-model="formData.alley" type="text" class="form-control" />
+                        <label for="" class="col-2 col-form-label text-gray">ซอย</label>
+                        <div class="col">
+                            <input v-model="formData.alley" type="text" class="form-control" />
+                        </div>
                     </div>
                 </div>
 
                 <div class="row mb-2 me-5">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">หมู่</label>
-                    <div class="col me-5">
-                        <input v-model="formData.village_number" type="number" class="form-control mb-2" />
+                    <div class="col ms-1">
+                        <label for="" class="form-label text-gray">หมู่</label>
+                        <div class="col me-5">
+                            <input v-model="formData.village_number" type="number" class="form-control mb-2" />
+                        </div>
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">ถนน</label>
                     <div class="col">
-                        <input v-model="formData.street" type="text" class="form-control mb-2" />
+                        <label for="" class="col-2 col-form-label text-gray">ถนน</label>
+                        <div class="col">
+                            <input v-model="formData.street" type="text" class="form-control mb-2" />
+                        </div>
                     </div>
                 </div>
 
                 <div class="row mb-2">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">ตำบล / แขวง</label>
-                    <div class="col me-5">
-                        <input v-model="formData.subdistrict" type="text" class="form-control mb-2" />
+                    <div class="col ms-1">
+                        <label for="" class="form-label text-gray">ตำบล / แขวง</label>
+                        <div class="col me-5">
+                            <input v-model="formData.subdistrict" type="text" class="form-control mb-2" />
+                        </div>
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">อำเภอ / เขต</label>
                     <div class="col">
-                        <input v-model="formData.district" type="text" class="form-control mb-2" />
+                        <label for="" class="form-label text-gray">อำเภอ / เขต</label>
+                        <div class="col">
+                            <input v-model="formData.district" type="text" class="form-control mb-2" />
+                        </div>
                     </div>
                 </div>
 
                 <div class="row mb-2">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">จังหวัด</label>
-                    <div class="col me-5">
-                        <input v-model="formData.province" type="text" class="form-control mb-2" />
+                    <div class="col ms-1">
+                        <label for="" class="form-label text-gray">จังหวัด</label>
+                        <div class="col me-5">
+                            <input v-model="formData.province" type="text" class="form-control mb-2" />
+                        </div>
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">รหัสไปรษณีย์</label>
                     <div class="col">
-                        <input v-model="formData.post_code" type="number" class="form-control mb-2" />
+                        <label for="" class="form-label text-gray">รหัสไปรษณีย์</label>
+                        <div class="col">
+                            <input v-model="formData.post_code" type="number" class="form-control mb-2" />
+                        </div>
                     </div>
                 </div>
 
                 <div class="row mb-4">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">เบอร์โทรศัพท์ <span
-                            class="text-danger">*</span></label>
-                    <div class="col me-5">
-                        <input id="tel" placeholder="xxx-xxx-xxxx" v-model="formData.tel" maxlength="10" type="text"
-                            class="form-control mb-2" required />
+                    <div class="col ms-1">
+                        <label for="" class="form-label text-gray">เบอร์โทรศัพท์ <span class="text-danger">*</span></label>
+                        <div class="col me-5">
+                            <input id="tel" placeholder="xxx-xxx-xxxx" v-model="formData.tel" maxlength="10" type="text"
+                                class="form-control mb-2" required :class="{ 'is-invalid': v$.tel.$error }" />
+                        </div>
+                        <span v-for="error in v$.tel.$errors" :key="error.$uid" class="invalid-feedback">
+                            กรุณากรอกข้อมูล
+                        </span>
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">อีเมลส่วนตัว <span
-                            class="text-danger">*</span></label>
-
                     <div class="col">
-                        <input id="email" placeholder="example@gmail.com" name="email" v-model="formData.email"
-                            type="text" class="form-control mb-2" required />
+                        <label for="" class="form-label text-gray">อีเมลส่วนตัว <span class="text-danger">*</span></label>
+
+                        <div class="col">
+                            <input id="email" placeholder="example@gmail.com" name="email" v-model="formData.email"
+                                type="text" class="form-control mb-2" required :class="{ 'is-invalid': v$.email.$error }" />
+                            <span v-for="error in v$.email.$errors" :key="error.$uid" class="invalid-feedback">
+                                กรุณากรอกข้อมูล
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -427,19 +519,23 @@
                 <span class="h5 mb-3">สถานภาพทางทหาร</span>
 
                 <div class="row mb-4">
-                    <label for="" class="col-2 col-form-label ms-5 text-gray">สถานภาพทางทหาร</label>
-                    <div class="col me-5">
-                        <select id="military" v-model="formData.military_status" class="form-select mb-2">
-                            <option disabled selected value=""> เลือก </option>
-                            <option v-for="militaryStatus in militaryStatusList.list" :value="militaryStatus">
-                                {{ militaryStatus }}
-                            </option>
-                        </select>
+                    <div class="col ms-1">
+                        <label for="" class="form-label text-gray">สถานภาพทางทหาร</label>
+                        <div class="col me-5">
+                            <select id="military" v-model="formData.military_status" class="form-select mb-2">
+                                <option disabled selected value=""> เลือก </option>
+                                <option v-for="militaryStatus in militaryStatusList.list" :value="militaryStatus">
+                                    {{ militaryStatus }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
 
-                    <label for="" class="col-2 col-form-label text-gray">เหตุผล</label>
                     <div class="col">
-                        <input id="reason" v-model="formData.reason" type="text" class="form-control mb-2" />
+                        <label for="" class="col-2 col-form-label text-gray">เหตุผล</label>
+                        <div class="col">
+                            <input id="reason" v-model="formData.reason" type="text" class="form-control mb-2" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -448,11 +544,11 @@
                 <span class="h5 mb-3">หมายเหตุอื่น ๆ เกี่ยวกับนักศึกษา</span>
 
                 <div class="row">
-                    <label for="" class="col form-label ms-5 text-gray">หมายเหตุ</label>
+                    <label for="" class="col form-label ms-1 text-gray">หมายเหตุ</label>
                 </div>
 
                 <div class="row mb-4">
-                    <textarea name="" class="form-control mb-2 col ms-5" id="" rows="2"></textarea>
+                    <textarea name="" class="form-control mb-2 col ms-1" id="" rows="2"></textarea>
                 </div>
             </div>
         </div>
@@ -461,6 +557,7 @@
             <button type="button" class="col-2 btn outline-gray" @click="cancelEdit">
                 ย้อนกลับ
             </button>
+            
             <button type="button" class="col-2 align-self-end btn outline-red ms-auto" @click="confirmation">
                 บันทึก
             </button>
@@ -469,133 +566,172 @@
 </template>
 
 <script setup>
-    import { onMounted, ref, computed } from 'vue'
-    import { useRoute } from 'vue-router'
-    import router from '@/router'
-    import LayoutMenu from './LayoutMenu.vue'
-    import apiService from '../../services/api'
-    import { formatDate, getAgeBuddisht } from '../../assets/js/func'
-    import {
-        usePrefixData,
-        useStatusData,
-        useMilitaryStatus,
-        useGenderData,
-        useMartialStatus,
-        useInternType,
-        useBloodType,
-    } from "../../stores/constData";
-    import { useInternFormData } from "../../stores/addInternFormData";
-    import { getAge, isRequire } from "../../assets/js/func";
-    import Swal from 'sweetalert2'
+import { onMounted, ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import router from '@/router'
+import LayoutMenu from './LayoutMenu.vue'
+import apiService from '../../services/api'
+import { formatDate, getAgeBuddisht } from '../../assets/js/func'
+import {
+    usePrefixData,
+    useStatusData,
+    useMilitaryStatus,
+    useGenderData,
+    useMartialStatus,
+    useInternType,
+    useBloodType,
+} from "../../stores/constData";
+import { useInternFormData } from "../../stores/addInternFormData";
+import { getAge, isRequire } from "../../assets/js/func";
+import Swal from 'sweetalert2'
+import useVuelidate from '@vuelidate/core' // validate
+import { required } from '@vuelidate/validators' // validate
 
-    const formData = ref(useInternFormData());
-    const apiCall = new apiService();
-    const roles = ref({})
-    const sections = ref({});
-    const mentors = ref()
-    const universities = ref({});
-    const faculties = ref();
-    const majors = ref();
-    const prefixList = ref(usePrefixData());
-    const statusList = ref(useStatusData());
-    const internTypeList = ref(useInternType());
-    const militaryStatusList = ref(useMilitaryStatus());
-    const genderList = ref(useGenderData());
-    const martialStatusList = ref(useMartialStatus());
-    const bloodTypeList = ref(useBloodType());
+const formData = ref(useInternFormData());
+const apiCall = new apiService();
+const roles = ref({})
+const sections = ref({});
+const mentors = ref()
+const universities = ref({});
+const faculties = ref();
+const majors = ref();
+const prefixList = ref(usePrefixData());
+const statusList = ref(useStatusData());
+const internTypeList = ref(useInternType());
+const militaryStatusList = ref(useMilitaryStatus());
+const genderList = ref(useGenderData());
+const martialStatusList = ref(useMartialStatus());
+const bloodTypeList = ref(useBloodType());
 
-    const internProp = defineProps({
-        intern: Object,
-        cancelEdit: Function
-    })
+const internProp = defineProps({
+    intern: Object,
+    cancelEdit: Function
+})
+const valid = ref(false) // validate
 
-    async function submitForm() {
-        await apiCall.editInternData(formData.value, internProp.intern.intn_id)
-            .then((result) => {
-                console.log(result)
-                Swal.fire({
-                    icon: 'success',
-                    text: 'บันทึกข้อมูลเสร็จสิ้น',
-                    showConfirmButton: false,
-                    timer: 3000
-                }).then(() => {
-                    /* router.push({ name: 'internData', params: { id: internId }}) */
+// validate
+const rules = {
+    code: { required },
+    status: { required },
+    role: { required },
+    section: { required },
+    mentor: { required },
+    prefix: {
+      "0": { required },
+    },
+    fname: {
+      "0": { required },
+    },
+    lname: {
+      "0": { required },
+    },
+    nickname: {
+      "0": { required },
+    },
+    gender: { required },
+    university: { required },
+    faculty: { required },
+    major: { required },
+    tel: { required },
+    email: { required },
+    intern_type: { required },
+    start_date: { required },
+  }
 
-                })
+  const v$ = useVuelidate(rules, formData.value) // validate
+
+async function submitForm() {
+    await apiCall.editInternData(formData.value, internProp.intern.intn_id)
+        .then((result) => {
+            console.log(result)
+            Swal.fire({
+                icon: 'success',
+                text: 'บันทึกข้อมูลเสร็จสิ้น',
+                showConfirmButton: false,
+                timer: 3000
+            }).then(() => {
+                /* router.push({ name: 'internData', params: { id: internId }}) */
+
             })
-    }
+        })
+}
 
-    async function confirmation() {
-        Swal.fire({
-            text: "คุณต้องการบันทึกข้อมูลหรือไม่",
-            icon: "warning",
-            showCancelButton: true,
-            showConfirmButton: true,
-            confirmButtonText: "ยืนยัน",
-            cancelButtonText: "ยกเลิก",
-            confirmButtonColor: "var(--main-color)",
-            reverseButtons: true,
-            focusConfirm: false,
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                submitForm()
-            }
-        });
-    }
-
-
-    function setFaculty() {
-        faculties.value = formData.value.university.faculties;
-        formData.value.major = '';
-        formData.value.faculty = '';
-    }
-
-    function setMajor() {
-        majors.value = formData.value.faculty.majors;
-        formData.value.major = '';
-    }
-
-    function setMentor() {
-        mentors.value = formData.value.section.mentors
-        formData.value.mentor = '';
-    }
-
-    function getImage(img) {
-        if (img != null || img != '') {
-            return `../src/assets/images/interns/${img}`
+async function confirmation() {
+    const result = await v$.value.$validate()
+    if (result) {
+      console.log(formData.value)
+      Swal.fire({
+        text: "คุณต้องการบันทึกข้อมูลหรือไม่",
+        icon: "warning",
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonText: "ยืนยัน",
+        cancelButtonText: "ยกเลิก",
+        confirmButtonColor: "var(--main-color)",
+        reverseButtons: true,
+        focusConfirm: false,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          submitForm()
         }
+      });
+    }
+}
+
+
+
+function setFaculty() {
+    faculties.value = formData.value.university.faculties;
+    formData.value.major = '';
+    formData.value.faculty = '';
+}
+
+function setMajor() {
+    majors.value = formData.value.faculty.majors;
+    formData.value.major = '';
+}
+
+function setMentor() {
+    mentors.value = formData.value.section.mentors
+    formData.value.mentor = '';
+}
+
+function getImage(img) {
+    if (img != null || img != '') {
+        return `../src/assets/images/interns/${img}`
+    }
+}
+
+function showImg() {
+    const imgUpload = document.getElementById("img-upload");
+
+    if (imgUpload.files[0] != undefined) {
+        formData.value.image = imgUpload.files[0];
     }
 
-    function showImg() {
-        const imgUpload = document.getElementById("img-upload");
-
-        if (imgUpload.files[0] != undefined) {
-            formData.value.image = imgUpload.files[0];
-        }
-
-        if (formData.value.image) {
-            blah.src = URL.createObjectURL(formData.value.image);
-        }
+    if (formData.value.image) {
+        blah.src = URL.createObjectURL(formData.value.image);
     }
+}
 
-    onMounted(async () => {
-        formData.value.setData(internProp.intern)
+onMounted(async () => {
+    formData.value.setData(internProp.intern)
 
-        universities.value = await apiCall.getAllUniversity();
-        sections.value = await apiCall.getSectionWithMentor();
-        roles.value = await apiCall.getAllRole();
-    });
+    universities.value = await apiCall.getAllUniversity();
+    sections.value = await apiCall.getSectionWithMentor();
+    roles.value = await apiCall.getAllRole();
+});
 </script>
 
 <style scoped>
-    hr {
-        border: none;
-        height: 1px;
-        background-color: var(--main-color);
-    }
+hr {
+    border: none;
+    height: 1px;
+    background-color: var(--main-color);
+}
 
-    .border-bottom {
-        border-color: var(--main-color) !important;
-        margin-bottom: 12px;
-    }
+.border-bottom {
+    border-color: var(--main-color) !important;
+    margin-bottom: 12px;
+}
 </style>
