@@ -21,7 +21,7 @@
                 </thead>
 
                 <tbody>
-                    <tr class="tr-custom" v-for="(leave, index) in leavesInfo">
+                    <tr v-for="(leave, index) in leavesInfo" class="tr-custom">
                         <td class="text-center border-left">{{ formatDate(leave.lvs_edit_date || '-') }}</td>
                         <td class="text-center">{{ leave.lvs_id }}</td>
                         <td class="text-center">{{ leave.lvs_type_name }}</td>
@@ -32,7 +32,7 @@
                 </tbody>
             </table>
 
-            <div class="text-center mt-5" v-if="leavesInfo == 0">
+            <div v-if="leavesInfo == 0" class="text-center mt-5">
                 <span class="h5">----- ไม่มีข้อมูลการลา -----</span>
             </div>
         </div>

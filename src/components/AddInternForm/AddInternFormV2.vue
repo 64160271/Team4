@@ -11,21 +11,29 @@
 
         <div class="d-flex overflow-y-auto justify-content-center inpt-box mt-3">
             <!-- <Transition name="nested" duration="550"> -->
-            <div class="row w-75 my-auto" v-if="pageShow == 1">
-                <FormCompanyInfo :setParentData="setFormData" />
+            <div
+v-if="pageShow == 1"
+class="row w-75 my-auto">
+                <FormCompanyInfo :set-parent-data="setFormData" />
             </div>
             <!-- </Transition> -->
 
-            <div class="w-75" v-if="pageShow == 2">
-                <FormPersonalInfo :setParentData="setFormData" />
+            <div
+v-if="pageShow == 2"
+class="w-75">
+                <FormPersonalInfo :set-parent-data="setFormData" />
             </div>
 
-            <div class="w-75" v-if="pageShow == 3">
-                <FormAddress :setParentData="setFormData" />
+            <div
+v-if="pageShow == 3"
+class="w-75">
+                <FormAddress :set-parent-data="setFormData" />
             </div>
 
-            <div class="w-75" v-if="pageShow == 4">
-                <FormContract :setParentData="setFormData" />
+            <div
+v-if="pageShow == 4"
+class="w-75">
+                <FormContract :set-parent-data="setFormData" />
             </div>
 
             <!-- <div class="w-75" v-if="pageShow == 5">
@@ -36,18 +44,29 @@
                 <FormWorkInfo :setParentData="setFormData" />
             </div> -->
 
-            <div class="row w-100 mt-3" v-show="showSaveButton = true" v-if="pageShow == 5">
-                <FormConfirmation :formData="formData" :setConfirmationData="setConfirmationData" />
+            <div
+v-show="showSaveButton = true"
+v-if="pageShow == 5"
+class="row w-100 mt-3">
+                <FormConfirmation
+:form-data="formData"
+:set-confirmation-data="setConfirmationData" />
             </div>
         </div>
 
         <hr>
         <div class="row">
-            <button class="col-2 mx-auto btn outline-gray rounded-pill" @click="--pageShow, checkPage()">ย้อนกลับ</button>
-            <button v-if="showSaveButton == false" class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
+            <button
+class="col-2 mx-auto btn outline-gray rounded-pill"
+@click="--pageShow, checkPage()">ย้อนกลับ</button>
+            <button
+v-if="showSaveButton == false"
+class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
                 @click="++pageShow">ถัดไป
             </button>
-            <button v-if="showSaveButton == true" class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
+            <button
+v-if="showSaveButton == true"
+class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
                 @click="confirmation">บันทึก
             </button>
         </div>

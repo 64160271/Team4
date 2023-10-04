@@ -76,10 +76,10 @@
 
     <LayoutSidebar /> -->
 
-    <LayoutMenuName pageName="รายชื่อนักศึกษา" />
+    <LayoutMenuName page-name="รายชื่อนักศึกษา" />
 
     <div class="row mb-3 me-1">
-        <button @click="$router.push('/interns/key-data')" class="col-auto btn ms-auto outline-red">
+        <button class="col-auto btn ms-auto outline-red" @click="$router.push('/interns/key-data')">
             <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M14.8615 8.35539H3.91108C3.70363 8.35539 3.50469 8.2726 3.358 8.12523C3.21131 7.97787 3.12891 7.778 3.12891 7.56959V4.42642C3.12891 4.21801 3.21131 4.01814 3.358 3.87078C3.50469 3.72341 3.70363 3.64062 3.91108 3.64062H14.8615C15.0689 3.64062 15.2679 3.72341 15.4146 3.87078C15.5613 4.01814 15.6437 4.21801 15.6437 4.42642V7.56959C15.6437 7.778 15.5613 7.97787 15.4146 8.12523C15.2679 8.2726 15.0689 8.35539 14.8615 8.35539ZM4.69325 6.7838H14.0793V5.16506H4.69325V6.7838Z"
@@ -103,7 +103,7 @@
             เพิ่มแบบฟอร์ม
         </button>
 
-        <button @click="$router.push('/interns/add-file')" class="ms-4 col-auto btn outline-red">
+        <button class="ms-4 col-auto btn outline-red" @click="$router.push('/interns/add-file')">
             <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd"
                     d="M29.4116 7.63392H20.367V5.5L5.5 7.79751V27.9361L20.367 30.5V27.3371H29.4116C29.6855 27.351 29.9538 27.2557 30.1578 27.0721C30.3617 26.8885 30.4848 26.6315 30.5 26.3573V8.61282C30.4845 8.33878 30.3614 8.08201 30.1575 7.89859C29.9535 7.71517 29.6854 7.62002 29.4116 7.63392ZM29.5545 26.52H20.3366L20.3214 24.8313H22.542V22.8646H20.3045L20.2937 21.7024H22.542V19.7357H20.2768L20.2661 18.5735H22.542V16.6067H20.2589V15.4446H22.542V13.4778H20.2589V12.3157H22.542V10.3489H20.2589V8.56097H29.5545V26.52Z"
@@ -120,7 +120,7 @@
         </button>
     </div>
 
-    <table class="table table-borderless" id="myTable">
+    <table id="myTable" class="table table-borderless">
         <thead class="text-center bg-red">
             <tr class="tr-custom">
                 <th scope="col" class="col-auto border-left th-custom">รหัสนักศึกษาฝึกงาน</th>
@@ -133,8 +133,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr @click="$router.push('/interns/' + intern.intn_id)" class="tb-hov tr-custom"
-                v-for="intern in filterData">
+            <tr v-for="intern in filterData" class="tb-hov tr-custom" @click="$router.push('/interns/' + intern.intn_id)">
                 <td scope="" class="col">
                     <img v-if="intern.intn_image" class="img-custom ms-2" :src="getImage(intern.intn_image)" width="35"
                         height="35" alt="" />
@@ -143,10 +142,10 @@
                 </td>
                 <td scope="">{{ intern.intn_prefix + intern.intn_fname + " " + intern.intn_lname }}</td>
                 <td scope="" class="text-center">{{ intern.intn_nickname || '-' }}</td>
-                <td scope="" class="text-center" v-if="intern.work_infos[0] != undefined">
+                <td v-if="intern.work_infos[0] != undefined" scope="" class="text-center">
                     {{ intern.work_infos[0].work_role.role_name }}
                 </td>
-                <td scope="row" class="text-center" v-else>
+                <td v-else scope="row" class="text-center">
                     {{ '-' }}
                 </td>
                 <td scope="row" class="text-center">{{ intern.college_info.col_uni.uni_name || '-' }}</td>
@@ -185,108 +184,93 @@
 
 
 <script setup>
-    import LayoutSidebar from './layouts/LayoutSidebar.vue';
-    import axios from 'axios';
-    import { ref, onMounted } from 'vue';
-    import DataTable from 'datatables.net-vue3'
-    import DataTablesCore from 'datatables.net-bs5'
-    import $ from 'jquery'
-    import { computed } from 'vue'
+import LayoutSidebar from './layouts/LayoutSidebar.vue';
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
+import DataTable from 'datatables.net-vue3'
+import DataTablesCore from 'datatables.net-bs5'
+import $ from 'jquery'
+import { computed } from 'vue'
 
-    DataTable.use(DataTablesCore)
+DataTable.use(DataTablesCore)
 
-    const date = new Date()
-    const currentDate = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
-    const interns = ref([{}])
-    const searchData = ref('')
+const date = new Date()
+const currentDate = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
+const interns = ref([{}])
+const searchData = ref('')
 
-    /* const interns = ref([{
-        intn_id: 1,
-        intn_prefix: 'นาย',
-        intn_nickname: 'กัน',
-        intn_fname: 'รวิชญ์',
-        intn_lname: 'พิบูลย์ศิลป์',
-        intn_start_date: Date(),
-        intn_end_date: Date(),
-        college_info: {
-            col_uni: {
-                uni_name: 'มหาวิทยาลัยบูรพา'
-            }
-        }
-    }]) */
-
-    const getAllIntern = async () => {
-        await axios.get(`${import.meta.env.VITE_API_HOST}/interns`)
-            .then((response) => {
-                interns.value = response.data
-            })
-    }
-
-    onMounted(() => getAllIntern())
-
-    function getImage(img) {
-        return `src/assets/images/interns/${img}`
-    }
-
-    function dateFormat(date) {
-
-        if (!date) {
-            return
-        }
-
-        const day = date.getDate()
-        const month = date.getMonth()
-        const year = date.getFullYear()
-
-        return day + "/" + month + "/" + year
-    }
-
-    const filterData = computed(() => {
-
-        let keyword = searchData.value.trim()
-        return interns.value.filter(intern => {
-
-            return (intern.intn_fname?.indexOf(keyword) > -1 ||
-                intern.intn_lname?.indexOf(keyword) > -1 ||
-                intern.intn_start_date?.indexOf(keyword) > -1 ||
-                intern.intn_end_date?.indexOf(keyword) > -1 ||
-                intern.intn_prefix?.indexOf(keyword) > -1 ||
-                /* intern.intn_id?.indexOf(keyword) > -1 || */
-                intern.college_info?.col_uni.uni_name.indexOf(keyword) > -1 ||
-                intern.intn_nickname?.indexOf(keyword) > -1 ||
-                /* intern.work_infos?.work_role?.role_name.indexOf(keyword) > -1 || */
-                intern.college_info?.col_faculty.fac_name.indexOf(keyword) > -1 ||
-                intern.college_info?.col_major.maj_name.indexOf(keyword) > -1
-            )
+const getAllIntern = async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/interns`)
+        .then((response) => {
+            interns.value = response.data
         })
+}
+
+onMounted(() => getAllIntern())
+
+function getImage(img) {
+    return `src/assets/images/interns/${img}`
+}
+
+function dateFormat(date) {
+
+    if (!date) {
+        return
+    }
+
+    const day = date.getDate()
+    const month = date.getMonth()
+    const year = date.getFullYear()
+
+    return day + "/" + month + "/" + year
+}
+
+const filterData = computed(() => {
+
+    let keyword = searchData.value.trim()
+    return interns.value.filter(intern => {
+
+        return (intern.intn_fname?.indexOf(keyword) > -1 ||
+            intern.intn_lname?.indexOf(keyword) > -1 ||
+            intern.intn_start_date?.indexOf(keyword) > -1 ||
+            intern.intn_end_date?.indexOf(keyword) > -1 ||
+            intern.intn_prefix?.indexOf(keyword) > -1 ||
+            /* intern.intn_id?.indexOf(keyword) > -1 || */
+            intern.college_info?.col_uni.uni_name.indexOf(keyword) > -1 ||
+            intern.intn_nickname?.indexOf(keyword) > -1 ||
+            /* intern.work_infos?.work_role?.role_name.indexOf(keyword) > -1 || */
+            intern.college_info?.col_faculty.fac_name.indexOf(keyword) > -1 ||
+            intern.college_info?.col_major.maj_name.indexOf(keyword) > -1
+        )
     })
+})
 </script>
 
 <style scoped>
-    #search-bar:focus {
-        box-shadow: none !important;
-    }
+#search-bar:focus {
+    box-shadow: none !important;
+}
 
-    .img-custom {
-        border-radius: 50%;
-        border: 1px solid black;
-        width: 35px;
-        height: 35px;
-    }
+.img-custom {
+    border-radius: 50%;
+    border: 1px solid black;
+    width: 35px;
+    height: 35px;
+}
 
-    .bg-grays-200 {
-        background-color: #8d969b30 !important;
-    }
+.bg-grays-200 {
+    background-color: #8d969b30 !important;
+}
 
-    .navbar {
-        z-index: 99;
-    }
+.navbar {
+    z-index: 99;
+}
 
-    .border-left {
-        border-radius: 8px 0 0 8px;
-    }
+.border-left {
+    border-radius: 8px 0 0 8px;
+}
 
-    .border-right {
-        border-radius: 0 8px 8px 0;
-    }
+.border-right {
+    border-radius: 0 8px 8px 0;
+}
 </style>

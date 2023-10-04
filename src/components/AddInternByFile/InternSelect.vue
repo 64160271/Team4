@@ -7,40 +7,78 @@
 
 <template>
     <div class="form-check mt-3">
-        <input @change="checkAll" id="main" type="checkbox" class="form-check-input rounded-circle" />
-        <label for="" class="form-check-label">เลือกทั้งหมด</label>
+        <input
+id="main"
+type="checkbox"
+class="form-check-input rounded-circle"
+@change="checkAll" />
+        <label
+for=""
+class="form-check-label">เลือกทั้งหมด</label>
     </div>
 
     <form @submit.prevent="createInterns">
         <div class="row mt-2 table-wrapper-scroll-y my-custom-scrollbar">
-            <table class="table table-borderless fixed-head" id="tb-data">
+            <table
+id="tb-data"
+class="table table-borderless fixed-head">
                 <thead class="text-center bg-red">
                     <tr>
-                        <th scope="col" class="col-2 border-left">ลำดับ</th>
+                        <th
+scope="col"
+class="col-2 border-left">ลำดับ</th>
                         <th scope="col">ชื่อ - นามสกุล</th>
                         <th scope="col">ชื่อเล่น</th>
                         <th scope="col">ตำแหน่ง</th>
                         <th scope="col">มหาวิทยาลัย</th>
-                        <th scope="col" class="col-sm-auto">วันที่เริ่มฝึกงาน</th>
-                        <th scope="col" class="col-sm-auto border-right">วันที่สิ้นสุดฝึกงาน</th>
+                        <th
+scope="col"
+class="col-sm-auto">วันที่เริ่มฝึกงาน</th>
+                        <th
+scope="col"
+class="col-sm-auto border-right">วันที่สิ้นสุดฝึกงาน</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(data, index) in excelData">
-                        <td scope="row" class="d-flex justify-content-start">
-                            <input @change="unSelectAll" name="tb-check" type="checkbox"
-                                class="my-auto form-check-input rounded-circle ms-2" />
-                            <label for="" class="mx-auto">{{ index + 1 }}</label>
+                        <td
+scope="row"
+class="d-flex justify-content-start">
+                            <input
+name="tb-check"
+type="checkbox"
+class="my-auto form-check-input rounded-circle ms-2"
+                                @change="unSelectAll" />
+                            <label
+for=""
+class="mx-auto">{{ index + 1 }}</label>
                         </td>
                         <td scope="row">{{ data[7] + data[8] }}</td>
-                        <td scope="row" class="text-center">{{ data[9] }}</td>
-                        <td scope="row" class="text-center">{{ data[6] }}</td>
-                        <td scope="row" class="text-center">{{ data[15] }}</td>
-                        <td scope="row" class="text-center">{{ dateFormat(data[10]) }}</td>
-                        <td scope="row" class="text-center">{{ dateFormat(data[11]) || '-' }}</td>
-                        <td v-if="data.duplicate" class="text-center" @mouseover.once="openTooltip">
-                            <img src="../../assets/images/warning.png" width="24" alt=""
-                            data-bs-toggle="tooltip" data-bs-placement="left"
+                        <td
+scope="row"
+class="text-center">{{ data[9] }}</td>
+                        <td
+scope="row"
+class="text-center">{{ data[6] }}</td>
+                        <td
+scope="row"
+class="text-center">{{ data[15] }}</td>
+                        <td
+scope="row"
+class="text-center">{{ dateFormat(data[10]) }}</td>
+                        <td
+scope="row"
+class="text-center">{{ dateFormat(data[11]) || '-' }}</td>
+                        <td
+v-if="data.duplicate"
+class="text-center"
+@mouseover.once="openTooltip">
+                            <img
+src="../../assets/images/warning.png"
+width="24"
+alt=""
+                            data-bs-toggle="tooltip"
+data-bs-placement="left"
                             title="มีข้อมูลนี้อยู่ในระบบอยู่แล้ว หากทำการเพิ่มข้อมูลจะเป็นการแก้ไขข้อมูลที่มีอยู่">
                         </td>
                     </tr>
@@ -53,7 +91,10 @@
         <hr>
 
         <span class="col">รายการทั้งหมด {{ excelData.length || 0 }} รายการ</span>
-        <button @click="confirmation" type="button" class="col-sm-2 btn outline-red ms-auto">บันทึก</button>
+        <button
+type="button"
+class="col-sm-2 btn outline-red ms-auto"
+@click="confirmation">บันทึก</button>
     </div>
 </template>
 

@@ -21,7 +21,7 @@
                 </thead>
 
                 <tbody>
-                    <tr class="tr-custom" v-for="(salary, index) in salaries">
+                    <tr v-for="(salary, index) in salaries" class="tr-custom">
                         <td class="text-center border-left">
                             {{ formatDate(salary.sal_edit_date || "-") }}
                         </td>
@@ -35,18 +35,18 @@
                 </tbody>
             </table>
 
-            <div class="text-center mt-5" v-if="salaries == 0">
+            <div v-if="salaries == 0" class="text-center mt-5">
                 <span class="h5">----- ไม่มีข้อมูลเบี้ยเลี้ยง -----</span>
             </div>
         </div>
     </div>
 
     <!-- Modal -->
-    <div class="modal" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div id="modal" class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">แก้ไขจำนวนเบี้ยเลี้ยง</h5>
+                    <h5 id="exampleModalLabel" class="modal-title">แก้ไขจำนวนเบี้ยเลี้ยง</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -56,8 +56,8 @@
                                 <label for="" class="form-label text-gray">วันที่แก้ไข
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input v-model="formData.edit_date" type="date" class="datepicker form-control" name=""
-                                    id="" />
+                                <input id="" v-model="formData.edit_date" type="date" class="datepicker form-control"
+                                    name="" />
                             </div>
                         </div>
 
@@ -66,8 +66,8 @@
                                 <label for="" class="form-label text-gray">วันที่เริ่มต้นได้รับเบี้ยเลี้ยง
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input v-model="formData.from_date" type="date" class="datepicker form-control" name=""
-                                    id="" />
+                                <input id="" v-model="formData.from_date" type="date" class="datepicker form-control"
+                                    name="" />
                             </div>
                         </div>
 
@@ -76,7 +76,7 @@
                                 <label for="" class="form-label text-gray">เบี้ยเลี้ยงปัจจุบัน (บาท)
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input :value="lastSalary" type="number" class="form-control" name="" id="" readonly />
+                                <input id="" :value="lastSalary" type="number" class="form-control" name="" readonly />
                             </div>
                         </div>
 
@@ -85,7 +85,7 @@
                                 <label for="" class="form-label text-gray">เบี้ยเลี้ยงที่ทำการแก้ไข (บาท)
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input v-model="formData.salary" type="number" class="form-control" name="" id="" />
+                                <input id="" v-model="formData.salary" type="number" class="form-control" name="" />
                             </div>
                         </div>
                     </form>
@@ -94,7 +94,7 @@
                     <button type="button" class="col-md-3 btn outline-gray" data-bs-dismiss="modal" @click="closeModal">
                         ยกเลิก
                     </button>
-                    <button @click="formSubmit" type="button" class="col-md-3 btn outline-red">บันทึก</button>
+                    <button type="button" class="col-md-3 btn outline-red" @click="formSubmit">บันทึก</button>
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
 
         <LayoutMenu />
 
-        
+
     </div>
 </template>
 
@@ -11,6 +11,4 @@
 import LayoutMenu from './LayoutMenu.vue'
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

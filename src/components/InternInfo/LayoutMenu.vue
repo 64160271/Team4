@@ -7,33 +7,28 @@
 
 <template>
     <div class="row mt-2 mb-4 text-center">
-        <router-link :to="{ name: 'internData', params: { id: internId }}" 
-        class="text-decoration-none col h5 my-0 pb-3 border-bottom border-2"
-        active-class="active">
+        <router-link :to="{ name: 'internData', params: { id: internId } }"
+            class="text-decoration-none col h5 my-0 pb-3 border-bottom border-2" active-class="active">
             ข้อมูลส่วนตัว
         </router-link>
 
-        <router-link :to="{ name: 'workInfo', params: { id: internId }}" 
-        class="text-decoration-none col h5 py-0 my-0 border-bottom border-2"
-        active-class="active">
+        <router-link :to="{ name: 'workInfo', params: { id: internId } }"
+            class="text-decoration-none col h5 py-0 my-0 border-bottom border-2" active-class="active">
             ข้อมูลการทำงาน
         </router-link>
 
-        <router-link :to="{ name: 'salaryInfo', params: { id: internId }}" 
-        class="text-decoration-none col h5 py-0 my-0 border-bottom border-2"
-        active-class="active">
+        <router-link :to="{ name: 'salaryInfo', params: { id: internId } }"
+            class="text-decoration-none col h5 py-0 my-0 border-bottom border-2" active-class="active">
             ข้อมูลเบี้ยเลี้ยง
         </router-link>
 
-        <router-link :to="{ name: 'leaveInfo', params: { id: internId }}" 
-        class="text-decoration-none col h5 py-0 my-0 border-bottom border-2"
-        active-class="active">
+        <router-link :to="{ name: 'leaveInfo', params: { id: internId } }"
+            class="text-decoration-none col h5 py-0 my-0 border-bottom border-2" active-class="active">
             ข้อมูลการลา
         </router-link>
 
-        <router-link :to="{ name: 'documentInfo', params: { id: internId }}" 
-        class="text-decoration-none col h5 py-0 my-0 border-bottom border-2"
-        active-class="active">
+        <router-link :to="{ name: 'documentInfo', params: { id: internId } }"
+            class="text-decoration-none col h5 py-0 my-0 border-bottom border-2" active-class="active">
             เอกสารที่เกี่ยวข้อง
         </router-link>
     </div>

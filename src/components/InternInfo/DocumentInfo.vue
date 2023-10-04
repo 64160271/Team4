@@ -3,7 +3,7 @@
 
         <LayoutMenu />
 
-        
+
     </div>
 </template>
 

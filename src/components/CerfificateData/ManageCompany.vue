@@ -1,5 +1,5 @@
 <template>
-    <LayoutMenuName pageName="จัดการข้อมูลบริษัท" />
+    <LayoutMenuName page-name="จัดการข้อมูลบริษัท" />
 </template>
 
 <script setup>

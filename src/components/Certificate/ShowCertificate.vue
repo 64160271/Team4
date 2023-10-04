@@ -1,5 +1,5 @@
 <template>
-    <LayoutMenuName pageName="เอกสารรับรองการฝึกงาน" />
+    <LayoutMenuName page-name="เอกสารรับรองการฝึกงาน" />
 </template>
 
 <script setup>

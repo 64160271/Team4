@@ -1,5 +1,5 @@
 <template>
-    <LayoutMenuName pageName="รายงานเบี้ยเลี้ยง" />
+    <LayoutMenuName page-name="รายงานเบี้ยเลี้ยง" />
     
 </template>
 

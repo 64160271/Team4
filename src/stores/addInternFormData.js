@@ -74,9 +74,9 @@ export const useInternFormData = defineStore("internFormData", {
             this.nationality = intern.intn_nationality
             this.nation = intern.intn_nation
             this.religion = intern.intn_religion
-            this.university = intern.college_info?.col_uni?.uni_name
-            this.faculty = intern.college_info?.col_faculty
-            this.major = intern.college_info?.col_major
+            this.university = intern.college_info?.col_uni_id
+            this.faculty = intern.college_info?.col_faculty_id
+            this.major = intern.college_info?.col_major_id
             this.martial_status = intern.intn_martial_status
             this.military_status = intern.intn_military_status
             this.reason = intern.intn_reason
@@ -94,10 +94,10 @@ export const useInternFormData = defineStore("internFormData", {
             this.contract_number = intern.intn_contract_num
             this.start_date = intern.intn_start_date
             this.end_date = intern.intn_end_date
-            this.last_work_date = intern.intn_last_word_date
+            this.last_work_date = intern.intn_last_work_date
             this.contract_end_date = intern.intn_contract_end_date
-            this.mentor = intern.intn_mentor.ment_name
-            this.section = intern.work_infos[0]?.work_sec
+            this.mentor = intern.intn_mentor.ment_id
+            this.section = intern.work_infos[0]?.work_sec_id
             this.department = intern.work_infos[0]?.work_dept?.dept_name
         
         },

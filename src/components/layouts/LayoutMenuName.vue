@@ -4,12 +4,6 @@
   </div>
 </template>
 
-<style scoped>
-    .border-bottom {
-        border-color: none !important;
-    }
-</style>
-
 <script setup> 
 
 const prop = defineProps({
@@ -17,3 +11,9 @@ const prop = defineProps({
 })
 
 </script>
+
+<style scoped>
+    .border-bottom {
+        border-color: none !important;
+    }
+</style>

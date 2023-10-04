@@ -1,10 +1,17 @@
 <template>
     <div class="col">
-        <label for="" class="form-label text-gray">
+        <label
+for=""
+class="form-label text-gray">
             {{ label }}
-            <span class="text-danger" v-if="isRequired">*</span>
+            <span
+v-if="isRequired"
+class="text-danger">*</span>
         </label>
-        <input type="text" class="form-control mb-2" required />
+        <input
+type="text"
+class="form-control mb-2"
+required />
     </div>
 </template>
 

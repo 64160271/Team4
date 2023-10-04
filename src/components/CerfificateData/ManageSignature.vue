@@ -1,5 +1,5 @@
 <template>
-    <LayoutMenuName pageName="จัดการข้อมูลลายเซ็น" />
+    <LayoutMenuName page-name="จัดการข้อมูลลายเซ็น" />
 </template>
 
 <script setup>

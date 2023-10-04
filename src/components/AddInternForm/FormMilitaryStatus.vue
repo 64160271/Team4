@@ -7,16 +7,34 @@
 
     <div class="row mb-5">
         <div class="col">
-            <label for="" class="form-label">สถานภาพทางทหาร</label>
-            <select v-model="data.military_status" name="military_status" id="military_status" class="form-select" required>
-                <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="military_status in militaryStatus" :value="military_status">{{ military_status }}</option>
+            <label
+for=""
+class="form-label">สถานภาพทางทหาร</label>
+            <select
+id="military_status"
+v-model="data.military_status"
+name="military_status"
+class="form-select"
+required>
+                <option
+disabled
+selected
+value="">--- เลือก ---</option>
+                <option
+v-for="military_status in militaryStatus"
+:value="military_status">{{ military_status }}</option>
             </select>
         </div>
 
         <div class="col">
-            <label for="" class="form-label">เหตุผล</label>
-            <input v-model="data.reason" type="text" class="form-control" placeholder="">
+            <label
+for=""
+class="form-label">เหตุผล</label>
+            <input
+v-model="data.reason"
+type="text"
+class="form-control"
+placeholder="">
         </div>
     </div>
 
