@@ -10,14 +10,28 @@ export default class apiService {
     }
 
     getAllFaculty = async () => {
-        await axios.get(`${import.meta.env.VITE_API_HOST}/faculties`)
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/faculties`)
             .then((response) => {
                 return response.data
             })
     }
 
     getAllMajor = async () => {
-        await axios.get(`${import.meta.env.VITE_API_HOST}/majors`)
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/majors`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getFacultyByUniversityId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/faculties/university/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getMajorByFacultyId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/majors/faculty/${id}`)
             .then((response) => {
                 return response.data
             })

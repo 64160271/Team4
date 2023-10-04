@@ -79,6 +79,20 @@
     <LayoutMenuName page-name="รายชื่อนักศึกษา" />
 
     <div class="row mb-3 me-1">
+        <div class="col-md-4 my-auto">
+            <div class="input-group">
+                <span class="bg-grays-200 input-group-text" id="basic-addon1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-search" viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </span>
+                <input v-model="searchData" type="text" id="search-bar" class="bg-grays-200 form-control"
+                    placeholder="Search" aria-label="" aria-describedby="basic-addon1">
+            </div>
+        </div>
+
         <button class="col-auto btn ms-auto outline-red" @click="$router.push('/interns/key-data')">
             <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -133,15 +147,16 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="intern in filterData" class="tb-hov tr-custom" @click="$router.push('/interns/' + intern.intn_id)">
+            <tr v-for="intern in filterData" class="tb-hov tr-custom"
+                @click="$router.push('/interns/' + intern.intn_id)">
                 <td scope="" class="col">
                     <img v-if="intern.intn_image" class="img-custom ms-2" :src="getImage(intern.intn_image)" width="35"
                         height="35" alt="" />
                     <img v-else class="ms-2" src="../assets/images/person-nm.png" alt="" width="35">
                     <span class="ms-lg-5 ms-sm-2">{{ intern.intn_code }}</span>
                 </td>
-                <td scope="">{{ intern.intn_prefix + intern.intn_fname + " " + intern.intn_lname }}</td>
-                <td scope="" class="text-center">{{ intern.intn_nickname || '-' }}</td>
+                <td scope="">{{ intern.intn_name_th }}</td>
+                <td scope="" class="text-center">{{ intern.intn_nickname_th || '-' }}</td>
                 <td v-if="intern.work_infos[0] != undefined" scope="" class="text-center">
                     {{ intern.work_infos[0].work_role.role_name }}
                 </td>
@@ -160,117 +175,130 @@
     <div class="row my-2">
         <span class="col-5">รายการทั้งหมด {{ filterData.length || 0 }} รายการ</span>
 
-        <!-- <div class="col">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link border-0" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link rounded-circle mx-1" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link rounded-circle mx-1" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link rounded-circle mx-1" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link border-0" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div> -->
+        <div class="col">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a v-if="page > 1" class="page-link border-0 rounded-circle" href="#"
+                            @click="setCurrentPage(--page)" aria-label="Previous">
+                            <span aria-hidden="true">&lt</span>
+                        </a>
+                    </li>
+
+                    <li v-for="pageNum in pageMax" class="page-item">
+                        <router-link to="#" class="page-link rounded-circle mx-1" @click="setCurrentPage(pageNum)"
+                            active-class="active">
+                            {{ pageNum }}
+                        </router-link>
+                    </li>
+
+                    <li class="page-item">
+                        <a v-if="page < pageMax" class="page-link border-0 rounded-circle" href="#"
+                            @click="setCurrentPage(++page)" aria-label="Next">
+                            <span aria-hidden="true">></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 </template>
 
 
 <script setup>
-import LayoutSidebar from './layouts/LayoutSidebar.vue';
-import axios from 'axios';
-import { ref, onMounted } from 'vue';
-import DataTable from 'datatables.net-vue3'
-import DataTablesCore from 'datatables.net-bs5'
-import $ from 'jquery'
-import { computed } from 'vue'
+    import LayoutSidebar from './layouts/LayoutSidebar.vue';
+    import axios from 'axios';
+    import { ref, onMounted } from 'vue';
+    import { computed } from 'vue'
 
-DataTable.use(DataTablesCore)
+    const page = ref(1)
+    const pageMax = ref()
+    const pageSize = 10
+    const date = new Date()
+    const interns = ref([])
+    const searchData = ref('')
 
-const date = new Date()
-const currentDate = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
-const interns = ref([{}])
-const searchData = ref('')
-
-const getAllIntern = async () => {
-    await axios.get(`${import.meta.env.VITE_API_HOST}/interns`)
-        .then((response) => {
-            interns.value = response.data
-        })
-}
-
-onMounted(() => getAllIntern())
-
-function getImage(img) {
-    return `src/assets/images/interns/${img}`
-}
-
-function dateFormat(date) {
-
-    if (!date) {
-        return
+    async function setCurrentPage(pageNumber) {
+        if (pageNumber > 0 && pageNumber <= pageMax.value) {
+            page.value = pageNumber
+            await getAllIntern()
+        }
     }
 
-    const day = date.getDate()
-    const month = date.getMonth()
-    const year = date.getFullYear()
+    const getAllIntern = async () => {
+        console.log(page.value)
+        await axios.get(`${import.meta.env.VITE_API_HOST}/interns?page=${page.value}&limit=${pageSize}`)
+            .then((response) => {
+                console.log(response.data)
+                interns.value = response.data
+                pageMax.value = Math.ceil(interns.value.length / pageSize) + 1
+            })
+    }
 
-    return day + "/" + month + "/" + year
-}
+    onMounted(() => getAllIntern())
 
-const filterData = computed(() => {
+    function getImage(img) {
+        return `src/assets/images/interns/${img}`
+    }
 
-    let keyword = searchData.value.trim()
-    return interns.value.filter(intern => {
+    function dateFormat(date) {
 
-        return (intern.intn_fname?.indexOf(keyword) > -1 ||
-            intern.intn_lname?.indexOf(keyword) > -1 ||
-            intern.intn_start_date?.indexOf(keyword) > -1 ||
-            intern.intn_end_date?.indexOf(keyword) > -1 ||
-            intern.intn_prefix?.indexOf(keyword) > -1 ||
-            /* intern.intn_id?.indexOf(keyword) > -1 || */
-            intern.college_info?.col_uni.uni_name.indexOf(keyword) > -1 ||
-            intern.intn_nickname?.indexOf(keyword) > -1 ||
-            /* intern.work_infos?.work_role?.role_name.indexOf(keyword) > -1 || */
-            intern.college_info?.col_faculty.fac_name.indexOf(keyword) > -1 ||
-            intern.college_info?.col_major.maj_name.indexOf(keyword) > -1
-        )
+        if (!date) {
+            return
+        }
+
+        const day = date.getDate()
+        const month = date.getMonth()
+        const year = date.getFullYear()
+
+        return day + "/" + month + "/" + year
+    }
+
+    const filterData = computed(() => {
+
+        let keyword = searchData.value.trim()
+        return interns.value.filter(intern => {
+            return (intern.intn_fname?.indexOf(keyword) > -1 ||
+                intern.intn_lname?.indexOf(keyword) > -1 ||
+                intern.intn_start_date?.indexOf(keyword) > -1 ||
+                intern.intn_end_date?.indexOf(keyword) > -1 ||
+                intern.intn_prefix?.indexOf(keyword) > -1 ||
+                /* intern.intn_id?.indexOf(keyword) > -1 || */
+                intern.college_info?.col_uni.uni_name.indexOf(keyword) > -1 ||
+                intern.intn_nickname?.indexOf(keyword) > -1 ||
+                /* intern.work_infos?.work_role?.role_name.indexOf(keyword) > -1 || */
+                intern.college_info?.col_faculty.fac_name.indexOf(keyword) > -1 ||
+                intern.college_info?.col_major.maj_name.indexOf(keyword) > -1
+            )
+        })
     })
-})
 </script>
 
 <style scoped>
-#search-bar:focus {
-    box-shadow: none !important;
-}
+    #search-bar:focus {
+        box-shadow: none !important;
+    }
 
-.img-custom {
-    border-radius: 50%;
-    border: 1px solid black;
-    width: 35px;
-    height: 35px;
-}
+    .img-custom {
+        border-radius: 50%;
+        border: 1px solid black;
+        width: 35px;
+        height: 35px;
+    }
 
-.bg-grays-200 {
-    background-color: #8d969b30 !important;
-}
+    .bg-grays-200 {
+        background-color: #8d969b30 !important;
+    }
 
-.navbar {
-    z-index: 99;
-}
+    .navbar {
+        z-index: 99;
+    }
 
-.border-left {
-    border-radius: 8px 0 0 8px;
-}
+    .border-left {
+        border-radius: 8px 0 0 8px;
+    }
 
-.border-right {
-    border-radius: 0 8px 8px 0;
-}
+    .border-right {
+        border-radius: 0 8px 8px 0;
+    }
 </style>

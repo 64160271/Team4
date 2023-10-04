@@ -1,5 +1,5 @@
 <template>
-    <form id="form" enctype="multipart/form-data" class="mx-auto" style="width:80%" @submit.prevent="submitForm()">
+    <form id="form" enctype="multipart/form-data" class="mx-auto" style="width: 80%" @submit.prevent="submitForm()">
         <div class="row mb-3">
             <div class="row border-bottom">
                 <div class="col-auto mb-3">
@@ -54,7 +54,7 @@
                             <div class="col">
                                 <select id="status" v-model="formData.status" class="form-select mb-2" required
                                     :class="{ 'is-invalid': v$.status.$error }">
-                                    <option disabled selected value=""> เลือก </option>
+                                    <option disabled selected value="">เลือก</option>
                                     <option v-for="(status, index) in statusList.list" :value="status">
                                         {{ status }}
                                     </option>
@@ -71,19 +71,22 @@
                             <label for="" class="form-label text-gray">อีเมลพนักงาน</label>
                             <div class="col">
                                 <div class="input-group">
-                                    <input id="internemail" v-model="formData.intern_email" type="text" class="form-control"
-                                        placeholder="660000" />
+                                    <input id="internemail" v-model="formData.intern_email" type="text"
+                                        class="form-control" placeholder="660000" />
                                 </div>
                             </div>
                         </div>
 
                         <div class="col">
-                            <label for="" class="form-label text-gray">ตำแหน่งงาน <span class="text-danger">*</span></label>
+                            <label for="" class="form-label text-gray">ตำแหน่งงาน <span
+                                    class="text-danger">*</span></label>
                             <div class="col">
                                 <select id="role" v-model="formData.role" class="form-select mb-2" required
                                     :class="{ 'is-invalid': v$.role.$error }">
-                                    <option disabled selected value=""> เลือก </option>
-                                    <option v-for="role in roles" :value="role">{{ role.role_name }}</option>
+                                    <option disabled selected value="">เลือก</option>
+                                    <option v-for="role in roles" :value="role">
+                                        {{ role.role_name }}
+                                    </option>
                                 </select>
                                 <span v-for="error in v$.role.$errors" :key="error.$uid" class="invalid-feedback">
                                     กรุณากรอกข้อมูล
@@ -98,8 +101,9 @@
                             <div class="col">
                                 <select id="section" v-model="formData.section" class="form-select mb-2" required
                                     :class="{ 'is-invalid': v$.section.$error }" @change="setMentor">
-                                    <option disabled selected value=""> เลือก </option>
-                                    <option v-for="section in sections" :value="section.sec_id">{{ section.sec_name }}
+                                    <option disabled selected value="">เลือก</option>
+                                    <option v-for="section in sections" :value="section.sec_id">
+                                        {{ section.sec_name }}
                                     </option>
                                 </select>
                                 <span v-for="error in v$.section.$errors" :key="error.$uid" class="invalid-feedback">
@@ -109,12 +113,14 @@
                         </div>
 
                         <div class="col">
-                            <label for="" class="form-label text-gray">พี่เลี้ยง <span class="text-danger">*</span></label>
+                            <label for="" class="form-label text-gray">พี่เลี้ยง <span
+                                    class="text-danger">*</span></label>
                             <div class="col">
                                 <select id="mentor" v-model="formData.mentor" class="form-select mb-2" required
                                     :class="{ 'is-invalid': v$.mentor.$error }">
-                                    <option disabled selected value=""> เลือก (ต้องเลือกฝ่ายก่อน) </option>
-                                    <option v-for="mentor in mentors" :value="mentor.ment_id">{{ mentor.ment_name }}
+                                    <option disabled selected value="">เลือก (ต้องเลือกฝ่ายก่อน)</option>
+                                    <option v-for="mentor in mentors" :value="mentor.ment_id">
+                                        {{ mentor.ment_name }}
                                     </option>
                                 </select>
                                 <span v-for="error in v$.mentor.$errors" :key="error.$uid" class="invalid-feedback">
@@ -124,7 +130,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="row border-bottom">
@@ -136,7 +141,7 @@
                                 class="text-danger">*</span></label>
                         <select id="thprefix" v-model="formData.prefix" class="form-select" required
                             :class="{ 'is-invalid': v$.prefix.$error }">
-                            <option disabled selected :value="['', '']"> เลือก </option>
+                            <option disabled selected :value="['', '']">เลือก</option>
                             <option v-for="(prefix, index) in prefixList.list" :value="prefix">
                                 {{ prefix[0] }}
                             </option>
@@ -147,7 +152,8 @@
                     </div>
 
                     <div class="col">
-                        <label for="" class="form-label text-gray">ชื่อจริง (ไทย) <span class="text-danger">*</span></label>
+                        <label for="" class="form-label text-gray">ชื่อจริง (ไทย) <span
+                                class="text-danger">*</span></label>
                         <input id="fname_th" v-model="formData.fname[0]" type="text" placeholder="สมศรี" name="fname"
                             class="form-control" required :class="{ 'is-invalid': v$.fname.$error }" />
                         <span v-for="error in v$.fname.$errors" :key="error.$uid" class="invalid-feedback">
@@ -156,7 +162,8 @@
                     </div>
 
                     <div class="col">
-                        <label for="" class="form-label text-gray">นามสกุล (ไทย) <span class="text-danger">*</span></label>
+                        <label for="" class="form-label text-gray">นามสกุล (ไทย) <span
+                                class="text-danger">*</span></label>
                         <input id="lname_th" v-model="formData.lname[0]" placeholder="ลามากุล" type="text" name="lname"
                             class="form-control" required :class="{ 'is-invalid': v$.lname.$error }" />
                         <span v-for="error in v$.lname.$errors" :key="error.$uid" class="invalid-feedback">
@@ -165,7 +172,8 @@
                     </div>
 
                     <div class="col-2">
-                        <label for="" class="form-label text-gray">ชื่อเล่น (ไทย)<span class="text-danger">*</span></label>
+                        <label for="" class="form-label text-gray">ชื่อเล่น (ไทย)<span
+                                class="text-danger">*</span></label>
                         <input id="nickname_th" v-model="formData.nickname[0]" placeholder="นวล" type="text"
                             class="form-control" :class="{ 'is-invalid': v$.nickname.$error }" required />
                         <span v-for="error in v$.nickname.$errors" :key="error.$uid" class="invalid-feedback">
@@ -201,7 +209,7 @@
                     </div>
                 </div>
 
-                <hr class="mt-2">
+                <hr class="mt-2" />
 
                 <div class="row mb-3 gap-5">
                     <div class="col">
@@ -219,12 +227,11 @@
 
                             <div class="col">
                                 <label for="" class="form-label text-gray">อายุ (ปี)</label>
-                                <input type="text" class="form-control" :value="getAgeBuddisht(formData.birth_date) || 0"
-                                    readonly disabled />
+                                <input type="text" class="form-control"
+                                    :value="getAgeBuddisht(formData.birth_date) || 0" readonly disabled />
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="row mb-3 gap-5">
@@ -233,7 +240,7 @@
                         <div class="col">
                             <select id="gender" v-model="formData.gender" class="form-select mb-2" required
                                 :class="{ 'is-invalid': v$.gender.$error }">
-                                <option disabled selected value=""> เลือก </option>
+                                <option disabled selected value="">เลือก</option>
                                 <option v-for="gender in genderList.list" :value="gender">
                                     {{ gender }}
                                 </option>
@@ -248,7 +255,7 @@
                         <label for="" class="form-label text-gray">หมู่เลือด</label>
                         <div class="col">
                             <select id="bloodtype" v-model="formData.blood_type" class="form-select mb-2">
-                                <option disabled selected value=""> เลือก </option>
+                                <option disabled selected value="">เลือก</option>
                                 <option v-for="bloodType in bloodTypeList.list" :value="bloodType">
                                     {{ bloodType }}
                                 </option>
@@ -304,7 +311,7 @@
                         <label for="" class="form-label text-gray">สถานภาพสมรส</label>
                         <div class="col">
                             <select id="martial" v-model="formData.martial_status" class="form-select mb-2">
-                                <option disabled selected value=""> เลือก </option>
+                                <option disabled selected value="">เลือก</option>
                                 <option v-for="martialStatus in martialStatusList.list" :value="martialStatus">
                                     {{ martialStatus }}
                                 </option>
@@ -312,7 +319,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="row border-bottom">
@@ -320,10 +326,11 @@
 
                 <div class="row mb-4">
                     <div class="col ms-1">
-                        <label for="" class="form-label text-gray">ชื่อสถานศึกษา <span class="text-danger">*</span></label>
+                        <label for="" class="form-label text-gray">ชื่อสถานศึกษา <span
+                                class="text-danger">*</span></label>
                         <select id="university" v-model="formData.university" class="form-select" required
                             @change="setFaculty">
-                            <option disabled selected value=""> เลือก </option>
+                            <option disabled selected value="">เลือก</option>
                             <option v-for="university in universities" :value="university.uni_id">
                                 {{ university.uni_name }}
                             </option>
@@ -334,8 +341,8 @@
                         <label for="" class="form-label text-gray">คณะ <span class="text-danger">*</span></label>
                         <select id="faculty" v-model="formData.faculty" class="form-select" required
                             :class="{ 'is-invalid': v$.faculty.$error }" @change="setMajor">
-                            <option disabled selected value=""> เลือก (ต้องเลือกสถานศึกษาก่อน) </option>
-                            <option v-for="faculty in faculties" :value="faculty">
+                            <option disabled selected value="">เลือก (ต้องเลือกสถานศึกษาก่อน)</option>
+                            <option v-for="faculty in faculties" :value="faculty.fac_id">
                                 {{ faculty.fac_name }}
                             </option>
                         </select>
@@ -348,8 +355,10 @@
                         <label for="" class="form-label text-gray">สาขาวิชา <span class="text-danger">*</span></label>
                         <select id="major" v-model="formData.major" class="form-select" required
                             :class="{ 'is-invalid': v$.major.$error }">
-                            <option disabled selected value=""> เลือก (ต้องเลือกคณะก่อน) </option>
-                            <option v-for="major in majors" :value="major">{{ major.maj_name }}</option>
+                            <option disabled selected value="">เลือก (ต้องเลือกคณะก่อน)</option>
+                            <option v-for="major in majors" :value="major.maj_id">
+                                {{ major.maj_name }}
+                            </option>
                         </select>
                         <span v-for="error in v$.major.$errors" :key="error.$uid" class="invalid-feedback">
                             กรุณากรอกข้อมูล
@@ -363,10 +372,11 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6 ms-1">
-                        <label for="" class="form-label text-gray">ประเภทพนักงาน <span class="text-danger">*</span></label>
+                        <label for="" class="form-label text-gray">ประเภทพนักงาน <span
+                                class="text-danger">*</span></label>
                         <select id="interntype" v-model="formData.intern_type" class="form-select" required
                             :class="{ 'is-invalid': v$.intern_type.$error }">
-                            <option disabled selected value=""> เลือก </option>
+                            <option disabled selected value="">เลือก</option>
                             <option v-for="internType in internTypeList.list" :value="internType">
                                 {{ internType }}
                             </option>
@@ -408,7 +418,6 @@
                         <input id="contractend" v-model="formData.contract_end_date" type="date" class="form-control" />
                     </div>
                 </div>
-
             </div>
 
             <div class="row border-bottom">
@@ -480,7 +489,8 @@
 
                 <div class="row mb-4 gap-5">
                     <div class="col ms-1">
-                        <label for="" class="form-label text-gray">เบอร์โทรศัพท์ <span class="text-danger">*</span></label>
+                        <label for="" class="form-label text-gray">เบอร์โทรศัพท์ <span
+                                class="text-danger">*</span></label>
                         <div class="col">
                             <input id="tel" v-model="formData.tel" placeholder="xxx-xxx-xxxx" maxlength="10" type="text"
                                 class="form-control" required :class="{ 'is-invalid': v$.tel.$error }" />
@@ -491,7 +501,8 @@
                     </div>
 
                     <div class="col">
-                        <label for="" class="form-label text-gray">อีเมลส่วนตัว <span class="text-danger">*</span></label>
+                        <label for="" class="form-label text-gray">อีเมลส่วนตัว <span
+                                class="text-danger">*</span></label>
 
                         <div class="col">
                             <input id="email" v-model="formData.email" placeholder="example@gmail.com" name="email"
@@ -512,7 +523,7 @@
                         <label for="" class="form-label text-gray">สถานภาพทางทหาร</label>
                         <div class="col">
                             <select id="military" v-model="formData.military_status" class="form-select mb-2">
-                                <option disabled selected value=""> เลือก </option>
+                                <option disabled selected value="">เลือก</option>
                                 <option v-for="militaryStatus in militaryStatusList.list" :value="militaryStatus">
                                     {{ militaryStatus }}
                                 </option>
@@ -547,181 +558,164 @@
                 ย้อนกลับ
             </button>
 
-            <button type="button" class="col-2 align-self-end btn outline-red ms-auto" @click="confirmation">
+            <button type="button" class="col-2 align-self-end btn outline-red ms-auto" @click="submitForm">
                 บันทึก
             </button>
         </div>
+
     </form>
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
-import router from '@/router'
-import LayoutMenu from './LayoutMenu.vue'
-import apiService from '../../services/api'
-import { formatDate, getAgeBuddisht } from '../../assets/js/func'
-import {
-    usePrefixData,
-    useStatusData,
-    useMilitaryStatus,
-    useGenderData,
-    useMartialStatus,
-    useInternType,
-    useBloodType,
-} from "../../stores/constData";
-import { useInternFormData } from "../../stores/addInternFormData";
-import { getAge, isRequire } from "../../assets/js/func";
-import Swal from 'sweetalert2'
-import useVuelidate from '@vuelidate/core' // validate
-import { required } from '@vuelidate/validators' // validate
+    import { onMounted, ref, computed } from "vue";
+    import { useRoute } from "vue-router";
+    import router from "@/router";
+    import LayoutMenu from "./LayoutMenu.vue";
+    import apiService from "../../services/api";
+    import { formatDate, getAgeBuddisht } from "../../assets/js/func";
+    import {
+        usePrefixData,
+        useStatusData,
+        useMilitaryStatus,
+        useGenderData,
+        useMartialStatus,
+        useInternType,
+        useBloodType,
+    } from "../../stores/constData";
+    import { useInternFormData } from "../../stores/addInternFormData";
+    import { getAge, isRequire, confirmation } from "../../assets/js/func";
+    import Swal from "sweetalert2";
+    import useVuelidate from "@vuelidate/core"; // validate
+    import { required } from "@vuelidate/validators"; // validate
 
-const formData = ref(useInternFormData());
-const apiCall = new apiService();
-const roles = ref({})
-const sections = ref({});
-const mentors = ref()
-const universities = ref({});
-const faculties = ref();
-const majors = ref();
-const prefixList = ref(usePrefixData());
-const statusList = ref(useStatusData());
-const internTypeList = ref(useInternType());
-const militaryStatusList = ref(useMilitaryStatus());
-const genderList = ref(useGenderData());
-const martialStatusList = ref(useMartialStatus());
-const bloodTypeList = ref(useBloodType());
+    const formData = ref(useInternFormData());
+    const apiCall = new apiService();
+    const roles = ref({});
+    const sections = ref({});
+    const mentors = ref();
+    const universities = ref({});
+    const faculties = ref();
+    const majors = ref();
+    const prefixList = ref(usePrefixData());
+    const statusList = ref(useStatusData());
+    const internTypeList = ref(useInternType());
+    const militaryStatusList = ref(useMilitaryStatus());
+    const genderList = ref(useGenderData());
+    const martialStatusList = ref(useMartialStatus());
+    const bloodTypeList = ref(useBloodType());
 
-const internProp = defineProps({
-    intern: Object,
-    cancelEdit: Function
-})
-const valid = ref(false) // validate
+    const internProp = defineProps({
+        intern: Object,
+        cancelEdit: Function,
+    });
+    const valid = ref(false); // validate
 
-// validate
-const rules = {
-    code: { required },
-    status: { required },
-    role: { required },
-    section: { required },
-    mentor: { required },
-    prefix: {
-        "0": { required },
-    },
-    fname: {
-        "0": { required },
-    },
-    lname: {
-        "0": { required },
-    },
-    nickname: {
-        "0": { required },
-    },
-    gender: { required },
-    university: { required },
-    faculty: { required },
-    major: { required },
-    tel: { required },
-    email: { required },
-    intern_type: { required },
-    start_date: { required },
-}
+    // validate
+    const rules = {
+        code: { required },
+        status: { required },
+        role: { required },
+        section: { required },
+        mentor: { required },
+        prefix: {
+            0: { required },
+        },
+        fname: {
+            0: { required },
+        },
+        lname: {
+            0: { required },
+        },
+        nickname: {
+            0: { required },
+        },
+        gender: { required },
+        university: { required },
+        faculty: { required },
+        major: { required },
+        tel: { required },
+        email: { required },
+        intern_type: { required },
+        start_date: { required },
+    };
 
-const v$ = useVuelidate(rules, formData.value) // validate
+    const v$ = useVuelidate(rules, formData.value); // validate
 
-async function submitForm() {
-    await apiCall.editInternData(formData.value, internProp.intern.intn_id)
-        .then((result) => {
-            console.log(result)
-            Swal.fire({
-                icon: 'success',
-                text: 'บันทึกข้อมูลเสร็จสิ้น',
-                showConfirmButton: false,
-                timer: 3000
-            }).then(() => {
-                /* router.push({ name: 'internData', params: { id: internId }}) */
-
-            })
-        })
-}
-
-async function confirmation() {
-    const result = await v$.value.$validate()
-    if (result) {
-        console.log(formData.value)
-        Swal.fire({
-            text: "คุณต้องการบันทึกข้อมูลหรือไม่",
-            icon: "warning",
-            showCancelButton: true,
-            showConfirmButton: true,
-            confirmButtonText: "ยืนยัน",
-            cancelButtonText: "ยกเลิก",
-            confirmButtonColor: "var(--main-color)",
-            reverseButtons: true,
-            focusConfirm: false,
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                submitForm()
+    async function submitForm() {
+        const validate = await v$.value.$validate()
+        if (validate) {
+            const result = await confirmation();
+            if (result) {
+                await apiCall.editInternData(formData.value, internProp.intern.intn_id)
+                    .then((result) => {
+                        console.log(result);
+                        Swal.fire({
+                            icon: "success",
+                            text: "บันทึกข้อมูลเสร็จสิ้น",
+                            showConfirmButton: false,
+                            timer: 3000,
+                        }).then(() => {
+                            /* router.push({ name: 'internData', params: { id: internId }}) */
+                        });
+                    });
             }
-        });
-    }
-}
-
-function setFaculty() {
-    faculties.value = formData.value.university.faculties;
-    formData.value.major = '';
-    formData.value.faculty = '';
-}
-
-function setMajor() {
-    majors.value = formData.value.faculty.majors;
-    formData.value.major = '';
-}
-
-async function setMentor() {
-    mentors.value = await apiCall.getMentorBySectionId(formData.value.section)
-    formData.value.mentor = '';
-}
-
-function getImage(img) {
-    if (img != null || img != '') {
-        return `../src/assets/images/interns/${img}`
-    }
-}
-
-function showImg() {
-    const imgUpload = document.getElementById("img-upload");
-
-    if (imgUpload.files[0] != undefined) {
-        formData.value.image = imgUpload.files[0];
+        }
     }
 
-    if (formData.value.image) {
-        blah.src = URL.createObjectURL(formData.value.image);
+    async function setFaculty() {
+        faculties.value = await apiCall.getFacultyByUniversityId(formData.value.university);
+        majors.value = "";
+        formData.value.major = "";
+        formData.value.faculty = "";
     }
-}
 
-onMounted(async () => {
-    formData.value.setData(internProp.intern)
+    async function setMajor() {
+        majors.value = await apiCall.getMajorByFacultyId(formData.value.faculty);
+        formData.value.major = "";
+    }
 
-    /* sections.value = await apiCall.getAllSection();
-    universities.value = await apiCall.getAllUniversity();
-    roles.value = await apiCall.getAllRole();
-    mentors.value = await apiCall.getMentorBySectionId(formData.value.section) */
+    async function setMentor() {
+        mentors.value = await apiCall.getMentorBySectionId(formData.value.section);
+        formData.value.mentor = "";
+    }
 
-    await Promise.all([
-        sections.value = await apiCall.getAllSection(),
-        universities.value = await apiCall.getAllUniversity(),
-        roles.value = await apiCall.getAllRole(),
-        mentors.value = await apiCall.getMentorBySectionId(formData.value.section)
-    ])
+    function getImage(img) {
+        if (img != null || img != "") {
+            return `../src/assets/images/interns/${img}`;
+        }
+    }
 
-});
+    function showImg() {
+        const imgUpload = document.getElementById("img-upload");
+
+        if (imgUpload.files[0] != undefined) {
+            formData.value.image = imgUpload.files[0];
+        }
+
+        if (formData.value.image) {
+            blah.src = URL.createObjectURL(formData.value.image);
+        }
+    }
+
+    onMounted(async () => {
+        formData.value.setData(internProp.intern);
+
+        console.log(formData.value)
+
+        await Promise.all([
+            (sections.value = await apiCall.getAllSection()),
+            (universities.value = await apiCall.getAllUniversity()),
+            (roles.value = await apiCall.getAllRole()),
+            (mentors.value = await apiCall.getMentorBySectionId(formData.value.section)),
+            (faculties.value = await apiCall.getFacultyByUniversityId(formData.value.university)),
+            (majors.value = await apiCall.getMajorByFacultyId(formData.value.faculty)),
+        ]);
+    });
 </script>
 
 <style scoped>
-.border-bottom {
-    border-color: var(--main-color) !important;
-    margin-bottom: 12px;
-}
+    .border-bottom {
+        border-color: var(--main-color) !important;
+        margin-bottom: 12px;
+    }
 </style>

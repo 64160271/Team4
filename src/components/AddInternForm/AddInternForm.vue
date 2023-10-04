@@ -196,7 +196,8 @@
 
           <div class="col-2">
             <label for="" class="form-label text-gray">ชื่อเล่น (อังกฤษ)</label>
-            <input id="nickname_en" v-model="formData.nickname[1]" placeholder="Nual" type="text" class="form-control" />
+            <input id="nickname_en" v-model="formData.nickname[1]" placeholder="Nual" type="text"
+              class="form-control" />
           </div>
         </div>
 
@@ -204,7 +205,8 @@
           <div class="col-md-6 ms-1">
             <label for="" class="form-label text-gray">เลขบัตรประชาชน/พาสปอร์ต</label>
             <div class="col me-5">
-              <input id="citizenid" v-model="formData.citizen_id" maxlength="13" type="text" class="form-control mb-2" />
+              <input id="citizenid" v-model="formData.citizen_id" maxlength="13" type="text"
+                class="form-control mb-2" />
             </div>
           </div>
 
@@ -287,7 +289,8 @@
           <div class="col ms-1">
             <label for="" class="form-label text-gray">ศาสนา</label>
             <div class="col me-5">
-              <input id="religion" v-model="formData.religion" placeholder="พุทธ" type="text" class="form-control mb-2" />
+              <input id="religion" v-model="formData.religion" placeholder="พุทธ" type="text"
+                class="form-control mb-2" />
             </div>
           </div>
 
@@ -553,191 +556,190 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { onUnmounted, onMounted } from "vue";
-import Swal from "sweetalert2";
-import {
-  usePrefixData,
-  useStatusData,
-  useMilitaryStatus,
-  useGenderData,
-  useMartialStatus,
-  useInternType,
-  useBloodType,
-} from "../../stores/constData";
-import { useInternFormData } from "../../stores/addInternFormData";
-import { getAge, isRequire } from "../../assets/js/func";
-import apiService from "../../services/api";
-import router from '@/router';
-import useVuelidate from '@vuelidate/core' // validate
-import { required } from '@vuelidate/validators' // validate
+  import { ref, computed } from "vue";
+  import { onUnmounted, onMounted } from "vue";
+  import Swal from "sweetalert2";
+  import {
+    usePrefixData,
+    useStatusData,
+    useMilitaryStatus,
+    useGenderData,
+    useMartialStatus,
+    useInternType,
+    useBloodType,
+  } from "../../stores/constData";
+  import { useInternFormData } from "../../stores/addInternFormData";
+  import { getAge, isRequire } from "../../assets/js/func";
+  import apiService from "../../services/api";
+  import router from '@/router';
+  import useVuelidate from '@vuelidate/core' // validate
+  import { required } from '@vuelidate/validators' // validate
 
-const formData = ref(useInternFormData());
-const apiCall = new apiService();
-const roles = ref({})
-const sections = ref({});
-const mentors = ref()
-const universities = ref({});
-const faculties = ref();
-const majors = ref();
-const prefixList = ref(usePrefixData());
-const statusList = ref(useStatusData());
-const internTypeList = ref(useInternType());
-const militaryStatusList = ref(useMilitaryStatus());
-const genderList = ref(useGenderData());
-const martialStatusList = ref(useMartialStatus());
-const bloodTypeList = ref(useBloodType());
-const valid = ref(false) // validate
+  const formData = ref(useInternFormData());
+  const apiCall = new apiService();
+  const roles = ref({})
+  const sections = ref({});
+  const mentors = ref()
+  const universities = ref({});
+  const faculties = ref();
+  const majors = ref();
+  const prefixList = ref(usePrefixData());
+  const statusList = ref(useStatusData());
+  const internTypeList = ref(useInternType());
+  const militaryStatusList = ref(useMilitaryStatus());
+  const genderList = ref(useGenderData());
+  const martialStatusList = ref(useMartialStatus());
+  const bloodTypeList = ref(useBloodType());
+  const valid = ref(false) // validate
 
-// validate
-const rules = {
-  code: { required },
-  status: { required },
-  role: { required },
-  section: { required },
-  mentor: { required },
-  prefix: {
-    "0": { required },
-  },
-  fname: {
-    "0": { required },
-  },
-  lname: {
-    "0": { required },
-  },
-  nickname: {
-    "0": { required },
-  },
-  gender: { required },
-  university: { required },
-  faculty: { required },
-  major: { required },
-  tel: { required },
-  email: { required },
-  intern_type: { required },
-  start_date: { required },
-}
+  // validate
+  const rules = {
+    code: { required },
+    status: { required },
+    role: { required },
+    section: { required },
+    mentor: { required },
+    prefix: {
+      "0": { required },
+    },
+    fname: {
+      "0": { required },
+    },
+    lname: {
+      "0": { required },
+    },
+    nickname: {
+      "0": { required },
+    },
+    gender: { required },
+    university: { required },
+    faculty: { required },
+    major: { required },
+    tel: { required },
+    email: { required },
+    intern_type: { required },
+    start_date: { required },
+  }
 
-const v$ = useVuelidate(rules, formData.value) // validate
+  const v$ = useVuelidate(rules, formData.value) // validate
 
-async function submitForm() {
-  await apiCall.createIntern(formData.value)
-    .then(() => {
-      Swal.fire({
-        icon: 'success',
-        text: 'บันทึกข้อมูลเสร็จสิ้น',
-        showConfirmButton: false,
-        timer: 3000
-      }).then(() => {
-        router.push({ name: 'index' })
+  async function submitForm() {
+    await apiCall.createIntern(formData.value)
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          text: 'บันทึกข้อมูลเสร็จสิ้น',
+          showConfirmButton: false,
+          timer: 3000
+        }).then(() => {
+          router.push({ name: 'index' })
+        })
       })
-    })
-}
+  }
 
-async function confirmation() {
-  const result = await v$.value.$validate()
-  if (result) {
-    console.log(formData.value)
-    Swal.fire({
-      text: "คุณต้องการบันทึกข้อมูลหรือไม่",
-      icon: "warning",
-      showCancelButton: true,
-      showConfirmButton: true,
-      confirmButtonText: "ยืนยัน",
-      cancelButtonText: "ยกเลิก",
-      confirmButtonColor: "var(--main-color)",
-      reverseButtons: true,
-      focusConfirm: false,
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        submitForm()
+  async function confirmation() {
+    const result = await v$.value.$validate()
+    if (result) {
+      Swal.fire({
+        text: "คุณต้องการบันทึกข้อมูลหรือไม่",
+        icon: "warning",
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonText: "ยืนยัน",
+        cancelButtonText: "ยกเลิก",
+        confirmButtonColor: "var(--main-color)",
+        reverseButtons: true,
+        focusConfirm: false,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          submitForm()
+        }
+      });
+    }
+  }
+
+  function setFaculty() {
+    faculties.value = formData.value.university.faculties;
+    formData.value.major = '';
+    formData.value.faculty = '';
+  }
+
+  function setMajor() {
+    majors.value = formData.value.faculty.majors;
+    formData.value.major = '';
+  }
+
+  function setMentor() {
+    mentors.value = formData.value.section.mentors
+    formData.value.mentor = '';
+  }
+
+  function showImg() {
+    const imgUpload = document.getElementById("img-upload");
+
+    if (imgUpload.files[0] != undefined) {
+      formData.value.image = imgUpload.files[0];
+    }
+
+    if (formData.value.image) {
+      blah.src = URL.createObjectURL(formData.value.image);
+    }
+  }
+
+  onMounted(async () => {
+    universities.value = await apiCall.getAllUniversity();
+    sections.value = await apiCall.getSectionWithMentor();
+    roles.value = await apiCall.getAllRole();
+    setMentor();
+    setFaculty();
+    setMajor();
+
+    $.Thailand({
+      $district: $('#district'), // input ของตำบล
+      $amphoe: $('#amphoe'), // input ของอำเภอ
+      $province: $('#province'), // input ของจังหวัด
+      $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
+      onDataFill: function (data) {
+
+        console.info('Data Filled', data);
+
+      },
+
+      onLoad: function () {
+
+        console.info('Autocomplete is ready!');
+
+        $('#loader, .demo').toggle();
+
       }
     });
-  }
-}
-
-function setFaculty() {
-  faculties.value = formData.value.university.faculties;
-  formData.value.major = '';
-  formData.value.faculty = '';
-}
-
-function setMajor() {
-  majors.value = formData.value.faculty.majors;
-  formData.value.major = '';
-}
-
-function setMentor() {
-  mentors.value = formData.value.section.mentors
-  formData.value.mentor = '';
-}
-
-function showImg() {
-  const imgUpload = document.getElementById("img-upload");
-
-  if (imgUpload.files[0] != undefined) {
-    formData.value.image = imgUpload.files[0];
-  }
-
-  if (formData.value.image) {
-    blah.src = URL.createObjectURL(formData.value.image);
-  }
-}
-
-onMounted(async () => {
-  universities.value = await apiCall.getAllUniversity();
-  sections.value = await apiCall.getSectionWithMentor();
-  roles.value = await apiCall.getAllRole();
-  setMentor();
-  setFaculty();
-  setMajor();
-
-  $.Thailand({
-    $district: $('#district'), // input ของตำบล
-    $amphoe: $('#amphoe'), // input ของอำเภอ
-    $province: $('#province'), // input ของจังหวัด
-    $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
-    onDataFill: function (data) {
-
-      console.info('Data Filled', data);
-
-    },
-
-    onLoad: function () {
-
-      console.info('Autocomplete is ready!');
-
-      $('#loader, .demo').toggle();
-
-    }
   });
-});
 </script>
 
 <style scoped>
-.bg-grays-200 {
-  background-color: #8d969b30 !important;
-}
+  .bg-grays-200 {
+    background-color: #8d969b30 !important;
+  }
 
-hr {
-  border: none;
-  height: 1px;
-  background-color: var(--main-color);
-}
+  hr {
+    border: none;
+    height: 1px;
+    background-color: var(--main-color);
+  }
 
-.img {
-  height: 150px;
-  width: 150px;
-  border-radius: 50%;
-  border: 1px solid var(--main-color);
-}
+  .img {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    border: 1px solid var(--main-color);
+  }
 
-.text-gray {
-  color: #90969e !important;
-}
+  .text-gray {
+    color: #90969e !important;
+  }
 
-.border-bottom {
-  border-color: var(--main-color) !important;
-  margin-bottom: 12px;
-}
+  .border-bottom {
+    border-color: var(--main-color) !important;
+    margin-bottom: 12px;
+  }
 </style>
