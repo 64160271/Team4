@@ -100,7 +100,7 @@
                     <div class="row">
                         <label for="" class="col-5 col-form-label text-gray"> วันเกิด </label>
                         <input placeholder="-" type="text" class="col form-control-plaintext"
-                            :value="formatDate(intern.intn_birth_date)" readonly required />
+                            :value="intern.intn_birth_date" readonly required />
                     </div>
                 </div>
 
@@ -108,7 +108,7 @@
                     <div class="row">
                         <label for="" class="col-2 col-form-label text-gray">อายุ</label>
                         <input placeholder="-" type="text" class="col form-control-plaintext"
-                            :value="getAgeBuddisht(intern.intn_birth_date)" readonly />
+                            :value="getAgeBuddisht(intern.intn_birth_date) || '-'" readonly />
                     </div>
                 </div>
             </div>
@@ -289,19 +289,19 @@
                 <div class="col">
                     <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน</label>
                     <input placeholder="-" type="text" class="form-control-plaintext"
-                        :value="formatDate(intern.intn_start_date)" required readonly />
+                        :value="(intern.intn_start_date)" required readonly />
                 </div>
 
                 <div class="col">
                     <label for="" class="form-label text-gray">วันที่สำเร็จการฝึกงาน</label>
                     <input placeholder="-" type="text" class="form-control-plaintext"
-                        :value="formatDate(intern.intn_end_date)" required readonly />
+                        :value="(intern.intn_end_date)" required readonly />
                 </div>
 
                 <div class="col">
                     <label for="" class="form-label text-gray"> วันที่ทำงานวันสุดท้าย </label>
                     <input placeholder="-" type="text" class="form-control-plaintext"
-                        :value="formatDate(intern.intn_last_work_date)" required readonly />
+                        :value="(intern.intn_last_work_date)" required readonly />
                 </div>
 
                 <div class="col">
@@ -309,7 +309,7 @@
                         วันที่สิ้นสุดสัญญาการฝึกงาน
                     </label>
                     <input placeholder="-" type="text" class="form-control-plaintext"
-                        :value="formatDate(intern.intn_contract_end_date)" required readonly />
+                        :value="(intern.intn_contract_end_date)" required readonly />
                 </div>
             </div>
 
@@ -354,6 +354,10 @@
     import LayoutMenu from "./LayoutMenu.vue";
     import apiService from "../../services/api";
     import { formatDate, getAgeBuddisht } from "../../assets/js/func";
+
+    onMounted(async () => {
+        await console.log(internProp.intern)
+    })
 
     const internProp = defineProps({
         intern: Object

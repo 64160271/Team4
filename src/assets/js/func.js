@@ -10,6 +10,8 @@ export function getAge(birthdate) {
 }
 
 export function getAgeBuddisht(birthdate) {
+    if (!birthdate) return
+
     birthdate = new Date(birthdate)
     const today = new Date();
     const age = today.getFullYear() - birthdate.getFullYear() + 543 -

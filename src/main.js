@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 import './assets/js/func.js'
 import LayoutMenuName from './components/layouts/LayoutMenuName.vue'
-
 import { createApp } from 'vue'
 import App from './App.vue'
 import axios from 'axios'

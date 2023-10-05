@@ -573,7 +573,7 @@
   import apiService from "../../services/api";
   import router from '@/router';
   import useVuelidate from '@vuelidate/core' // validate
-  import { required } from '@vuelidate/validators' // validate
+  import { required } from '@vuelidate/validators' // validate 
 
   const formData = ref(useInternFormData());
   const apiCall = new apiService();
@@ -706,13 +706,15 @@
       },
 
       onLoad: function () {
-
-        console.info('Autocomplete is ready!');
-
         $('#loader, .demo').toggle();
-
       }
     });
+
+    /* $('.datepicker').datepicker({
+      dateFormat: 'dd/mm/yy',
+      changeMonth: 'true',
+      changeYear: 'true',
+    }) */
   });
 </script>
 

@@ -608,7 +608,6 @@
         intern: Object,
         cancelEdit: Function,
     });
-    const valid = ref(false); // validate
 
     // validate
     const rules = {
@@ -700,8 +699,6 @@
     onMounted(async () => {
         formData.value.setData(internProp.intern);
 
-        console.log(formData.value)
-
         await Promise.all([
             (sections.value = await apiCall.getAllSection()),
             (universities.value = await apiCall.getAllUniversity()),
@@ -710,6 +707,7 @@
             (faculties.value = await apiCall.getFacultyByUniversityId(formData.value.university)),
             (majors.value = await apiCall.getMajorByFacultyId(formData.value.faculty)),
         ]);
+        
     });
 </script>
 
