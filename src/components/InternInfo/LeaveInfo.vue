@@ -43,7 +43,6 @@ import LayoutMenu from "./LayoutMenu.vue";
 import apiService from "../../services/api";
 import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
-import { formatDate } from "../../assets/js/func";
 
 const internId = useRoute().params.id;
 const leavesInfo = ref({});
@@ -51,7 +50,6 @@ const apiCall = new apiService();
 
 onMounted(async () => {
   leavesInfo.value = await apiCall.getLeaveInfoByInternId(internId);
-  console.log(leavesInfo.value);
 });
 </script>
 

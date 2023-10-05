@@ -47,31 +47,6 @@ const id = route.params.id
 const isEdit = ref(false)
 const apiCall = new apiService()
 
-/* const getInternById = async () => {
-    await axios.get(`${import.meta.env.VITE_API_HOST}/interns/${id}`)
-        .then((response) => {
-            intern.value = response.data
-        })
- 
-    let prefix = intern.value.intn_prefix.split("|")
-    let fname = intern.value.intn_fname.split("|")
-    let lname = intern.value.intn_lname.split("|")
-    let nickname = intern.value.intn_nickname.split("|")
- 
-    dummyData.value.martial_status = martialStatus.value[intern.value.intn_marital_status - 1]
-    dummyData.value.gender = genders.value[intern.value.intn_gender - 1]
-    dummyData.value.military_status = militaryStatus.value[intern.value.intn_military_status - 1]
-    dummyData.value.intern_type = internType.value[intern.value.intn_emoployee_type - 1]
-    dummyData.value.status = status.value[intern.value.intn_work_status - 1]
- 
-    dummyData.value.name_th = prefix[0] + fname[0] + " " + lname[0]
-    dummyData.value.name_en = prefix[1] + fname[1] + " " + lname[1]
-    dummyData.value.nickname_th = nickname[0]
-    dummyData.value.nickname_en = nickname[1]
- 
-    if (dummyData.value.name_en == "NaN undefined") dummyData.value.name_en = undefined
-} */
-
 function cancelEdit() {
     isEdit.value = false
     editData()
@@ -90,7 +65,6 @@ function editData() {
         editButton.classList.add("rounded-custom")
         editButton.classList.remove("rounded-active")
     }
-
 }
 
 onMounted(async () => {

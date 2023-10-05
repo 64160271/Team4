@@ -355,10 +355,6 @@
     import apiService from "../../services/api";
     import { formatDate, getAgeBuddisht } from "../../assets/js/func";
 
-    onMounted(async () => {
-        await console.log(internProp.intern)
-    })
-
     const internProp = defineProps({
         intern: Object
     })

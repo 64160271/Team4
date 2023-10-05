@@ -1,17 +1,20 @@
 import { defineStore } from "pinia";
-import { required } from "@vuelidate/validators";
+import { required, minValue } from "@vuelidate/validators";
 
 export const useAddSalaryForm = defineStore('add_salary', {
     state: () => {
         return {
-            edit_date: new Date().toLocaleDateString(),
+            edit_date: '',
             from_date: '',
             salary: '',
 
             rules: {
-                edit_date: { required },
                 from_date: { required },
-                salary: { required },
+                edit_date: { required },
+                salary: { 
+                    required,
+                    minValueValue: minValue(1) 
+                },
             }
         }
     }
