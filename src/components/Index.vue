@@ -64,7 +64,7 @@
 
         </form>
 
-        <span class="me-3">นาย ตุ๊กตา</span>
+        <span class="me-3">นาย ฆีตพงษ์ โรจนวิชัย</span>
     </nav>
 
     <LayoutSidebar />
