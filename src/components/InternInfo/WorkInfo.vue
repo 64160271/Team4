@@ -13,19 +13,19 @@
                 <div class="row mb-2 ms-2">
                     <label for="" class="col-md-2 col-form-label text-gray"> ฝ่าย </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" readonly required />
+                        <input placeholder="-" :value="sectionName" type="text" class="form-control-plaintext" readonly required />
                     </div>
 
                     <label for="" class="col-md-2 col-form-label text-gray"> แผนก </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" readonly required />
+                        <input placeholder="-" :value="departmentName" type="text" class="form-control-plaintext" readonly required />
                     </div>
                 </div>
 
                 <div class="row mb-2 ms-2">
                     <label for="" class="col-md-2 col-form-label text-gray"> ตำแหน่งงาน </label>
                     <div class="col">
-                        <input placeholder="-" type="text" class="form-control-plaintext" readonly required />
+                        <input placeholder="-" :value="roleName" type="text" class="form-control-plaintext" readonly required />
                     </div>
 
                     <label for="" class="col-md-2 col-form-label text-gray"> พี่เลี้ยง </label>
@@ -49,9 +49,16 @@
                         <th scope="col" class="th-custom border-right">หลักฐาน</th>
                     </tr>
                 </thead>
-
                 <tbody>
-
+                    <tr v-for="work in workInfo" class="tr-custom">
+                        <td></td> 
+                        <td>{{ work.work_from_date }}</td> 
+                        <td>{{ work.work_to_date }}</td> 
+                        <td>{{  }}</td> 
+                        <td></td> 
+                        <td></td> 
+                        <td></td> 
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -59,10 +66,31 @@
 </template>
 
 <script setup>
+import { computed, onMounted, ref } from 'vue';
 import LayoutMenu from './LayoutMenu.vue'
 import { useRoute } from 'vue-router';
+import apiService from "../../services/api";
 
 const internId = useRoute().params.id;
+const apiCall = new apiService()
+const workInfo = ref({})
+
+const sectionName = computed(() => {
+    return workInfo.value[0]?.work_sec?.sec_name || "-"
+})
+
+const departmentName = computed(() => {
+    return workInfo.value[0]?.work_dept?.dept_name || "-"
+})
+
+const roleName = computed(() => {
+    return workInfo.value[0]?.work_role?.role_name || "-"
+})
+
+onMounted(async() => {
+    workInfo.value = await apiCall.getWorkInfoByInternId(internId)
+    console.log(workInfo.value)
+})
 
 function getImage(img) {
     if (img != null || img != '') {
