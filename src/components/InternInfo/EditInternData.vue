@@ -84,7 +84,7 @@
                                 <select id="role" v-model="formData.role" class="form-select mb-2" required
                                     :class="{ 'is-invalid': v$.role.$error }">
                                     <option disabled selected value="">เลือก</option>
-                                    <option v-for="role in roles" :value="role">
+                                    <option v-for="role in roles" :value="role.role_id">
                                         {{ role.role_name }}
                                     </option>
                                 </select>
@@ -603,6 +603,7 @@
     const genderList = ref(useGenderData());
     const martialStatusList = ref(useMartialStatus());
     const bloodTypeList = ref(useBloodType());
+    const isEdit = ref(false)
 
     const internProp = defineProps({
         intern: Object,
@@ -642,7 +643,8 @@
 
     async function submitForm() {
         const validate = await v$.value.$validate()
-        if (validate) {
+        console.log(formData.value)
+        if (validate && isEdit.value) {
             const result = await confirmation();
             if (result) {
                 await apiCall.editInternData(formData.value, internProp.intern.intn_id)
@@ -654,7 +656,7 @@
                             showConfirmButton: false,
                             timer: 3000,
                         }).then(() => {
-                            /* router.push({ name: 'internData', params: { id: internId }}) */
+                            router.push({ name: 'internData', params: { id: internId }})
                         });
                     });
             }
@@ -693,7 +695,7 @@
 
         if (formData.value.image) {
             blah.src = URL.createObjectURL(formData.value.image);
-        }
+        }   
     }
 
     onMounted(async () => {
@@ -707,7 +709,10 @@
             (faculties.value = await apiCall.getFacultyByUniversityId(formData.value.university)),
             (majors.value = await apiCall.getMajorByFacultyId(formData.value.faculty)),
         ]);
-        
+
+        $("input, select").change(function() {
+            isEdit.value = true
+        })
     });
 </script>
 

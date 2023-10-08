@@ -51,6 +51,13 @@ export default class apiService {
             })
     }
 
+    getMentorByInternId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/mentors/intern/${id}`)
+            .then((resposne) => {
+                return resposne.data
+            })
+    }
+
     getSectionWithMentor = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/sections/mentors`)
             .then((response) => {
