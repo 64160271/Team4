@@ -10,6 +10,7 @@ import SalaryReport from '../components/Report/SalaryReport.vue'
 import ManageCompany from '../components/CerfificateData/ManageCompany.vue'
 import ManageSignature from '../components/CerfificateData/ManageSignature.vue'
 import ManageUniversity from '../components/University/ManageUniversity.vue'
+import SelectCompany from '../components/Certificate/SelectCompany.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -68,6 +69,11 @@ const router = createRouter({
             path: '/companies',
             name: 'manageCompany',
             component: ManageCompany
+        },
+        {
+            path: '/certificates/selectCompany',
+            name: 'selectCompany',
+            component: SelectCompany
         }
     ]
 })
