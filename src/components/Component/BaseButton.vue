@@ -1,5 +1,5 @@
 <template>
-  <button class="btn col outline-red">
+  <button class="btn outline-red">
     {{ label }}
   </button>
 </template>

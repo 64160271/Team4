@@ -192,7 +192,7 @@
                 intern.intn_start_date?.indexOf(keyword) > -1 ||
                 intern.intn_end_date?.indexOf(keyword) > -1 ||
                 intern.intn_prefix?.indexOf(keyword) > -1 ||
-                /* intern.intn_id?.indexOf(keyword) > -1 || */
+                intern.intn_code?.indexOf(keyword) > -1 ||
                 intern.college_info?.col_uni.uni_name.indexOf(keyword) > -1 ||
                 intern.intn_nickname?.indexOf(keyword) > -1 ||
                 /* intern.work_infos?.work_role?.role_name.indexOf(keyword) > -1 || */
