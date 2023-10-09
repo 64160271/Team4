@@ -42,23 +42,45 @@
   </div>
 
   <!-- Modal -->
-  <div id="modal" class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div
+    id="modal"
+    class="modal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 id="exampleModalLabel" class="modal-title">แก้ไขจำนวนเบี้ยเลี้ยง</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
         <div class="modal-body">
           <form action="">
             <div class="row mb-4 mx-2">
               <div class="col">
-                <label for="" class="form-label text-gray">วันที่แก้ไข
+                <label for="" class="form-label text-gray"
+                  >วันที่แก้ไข
                   <span class="text-danger">*</span>
                 </label>
-                <input id="" v-model="formData.edit_date" type="date" class="datepicker form-control" name=""
-                  :class="{ 'is-invalid': v$.edit_date.$error }" />
-                <span v-for="error in v$.edit_date.$errors" :key="error.$uid" class="invalid-feedback">
+                <input
+                  id=""
+                  v-model="formData.edit_date"
+                  type="date"
+                  class="datepicker form-control"
+                  name=""
+                  :class="{ 'is-invalid': v$.edit_date.$error }"
+                />
+                <span
+                  v-for="error in v$.edit_date.$errors"
+                  :key="error.$uid"
+                  class="invalid-feedback"
+                >
                   กรุณากรอกข้อมูล
                 </span>
               </div>
@@ -66,44 +88,77 @@
 
             <div class="row mb-4 mx-2">
               <div class="col">
-                <label for="" class="form-label text-gray">วันที่เริ่มต้นได้รับเบี้ยเลี้ยง
+                <label for="" class="form-label text-gray"
+                  >วันที่เริ่มต้นได้รับเบี้ยเลี้ยง
                   <span class="text-danger">*</span>
                 </label>
-                <input id="" v-model="formData.from_date" type="date" class="datepicker form-control" name=""
-                  :class="{ 'is-invalid': v$.from_date.$error }" />
-                  <span v-for="error in v$.from_date.$errors" :key="error.$uid" class="invalid-feedback">
-                กรุณากรอกข้อมูล
-              </span>
+                <input
+                  id=""
+                  v-model="formData.from_date"
+                  type="date"
+                  class="datepicker form-control"
+                  name=""
+                  :class="{ 'is-invalid': v$.from_date.$error }"
+                />
+                <span
+                  v-for="error in v$.from_date.$errors"
+                  :key="error.$uid"
+                  class="invalid-feedback"
+                >
+                  กรุณากรอกข้อมูล
+                </span>
               </div>
-              
             </div>
 
             <div class="row mb-4 mx-2">
               <div class="col">
-                <label for="" class="form-label text-gray">เบี้ยเลี้ยงปัจจุบัน (บาท)
+                <label for="" class="form-label text-gray"
+                  >เบี้ยเลี้ยงปัจจุบัน (บาท)
                   <span class="text-danger">*</span>
                 </label>
-                <input id="" :value="lastSalary" type="number" class="form-control" name="" readonly />
+                <input
+                  id=""
+                  :value="lastSalary"
+                  type="number"
+                  class="form-control"
+                  name=""
+                  readonly
+                />
               </div>
             </div>
 
             <div class="row mb-4 mx-2">
               <div class="col">
-                <label for="" class="form-label text-gray">เบี้ยเลี้ยงที่ทำการแก้ไข (บาท)
+                <label for="" class="form-label text-gray"
+                  >เบี้ยเลี้ยงที่ทำการแก้ไข (บาท)
                   <span class="text-danger">*</span>
                 </label>
-                <input id="" v-model="formData.salary" type="number" class="form-control" name=""
-                  :class="{ 'is-invalid': v$.salary.$error }" />
-                  <span v-for="error in v$.salary.$errors" :key="error.$uid" class="invalid-feedback">
-                กรุณากรอกข้อมูล
-              </span>
+                <input
+                  id=""
+                  v-model="formData.salary"
+                  type="number"
+                  class="form-control"
+                  name=""
+                  :class="{ 'is-invalid': v$.salary.$error }"
+                />
+                <span
+                  v-for="error in v$.salary.$errors"
+                  :key="error.$uid"
+                  class="invalid-feedback"
+                >
+                  กรุณากรอกข้อมูล
+                </span>
               </div>
-              
             </div>
           </form>
         </div>
         <div class="modal-footer justify-content-center gap-4">
-          <button type="button" class="col-md-3 btn outline-gray" data-bs-dismiss="modal" @click="closeModal">
+          <button
+            type="button"
+            class="col-md-3 btn outline-gray"
+            data-bs-dismiss="modal"
+            @click="closeModal"
+          >
             ยกเลิก
           </button>
           <button type="button" class="col-md-3 btn outline-red" @click="formSubmit">
