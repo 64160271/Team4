@@ -139,6 +139,8 @@ const getAllIntern = async () => {
     let fname = "";
     let lname = "";
 
+    console.log(interns);
+
     if (Array.isArray(interns)) {
       props.excelData.forEach((data, index) => {
         let name = data[8].split(" ");

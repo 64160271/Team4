@@ -104,7 +104,7 @@
     <hr>
 
     <div class="row my-2">
-        <span class="col-5">รายการทั้งหมด {{ filterData.length || 0 }} รายการ</span>
+        <span class="col-5">รายการทั้งหมด {{ total || 0 }} รายการ</span>
 
         <div class="col">
             <nav aria-label="Page navigation example">
@@ -142,6 +142,7 @@
     import { ref, onMounted } from 'vue';
     import { computed } from 'vue'
 
+    const total = ref()
     const page = ref(1)
     const pageMax = ref()
     const pageSize = 10
@@ -159,7 +160,8 @@
     const getAllIntern = async () => {
         await axios.get(`${import.meta.env.VITE_API_HOST}/interns?page=${page.value}&limit=${pageSize}`)
             .then((response) => {
-                interns.value = response.data
+                interns.value = response.data.rows
+                total.value = response.data.count
                 pageMax.value = Math.ceil(interns.value.length / pageSize) + 1
             })
     }

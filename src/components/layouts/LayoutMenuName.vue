@@ -4,16 +4,16 @@
   </div>
 </template>
 
-<script setup> 
+<script setup>
 
-const prop = defineProps({
+  const prop = defineProps({
     pageName: String
-})
+  })
 
 </script>
 
 <style scoped>
-    .border-bottom {
-        border-color: none !important;
-    }
+  .border-bottom {
+    border-color: none !important;
+  }
 </style>
