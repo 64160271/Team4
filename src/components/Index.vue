@@ -68,13 +68,13 @@
     <table id="myTable" class="table table-borderless">
         <thead class="text-center bg-red">
             <tr class="tr-custom">
-                <th scope="col" class="col-auto border-left th-custom">รหัสนักศึกษาฝึกงาน</th>
-                <th scope="col" class="th-custom">ชื่อ - นามสกุล</th>
-                <th scope="col" class="th-custom">ชื่อเล่น</th>
-                <th scope="col" class="th-custom">ตำแหน่ง</th>
-                <th scope="col" class="th-custom">สถานศึกษา</th>
-                <th scope="col" class="col-sm-auto th-custom">วันที่เริ่มฝึกงาน</th>
-                <th scope="col" class="col-sm-auto border-right th-custom">วันที่สิ้นสุดฝึกงาน</th>
+                <th scope="col" class="col-auto fw-bold border-left th-custom">รหัสนักศึกษาฝึกงาน</th>
+                <th scope="col" class="th-custom fw-bold">ชื่อ - นามสกุล</th>
+                <th scope="col" class="th-custom fw-bold">ชื่อเล่น</th>
+                <th scope="col" class="th-custom fw-bold">ตำแหน่ง</th>
+                <th scope="col" class="th-custom fw-bold">สถานศึกษา</th>
+                <th scope="col" class="col-sm-auto th-custom fw-bold">วันที่เริ่มฝึกงาน</th>
+                <th scope="col" class="col-sm-auto border-right th-custom fw-bold">วันที่สิ้นสุดฝึกงาน</th>
             </tr>
         </thead>
         <tbody>
