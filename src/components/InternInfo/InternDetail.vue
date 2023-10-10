@@ -1,5 +1,5 @@
 <template>
-    <div class="row mx-auto" style="width: 80%">
+    <div class="row mx-auto" style="width: 100%">
         <div class="row border-bottom">
             <div class="col-auto">
                 <img id="blah" :src="getImage(intern.intn_image)" alt="" class="img bg-grays-200" />

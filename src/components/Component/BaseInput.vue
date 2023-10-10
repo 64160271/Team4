@@ -4,26 +4,28 @@
     <span class="text-danger" v-if="required">*</span>
   </label>
   <input
-    :value="value"
+    :value="modelValue"
     :placeholder="placeholder"
     :type="input_type"
-    :model="model"
     class="form-control"
     :readonly="readonly"
     :required="required"
+    @input="$emit('update:modelValue', $event.target.value)"
+    v-bind="$attrs"
   />
 </template>
 
 <script setup>
-const prop = defineProps({
+defineProps({
   label: {
     type: [Boolean, String],
   },
   placeholder: {
     type: [Boolean, String],
   },
-  model: {
+  modelValue: {
     type: String,
+    default: "",
   },
   required: {
     type: Boolean,

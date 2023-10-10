@@ -3,9 +3,7 @@
     <LayoutMenu />
 
     <div class="row mb-3">
-      <button @click="openModal()" class="btn outline-red col-auto ms-auto">
-        เพิ่มข้อมูลการลา
-      </button>
+      <BaseButton label="เพิ่มข้อมูลการลา" @click="openModal" class="col-auto ms-auto" />
     </div>
 
     <div class="row">
@@ -43,14 +41,8 @@
     </div>
   </div>
 
-  <div
-    id="modal"
-    class="modal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+  <div id="modal" class="modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 id="exampleModalLabel" class="modal-title">เพิ่มข้อมูลการลา</h5>
@@ -65,8 +57,22 @@
           <form action="">
             <div class="row mb-4 mx-2">
               <div class="col">
-                <BaseInput label="วันที่" />
+                <BaseInput v-model="formData.write_date" type="date" required="true" />
               </div>
+            </div>
+            <div class="row mb-4 mx-2">
+              <div class="col">
+                <BaseInput
+                  v-model="formData.title"
+                  type="text"
+                  label="เรื่อง"
+                  placeholder="ชื่อเรื่อง"
+                  required="true"
+                />
+              </div>
+            </div>
+
+            <div class="row mb-4 mx-2">
               <div class="col">
                 <BaseInput />
               </div>
@@ -76,38 +82,52 @@
               <div class="col">
                 <BaseInput />
               </div>
-              <div class="col">
-                <BaseInput />
-              </div>
             </div>
 
             <div class="row mb-4 mx-2">
               <div class="col">
                 <BaseInput />
               </div>
-              <div class="col">
-                <BaseInput />
-              </div>
             </div>
-
             <div class="row mb-4 mx-2">
               <div class="col">
                 <BaseInput />
               </div>
-              <div class="col">
-                <BaseInput />
-              </div>
             </div>
-
             <div class="row mb-4 mx-2">
               <div class="col">
                 <BaseInput />
               </div>
+            </div>
+            <div class="row mb-4 mx-2">
+              <div class="col">
+                <BaseInput />
+              </div>
+            </div>
+            <div class="row mb-4 mx-2">
+              <div class="col">
+                <BaseInput />
+              </div>
+            </div>
+            <div class="row mb-4 mx-2">
               <div class="col">
                 <BaseInput />
               </div>
             </div>
           </form>
+        </div>
+        <div class="modal-footer justify-content-center gap-4">
+          <button
+            type="button"
+            class="col-md-3 btn outline-gray"
+            data-bs-dismiss="modal"
+            @click="closeModal"
+          >
+            ยกเลิก
+          </button>
+          <button type="button" class="col-md-3 btn outline-red" @click="formSubmit">
+            บันทึก
+          </button>
         </div>
       </div>
     </div>
@@ -121,17 +141,23 @@ import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
 import PictureLogo from "../icons/PictureLogo.vue";
 import BaseInput from "../Component/BaseInput.vue";
+import BaseButton from "../Component/BaseButton.vue";
+import { useLeaveFormData } from "../../stores/leaveFormData";
 
 const internId = useRoute().params.id;
 const leavesInfo = ref({});
 const apiCall = new apiService();
+const formData = ref(useLeaveFormData());
 const modal = ref();
 
 onMounted(async () => {
   leavesInfo.value = await apiCall.getLeaveInfoByInternId(internId);
   modal.value = new bootstrap.Modal("#modal", {});
-  console.log(leavesInfo.value);
 });
+
+function formSubmit() {
+  console.log(formData.value);
+}
 
 function openModal() {
   modal.value.show();
@@ -142,8 +168,4 @@ function closeModal() {
 }
 </script>
 
-<style scoped>
-button {
-  height: 50px;
-}
-</style>
+<style scoped></style>
