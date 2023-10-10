@@ -50,12 +50,17 @@
         <div class="col-md-7">
           <h5 class="card-title mb-4">Internship Management System</h5>
 
+          <div class="row mb-3" v-if="error">
+            <span class="text-danger fw-bold">{{ error }}</span>
+          </div>
+
           <label class="form-label h5">Username</label>
           <div class="row mb-3">
             <span class="col-auto align-self-center">
               <UserIcon />
             </span>
-            <input class="col form-control rounded-pill" placeholder="Username" type="text" required />
+            <input v-model="credentials.username" class="col form-control rounded-pill" placeholder="Username" type="text"
+              required />
           </div>
 
           <label class="form-label h5">Password</label>
@@ -63,7 +68,8 @@
             <span class="col-auto align-self-center">
               <PasswordIcon />
             </span>
-            <input class="col form-control rounded-pill" type="password" placeholder="Password" required />
+            <input v-model="credentials.password" class="col form-control rounded-pill" type="password"
+              placeholder="Password" required />
           </div>
 
           <div class="row mb-4">
@@ -71,7 +77,7 @@
               <UserIcon class="fake-display" />
             </span>
 
-            <button class="col btn">LOGIN</button>
+            <button @click="login" class="col btn">LOGIN</button>
           </div>
 
           <div class="row">
@@ -90,15 +96,36 @@
       </div>
     </div>
 
-    <div class="wave row position-absolute bottom-0">
-      <img src="../assets/images/wave.png" alt="">
-    </div>
+    <img height="184" class="row position-absolute bottom-0" src="../assets/images/wave.png" alt="">
   </div>
 </template>
 
 <script setup>
 import UserIcon from './icons/UserIcon.vue';
 import PasswordIcon from './icons/PasswordIcon.vue';
+import { ref } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+
+const error = ref()
+const router = useRouter()
+const credentials = ref({
+  username: '',
+  password: '',
+})
+
+const login = (async () => {
+  const result = await axios.post(`${import.meta.env.VITE_API_HOST}/users/login`, credentials.value)
+    .then((response) => {
+      return response.data
+    })
+
+  if (result.status) {
+    router.push({ name: 'index' })
+  } else {
+    error.value = result.error
+  }
+})
 </script>
 
 <style scoped>
