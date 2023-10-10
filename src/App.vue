@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid vh-100 p-0 row">
+  <div class="container-fluid vh-100 p-0">
     <Login v-if="['login'].includes($route.name)" />
 
     <LayoutSidebar v-if="!['login'].includes($route.name)" />

@@ -349,10 +349,6 @@
 
 <script setup>
     import { onMounted, ref, computed } from "vue";
-    import { useRoute } from "vue-router";
-    import router from "@/router";
-    import LayoutMenu from "./LayoutMenu.vue";
-    import apiService from "../../services/api";
     import { formatDate, getAgeBuddisht } from "../../assets/js/func";
 
     const internProp = defineProps({

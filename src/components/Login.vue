@@ -96,7 +96,7 @@
       </div>
     </div>
 
-    <img height="184" class="row position-absolute bottom-0" src="../assets/images/wave.png" alt="">
+    <img height="184" class="overflow-auto w-100 position-absolute bottom-0" src="../assets/images/wave.png" alt="">
   </div>
 </template>
 
@@ -129,6 +129,9 @@ const login = (async () => {
 </script>
 
 <style scoped>
+.wave {
+  width: fit-content;
+}
 .card {
   height: fit-content;
 }
@@ -137,6 +140,7 @@ const login = (async () => {
   display: flex;
   justify-content: center;
   background-color: rgba(239, 238, 238, 0.852);
+  height: 100%;
 }
 
 .box {
