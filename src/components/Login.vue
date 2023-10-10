@@ -1,5 +1,5 @@
 <template>
-  <div class="back">
+  <div class="back container">
     <div class="box">
       <div class="group_box">
         <div class="box_clicknext">
@@ -76,9 +76,6 @@
   display: flex;
   background-color: #ffffff;
   border-radius: 20px;
-  width: 800px;
-  height: 500px;
-  margin-top: 8%;
 }
 
 .box_clicknext {
