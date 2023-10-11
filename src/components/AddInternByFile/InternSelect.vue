@@ -141,14 +141,18 @@ const getAllIntern = async () => {
 
     console.log(interns);
 
-    if (Array.isArray(interns)) {
+    if (Array.isArray(interns.rows)) {
       props.excelData.forEach((data, index) => {
         let name = data[8].split(" ");
         fname = name[0];
         lname = name[1];
 
-        interns.forEach((element) => {
-          if (element.intn_fname == fname && element.intn_lname == lname) {
+        interns.rows.forEach((element) => {
+
+          let fname_th = element.intn_fname.split("|")[0]
+          let lname_th = element.intn_lname.split("|")[0]
+
+          if (fname_th == fname && lname_th == lname) {
             props.excelData[index].duplicate = true;
           }
         });

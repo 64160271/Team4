@@ -162,7 +162,7 @@
             .then((response) => {
                 interns.value = response.data.rows
                 total.value = response.data.count
-                pageMax.value = Math.ceil(interns.value.length / pageSize) + 1
+                pageMax.value = Math.ceil(total.value / pageSize)
             })
     }
 
