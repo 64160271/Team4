@@ -42,7 +42,7 @@
   </div> -->
 
   <div class="background">
-    <div class="card content w-75 mt-5 rounded-5 border-0 shadow py-3">
+    <div class="card content w-75 rounded-5 border-0 shadow py-3">
       <div class="box_clicknext ms-5 mb-2">
         <img src="../assets/images/clicknext-logo.png" width="240" alt="" />
       </div>
@@ -59,8 +59,13 @@
             <span class="col-auto align-self-center">
               <UserIcon />
             </span>
-            <input v-model="credentials.username" class="col form-control rounded-pill" placeholder="Username" type="text"
-              required />
+            <input
+              v-model="credentials.username"
+              class="col form-control rounded-pill"
+              placeholder="Username"
+              type="text"
+              required
+            />
           </div>
 
           <label class="form-label h5">Password</label>
@@ -68,8 +73,13 @@
             <span class="col-auto align-self-center">
               <PasswordIcon />
             </span>
-            <input v-model="credentials.password" class="col form-control rounded-pill" type="password"
-              placeholder="Password" required />
+            <input
+              v-model="credentials.password"
+              class="col form-control rounded-pill"
+              type="password"
+              placeholder="Password"
+              required
+            />
           </div>
 
           <div class="row mb-4">
@@ -84,7 +94,10 @@
             <span class="col-auto">
               <UserIcon class="fake-display" />
             </span>
-            <router-link to="#" class="col-auto mx-auto text-center text-dark text-decoration-underline">
+            <router-link
+              to="#"
+              class="col-auto mx-auto text-center text-dark text-decoration-underline"
+            >
               ลืมรหัสผ่าน
             </router-link>
           </div>
@@ -96,36 +109,45 @@
       </div>
     </div>
 
-    <img height="184" class="overflow-auto w-100 position-absolute bottom-0" src="../assets/images/wave.png" alt="">
+    <img
+      height="184"
+      class="overflow-auto w-100 position-absolute bottom-0"
+      src="../assets/images/wave.png"
+      alt=""
+    />
   </div>
 </template>
 
 <script setup>
-import UserIcon from './icons/UserIcon.vue';
-import PasswordIcon from './icons/PasswordIcon.vue';
-import { ref } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
+import UserIcon from "./icons/UserIcon.vue";
+import PasswordIcon from "./icons/PasswordIcon.vue";
+import { ref } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
 
-const error = ref()
-const router = useRouter()
+const error = ref();
+const router = useRouter();
 const credentials = ref({
-  username: '',
-  password: '',
-})
+  username: "",
+  password: "",
+});
 
-const login = (async () => {
-  const result = await axios.post(`${import.meta.env.VITE_API_HOST}/users/login`, credentials.value)
+const login = async () => {
+  const result = await axios
+    .post(`${import.meta.env.VITE_API_HOST}/users/login`, credentials.value)
     .then((response) => {
-      return response.data
-    })
+      return response.data;
+    });
+
+  console.log(result);
+  console.log(result.status);
 
   if (result.status) {
-    router.push({ name: 'index' })
+    router.push({ name: "index" });
   } else {
-    error.value = result.error
+    error.value = result.error;
   }
-})
+};
 </script>
 
 <style scoped>
@@ -134,6 +156,7 @@ const login = (async () => {
 }
 .card {
   height: fit-content;
+  margin-top: 5%;
 }
 
 .background {
@@ -160,7 +183,6 @@ const login = (async () => {
   margin-left: 50px;
 }
 
-
 .box_login {
   margin-top: 20px;
   margin-left: 88px;
@@ -177,7 +199,7 @@ const login = (async () => {
 
 button {
   background-color: #e1032b !important;
-  color: white !important
+  color: white !important;
 }
 
 button:hover {

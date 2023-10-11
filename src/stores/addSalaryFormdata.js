@@ -10,7 +10,6 @@ export const useAddSalaryForm = defineStore('add_salary', {
 
             rules: {
                 from_date: { required },
-                edit_date: { required },
                 salary: { 
                     required,
                     minValueValue: minValue(1) 

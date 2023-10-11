@@ -59,30 +59,6 @@
             <div class="row mb-4 mx-2">
               <div class="col">
                 <label for="" class="form-label text-gray"
-                  >วันที่แก้ไข
-                  <span class="text-danger">*</span>
-                </label>
-                <input
-                  id=""
-                  v-model="formData.edit_date"
-                  type="date"
-                  class="datepicker form-control"
-                  name=""
-                  :class="{ 'is-invalid': v$.edit_date.$error }"
-                />
-                <span
-                  v-for="error in v$.edit_date.$errors"
-                  :key="error.$uid"
-                  class="invalid-feedback"
-                >
-                  กรุณากรอกข้อมูล
-                </span>
-              </div>
-            </div>
-
-            <div class="row mb-4 mx-2">
-              <div class="col">
-                <label for="" class="form-label text-gray"
                   >วันที่เริ่มต้นได้รับเบี้ยเลี้ยง
                   <span class="text-danger">*</span>
                 </label>

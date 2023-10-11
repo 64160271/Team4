@@ -50,6 +50,9 @@ export const useInternFormData = defineStore("internFormData", {
             
         };
     },
+
+    persist: true,
+
     actions: {
         setData(intern) {
 
@@ -101,6 +104,10 @@ export const useInternFormData = defineStore("internFormData", {
             this.department = intern.work_infos[0]?.work_dept?.dept_name
         
         },
+
+        reset() {
+            Object.assign(this, defaultState);
+        }
     },
     getters: {
 

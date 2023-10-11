@@ -546,7 +546,7 @@
         <button type="button" class="col-md-2 btn outline-gray" @click="$router.push({ name: 'index' })">
           ย้อนกลับ
         </button>
-        <button type="reset" class="col-md-2 ms-auto btn outline-red me-4" @click="formData = null">รีเซ็ต</button>
+        <button type="reset" class="col-md-2 ms-auto btn outline-red me-4" @click="reset">รีเซ็ต</button>
         <button type="button" class="col-md-2 align-self-end btn outline-red" @click="confirmation">
           บันทึก
         </button>
@@ -656,6 +656,10 @@
         }
       });
     }
+  }
+
+  function reset() {
+    formData.value.$reset()
   }
 
   function setFaculty() {
