@@ -251,6 +251,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import ClicknextLogo from "../icons/ClicknextLogo.vue";
+import CertificateDataIcon from "../icons/CertificateDataIcon.vue";
 
 const showDropdown = ref(false);
 

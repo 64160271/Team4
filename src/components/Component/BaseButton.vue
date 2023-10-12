@@ -1,5 +1,5 @@
 <template>
-  <button class="btn outline-red">
+  <button class="btn outline-red" v-bind="$attrs">
     {{ label }}
   </button>
 </template>
@@ -13,5 +13,9 @@ const prop = defineProps({
 <style scoped>
 .btn {
   height: 50px;
+}
+
+.sm {
+  height: 38px;
 }
 </style>
