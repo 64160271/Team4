@@ -1,7 +1,6 @@
 <template>
-    <div>
-        รายงานเบี้ยเลี้ยง
-    </div>
+    <LayoutMenuName page-name="รายงานเบี้ยเลี้ยง" />
+    
 </template>
 
 <script setup>

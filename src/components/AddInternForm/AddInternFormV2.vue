@@ -1,24 +1,39 @@
+<!--
+ AddInternForm
+ Parent of module add intern by form
+ Author : Rawich Piboonsin
+ Created date : 04-09-2566
+-->
+
 <template>
     <div class="d-flex flex-column mb-3">
         <span class="h5 my-auto front">เพิ่มแบบฟอร์ม</span>
 
         <div class="d-flex overflow-y-auto justify-content-center inpt-box mt-3">
             <!-- <Transition name="nested" duration="550"> -->
-            <div class="row w-75 my-auto" v-if="pageShow == 1">
-                <FormCompanyInfo :setParentData="setFormData" />
+            <div
+v-if="pageShow == 1"
+class="row w-75 my-auto">
+                <FormCompanyInfo :set-parent-data="setFormData" />
             </div>
             <!-- </Transition> -->
 
-            <div class="w-75" v-if="pageShow == 2">
-                <FormPersonalInfo :setParentData="setFormData" />
+            <div
+v-if="pageShow == 2"
+class="w-75">
+                <FormPersonalInfo :set-parent-data="setFormData" />
             </div>
 
-            <div class="w-75" v-if="pageShow == 3">
-                <FormAddress :setParentData="setFormData" />
+            <div
+v-if="pageShow == 3"
+class="w-75">
+                <FormAddress :set-parent-data="setFormData" />
             </div>
 
-            <div class="w-75" v-if="pageShow == 4">
-                <FormContract :setParentData="setFormData" />
+            <div
+v-if="pageShow == 4"
+class="w-75">
+                <FormContract :set-parent-data="setFormData" />
             </div>
 
             <!-- <div class="w-75" v-if="pageShow == 5">
@@ -29,18 +44,29 @@
                 <FormWorkInfo :setParentData="setFormData" />
             </div> -->
 
-            <div class="row w-100 mt-3" v-show="showSaveButton = true" v-if="pageShow == 5">
-                <FormConfirmation :formData="formData" :setConfirmationData="setConfirmationData" />
+            <div
+v-show="showSaveButton = true"
+v-if="pageShow == 5"
+class="row w-100 mt-3">
+                <FormConfirmation
+:form-data="formData"
+:set-confirmation-data="setConfirmationData" />
             </div>
         </div>
 
         <hr>
         <div class="row">
-            <button class="col-2 mx-auto btn outline-gray rounded-pill" @click="--pageShow, checkPage()">ย้อนกลับ</button>
-            <button v-if="showSaveButton == false" class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
+            <button
+class="col-2 mx-auto btn outline-gray rounded-pill"
+@click="--pageShow, checkPage()">ย้อนกลับ</button>
+            <button
+v-if="showSaveButton == false"
+class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
                 @click="++pageShow">ถัดไป
             </button>
-            <button v-if="showSaveButton == true" class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
+            <button
+v-if="showSaveButton == true"
+class="col-2 mx-auto btn outline-red ms-auto rounded-pill"
                 @click="confirmation">บันทึก
             </button>
         </div>
@@ -48,13 +74,11 @@
 </template>
 
 <script setup>
-import FormCompanyInfo from './AddInternForm/FormCompanyInfo.vue'
-import FormPersonalInfo from './AddInternForm/FormPersonalInfo.vue'
-import FormAddress from './AddInternForm/FormAddress.vue'
-import FormContract from './AddInternForm/FormContract.vue'
-import FormMilitaryStatus from './AddInternForm/FormMilitaryStatus.vue'
-import FormWorkInfo from './AddInternForm/FormWorkInfo.vue'
-import FormConfirmation from './AddInternForm/FormConfirmation.vue'
+import FormCompanyInfo from './FormCompanyInfo.vue'
+import FormPersonalInfo from './FormPersonalInfo.vue'
+import FormAddress from './FormAddress.vue'
+import FormContract from './FormContract.vue'
+import FormConfirmation from './FormConfirmation.vue'
 
 import { ref, toRaw } from 'vue'
 import Swal from 'sweetalert2'
