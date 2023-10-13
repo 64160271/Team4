@@ -89,26 +89,31 @@
                 <BaseInput />
               </div>
             </div>
+
             <div class="row mb-4 mx-2">
               <div class="col">
                 <BaseInput />
               </div>
             </div>
+
             <div class="row mb-4 mx-2">
               <div class="col">
                 <BaseInput />
               </div>
             </div>
+
             <div class="row mb-4 mx-2">
               <div class="col">
                 <BaseInput />
               </div>
             </div>
+
             <div class="row mb-4 mx-2">
               <div class="col">
                 <BaseInput />
               </div>
             </div>
+            
             <div class="row mb-4 mx-2">
               <div class="col">
                 <BaseInput />
