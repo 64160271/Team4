@@ -151,9 +151,6 @@ const login = async () => {
 </script>
 
 <style scoped>
-.wave {
-  width: fit-content;
-}
 .card {
   height: fit-content;
   margin-top: 5%;
@@ -166,35 +163,10 @@ const login = async () => {
   height: 100%;
 }
 
-.box {
-  display: flex;
-  background-color: #ffffff;
-  border-radius: 20px;
-}
-
 .box_clicknext {
   display: flex;
   margin-top: 20px;
   height: 50px;
-}
-
-.box_wel {
-  margin-top: 15px;
-  margin-left: 50px;
-}
-
-.box_login {
-  margin-top: 20px;
-  margin-left: 88px;
-}
-
-.group_box {
-  display: inline-block;
-}
-
-.box_img_people {
-  display: inline-block;
-  margin-top: 50px;
 }
 
 button {

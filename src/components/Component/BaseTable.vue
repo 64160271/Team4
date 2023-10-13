@@ -1,12 +1,11 @@
 <template>
-    <div class="row border rounded-3">
+    <div class="border rounded-3">
         <table id="myTable" class="table table-borderless" v-bind="$attrs">
             <thead class="text-center bg-red">
                 <tr class="tr-custom">
                     <th scope="col" v-for="(head, index) in heads" class="th-custom fw-bold col-auto" :class="{ 'border-left': (index == 0) },
                         { 'border-right': (index == heads.length - 1) }">
                         {{ head }}
-                        {{ index }}
                     </th>
                 </tr>
             </thead>
