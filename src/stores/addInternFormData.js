@@ -3,51 +3,64 @@ import { defineStore } from "pinia";
 export const useInternFormData = defineStore("internFormData", {
     state: () => {
         return {
-            code: '',
-            intern_email: '',
-            status: '',
-            role: '',
-            image: '',
-            prefix: ['', ''],
-            fname: ['', ''],
-            lname: ['', ''],
-            nickname: ['', ''],
-            citizen_id: '',
-            birth_date: '',
-            gender: '',
-            blood_type: '',
-            weight: Number(0),
-            height: Number(0),
-            nationality: '',
-            nation: '',
-            religion: '',
-            university: '',
-            faculty: '',
-            major: '',
-            martial_status: '',
-            age: Number(0),
-            military_status: '',
-            reason: '',
-            house_number: '',
-            village_number: '',
-            alley: '',
-            street: '',
-            subdistrict: '',
-            district: '',
-            province: '',
-            post_code: '',
-            tel: '',
-            email: '',
-            intern_type: 'นักศึกษาฝึกงาน',
-            contract_number: '',
-            start_date: '',
-            end_date: '',
-            last_work_date: '',
-            contract_end_date: '',
-            mentor: '',
-            section: '',
-            department: '',
-            
+            personal_info: {
+                intern_email: '',
+                status: '',
+                image: '',
+                prefix_th: '',
+                prefix_en: '',
+                fname_th: '',
+                fname_en: '',
+                lname_th: '',
+                lname_en: '',
+                nickname_th: '',
+                nickname_en: '',
+                citizen_id: '',
+                birth_date: '',
+                gender: '',
+                blood_type: '',
+                weight: Number(0),
+                height: Number(0),
+                nationality: '',
+                nation: '',
+                religion: '',
+                martial_status: '',
+                age: Number(0),
+                military_status: '',
+                reason: '',
+                tel: '',
+                email: '',
+                intern_type: 'นักศึกษาฝึกงาน',
+                contract_number: '',
+                start_date: '',
+                end_date: '',
+                last_work_date: '',
+                contract_end_date: '',
+                mentor: '',
+            },
+
+            college_info: {
+                university: '',
+                faculty: '',
+                major: '',
+            },
+
+            work_info: {
+                role: '',
+                section: '',
+                department: '',
+            },
+
+            address: {
+                house_number: '',
+                village_number: '',
+                alley: '',
+                street: '',
+                subdistrict: '',
+                district: '',
+                province: '',
+                post_code: '',
+            }
         };
     },
 
@@ -102,7 +115,7 @@ export const useInternFormData = defineStore("internFormData", {
             this.mentor = intern.intn_mentor.ment_id
             this.section = intern.work_infos[0]?.work_sec_id
             this.department = intern.work_infos[0]?.work_dept?.dept_name
-        
+
         },
 
         reset() {

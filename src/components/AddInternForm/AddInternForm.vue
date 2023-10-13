@@ -575,7 +575,12 @@
   import useVuelidate from '@vuelidate/core' // validate
   import { required } from '@vuelidate/validators' // validate 
 
-  const formData = ref(useInternFormData());
+  const formData = useInternFormData();
+  const personalInfo = ref(formData.personal_info)
+  const workInfo = ref(formData.work_info)
+  const collegeInfo = ref(formData.college_info)
+  const address = ref(formData.address)
+
   const apiCall = new apiService();
   const roles = ref({})
   const sections = ref({});
@@ -590,7 +595,6 @@
   const genderList = ref(useGenderData());
   const martialStatusList = ref(useMartialStatus());
   const bloodTypeList = ref(useBloodType());
-  const valid = ref(false) // validate
 
   // validate
   const rules = {

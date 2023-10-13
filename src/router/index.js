@@ -13,7 +13,7 @@ import SalaryReport from '../components/Report/SalaryReport.vue'
 import ManageCompany from '../components/CerfificateData/ManageCompany.vue'
 import ManageSignature from '../components/CerfificateData/ManageSignature.vue'
 import ManageUniversity from '../components/University/ManageUniversity.vue'
-import TestComponents from '@/components/TestComponents.vue'
+import TestForm from '../components/AddInternForm/TestForm.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -90,8 +90,7 @@ const router = createRouter({
         },
         {
             path: '/test',
-            name: 'test',
-            component: TestComponents
+            component: TestForm
         }
     ]
 })
