@@ -1,15 +1,19 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Index from '../components/Index.vue'
 import Login from '../components/Login.vue'
-import InternData from '../components/InternData.vue'
-import AddInternForm from '../components/AddInternForm.vue'
-import AddInternFile from '../components/AddInternFile.vue'
-import AddInternFormV2 from '../components/AddInternFormV2.vue'
+import InternData from '../components/InternInfo/InternData.vue'
+import WorkInfo from '../components/InternInfo/WorkInfo.vue'
+import SalaryInfo from '../components/InternInfo/SalaryInfo.vue'
+import LeaveInfo from '../components/InternInfo/LeaveInfo.vue'
+import DocumentInfo from '../components/InternInfo/DocumentInfo.vue'
+import AddInternForm from '../components/AddInternForm/AddInternForm.vue'
+import AddInternFile from '../components/AddInternByFile/AddInternFile.vue'
 import ShowCertificate from '../components/Certificate/ShowCertificate.vue'
 import SalaryReport from '../components/Report/SalaryReport.vue'
 import ManageCompany from '../components/CerfificateData/ManageCompany.vue'
 import ManageSignature from '../components/CerfificateData/ManageSignature.vue'
 import ManageUniversity from '../components/University/ManageUniversity.vue'
+import TestComponents from '@/components/TestComponents.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -30,6 +34,26 @@ const router = createRouter({
             component: InternData,
         },
         {
+            path: '/interns/:id/work-info',
+            name: 'workInfo',
+            component: WorkInfo,
+        },
+        {
+            path: '/interns/:id/salary-info',
+            name: 'salaryInfo',
+            component: SalaryInfo,
+        },
+        {
+            path: '/interns/:id/leave-info',
+            name: 'leaveInfo',
+            component: LeaveInfo,
+        },
+        {
+            path: '/interns/:id/document-info',
+            name: 'documentInfo',
+            component: DocumentInfo
+        },
+        {
             path: '/interns/key-data',
             name: 'addInternForm',
             component: AddInternForm
@@ -38,11 +62,6 @@ const router = createRouter({
             path: '/interns/add-file',
             name: 'addInternFile',
             component: AddInternFile
-        },
-        {
-            path: '/interns/key-data-v2',
-            name: 'addInternFormV2',
-            component: AddInternFormV2
         },
         {
             path: '/certificates',
@@ -68,6 +87,11 @@ const router = createRouter({
             path: '/companies',
             name: 'manageCompany',
             component: ManageCompany
+        },
+        {
+            path: '/test',
+            name: 'test',
+            component: TestComponents
         }
     ]
 })

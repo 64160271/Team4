@@ -10,55 +10,6 @@ export const useCompanyStore = defineStore("company", {
             },
             role: '',
             img: '',
-
-            /* prefix: ['', ''],
-            fname: ['', ''],
-            lname: ['', ''],
-            nickname: ['', ''],
-            citizen_id: '',
-            birth_date: '',
-            gender: {
-                name: ''
-            },
-            blood_type: '',
-            weight: '',
-            height: '',
-            nationality: '',
-            nation: '',
-            religion: '',
-            university: '',
-            faculty: '',
-            major: '',
-            martial_status: {
-                name: ''
-            },
-            age: Number(0),
-            military_status: {
-                name: ''
-            },
-            reason: '', */
-
-            /* house_number: '',
-            village_number: Number(),
-            alley: '',
-            street: '',
-            subdistrict: '',
-            district: '',
-            province: '',
-            post_code: Number(),
-            tel: '',
-            email: '', */
-
-            /* emp_type: {
-                name: ''
-            },
-            contract_number: '',
-            start_date: '',
-            last_work_date: '',
-            contract_end_date: '',
-            mentor: '',
-            section: '',
-            department: '', */
         };
     },
     actions: {

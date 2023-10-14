@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai&display=swap');
 
 * {
     font-size: 16px;
-    font-family: 'Kanit', sans-serif;
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    font-weight: 400 !important;
 }
 
 .tooltip-inner {
@@ -10,11 +12,11 @@
 }
 
 :root {
-    --main-color: #0351e1;
+    --main-color: #e1032b;
 }
 
 .text-custom {
-    color: var(--main-color)
+    color: var(--main-color) !important;
 }
 
 .text-gray {
@@ -51,4 +53,104 @@
 
 .outline-red:hover .x-red {
     fill: var(--main-color) !important;
+}
+
+.hov-red:hover svg path {
+    fill: white !important;
+}
+
+.active svg path {
+    fill: white !important;
+}
+
+.img {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    border: 1px solid var(--main-color);
+}
+
+.rounded-custom {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+}
+
+.rounded-custom:hover path {
+    stroke: var(--main-color) !important;
+}
+
+.rounded-active {
+    background-color: var(--main-color) !important;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+}
+
+.rounded-active path {
+    stroke: white !important;
+}
+
+.bg-grays-200 {
+    background-color: #8d969b30 !important;
+}
+
+#img-upload {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.outline-black:hover {
+    border: 1px solid var(--main-color) !important;
+    color: var(--main-color) !important;
+}
+
+.bg-custom {
+    background-color: var(--main-color) !important;
+    color: white !important;
+}
+
+.modal-open.in {
+    opacity: 0.5 !important;
+}
+
+.border-left {
+    border-radius: 8px 0 0 8px;
+}
+
+.border-right {
+    border-radius: 0 8px 8px 0;
+}
+
+.th-custom {
+    color: white !important;
+    background-color: transparent !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+.tr-custom {
+    line-height: 40px;
+    min-height: 30px;
+    height: 30px;
+}
+
+.tb-hov:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.tb-hov:hover td {
+    color: var(--main-color);
+}
+
+.btn-std {
+    height: 50px;
 }

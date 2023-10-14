@@ -1,7 +1,5 @@
 <template>
-    <div>
-        หน้าแสดงรายการเอกสารรับรอง
-    </div>
+    <LayoutMenuName page-name="เอกสารรับรองการฝึกงาน" />
 </template>
 
 <script setup>
