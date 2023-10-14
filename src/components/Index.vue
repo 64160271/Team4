@@ -1,8 +1,8 @@
 <!--
- Index
- Main screen, display all interns list
- Author : Rawich Piboonsin
- Created date : 24-08-2566
+    Index
+    Main screen, display all interns list
+    Author : Rawich Piboonsin
+    Created date : 24-08-2566
 -->
 
 <template>

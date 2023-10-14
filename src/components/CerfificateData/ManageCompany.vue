@@ -1,9 +1,30 @@
 <template>
-    <LayoutMenuName page-name="จัดการข้อมูลบริษัท" />
+    <LayoutMenuName page-name="จัดการข้อมูลเอกสารรับรอง > บริษัท" /> 
+        <div class="header me-1">
+            <div class="col-md-4 my-auto">
+                <div class="input-group">
+                    <span class="bg-grays-200 input-group-text" id="basic-addon1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                    </span>
+                <input v-model="searchData" type="text" id="search-bar" class="bg-grays-200 form-control"
+                    placeholder="Search" aria-label="" aria-describedby="basic-addon1">
+                </div>
+            </div>
+
+            <button class="btn_add ms-auto" @click="$router.push('#')">
+                เพิ่มข้อมูล
+            </button>
+        </div>
+
+    <BaseCard/>
 </template>
 
-<script>
-
+<script setup>
+    import BaseCard from '../Component/BaseCard.vue';
 </script>
 
 <style scoped>
@@ -92,5 +113,10 @@
 .outline-card:hover {
     border: 1px solid var(--main-color);
     color: var(--main-color);
+}
+
+.header {
+    display: flex;
+    width: 100%;
 }
 </style>
