@@ -36,7 +36,7 @@ export const useInternFormData = defineStore("internFormData", {
                 end_date: '',
                 last_work_date: '',
                 contract_end_date: '',
-                mentor: '',
+                mentor_id: '',
             },
 
             college_info: {
