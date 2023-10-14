@@ -45,7 +45,7 @@
             <div class="col-md-6">
               <label for="" class="form-label text-gray">รหัสพนักงาน <span class="text-danger">*</span></label>
               <div class="col me-5">
-                <input id="id" v-model="formData.code" placeholder="INT-XXXXXX" type="text" class="form-control"
+                <input id="id" v-model="formData.code" placeholder="INT-XXX" type="text" class="form-control"
                   :class="{ 'is-invalid': v$.code.$error }" />
                 <span v-for="error in v$.code.$errors" :key="error.$uid" class="invalid-feedback">
                   กรุณากรอกข้อมูล

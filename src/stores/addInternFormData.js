@@ -3,7 +3,56 @@ import { defineStore } from "pinia";
 export const useInternFormData = defineStore("internFormData", {
     state: () => {
         return {
-            personal_info: {
+            code: '',
+            intern_email: '',
+            status: '',
+            role: '',
+            image: '',
+            prefix_th: '',
+            prefix_en: '',
+            fname_th: '',
+            fname_en: '',
+            lname_th: '',
+            lname_en: '',
+            nickname_th: '',
+            nickname_en: '',
+            citizen_id: '',
+            birth_date: '',
+            gender: '',
+            blood_type: '',
+            weight: Number(0),
+            height: Number(0),
+            nationality: '',
+            nation: '',
+            religion: '',
+            university: '',
+            faculty: '',
+            major: '',
+            martial_status: '',
+            age: Number(0),
+            military_status: '',
+            reason: '',
+            house_number: '',
+            village_number: '',
+            alley: '',
+            street: '',
+            subdistrict: '',
+            district: '',
+            province: '',
+            post_code: '',
+            tel: '',
+            email: '',
+            intern_type: 'นักศึกษาฝึกงาน',
+            contract_number: '',
+            start_date: '',
+            end_date: '',
+            last_work_date: '',
+            contract_end_date: '',
+            mentor: '',
+            section: '',
+            department: '',
+
+            /* personal_info: {
                 intern_email: '',
                 status: '',
                 image: '',
@@ -60,7 +109,7 @@ export const useInternFormData = defineStore("internFormData", {
                 district: '',
                 province: '',
                 post_code: '',
-            }
+            } */
         };
     },
 
@@ -69,18 +118,18 @@ export const useInternFormData = defineStore("internFormData", {
     actions: {
         setData(intern) {
 
-            const prefixSplitted = intern.intn_prefix.split("|")
-            const fnameSplitted = intern.intn_fname.split("|")
-            const lnameSplitted = intern.intn_lname.split("|")
-            const nicknameSplitted = intern.intn_nickname.split("|")
             this.code = intern.intn_code
             this.intern_email = intern.intn_intern_email
             this.status = intern.intn_work_status
             this.role = intern.work_infos[0]?.work_role_id
-            this.prefix = [prefixSplitted[0], prefixSplitted[1]]
-            this.fname = [fnameSplitted[0], fnameSplitted[1]]
-            this.lname = [lnameSplitted[0], lnameSplitted[1]]
-            this.nickname = [nicknameSplitted[0], nicknameSplitted[1]]
+            this.prefix_th = intern.prefix_th
+            this.prefix_en = intern.prefix_en
+            this.fname_th = intern.fname_th
+            this.fname_en = intern.fname_en
+            this.lname_th = intern.lname_th
+            this.lname_en = intern.lname_en
+            this.nickname_th = intern.nickname_th
+            this.nickname_en = intern.nickname_en
             this.citizen_id = intern.intn_citizen_id
             this.birth_date = intern.intn_birth_date
             this.gender = intern.intn_gender
@@ -115,7 +164,6 @@ export const useInternFormData = defineStore("internFormData", {
             this.mentor = intern.intn_mentor.ment_id
             this.section = intern.work_infos[0]?.work_sec_id
             this.department = intern.work_infos[0]?.work_dept?.dept_name
-
         },
 
         reset() {
