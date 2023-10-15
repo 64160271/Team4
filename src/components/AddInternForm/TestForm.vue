@@ -1,7 +1,13 @@
 <template>
-    <label for="" class="row">{{ address.house_number }}</label>
-    <input v-model="address.house_number" class="form-control" type="text" name="" id="">
-    <button class="ms-3 btn btn-success">
+    <label for="" class="row">{{ addressdd.house_number }}</label>
+    <div class="col">
+        <input v-model="addressdd.house_number" class="form-control" type="text" name="" id=""
+            :class="{ 'is-invalid': v$.address.house_number.$error }">
+        <span v-for="error in v$.address.house_number.$errors" :key="error.$uid" class="invalid-feedback">
+            กรุณากรอกข้อมูล
+        </span>
+    </div>
+    <button class="ms-3 btn btn-success" @click="validate()">
         ส่ง
     </button>
 </template>
@@ -11,20 +17,26 @@ import { ref, onMounted } from 'vue'
 import { useInternFormData } from "../../stores/addInternFormData";
 import useVuelidate from '@vuelidate/core' // validate
 import { required } from '@vuelidate/validators' // validate
+import BaseCard from '../Component/BaseCard.vue'
+import BaseInput from '../Component/BaseInput.vue'
 
 const formData = useInternFormData()
-const address = ref(formData.address)
+const addressdd = ref(formData.address)
 const workInfo = ref(formData.work_info)
 const rules = {
-    house_number: { required }
+    address: {
+        house_number: { required }
+    }
 }
 
-const v$ = useVuelidate(rules, formData.value)
+const v$ = useVuelidate(rules, formData)
 
-
+async function validate() {
+    const result = await v$.value.$validate()
+}
 
 onMounted(async () => {
-    address.value = formData.value.address
+
 })
 </script>
 

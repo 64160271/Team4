@@ -19,7 +19,7 @@
           </div>
 
           <div class="row mt-3">
-            
+
             <div class="col">
               <button id="picture" type="button" class="col-auto btn btn-sm outline-red position-relative px-4">
                 <input id="img-upload" type="file" accept="image/*" @change="showImg" />
@@ -47,9 +47,9 @@
             <div class="col-md-6">
               <label for="" class="form-label text-gray">รหัสพนักงาน <span class="text-danger">*</span></label>
               <div class="col me-5">
-                <input id="id" v-model="formData.code" placeholder="INT-XXX" type="text" class="form-control"
-                  :class="{ 'is-invalid': v$.code.$error }" />
-                <span v-for="error in v$.code.$errors" :key="error.$uid" class="invalid-feedback">
+                <input id="id" v-model="personalInfo.intn_code" placeholder="INT-XXX" type="text" class="form-control"
+                  :class="{ 'is-invalid': v$.personal_info.intn_code.$error }" />
+                <span v-for="error in v$.personal_info.intn_code.$errors" :key="error.$uid" class="invalid-feedback">
                   กรุณากรอกข้อมูล
                 </span>
               </div>
@@ -58,14 +58,14 @@
             <div class="col-md-6">
               <label for="" class="form-label text-gray">สถานะพนักงาน <span class="text-danger">*</span></label>
               <div class="col">
-                <select id="status" v-model="formData.status" class="form-select"
-                  :class="{ 'is-invalid': v$.status.$error }" required>
+                <select id="status" v-model="personalInfo.intn_status" class="form-select"
+                  :class="{ 'is-invalid': v$.personal_info.intn_status.$error }" required>
                   <option disabled selected value=""> เลือก </option>
                   <option v-for="(status, index) in statusList.list" :value="status">
                     {{ status }}
                   </option>
                 </select>
-                <span v-for="error in v$.status.$errors" :key="error.$uid" class="invalid-feedback">
+                <span v-for="error in v$.personal_info.intn_status.$errors" :key="error.$uid" class="invalid-feedback">
                   กรุณากรอกข้อมูล
                 </span>
               </div>
@@ -78,7 +78,7 @@
               <label for="" class="form-label text-gray">อีเมลพนักงาน</label>
               <div class="col me-5">
                 <div class="input-group">
-                  <input id="internemail" v-model="formData.intern_email" type="text" class="form-control"
+                  <input id="internemail" v-model="personalInfo.intn_intern_email" type="text" class="form-control"
                     placeholder="660000" />
                   <span class="input-group-text">@clicknext.com</span>
                 </div>
@@ -88,12 +88,12 @@
             <div class="col-md-6">
               <label for="" class="form-label text-gray">ตำแหน่งงาน <span class="text-danger">*</span></label>
 
-              <select id="role" v-model="formData.role" class="form-select" required
-                :class="{ 'is-invalid': v$.role.$error }">
+              <select id="role" v-model="workInfo.work_role_id" class="form-select" required
+                :class="{ 'is-invalid': v$.work_info.work_role_id.$error }">
                 <option disabled selected value=""> เลือก </option>
-                <option v-for="role in roles" :value="role">{{ role.role_name }}</option>
+                <option v-for="role in roles" :value="role.role_id">{{ role.role_name }}</option>
               </select>
-              <span v-for="error in v$.role.$errors" :key="error.$uid" class="invalid-feedback">
+              <span v-for="error in v$.work_info.work_role_id.$errors" :key="error.$uid" class="invalid-feedback">
                 กรุณากรอกข้อมูล
               </span>
             </div>
@@ -104,12 +104,12 @@
             <div class="col-md-6">
               <label for="" class="form-label text-gray">ฝ่าย <span class="text-danger">*</span></label>
               <div class="col me-5">
-                <select id="section" v-model="formData.section" class="form-select"
-                  :class="{ 'is-invalid': v$.section.$error }" required @change="setMentor">
+                <select id="section" v-model="workInfo.work_section_id" class="form-select"
+                  :class="{ 'is-invalid': v$.work_info.work_section_id.$error }" required @change="setMentor">
                   <option disabled selected value=""> เลือก </option>
-                  <option v-for="section in sections" :value="section">{{ section.sec_name }}</option>
+                  <option v-for="section in sections" :value="section.sec_id">{{ section.sec_name }}</option>
                 </select>
-                <span v-for="error in v$.section.$errors" :key="error.$uid" class="invalid-feedback">
+                <span v-for="error in v$.work_info.work_section_id.$errors" :key="error.$uid" class="invalid-feedback">
                   กรุณากรอกข้อมูล
                 </span>
               </div>
@@ -118,13 +118,15 @@
             <div class="col-md-6">
               <label for="" class="form-label text-gray">พี่เลี้ยง <span class="text-danger">*</span></label>
               <div class="col">
-                <select id="mentor" v-model="formData.mentor" class="form-select"
-                  :class="{ 'is-invalid': v$.mentor.$error }" required>
+                <select id="mentor" v-model="personalInfo.intn_mentor_id" class="form-select"
+                  :class="{ 'is-invalid': v$.personal_info.intn_mentor_id.$error }" required>
                   <option disabled selected value=""> เลือก (ต้องเลือกฝ่ายก่อน) </option>
-                  <option v-for="mentor in mentors" :value="mentor">{{ mentor.ment_fname + ' ' + mentor.ment_lname }}
+                  <option v-for="mentor in mentors" :value="mentor.ment_id">{{ mentor.ment_fname + ' ' +
+                    mentor.ment_lname }}
                   </option>
                 </select>
-                <span v-for="error in v$.mentor.$errors" :key="error.$uid" class="invalid-feedback">
+                <span v-for="error in v$.personal_info.intn_mentor_id.$errors" :key="error.$uid"
+                  class="invalid-feedback">
                   กรุณากรอกข้อมูล
                 </span>
               </div>
@@ -141,41 +143,41 @@
 
           <div class="col-md-2 ms-1">
             <label for="" class="form-label text-gray">คำนำหน้า (ไทย) <span class="text-danger">*</span></label>
-            <select id="thprefix" v-model="formData.prefix" class="form-select"
-              :class="{ 'is-invalid': v$.prefix.$error }" required>
-              <option disabled selected :value="['', '']"> เลือก </option>
+            <select id="thprefix" v-model="personalInfo.intn_prefix_th" class="form-select"
+              :class="{ 'is-invalid': v$.personal_info.intn_prefix_th.$error }" required>
+              <option disabled selected value=""> เลือก </option>
               <option v-for="(prefix, index) in prefixList.list" :value="prefix">
                 {{ prefix[0] }}
               </option>
             </select>
-            <span v-for="error in v$.prefix.$errors" :key="error.$uid" class="invalid-feedback">
+            <span v-for="error in v$.personal_info.intn_prefix_th.$errors" :key="error.$uid" class="invalid-feedback">
               กรุณากรอกข้อมูล
             </span>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">ชื่อจริง (ไทย) <span class="text-danger">*</span></label>
-            <input id="fname_th" v-model="formData.fname[0]" type="text" placeholder="สมศรี" name="fname"
-              class="form-control" :class="{ 'is-invalid': v$.fname.$error }" required />
-            <span v-for="error in v$.fname.$errors" :key="error.$uid" class="invalid-feedback">
+            <input id="fname_th" v-model="personalInfo.intn_fname_th" type="text" placeholder="สมศรี" name="fname"
+              class="form-control" :class="{ 'is-invalid': v$.personal_info.intn_fname_th.$error }" required />
+            <span v-for="error in v$.personal_info.intn_fname_th.$errors" :key="error.$uid" class="invalid-feedback">
               กรุณากรอกข้อมูล
             </span>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">นามสกุล (ไทย) <span class="text-danger">*</span></label>
-            <input id="lname_th" v-model="formData.lname[0]" placeholder="ลามากุล" type="text" name="lname"
-              class="form-control" :class="{ 'is-invalid': v$.lname.$error }" required />
-            <span v-for="error in v$.lname.$errors" :key="error.$uid" class="invalid-feedback">
+            <input id="lname_th" v-model="personalInfo.intn_lname_th" placeholder="ลามากุล" type="text" name="lname"
+              class="form-control" :class="{ 'is-invalid': v$.personal_info.intn_lname_th.$error }" required />
+            <span v-for="error in v$.personal_info.intn_lname_th.$errors" :key="error.$uid" class="invalid-feedback">
               กรุณากรอกข้อมูล
             </span>
           </div>
 
           <div class="col-md-2">
             <label for="" class="form-label text-gray">ชื่อเล่น (ไทย) <span class="text-danger">*</span></label>
-            <input id="nickname_th" v-model="formData.nickname[0]" placeholder="นวล" type="text" class="form-control"
-              :class="{ 'is-invalid': v$.nickname.$error }" required />
-            <span v-for="error in v$.nickname.$errors" :key="error.$uid" class="invalid-feedback">
+            <input id="nickname_th" v-model="personalInfo.intn_nickname_th" placeholder="นวล" type="text"
+              class="form-control" :class="{ 'is-invalid': v$.personal_info.intn_nickname_th.$error }" required />
+            <span v-for="error in v$.personal_info.intn_nickname_th.$errors" :key="error.$uid" class="invalid-feedback">
               กรุณากรอกข้อมูล
             </span>
           </div>
@@ -187,22 +189,24 @@
             <label for="" class="form-label text-gray">คำนำหน้า
               (อังกฤษ)
             </label>
-            <input id="enprefix" :value="formData.prefix[1]" type="text" class="form-control" readonly />
+            <input id="enprefix" :value="personalInfo.intn_prefix_en" type="text" class="form-control" readonly />
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">ชื่อจริง (อังกฤษ)</label>
-            <input id="fname_en" v-model="formData.fname[1]" placeholder="Somsri" type="text" class="form-control" />
+            <input id="fname_en" v-model="personalInfo.intn_fname_en" placeholder="Somsri" type="text"
+              class="form-control" />
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">นามสกุล (อังกฤษ)</label>
-            <input id="lname_en" v-model="formData.lname[1]" placeholder="Lamakul" type="text" class="form-control" />
+            <input id="lname_en" v-model="personalInfo.intn_lname_en" placeholder="Lamakul" type="text"
+              class="form-control" />
           </div>
 
           <div class="col-2">
             <label for="" class="form-label text-gray">ชื่อเล่น (อังกฤษ)</label>
-            <input id="nickname_en" v-model="formData.nickname[1]" placeholder="Nual" type="text"
+            <input id="nickname_en" v-model="personalInfo.intn_nickname_en" placeholder="Nual" type="text"
               class="form-control" />
           </div>
         </div>
@@ -212,36 +216,36 @@
           <div class="col-md-6 ms-1">
             <label for="" class="form-label text-gray">เลขบัตรประชาชน/พาสปอร์ต</label>
             <div class="col me-5">
-              <input id="citizenid" v-model="formData.citizen_id" maxlength="13" type="text"
+              <input id="citizenid" v-model="personalInfo.intn_citizen_id" maxlength="13" type="text"
                 class="form-control mb-2" />
             </div>
           </div>
 
           <div class="col-md-5">
             <label for="" class="form-label text-gray">วันเกิด </label>
-            <input id="birthdate" v-model="formData.birth_date" type="date" class="col form-control mb-2" />
+            <input id="birthdate" v-model="personalInfo.intn_birth_date" type="date" class="col form-control mb-2" />
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">อายุ (ปี)</label>
-            <input type="text" class="col form-control mb-2" :value="getAge(formData.birth_date) || 0" readonly
+            <input type="text" class="col form-control mb-2" :value="getAge(personalInfo.intn_birth_date) || 0" readonly
               disabled />
           </div>
         </div>
 
         <div class="row mb-3">
-          
+
           <div class="col ms-1">
             <label for="" class="form-label text-gray">เพศ <span class="text-danger">*</span></label>
             <div class="col me-5">
-              <select id="gender" v-model="formData.gender" class="form-select"
-                :class="{ 'is-invalid': v$.gender.$error }" required>
+              <select id="gender" v-model="personalInfo.intn_gender" class="form-select"
+                :class="{ 'is-invalid': v$.personal_info.intn_gender.$error }" required>
                 <option disabled selected value=""> เลือก </option>
                 <option v-for="gender in genderList.list" :value="gender">
                   {{ gender }}
                 </option>
               </select>
-              <span v-for="error in v$.gender.$errors" :key="error.$uid" class="invalid-feedback">
+              <span v-for="error in v$.personal_info.intn_gender.$errors" :key="error.$uid" class="invalid-feedback">
                 กรุณากรอกข้อมูล
               </span>
             </div>
@@ -250,7 +254,7 @@
           <div class="col">
             <label for="" class="form-label text-gray">หมู่เลือด</label>
             <div class="col">
-              <select id="bloodtype" v-model="formData.blood_type" class="form-select mb-2">
+              <select id="bloodtype" v-model="personalInfo.intn_blood_type" class="form-select mb-2">
                 <option disabled selected value=""> เลือก </option>
                 <option v-for="bloodType in bloodTypeList.list" :value="bloodType">
                   {{ bloodType }}
@@ -265,14 +269,14 @@
           <div class="col ms-1">
             <label for="" class="form-label text-gray">น้ำหนัก (กิโลกรัม)</label>
             <div class="col me-5">
-              <input id="weight" v-model="formData.weight" type="number" class="form-control mb-2" />
+              <input id="weight" v-model="personalInfo.intn_weight" type="number" class="form-control mb-2" />
             </div>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">ส่วนสูง (เซนติเมตร)</label>
             <div class="col">
-              <input id="height" v-model="formData.height" type="number" class="form-control mb-2" />
+              <input id="height" v-model="personalInfo.intn_height" type="number" class="form-control mb-2" />
             </div>
           </div>
         </div>
@@ -282,7 +286,7 @@
           <div class="col ms-1">
             <label for="" class="form-label text-gray">สัญชาติ</label>
             <div class="col me-5">
-              <input id="nationality" v-model="formData.nationality" placeholder="ไทย" type="text"
+              <input id="nationality" v-model="personalInfo.intn_nationality" placeholder="ไทย" type="text"
                 class="form-control mb-2" />
             </div>
           </div>
@@ -290,7 +294,8 @@
           <div class="col">
             <label for="" class="form-label text-gray">เชื้อชาติ</label>
             <div class="col">
-              <input id="nation" v-model="formData.nation" placeholder="ไทย" type="text" class="form-control mb-2" />
+              <input id="nation" v-model="personalInfo.intn_nation" placeholder="ไทย" type="text"
+                class="form-control mb-2" />
             </div>
           </div>
         </div>
@@ -300,7 +305,7 @@
           <div class="col ms-1">
             <label for="" class="form-label text-gray">ศาสนา</label>
             <div class="col me-5">
-              <input id="religion" v-model="formData.religion" placeholder="พุทธ" type="text"
+              <input id="religion" v-model="personalInfo.intn_religion" placeholder="พุทธ" type="text"
                 class="form-control mb-2" />
             </div>
           </div>
@@ -308,7 +313,7 @@
           <div class="col">
             <label for="" class="form-label text-gray">สถานภาพสมรส</label>
             <div class="col">
-              <select id="martial" v-model="formData.martial_status" class="form-select mb-2">
+              <select id="martial" v-model="personalInfo.intn_martial_status" class="form-select mb-2">
                 <option disabled selected value=""> เลือก </option>
                 <option v-for="martialStatus in martialStatusList.list" :value="martialStatus">
                   {{ martialStatus }}
@@ -327,40 +332,40 @@
 
           <div class="col ms-1">
             <label for="" class="form-label text-gray">ชื่อสถานศึกษา <span class="text-danger">*</span></label>
-            <select id="university" v-model="formData.university" class="form-select"
-              :class="{ 'is-invalid': v$.university.$error }" required @change="setFaculty">
+            <select id="university" v-model="collegeInfo.col_university_id" class="form-select"
+              :class="{ 'is-invalid': v$.college_info.col_university_id.$error }" required @change="setFaculty">
               <option disabled selected value=""> เลือก </option>
-              <option v-for="university in universities" :value="university">
+              <option v-for="university in universities" :value="university_id">
                 {{ university.uni_name }}
               </option>
             </select>
-            <span v-for="error in v$.university.$errors" :key="error.$uid" class="invalid-feedback">
+            <span v-for="error in v$.college_info.col_university_id.$errors" :key="error.$uid" class="invalid-feedback">
               กรุณากรอกข้อมูล
             </span>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">คณะ <span class="text-danger">*</span></label>
-            <select id="faculty" v-model="formData.faculty" class="form-select"
-              :class="{ 'is-invalid': v$.faculty.$error }" required @change="setMajor">
+            <select id="faculty" v-model="collegeInfo.col_faculty_id" class="form-select"
+              :class="{ 'is-invalid': v$.college_info.col_faculty_id.$error }" required @change="setMajor">
               <option disabled selected value=""> เลือก (ต้องเลือกสถานศึกษาก่อน) </option>
-              <option v-for="faculty in faculties" :value="faculty">
+              <option v-for="faculty in faculties" :value="faculty_id">
                 {{ faculty.fac_name }}
               </option>
             </select>
-            <span v-for="error in v$.faculty.$errors" :key="error.$uid" class="invalid-feedback">
+            <span v-for="error in v$.college_info.col_faculty_id.$errors" :key="error.$uid" class="invalid-feedback">
               กรุณากรอกข้อมูล
             </span>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">สาขาวิชา <span class="text-danger">*</span></label>
-            <select id="major" v-model="formData.major" class="form-select" :class="{ 'is-invalid': v$.major.$error }"
-              required>
+            <select id="major" v-model="collegeInfo.col_major_id" class="form-select"
+              :class="{ 'is-invalid': v$.college_info.col_major_id.$error }" required>
               <option disabled selected value=""> เลือก (ต้องเลือกคณะก่อน) </option>
-              <option v-for="major in majors" :value="major">{{ major.maj_name }}</option>
+              <option v-for="major in majors" :value="major_id">{{ major.maj_name }}</option>
             </select>
-            <span v-for="error in v$.major.$errors" :key="error.$uid" class="invalid-feedback">
+            <span v-for="error in v$.college_info.col_major_id.$errors" :key="error.$uid" class="invalid-feedback">
               กรุณากรอกข้อมูล
             </span>
           </div>
@@ -375,21 +380,21 @@
 
           <div class="col-md-6 ms-1">
             <label for="" class="form-label text-gray">ประเภทพนักงาน <span class="text-danger">*</span></label>
-            <select id="interntype" v-model="formData.intern_type" class="form-select"
-              :class="{ 'is-invalid': v$.intern_type.$error }" required>
+            <select id="interntype" v-model="personalInfo.intn_intern_type" class="form-select"
+              :class="{ 'is-invalid': v$.personal_info.intn_intern_type.$error }" required>
               <option disabled value=""> เลือก </option>
               <option v-for="internType in internTypeList.list" :value="internType">
                 {{ internType }}
               </option>
             </select>
-            <span v-for="error in v$.intern_type.$errors" :key="error.$uid" class="invalid-feedback">
+            <span v-for="error in v$.personal_info.intn_intern_type.$errors" :key="error.$uid" class="invalid-feedback">
               กรุณากรอกข้อมูล
             </span>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">เลขที่สัญญาจ้าง</label>
-            <input id="contractnum" v-model="formData.contract_number" type="text" class="form-control mb-2" />
+            <input id="contractnum" v-model="personalInfo.intn_contract_number" type="text" class="form-control mb-2" />
           </div>
 
         </div>
@@ -397,26 +402,27 @@
         <div class="row mb-4">
           <div class="col ms-1">
             <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน <span class="text-danger">*</span></label>
-            <input id="startdate" v-model="formData.start_date" type="date" class="form-control"
-              :class="{ 'is-invalid': v$.start_date.$error }" required />
-            <span v-for="error in v$.start_date.$errors" :key="error.$uid" class="invalid-feedback">
+            <input id="startdate" v-model="personalInfo.intn_start_date" type="date" class="form-control"
+              :class="{ 'is-invalid': v$.personal_info.intn_start_date.$error }" required />
+            <span v-for="error in v$.personal_info.intn_start_date.$errors" :key="error.$uid" class="invalid-feedback">
               กรุณากรอกข้อมูล
             </span>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">วันที่ผ่านทดลองงาน</label>
-            <input id="enddate" v-model="formData.end_date" type="date" class="form-control mb-2" />
+            <input id="enddate" v-model="personalInfo.intn_end_date" type="date" class="form-control mb-2" />
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">วันสุดท้ายที่มาทำงาน</label>
-            <input id="lastwork" v-model="formData.last_work_date" type="date" class="form-control mb-2" />
+            <input id="lastwork" v-model="personalInfo.intn_last_work_date" type="date" class="form-control mb-2" />
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">วันที่สิ้นสุดสัญญา</label>
-            <input id="contractend" v-model="formData.contract_end_date" type="date" class="form-control mb-2" />
+            <input id="contractend" v-model="personalInfo.intn_contract_end_date" type="date"
+              class="form-control mb-2" />
           </div>
         </div>
       </div>
@@ -430,14 +436,14 @@
           <div class="col ms-1">
             <label for="" class="form-label text-gray">บ้านเลขที่</label>
             <div class="col me-5">
-              <input v-model="formData.house_number" type="text" class="form-control" />
+              <input v-model="address.addr_house_number" type="text" class="form-control" />
             </div>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">ซอย</label>
             <div class="col">
-              <input v-model="formData.alley" type="text" class="form-control" />
+              <input v-model="address.addr_alley" type="text" class="form-control" />
             </div>
           </div>
         </div>
@@ -446,14 +452,14 @@
           <div class="col ms-1">
             <label for="" class="form-label text-gray">หมู่</label>
             <div class="col me-5">
-              <input v-model="formData.village_number" type="number" class="form-control mb-2" />
+              <input v-model="address.addr_village_number" type="number" class="form-control mb-2" />
             </div>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">ถนน</label>
             <div class="col">
-              <input v-model="formData.street" type="text" class="form-control mb-2" />
+              <input v-model="address.addr_street" type="text" class="form-control mb-2" />
             </div>
           </div>
         </div>
@@ -462,14 +468,14 @@
           <div class="col ms-1">
             <label for="" class="form-label text-gray">ตำบล / แขวง</label>
             <div class="col me-5">
-              <input id="district" v-model="formData.subdistrict" type="text" class="form-control mb-2" />
+              <input id="district" v-model="address.addr_subdistrict" type="text" class="form-control mb-2" />
             </div>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">อำเภอ / เขต</label>
             <div class="col">
-              <input id="amphoe" v-model="formData.district" type="text" class="form-control mb-2" />
+              <input id="amphoe" v-model="address.addr_district" type="text" class="form-control mb-2" />
             </div>
           </div>
         </div>
@@ -478,14 +484,14 @@
           <div class="col ms-1">
             <label for="" class="form-label text-gray">จังหวัด</label>
             <div class="col me-5">
-              <input id="province" v-model="formData.province" type="text" class="form-control mb-2" />
+              <input id="province" v-model="address.addr_province" type="text" class="form-control mb-2" />
             </div>
           </div>
 
           <div class="col">
             <label for="" class="form-label text-gray">รหัสไปรษณีย์</label>
             <div class="col">
-              <input id="zipcode" v-model="formData.post_code" type="number" class="form-control mb-2" />
+              <input id="zipcode" v-model="address.addr_post_code" type="number" class="form-control mb-2" />
             </div>
           </div>
         </div>
@@ -494,9 +500,9 @@
           <div class="col ms-1">
             <label for="" class="form-label text-gray">เบอร์โทรศัพท์ <span class="text-danger">*</span></label>
             <div class="col me-5">
-              <input id="tel" v-model="formData.tel" placeholder="xxx-xxx-xxxx" maxlength="10" type="text"
-                class="form-control" :class="{ 'is-invalid': v$.tel.$error }" required />
-              <span v-for="error in v$.tel.$errors" :key="error.$uid" class="invalid-feedback">
+              <input id="tel" v-model="personalInfo.intn_tel" placeholder="xxx-xxx-xxxx" maxlength="10" type="text"
+                class="form-control" :class="{ 'is-invalid': v$.personal_info.intn_tel.$error }" required />
+              <span v-for="error in v$.personal_info.intn_tel.$errors" :key="error.$uid" class="invalid-feedback">
                 กรุณากรอกข้อมูล
               </span>
             </div>
@@ -505,9 +511,10 @@
           <div class="col">
             <label for="" class="form-label text-gray">อีเมลส่วนตัว <span class="text-danger">*</span></label>
             <div class="col">
-              <input id="email" v-model="formData.email" placeholder="example@gmail.com" name="email" type="text"
-                class="form-control" :class="{ 'is-invalid': v$.email.$error }" required />
-              <span v-for="error in v$.email.$errors" :key="error.$uid" class="invalid-feedback">
+              <input id="email" v-model="personalInfo.intn_email" placeholder="example@gmail.com" name="email"
+                type="text" class="form-control" :class="{ 'is-invalid': v$.personal_info.intn_email.$error }"
+                required />
+              <span v-for="error in v$.personal_info.intn_email.$errors" :key="error.$uid" class="invalid-feedback">
                 กรุณากรอกข้อมูล
               </span>
             </div>
@@ -524,7 +531,7 @@
           <div class="col ms-1">
             <label for="" class="form-label text-gray">สถานภาพทางทหาร</label>
             <div class="col me-5">
-              <select id="military" v-model="formData.military_status" class="form-select mb-2">
+              <select id="military" v-model="personalInfo.intn_military_status" class="form-select mb-2">
                 <option disabled selected value=""> เลือก </option>
                 <option v-for="militaryStatus in militaryStatusList.list" :value="militaryStatus">
                   {{ militaryStatus }}
@@ -536,7 +543,7 @@
           <div class="col">
             <label for="" class="form-label text-gray">เหตุผล</label>
             <div class="col">
-              <input id="reason" v-model="formData.reason" type="text" class="form-control mb-2" />
+              <input id="reason" v-model="personalInfo.intn_reason" type="text" class="form-control mb-2" />
             </div>
           </div>
         </div>
@@ -611,31 +618,29 @@
 
   // validate
   const rules = {
-    code: { required },
-    status: { required },
-    role: { required },
-    section: { required },
-    mentor: { required },
-    prefix: {
-      "0": { required },
+    personal_info: {
+      intn_code: { required },
+      intn_status: { required },
+      intn_mentor_id: { required },
+      intn_prefix_th: { required },
+      intn_fname_th: { required },
+      intn_lname_th: { required },
+      intn_nickname_th: { required },
+      intn_gender: { required },
+      intn_tel: { required },
+      intn_email: { required },
+      intn_start_date: { required },
+      intn_intern_type: { required },
     },
-    fname: {
-      "0": { required },
+    college_info: {
+      col_university_id: { required },
+      col_faculty_id: { required },
+      col_major_id: { required },
     },
-    lname: {
-      "0": { required },
-    },
-    nickname: {
-      "0": { required },
-    },
-    gender: { required },
-    university: { required },
-    faculty: { required },
-    major: { required },
-    tel: { required },
-    email: { required },
-    intern_type: { required },
-    start_date: { required },
+    work_info: {
+      work_role_id: { required },
+      work_section_id: { required },
+    }
   }
 
   const v$ = useVuelidate(rules, formData.value) // validate
@@ -676,7 +681,12 @@
   }
 
   function reset() {
-    formData.value.$reset()
+    formData.$reset()
+
+    personalInfo.value = formData.personal_info
+    workInfo.value = formData.work_info
+    collegeInfo.value = formData.college_info
+    address.value = formData.address
   }
 
   function setFaculty() {
@@ -691,7 +701,7 @@
   }
 
   function setMentor() {
-    mentors.value = formData.value.section.mentors
+    mentors.value = workInfo.value.section.mentors
     formData.value.mentor = '';
   }
 
@@ -708,9 +718,13 @@
   }
 
   onMounted(async () => {
-    universities.value = await apiCall.getAllUniversity();
-    sections.value = await apiCall.getSectionWithMentor();
-    roles.value = await apiCall.getAllRole();
+    await Promise.all([
+      (sections.value = await apiCall.getSectionWithMentor()),
+      (universities.value = await apiCall.getAllUniversity()),
+      (roles.value = await apiCall.getAllRole()),
+
+      console.log(sections.value)
+    ]);
     setMentor();
     setFaculty();
     setMajor();
