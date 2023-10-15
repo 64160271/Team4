@@ -10,6 +10,16 @@
     <button class="ms-3 btn btn-success" @click="validate()">
         ส่ง
     </button>
+
+    <BaseSelect 
+        @change="console.log(form)" 
+        label="test"
+        :options="opt"
+        value="id"
+        text="name"
+        v-model="form" 
+        :set-default=true 
+    />
 </template>
 
 <script setup>
@@ -19,15 +29,27 @@ import useVuelidate from '@vuelidate/core' // validate
 import { required } from '@vuelidate/validators' // validate
 import BaseCard from '../Component/BaseCard.vue'
 import BaseInput from '../Component/BaseInput.vue'
+import BaseSelect from '../Component/BaseSelect.vue';
+import { useGenderData } from '../../stores/constData';
 
+const form = ref(String(""))
 const formData = useInternFormData()
 const addressdd = ref(formData.address)
 const workInfo = ref(formData.work_info)
+const gender = ref(useGenderData())
 const rules = {
     address: {
         house_number: { required }
     }
 }
+
+const opt = ref([
+    { id: 2, name: "tttt"},
+    { id: 3, name: "ssdf" },
+    { id: 1, name: "werwer" },
+    { id: 56, name: "sdfsdf" },
+    { id: 5, name: "sdfdfs" },
+])
 
 const v$ = useVuelidate(rules, formData)
 
@@ -36,7 +58,7 @@ async function validate() {
 }
 
 onMounted(async () => {
-
+    console.log(gender.value.list)
 })
 </script>
 

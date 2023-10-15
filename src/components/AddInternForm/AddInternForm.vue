@@ -104,8 +104,8 @@
             <div class="col-md-6">
               <label for="" class="form-label text-gray">ฝ่าย <span class="text-danger">*</span></label>
               <div class="col me-5">
-                <select id="section" v-model="workInfo.work_section_id" class="form-select"
-                  :class="{ 'is-invalid': v$.work_info.work_section_id.$error }" required @change="setMentor">
+                <select @change="setMentor" id="section" v-model="workInfo.work_section_id" class="form-select"
+                  :class="{ 'is-invalid': v$.work_info.work_section_id.$error }" required>
                   <option disabled selected value=""> เลือก </option>
                   <option v-for="section in sections" :value="section.sec_id">{{ section.sec_name }}</option>
                 </select>
@@ -125,8 +125,7 @@
                     mentor.ment_lname }}
                   </option>
                 </select>
-                <span v-for="error in v$.personal_info.intn_mentor_id.$errors" :key="error.$uid"
-                  class="invalid-feedback">
+                <span v-for="error in v$.personal_info.intn_mentor_id.$errors" :key="error.$uid" class="invalid-feedback">
                   กรุณากรอกข้อมูล
                 </span>
               </div>
@@ -335,7 +334,7 @@
             <select id="university" v-model="collegeInfo.col_university_id" class="form-select"
               :class="{ 'is-invalid': v$.college_info.col_university_id.$error }" required @change="setFaculty">
               <option disabled selected value=""> เลือก </option>
-              <option v-for="university in universities" :value="university_id">
+              <option v-for="university in universities" :value="university.uni_id">
                 {{ university.uni_name }}
               </option>
             </select>
@@ -349,7 +348,7 @@
             <select id="faculty" v-model="collegeInfo.col_faculty_id" class="form-select"
               :class="{ 'is-invalid': v$.college_info.col_faculty_id.$error }" required @change="setMajor">
               <option disabled selected value=""> เลือก (ต้องเลือกสถานศึกษาก่อน) </option>
-              <option v-for="faculty in faculties" :value="faculty_id">
+              <option v-for="faculty in faculties" :value="faculty.fac_id">
                 {{ faculty.fac_name }}
               </option>
             </select>
@@ -363,7 +362,7 @@
             <select id="major" v-model="collegeInfo.col_major_id" class="form-select"
               :class="{ 'is-invalid': v$.college_info.col_major_id.$error }" required>
               <option disabled selected value=""> เลือก (ต้องเลือกคณะก่อน) </option>
-              <option v-for="major in majors" :value="major_id">{{ major.maj_name }}</option>
+              <option v-for="major in majors" :value="major.maj_id">{{ major.maj_name }}</option>
             </select>
             <span v-for="error in v$.college_info.col_major_id.$errors" :key="error.$uid" class="invalid-feedback">
               กรุณากรอกข้อมูล
@@ -421,8 +420,7 @@
 
           <div class="col">
             <label for="" class="form-label text-gray">วันที่สิ้นสุดสัญญา</label>
-            <input id="contractend" v-model="personalInfo.intn_contract_end_date" type="date"
-              class="form-control mb-2" />
+            <input id="contractend" v-model="personalInfo.intn_contract_end_date" type="date" class="form-control mb-2" />
           </div>
         </div>
       </div>
@@ -511,9 +509,8 @@
           <div class="col">
             <label for="" class="form-label text-gray">อีเมลส่วนตัว <span class="text-danger">*</span></label>
             <div class="col">
-              <input id="email" v-model="personalInfo.intn_email" placeholder="example@gmail.com" name="email"
-                type="text" class="form-control" :class="{ 'is-invalid': v$.personal_info.intn_email.$error }"
-                required />
+              <input id="email" v-model="personalInfo.intn_email" placeholder="example@gmail.com" name="email" type="text"
+                class="form-control" :class="{ 'is-invalid': v$.personal_info.intn_email.$error }" required />
               <span v-for="error in v$.personal_info.intn_email.$errors" :key="error.$uid" class="invalid-feedback">
                 กรุณากรอกข้อมูล
               </span>
@@ -576,207 +573,207 @@
 </template>
 
 <script setup>
-  import { ref, computed } from "vue";
-  import { onUnmounted, onMounted } from "vue";
-  import Swal from "sweetalert2";
-  import {
-    usePrefixData,
-    useStatusData,
-    useMilitaryStatus,
-    useGenderData,
-    useMartialStatus,
-    useInternType,
-    useBloodType,
-  } from "../../stores/constData";
-  import { useInternFormData } from "../../stores/addInternFormData";
-  import { getAge, isRequire } from "../../assets/js/func";
-  import apiService from "../../services/api";
-  import router from '@/router';
-  import useVuelidate from '@vuelidate/core' // validate
-  import { required } from '@vuelidate/validators' // validate 
+import { ref, computed } from "vue";
+import { onUnmounted, onMounted } from "vue";
+import Swal from "sweetalert2";
+import {
+  usePrefixData,
+  useStatusData,
+  useMilitaryStatus,
+  useGenderData,
+  useMartialStatus,
+  useInternType,
+  useBloodType,
+} from "../../stores/constData";
+import { useInternFormData } from "../../stores/addInternFormData";
+import { getAge, isRequire } from "../../assets/js/func";
+import apiService from "../../services/api";
+import router from '@/router';
+import useVuelidate from '@vuelidate/core' // validate
+import { required } from '@vuelidate/validators' // validate 
 
-  const formData = useInternFormData();
-  const personalInfo = ref(formData.personal_info)
-  const workInfo = ref(formData.work_info)
-  const collegeInfo = ref(formData.college_info)
-  const address = ref(formData.address)
+const formData = useInternFormData();
+const personalInfo = ref(formData.personal_info)
+const workInfo = ref(formData.work_info)
+const collegeInfo = ref(formData.college_info)
+const address = ref(formData.address)
 
-  const apiCall = new apiService();
-  const roles = ref({})
-  const sections = ref({});
-  const mentors = ref()
-  const universities = ref({});
-  const faculties = ref();
-  const majors = ref();
-  const prefixList = ref(usePrefixData());
-  const statusList = ref(useStatusData());
-  const internTypeList = ref(useInternType());
-  const militaryStatusList = ref(useMilitaryStatus());
-  const genderList = ref(useGenderData());
-  const martialStatusList = ref(useMartialStatus());
-  const bloodTypeList = ref(useBloodType());
+const apiCall = new apiService();
+const roles = ref({})
+const sections = ref({});
+const mentors = ref()
+const universities = ref({});
+const faculties = ref();
+const majors = ref();
+const prefixList = ref(usePrefixData());
+const statusList = ref(useStatusData());
+const internTypeList = ref(useInternType());
+const militaryStatusList = ref(useMilitaryStatus());
+const genderList = ref(useGenderData());
+const martialStatusList = ref(useMartialStatus());
+const bloodTypeList = ref(useBloodType());
 
-  // validate
-  const rules = {
-    personal_info: {
-      intn_code: { required },
-      intn_status: { required },
-      intn_mentor_id: { required },
-      intn_prefix_th: { required },
-      intn_fname_th: { required },
-      intn_lname_th: { required },
-      intn_nickname_th: { required },
-      intn_gender: { required },
-      intn_tel: { required },
-      intn_email: { required },
-      intn_start_date: { required },
-      intn_intern_type: { required },
-    },
-    college_info: {
-      col_university_id: { required },
-      col_faculty_id: { required },
-      col_major_id: { required },
-    },
-    work_info: {
-      work_role_id: { required },
-      work_section_id: { required },
-    }
+// validate
+const rules = {
+  personal_info: {
+    intn_code: { required },
+    intn_status: { required },
+    intn_mentor_id: { required },
+    intn_prefix_th: { required },
+    intn_fname_th: { required },
+    intn_lname_th: { required },
+    intn_nickname_th: { required },
+    intn_gender: { required },
+    intn_tel: { required },
+    intn_email: { required },
+    intn_start_date: { required },
+    intn_intern_type: { required },
+  },
+  college_info: {
+    col_university_id: { required },
+    col_faculty_id: { required },
+    col_major_id: { required },
+  },
+  work_info: {
+    work_role_id: { required },
+    work_section_id: { required },
   }
+}
 
-  const v$ = useVuelidate(rules, formData.value) // validate
+const v$ = useVuelidate(rules, formData) // validate
 
-  async function submitForm() {
-    await apiCall.createIntern(formData.value)
-      .then(() => {
-        Swal.fire({
-          icon: 'success',
-          text: 'บันทึกข้อมูลเสร็จสิ้น',
-          showConfirmButton: false,
-          timer: 3000
-        }).then(() => {
-          router.push({ name: 'index' })
-        })
-      })
-  }
-
-  async function confirmation() {
-    const result = await v$.value.$validate()
-    if (result) {
+async function submitForm() {
+  await apiCall.createIntern(formData.value)
+    .then(() => {
       Swal.fire({
-        text: "คุณต้องการบันทึกข้อมูลหรือไม่",
-        icon: "warning",
-        showCancelButton: true,
-        showConfirmButton: true,
-        confirmButtonText: "ยืนยัน",
-        cancelButtonText: "ยกเลิก",
-        confirmButtonColor: "var(--main-color)",
-        reverseButtons: true,
-        focusConfirm: false,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          submitForm()
-        }
-      });
-    }
-  }
+        icon: 'success',
+        text: 'บันทึกข้อมูลเสร็จสิ้น',
+        showConfirmButton: false,
+        timer: 3000
+      }).then(() => {
+        router.push({ name: 'index' })
+      })
+    })
+}
 
-  function reset() {
-    formData.$reset()
-
-    personalInfo.value = formData.personal_info
-    workInfo.value = formData.work_info
-    collegeInfo.value = formData.college_info
-    address.value = formData.address
-  }
-
-  function setFaculty() {
-    faculties.value = formData.value.university.faculties;
-    formData.value.major = '';
-    formData.value.faculty = '';
-  }
-
-  function setMajor() {
-    majors.value = formData.value.faculty.majors;
-    formData.value.major = '';
-  }
-
-  function setMentor() {
-    mentors.value = workInfo.value.section.mentors
-    formData.value.mentor = '';
-  }
-
-  function showImg() {
-    const imgUpload = document.getElementById("img-upload");
-
-    if (imgUpload.files[0] != undefined) {
-      formData.value.image = imgUpload.files[0];
-    }
-
-    if (formData.value.image) {
-      blah.src = URL.createObjectURL(formData.value.image);
-    }
-  }
-
-  onMounted(async () => {
-    await Promise.all([
-      (sections.value = await apiCall.getSectionWithMentor()),
-      (universities.value = await apiCall.getAllUniversity()),
-      (roles.value = await apiCall.getAllRole()),
-
-      console.log(sections.value)
-    ]);
-    setMentor();
-    setFaculty();
-    setMajor();
-
-    $.Thailand({
-      $district: $('#district'), // input ของตำบล
-      $amphoe: $('#amphoe'), // input ของอำเภอ
-      $province: $('#province'), // input ของจังหวัด
-      $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
-      onDataFill: function (data) {
-
-        console.info('Data Filled', data);
-
-      },
-
-      onLoad: function () {
-        $('#loader, .demo').toggle();
+async function confirmation() {
+  const result = await v$.value.$validate()
+  if (result) {
+    Swal.fire({
+      text: "คุณต้องการบันทึกข้อมูลหรือไม่",
+      icon: "warning",
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "ยกเลิก",
+      confirmButtonColor: "var(--main-color)",
+      reverseButtons: true,
+      focusConfirm: false,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        submitForm()
       }
     });
+  }
+}
 
-    /* $('.datepicker').datepicker({
-      dateFormat: 'dd/mm/yy',
-      changeMonth: 'true',
-      changeYear: 'true',
-    }) */
+function reset() {
+  formData.$reset()
+
+  personalInfo.value = formData.personal_info
+  workInfo.value = formData.work_info
+  collegeInfo.value = formData.college_info
+  address.value = formData.address
+}
+
+async function setFaculty() {
+  faculties.value = await apiCall.getFacultyByUniversityId(collegeInfo.value.col_university_id);
+  majors.value = ''
+  collegeInfo.value.col_major_id = '';
+  collegeInfo.value.col_faculty_id = '';
+}
+
+async function setMajor() {
+  majors.value = await apiCall.getMajorByFacultyId(collegeInfo.value.col_faculty_id);
+  collegeInfo.value.col_major_id = '';
+}
+
+async function setMentor() {
+  mentors.value = await apiCall.getMentorBySectionId(workInfo.value.work_section_id);
+  personalInfo.value.intn_mentor_id = '';
+}
+
+function showImg() {
+  const imgUpload = document.getElementById("img-upload");
+
+  if (imgUpload.files[0] != undefined) {
+    formData.value.image = imgUpload.files[0];
+  }
+
+  if (formData.value.image) {
+    blah.src = URL.createObjectURL(formData.value.image);
+  }
+}
+
+onMounted(async () => {
+  await Promise.all([
+    (sections.value = await apiCall.getAllSection()),
+    (universities.value = await apiCall.getAllUniversity()),
+    (roles.value = await apiCall.getAllRole()),
+    (workInfo.value.work_section_id) ? (mentors.value = await apiCall.getMentorBySectionId(workInfo.value.work_section_id)) : null,
+    (collegeInfo.value.col_university_id) ? (faculties.value = await apiCall.getFacultyByUniversityId(collegeInfo.value.col_university_id)) : null,
+    (collegeInfo.value.col_faculty_id) ? (majors.value = await apiCall.getMajorByFacultyId(collegeInfo.value.col_faculty_id)) : null,
+  ]);
+
+
+  $.Thailand({
+    $district: $('#district'), // input ของตำบล
+    $amphoe: $('#amphoe'), // input ของอำเภอ
+    $province: $('#province'), // input ของจังหวัด
+    $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
+    onDataFill: function (data) {
+
+      console.info('Data Filled', data);
+
+    },
+
+    onLoad: function () {
+      $('#loader, .demo').toggle();
+    }
   });
+
+  /* $('.datepicker').datepicker({
+    dateFormat: 'dd/mm/yy',
+    changeMonth: 'true',
+    changeYear: 'true',
+  }) */
+});
 </script>
 
 <style scoped>
-  .bg-grays-200 {
-    background-color: #8d969b30 !important;
-  }
+.bg-grays-200 {
+  background-color: #8d969b30 !important;
+}
 
-  hr {
-    border: none;
-    height: 1px;
-    background-color: var(--main-color);
-  }
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--main-color);
+}
 
-  .img {
-    height: 150px;
-    width: 150px;
-    border-radius: 50%;
-    border: 1px solid var(--main-color);
-  }
+.img {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 1px solid var(--main-color);
+}
 
-  .text-gray {
-    color: #90969e !important;
-  }
+.text-gray {
+  color: #90969e !important;
+}
 
-  .border-bottom {
-    border-color: var(--main-color) !important;
-    margin-bottom: 12px;
-  }
+.border-bottom {
+  border-color: var(--main-color) !important;
+  margin-bottom: 12px;
+}
 </style>

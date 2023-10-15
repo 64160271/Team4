@@ -6,11 +6,16 @@
         class="form-select" 
         :value="modelValue"  
         :required="required" 
-        @click="$emit('update:modelValue', $event.target.value)"
+        @change="$emit('update:modelValue', $event.target.value)"
         v-bind="$attrs"
     >
-        <option v-for="option in options">
-            
+        <option disabled v-if="setDefault" value="">เลือก</option>
+        <option v-if="typeof(options[0]) == 'object'" :value="option[value]" v-for="option in options">
+            {{ option[text] }}
+        </option>
+
+        <option v-else :value="option" v-for="option in options">
+            {{ option }}
         </option>
     </select>
 </template>
@@ -30,9 +35,16 @@ defineProps({
     },
     value: {
         type: String,
-        default: false,
     },
-    options: [Array, Object]
+    setDefault: {
+        type: Boolean,
+    },
+    text: {
+        type: String,
+    },
+    options: {
+        type: [Object, Array]
+    }
 });
 </script>
 
