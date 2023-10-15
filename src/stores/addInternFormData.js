@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 export const useInternFormData = defineStore("internFormData", {
     state: () => {
         return {
-            code: '',
+            /* code: '',
             intern_email: '',
             status: '',
             role: '',
@@ -50,9 +50,9 @@ export const useInternFormData = defineStore("internFormData", {
             contract_end_date: '',
             mentor: '',
             section: '',
-            department: '',
+            department: '', */
 
-            /* personal_info: {
+            personal_info: {
                 intern_email: '',
                 status: '',
                 image: '',
@@ -89,15 +89,15 @@ export const useInternFormData = defineStore("internFormData", {
             },
 
             college_info: {
-                university: '',
-                faculty: '',
-                major: '',
+                university_id: '',
+                faculty_id: '',
+                major_id: '',
             },
 
             work_info: {
-                role: '',
-                section: '',
-                department: '',
+                role_id: '',
+                section_id: '',
+                department_id: '',
             },
 
             address: {
@@ -109,7 +109,7 @@ export const useInternFormData = defineStore("internFormData", {
                 district: '',
                 province: '',
                 post_code: '',
-            } */
+            }
         };
     },
 

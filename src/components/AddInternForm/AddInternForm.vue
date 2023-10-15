@@ -19,6 +19,7 @@
           </div>
 
           <div class="row mt-3">
+            
             <div class="col">
               <button id="picture" type="button" class="col-auto btn btn-sm outline-red position-relative px-4">
                 <input id="img-upload" type="file" accept="image/*" @change="showImg" />
@@ -42,6 +43,7 @@
           <span class="row h5 mb-3">ข้อมูลส่วนตัวเกี่ยวกับบริษัท</span>
 
           <div class="row grid mb-3">
+
             <div class="col-md-6">
               <label for="" class="form-label text-gray">รหัสพนักงาน <span class="text-danger">*</span></label>
               <div class="col me-5">
@@ -71,6 +73,7 @@
           </div>
 
           <div class="row mb-3">
+
             <div class="col-md-6">
               <label for="" class="form-label text-gray">อีเมลพนักงาน</label>
               <div class="col me-5">
@@ -97,6 +100,7 @@
           </div>
 
           <div class="row mb-3">
+
             <div class="col-md-6">
               <label for="" class="form-label text-gray">ฝ่าย <span class="text-danger">*</span></label>
               <div class="col me-5">
@@ -134,6 +138,7 @@
         <span class="h5 mb-3">ข้อมูลส่วนตัว</span>
 
         <div class="row mb-3">
+
           <div class="col-md-2 ms-1">
             <label for="" class="form-label text-gray">คำนำหน้า (ไทย) <span class="text-danger">*</span></label>
             <select id="thprefix" v-model="formData.prefix" class="form-select"
@@ -177,6 +182,7 @@
         </div>
 
         <div class="row mb-3">
+
           <div class="col-2 ms-1">
             <label for="" class="form-label text-gray">คำนำหน้า
               (อังกฤษ)
@@ -202,6 +208,7 @@
         </div>
 
         <div class="row mb-3">
+
           <div class="col-md-6 ms-1">
             <label for="" class="form-label text-gray">เลขบัตรประชาชน/พาสปอร์ต</label>
             <div class="col me-5">
@@ -223,6 +230,7 @@
         </div>
 
         <div class="row mb-3">
+          
           <div class="col ms-1">
             <label for="" class="form-label text-gray">เพศ <span class="text-danger">*</span></label>
             <div class="col me-5">
@@ -253,6 +261,7 @@
         </div>
 
         <div class="row mb-3">
+
           <div class="col ms-1">
             <label for="" class="form-label text-gray">น้ำหนัก (กิโลกรัม)</label>
             <div class="col me-5">
@@ -269,6 +278,7 @@
         </div>
 
         <div class="row mb-3">
+
           <div class="col ms-1">
             <label for="" class="form-label text-gray">สัญชาติ</label>
             <div class="col me-5">
@@ -286,6 +296,7 @@
         </div>
 
         <div class="row mb-4">
+
           <div class="col ms-1">
             <label for="" class="form-label text-gray">ศาสนา</label>
             <div class="col me-5">
@@ -313,6 +324,7 @@
         <span class="h5 mb-3">สถานศึกษา</span>
 
         <div class="row mb-4">
+
           <div class="col ms-1">
             <label for="" class="form-label text-gray">ชื่อสถานศึกษา <span class="text-danger">*</span></label>
             <select id="university" v-model="formData.university" class="form-select"
@@ -360,6 +372,7 @@
         <span class="h5 mb-3">สัญญาการจ้างงาน</span>
 
         <div class="row mb-3">
+
           <div class="col-md-6 ms-1">
             <label for="" class="form-label text-gray">ประเภทพนักงาน <span class="text-danger">*</span></label>
             <select id="interntype" v-model="formData.intern_type" class="form-select"
