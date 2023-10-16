@@ -10,13 +10,13 @@
     class="form-control"
     :readonly="readonly"
     :required="required"
-    @input="$emit('update:modelValue', $event.target.value)"
+    @input="$emit('update:modelValue', $event.target.value), valid()"
     v-bind="$attrs"
   />
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   label: {
     type: [Boolean, String],
   },
@@ -43,6 +43,10 @@ defineProps({
     type: String,
     default: "text",
   },
+  rule: {
+    type: [Boolean, Object]
+  },
+  
 });
 </script>
 
