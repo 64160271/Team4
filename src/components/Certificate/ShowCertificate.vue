@@ -1,8 +1,9 @@
 <template>
     <LayoutMenuName page-name="เอกสารรับรองการฝึกงาน" />
     
+  <div class="row mb-3 me-1">
     <div class="col-md-4 my-auto">
-        <div class="search_box input-group">
+<div class="search_box input-group">
             <span style="margin: 5px 10px 0px 35px;">
               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
                 <path
@@ -11,12 +12,13 @@
             </svg>
             </span>
             <input class="search"  id="search" type="search" placeholder="| Search" >
-        </div>
-
-        <div class="col">
-
+ 
         </div>
     </div>
+<BaseButton/>
+            <button class="col-auto btn ms-auto outline-red" @click="$router.push('/certificates/selectCompany')">ออกเอกสารรับรอง</button>
+        
+  </div>
         
         
         
@@ -26,6 +28,7 @@
 </template>
 
 <script setup>
+
 import BaseButton from '../Component/BaseButton.vue';
 </script>
 
