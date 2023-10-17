@@ -1,3 +1,10 @@
+<!--
+ FormContract
+ Display contract input form
+ Author : Rawich Piboonsin
+ Created date : 04-09-2566
+-->
+
 <template>
     <div class="row mb-3">
         <span>สัญญาการจ้างงาน</span>
@@ -7,33 +14,75 @@
 
     <div class="row mb-4">
         <div class="col">
-            <label for="" class="form-label">ประเภทพนักงาน <font color="#e1032b">*</font></label>
-            <select v-model="data.emp_type" name="type" id="type" class="form-select" required>
-                <option disabled selected :value="{name: ''}">--- เลือก ---</option>
-                <option v-for="(intern_type, index) in internType" :value="intern_type">{{ intern_type.name }}</option>
+            <label
+for=""
+class="form-label">ประเภทพนักงาน <font color="#e1032b">*</font></label>
+            <select
+id="type"
+v-model="data.emp_type"
+name="type"
+class="form-select"
+required>
+                <option
+disabled
+selected
+:value="{ name: '' }">--- เลือก ---</option>
+                <option
+v-for="(intern_type, index) in internType"
+:value="intern_type">{{ intern_type.name }}</option>
             </select>
         </div>
 
         <div class="col">
-            <label for="" class="form-label">เลขที่สัญญาจ้าง <font color="#e1032b">*</font></label>
-            <input v-model="data.contract_number" type="text" class="form-control" placeholder="10000">
+            <label
+for=""
+class="form-label">เลขที่สัญญาจ้าง <font color="#e1032b">*</font></label>
+            <input
+v-model="data.contract_number"
+type="text"
+class="form-control"
+placeholder="10000">
         </div>
     </div>
 
     <div class="row mb-5">
         <div class="col">
-            <label for="" class="form-label">วันที่เริ่มฝึกงาน <font color="#e1032b">*</font></label>
-            <input min="2564-01-01" max="2566-12-31" v-model="data.start_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
+            <label
+for=""
+class="form-label">วันที่เริ่มฝึกงาน <font color="#e1032b">*</font></label>
+            <input
+v-model="data.start_date"
+min="2564-01-01"
+max="2566-12-31"
+type="date"
+class="form-control"
+                placeholder="DD/MM/YYYY">
         </div>
 
         <div class="col">
-            <label for="" class="form-label">วันที่ทำงานวันสุดท้าย </label>
-            <input min="2564-01-01" max="2566-12-31" v-model="data.last_work_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
+            <label
+for=""
+class="form-label">วันที่ทำงานวันสุดท้าย </label>
+            <input
+v-model="data.last_work_date"
+min="2564-01-01"
+max="2566-12-31"
+type="date"
+class="form-control"
+                placeholder="DD/MM/YYYY">
         </div>
 
         <div class="col">
-            <label for="" class="form-label">วันที่สิ้นสุดสัญญาการฝึกงาน <font color="#e1032b">*</font></label>
-            <input min="2564-01-01" max="2566-12-31" v-model="data.contract_end_date" type="date" class="form-control" placeholder="DD/MM/YYYY">
+            <label
+for=""
+class="form-label">วันที่สิ้นสุดสัญญาการฝึกงาน <font color="#e1032b">*</font></label>
+            <input
+v-model="data.contract_end_date"
+min="2564-01-01"
+max="2566-12-31"
+type="date"
+class="form-control"
+                placeholder="DD/MM/YYYY">
         </div>
     </div>
 
@@ -45,10 +94,22 @@
 
     <div class="row mb-4">
         <div class="col">
-            <label for="" class="form-label">พี่เลี้ยง <font color="#e1032b">*</font></label>
-            <select v-model=data.mentor name="menter" id="menter" class="form-select" required>
-                <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="(mentor, index) in mentors" :value="mentor">{{ mentor.ment_fname + " " + mentor.ment_lname }}
+            <label
+for=""
+class="form-label">พี่เลี้ยง <font color="#e1032b">*</font></label>
+            <select
+id="menter"
+v-model=data.mentor
+name="menter"
+class="form-select"
+required>
+                <option
+disabled
+selected
+value="">--- เลือก ---</option>
+                <option
+v-for="(mentor, index) in mentors"
+:value="mentor">{{ mentor.ment_fname + " " + mentor.ment_lname }}
                 </option>
             </select>
         </div>
@@ -56,20 +117,44 @@
 
     <div class="row mb-4">
         <div class="col">
-            <label for="" class="form-label">ฝ่าย <font color="#e1032b">*</font></label>
-            <select v-model="data.section" name="faction" id="faction" class="form-select" required>
-                <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="(section, index) in sections" :value="section">{{ section.sec_name }}</option>
+            <label
+for=""
+class="form-label">ฝ่าย <font color="#e1032b">*</font></label>
+            <select
+id="faction"
+v-model="data.section"
+name="faction"
+class="form-select"
+required>
+                <option
+disabled
+selected
+value="">--- เลือก ---</option>
+                <option
+v-for="(section, index) in sections"
+:value="section">{{ section.sec_name }}</option>
             </select>
         </div>
     </div>
 
     <div class="row mb-4">
         <div class="col">
-            <label for="" class="form-label">แผนก <font color="#e1032b">*</font></label>
-            <select v-model="data.department" name="department" id="department" class="form-select" required>
-                <option disabled selected value="">--- เลือก ---</option>
-                <option v-for="(department, index) in departments" :value="department">{{ department.dept_name }}</option>
+            <label
+for=""
+class="form-label">แผนก <font color="#e1032b">*</font></label>
+            <select
+id="department"
+v-model="data.department"
+name="department"
+class="form-select"
+required>
+                <option
+disabled
+selected
+value="">--- เลือก ---</option>
+                <option
+v-for="(department, index) in departments"
+:value="department">{{ department.dept_name }}</option>
             </select>
         </div>
     </div>

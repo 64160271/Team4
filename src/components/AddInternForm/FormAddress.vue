@@ -1,3 +1,10 @@
+<!--
+ FormAddress
+ Display address input form
+ Author : Rawich Piboonsin
+ Created date : 04-09-2566
+-->
+
 <template>
     <div class="row mb-3">
         <span>ข้อมูลที่อยู่ (สามารถข้ามได้)</span>
@@ -7,47 +14,99 @@
 
     <div class="row mb-4">
         <div class="col">
-            <label for="" class="form-label">บ้านเลขที่ </label>
-            <input v-model="data.house_number" type="text" class="form-control" placeholder="123/123">
+            <label
+for=""
+class="form-label">บ้านเลขที่ </label>
+            <input
+v-model="data.house_number"
+type="text"
+class="form-control"
+placeholder="123/123">
         </div>
 
         <div class="col">
-            <label for="" class="form-label">หมู่ </label>
-            <input v-model="data.village_number" type="text" class="form-control" placeholder="0">
+            <label
+for=""
+class="form-label">หมู่ </label>
+            <input
+v-model="data.village_number"
+type="text"
+class="form-control"
+placeholder="0">
         </div>
 
         <div class="col">
-            <label for="" class="form-label">ซอย</label>
-            <input v-model="data.alley" type="text" class="form-control" placeholder="ซอย">
+            <label
+for=""
+class="form-label">ซอย</label>
+            <input
+v-model="data.alley"
+type="text"
+class="form-control"
+placeholder="ซอย">
         </div>
     </div>
 
     <div class="row mb-4">
         <div class="col">
-            <label for="" class="form-label">ถนน </label>
-            <input v-model="data.street" type="text" class="form-control" placeholder="ถนน">
+            <label
+for=""
+class="form-label">ถนน </label>
+            <input
+v-model="data.street"
+type="text"
+class="form-control"
+placeholder="ถนน">
         </div>
 
         <div class="col">
-            <label for="" class="form-label">ตำบล/แขวง </label>
-            <input v-model="data.subdistrict" id="district" type="text" class="form-control" placeholder="ตำบล">
+            <label
+for=""
+class="form-label">ตำบล/แขวง </label>
+            <input
+id="district"
+v-model="data.subdistrict"
+type="text"
+class="form-control"
+placeholder="ตำบล">
         </div>
 
         <div class="col">
-            <label for="" class="form-label">อำเภอ/เขต </label>
-            <input v-model="data.district" type="text" id="amphoe" class="form-control" placeholder="อำเภอ">
+            <label
+for=""
+class="form-label">อำเภอ/เขต </label>
+            <input
+id="amphoe"
+v-model="data.district"
+type="text"
+class="form-control"
+placeholder="อำเภอ">
         </div>
     </div>
 
     <div class="row mb-5">
         <div class="col">
-            <label for="" class="form-label">จังหวัด </label>
-            <input v-model="data.province" type="text" id="province" class="form-control" placeholder="ัจังหวัด">
+            <label
+for=""
+class="form-label">จังหวัด </label>
+            <input
+id="province"
+v-model="data.province"
+type="text"
+class="form-control"
+placeholder="ัจังหวัด">
         </div>
 
         <div class="col">
-            <label for="" class="form-label">รหัสไปรษณีย์ </label>
-            <input v-model="data.post_code" type="text" id="zipcode" class="form-control" placeholder="10000">
+            <label
+for=""
+class="form-label">รหัสไปรษณีย์ </label>
+            <input
+id="zipcode"
+v-model="data.post_code"
+type="text"
+class="form-control"
+placeholder="10000">
         </div>
     </div>
 
@@ -59,13 +118,26 @@
 
     <div class="row mb-5">
         <div class="col">
-            <label for="" class="form-label">เบอร์โทรศัพท์มือถือ <font color="#e1032b">*</font></label>
-            <input v-model="data.tel" type="text" class="form-control" placeholder="099-999-9999">
+            <label
+for=""
+class="form-label">เบอร์โทรศัพท์มือถือ <font color="#e1032b">*</font></label>
+            <input
+v-model="data.tel"
+type="text"
+class="form-control"
+placeholder="099-999-9999">
         </div>
 
         <div class="col">
-            <label for="" class="form-label">อีเมลส่วนตัว <font color="#e1032b">*</font></label>
-            <input v-model="data.email" name="email" type="email" class="form-control" placeholder="example@gmail.com">
+            <label
+for=""
+class="form-label">อีเมลส่วนตัว <font color="#e1032b">*</font></label>
+            <input
+v-model="data.email"
+name="email"
+type="email"
+class="form-control"
+placeholder="example@gmail.com">
         </div>
     </div>
 </template>
@@ -74,26 +146,6 @@
 import { ref } from 'vue';
 import { onUnmounted, onMounted } from 'vue'
 import { useAddressStore } from '../../stores/formData';
-
-/* $.Thailand({
-    $district: $('#district'), // input ของตำบล
-    $amphoe: $('#amphoe'), // input ของอำเภอ
-    $province: $('#province'), // input ของจังหวัด
-    $zipcode: $('#zipcode'), // input ของรหัสไปรษณีย์
-    onDataFill: function (data) {
-
-        console.info('Data Filled', data);
-
-    },
-
-    onLoad: function () {
-
-        console.info('Autocomplete is ready!');
-
-        $('#loader, .demo').toggle();
-
-    }
-}); */
 
 const data = ref(useAddressStore())
 /* const data = ref({
