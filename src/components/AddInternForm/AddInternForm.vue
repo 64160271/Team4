@@ -63,7 +63,6 @@
                 label="สถานะพนักงาน"
                 :options="statusList.list"
                 v-model="personalInfo.intn_status"
-                :set-default="true"
                 :class="{ 'is-invalid': v$.personal_info.intn_status.$error }"
                 required
               />
@@ -93,7 +92,6 @@
                 v-model="workInfo.work_role_id"
                 value="role_id"
                 text="role_name"
-                :set-default="true"
                 :class="{ 'is-invalid': v$.work_info.work_role_id.$error }"
                 required
               />
@@ -109,7 +107,6 @@
                 v-model="workInfo.work_section_id"
                 value="sec_id"
                 text="sec_name"
-                :set-default="true"
                 :class="{ 'is-invalid': v$.work_info.work_section_id.$error }"
                 @change="setMentor"
                 required
@@ -118,30 +115,17 @@
             </div>
 
             <div class="col-md-6">
-              <label for="" class="form-label text-gray"
-                >พี่เลี้ยง <span class="text-danger">*</span></label
-              >
-              <div class="col">
-                <select
-                  id="mentor"
-                  v-model="personalInfo.intn_mentor_id"
-                  class="form-select"
-                  :class="{ 'is-invalid': v$.personal_info.intn_mentor_id.$error }"
-                  required
-                >
-                  <option disabled selected value="">เลือก (ต้องเลือกฝ่ายก่อน)</option>
-                  <option v-for="mentor in mentors" :value="mentor.ment_id">
-                    {{ mentor.ment_fname + " " + mentor.ment_lname }}
-                  </option>
-                </select>
-                <span
-                  v-for="error in v$.personal_info.intn_mentor_id.$errors"
-                  :key="error.$uid"
-                  class="invalid-feedback"
-                >
-                  กรุณากรอกข้อมูล
-                </span>
-              </div>
+              <BaseSelect
+                label="พี่เลี้ยง"
+                :options="mentors"
+                v-model="personalInfo.intn_mentor_id"
+                value="ment_id"
+                text="ment_fname"
+                placeholder="เลือก (ต้องเลือกฝ่ายก่อน)"
+                :class="{ 'is-invalid': v$.personal_info.intn_mentor_id.$error }"
+                required
+              />
+              <InvalidFeedback :errors="v$.personal_info.intn_mentor_id.$errors" />
             </div>
           </div>
         </div>
@@ -466,80 +450,44 @@
 
         <div class="row mb-4">
           <div class="col ms-1">
-            <label for="" class="form-label text-gray"
-              >ชื่อสถานศึกษา <span class="text-danger">*</span></label
-            >
-            <select
-              id="university"
+            <!-- <BaseSelect
+              label="ชื่อสถานศึกษา"
+              :options="universities"
               v-model="collegeInfo.col_university_id"
-              class="form-select"
+              value="uni_id"
+              text="uni_name"
               :class="{ 'is-invalid': v$.college_info.col_university_id.$error }"
-              required
               @change="setFaculty"
-            >
-              <option disabled selected value="">เลือก</option>
-              <option v-for="university in universities" :value="university.uni_id">
-                {{ university.uni_name }}
-              </option>
-            </select>
-            <span
-              v-for="error in v$.college_info.col_university_id.$errors"
-              :key="error.$uid"
-              class="invalid-feedback"
-            >
-              กรุณากรอกข้อมูล
-            </span>
-          </div>
-
-          <div class="col">
-            <label for="" class="form-label text-gray"
-              >คณะ <span class="text-danger">*</span></label
-            >
-            <select
-              id="faculty"
-              v-model="collegeInfo.col_faculty_id"
-              class="form-select"
-              :class="{ 'is-invalid': v$.college_info.col_faculty_id.$error }"
               required
-              @change="setMajor"
-            >
-              <option disabled selected value="">เลือก (ต้องเลือกสถานศึกษาก่อน)</option>
-              <option v-for="faculty in faculties" :value="faculty.fac_id">
-                {{ faculty.fac_name }}
-              </option>
-            </select>
-            <span
-              v-for="error in v$.college_info.col_faculty_id.$errors"
-              :key="error.$uid"
-              class="invalid-feedback"
-            >
-              กรุณากรอกข้อมูล
-            </span>
+            />
+            <InvalidFeedback :errors="v$.college_info.col_university_id.$errors" /> -->
           </div>
 
           <div class="col">
-            <label for="" class="form-label text-gray"
-              >สาขาวิชา <span class="text-danger">*</span></label
-            >
-            <select
-              id="major"
+            <!-- <BaseSelect
+              label="คณะ"
+              :options="faculties"
+              v-model="collegeInfo.col_faculty_id"
+              value="fac_id"
+              text="fac_name"
+              :class="{ 'is-invalid': v$.college_info.col_faculty_id.$error }"
+              @change="setMajor"
+              required
+            />
+            <InvalidFeedback :errors="v$.college_info.col_faculty_id.$errors" /> -->
+          </div>
+
+          <div class="col">
+            <!-- <BaseSelect
+              label="สาขาวิชา"
+              :options="majors"
               v-model="collegeInfo.col_major_id"
-              class="form-select"
+              value="maj_id"
+              text="maj_name"
               :class="{ 'is-invalid': v$.college_info.col_major_id.$error }"
               required
-            >
-              <option disabled selected value="">เลือก (ต้องเลือกคณะก่อน)</option>
-              <option v-for="major in majors" :value="major.maj_id">
-                {{ major.maj_name }}
-              </option>
-            </select>
-            <span
-              v-for="error in v$.college_info.col_major_id.$errors"
-              :key="error.$uid"
-              class="invalid-feedback"
-            >
-              กรุณากรอกข้อมูล
-            </span>
+            />
+            <InvalidFeedback :errors="v$.college_info.col_major_id.$errors" /> -->
           </div>
         </div>
       </div>
@@ -795,22 +743,12 @@
 
         <div class="row mb-4">
           <div class="col ms-1">
-            <label for="" class="form-label text-gray">สถานภาพทางทหาร</label>
-            <div class="col me-5">
-              <select
-                id="military"
-                v-model="personalInfo.intn_military_status"
-                class="form-select mb-2"
-              >
-                <option disabled selected value="">เลือก</option>
-                <option
-                  v-for="militaryStatus in militaryStatusList.list"
-                  :value="militaryStatus"
-                >
-                  {{ militaryStatus }}
-                </option>
-              </select>
-            </div>
+            <BaseSelect
+              label="สถานภาพทางทหาร"
+              :options="militaryStatusList.list"
+              v-model="personalInfo.intn_military_status"
+              :set-default="true"
+            />
           </div>
 
           <div class="col">
