@@ -93,6 +93,20 @@ export default class apiService {
             })
     }
 
+    getAllSectionWithRelated = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/sections/related`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getAllUniversityWithRelated = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/universities/related`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
     createIntern = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/interns/key`, data)
             .then((response) => {

@@ -841,35 +841,17 @@ function showImg() {
 }
 
 onMounted(async () => {
-  const hasSection = Boolean(workInfo.value.work_section_id);
   await Promise.all([
-    (sections.value = await apiCall.getAllSection()),
-    (universities.value = await apiCall.getAllUniversity()),
+    (sections.value = await apiCall.getAllSectionWithRelated()),
+    (universities.value = await apiCall.getAllUniversityWithRelated()),
     (roles.value = await apiCall.getAllRole()),
-    hasSection
-      ? (mentors.value = await apiCall.getMentorBySectionId(
-          workInfo.value.work_section_id
-        ))
-      : null,
-    hasSection
-      ? (departments.value = await apiCall.getDepartmentBySectionId(
-          workInfo.value.work_section_id
-        ))
-      : null,
-    hasSection
-      ? (teams.value = await apiCall.getTeamBySectionId(workInfo.value.work_section_id))
-      : null,
-    collegeInfo.value.col_university_id
-      ? (faculties.value = await apiCall.getFacultyByUniversityId(
-          collegeInfo.value.col_university_id
-        ))
-      : null,
-    collegeInfo.value.col_faculty_id
-      ? (majors.value = await apiCall.getMajorByFacultyId(
-          collegeInfo.value.col_faculty_id
-        ))
-      : null,
-  ]);
+  ])
+
+  mentors.value = sections.value.mentors
+  departments.value = sections.value.departments
+  teams.value = sections.value.teams
+  faculties.value = universities.value.faculties
+  majors.value = faculties.value.majors
 
   $.Thailand({
     $district: $("#district"), // input ของตำบล
