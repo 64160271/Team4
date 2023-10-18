@@ -20,11 +20,19 @@
             </button>
         </div>
 
-    <BaseCard/>
+    <BaseCard class="outline-card mt-5"
+        title="ClickNext Co.,Ltd."
+        sub="กรุงเทพมหานคร ฯ" 
+        content="พญาไท พลาซ่า 128/323-333 ชั้น 30
+            ถ. พญาไท แขวงทุ่งพญาไท เขตราชเทวี 
+            กรุงเทพมหานคร 10400">
+        <EditIcon class="stroke_edit position-absolute top-0 end-0 m-1 p-1"/>
+    </BaseCard>
 </template>
 
 <script setup>
     import BaseCard from '../Component/BaseCard.vue';
+    import EditIcon from '../icons/EditIcon.vue';
 </script>
 
 <style scoped>
@@ -33,6 +41,16 @@
     border: 1px solid red;
     border-radius: 5px;
     color: red;
+    width: 150px;
+    height: 35px;
+    outline: none;
+}
+
+.btn_add:hover {
+    background-color: red;
+    border: 1px solid white;
+    border-radius: 5px;
+    color: white;
     width: 150px;
     height: 35px;
     outline: none;
@@ -92,14 +110,14 @@
 }
 
 .stroke_edit {
-    stroke: black;
+    color: rgb(0, 0, 0) !important;
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
 }
 
 .stroke_edit:hover {
-    stroke: var(--main-color);
+    color: var(--main-color);
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -108,6 +126,7 @@
 .outline-card {
     border: 1px solid black;
     color: black;
+    border-radius: 33px;
 }
 
 .outline-card:hover {
@@ -117,6 +136,6 @@
 
 .header {
     display: flex;
-    width: 100%;
+    width: 90%;
 }
 </style>

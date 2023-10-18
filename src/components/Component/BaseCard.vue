@@ -1,6 +1,6 @@
 <template>
     <div class="col-md-3">
-        <div class="card h-100 content border shadow-sm text-center">
+        <div class="card h-100 content border shadow-sm text-center pt-5 rounded-5">
             <div class="card-body">
                 <h6 class="card-title py-2">{{ title }}</h6>
 
@@ -31,7 +31,7 @@ defineProps({
 
 <style scoped>
 .card:hover {
-    border-color: var(--main-color) !important;
-    color: var(--main-color) !important
+    border-color: var(--main-color);
+    color: var(--main-color);
 }
 </style>
