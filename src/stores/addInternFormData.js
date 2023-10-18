@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { required, minValue } from "@vuelidate/validators";
 
 export const useInternFormData = defineStore("internFormData", {
     state: () => {
@@ -87,6 +88,7 @@ export const useInternFormData = defineStore("internFormData", {
                 intn_last_work_date: '',
                 intn_contract_end_date: '',
                 intn_mentor_id: '',
+                intn_updated_by: 1,
             },
 
             college_info: {
@@ -110,6 +112,32 @@ export const useInternFormData = defineStore("internFormData", {
                 addr_district: '',
                 addr_province: '',
                 addr_post_code: '',
+            },
+
+            rules: {
+                personal_info: {
+                  intn_code: { required },
+                  intn_status: { required },
+                  intn_mentor_id: { required },
+                  intn_prefix_th: { required },
+                  intn_fname_th: { required },
+                  intn_lname_th: { required },
+                  intn_nickname_th: { required },
+                  intn_gender: { required },
+                  intn_tel: { required },
+                  intn_email: { required },
+                  intn_start_date: { required },
+                  intn_intern_type: { required },
+                },
+                college_info: {
+                  col_university_id: { required },
+                  col_faculty_id: { required },
+                  col_major_id: { required },
+                },
+                work_info: {
+                  work_role_id: { required },
+                  work_section_id: { required },
+                },
             }
         };
     },

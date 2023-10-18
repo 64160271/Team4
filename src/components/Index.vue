@@ -95,7 +95,6 @@
 
 
 <script setup>
-import LayoutSidebar from './layouts/LayoutSidebar.vue';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { computed } from 'vue'
@@ -105,7 +104,7 @@ import BaseTable from './Component/BaseTable.vue';
 
 const total = ref()
 const page = ref(1)
-const pageMax = ref()
+const pageMax = ref(1)
 const pageSize = 10
 const date = new Date()
 const interns = ref([])
@@ -121,13 +120,16 @@ async function setCurrentPage(pageNumber) {
 const getAllIntern = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/interns?page=${page.value}&limit=${pageSize}`)
         .then((response) => {
+            console.log(response)
             interns.value = response.data.rows
             total.value = response.data.count
             pageMax.value = Math.ceil(total.value / pageSize)
         })
 }
 
-onMounted(() => getAllIntern())
+onMounted(() => {
+    getAllIntern()
+})
 
 function getImage(img) {
     return `src/assets/images/interns/${img}`

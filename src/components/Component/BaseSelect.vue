@@ -9,8 +9,9 @@
     :required="required"
     @change="$emit('update:modelValue', $event.target.value)"
     v-bind="$attrs"
+    @click="console.log(options)"
   >
-    <option disabled v-if="setDefault" value="">{{ placeholder }}</option>
+    <option disabled selected v-if="setDefault" value="">{{ placeholder }}</option>
     <option
       v-if="firstOptionType == 'object'"
       :value="option[value]"
@@ -34,6 +35,7 @@ const props = defineProps({
   },
   modelValue: {
     type: String,
+    default: "",
   },
   required: {
     type: Boolean,
