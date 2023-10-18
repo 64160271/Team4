@@ -58,6 +58,20 @@ export default class apiService {
             })
     }
 
+    getDepartmentBySectionId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/departments/section/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getTeamBySectionId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/teams/section/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
     getSectionWithMentor = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/sections/mentors`)
             .then((response) => {
@@ -121,4 +135,17 @@ export default class apiService {
             })
     }
 
+    createWorkInfo = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/workinfo`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    createAddress = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/addresses`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
 }

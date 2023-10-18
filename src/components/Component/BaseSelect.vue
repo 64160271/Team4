@@ -9,7 +9,6 @@
     :required="required"
     @change="$emit('update:modelValue', $event.target.value)"
     v-bind="$attrs"
-    @click="console.log(options)"
   >
     <option disabled selected v-if="setDefault" value="">{{ placeholder }}</option>
     <option

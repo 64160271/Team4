@@ -101,6 +101,7 @@ export const useInternFormData = defineStore("internFormData", {
                 work_role_id: '',
                 work_section_id: '',
                 work_department_id: '',
+                work_team_id: '',
             },
 
             address: {
@@ -137,6 +138,7 @@ export const useInternFormData = defineStore("internFormData", {
                 work_info: {
                   work_role_id: { required },
                   work_section_id: { required },
+                  work_team_id: { required }
                 },
             }
         };
