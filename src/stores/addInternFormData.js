@@ -140,11 +140,16 @@ export const useInternFormData = defineStore("internFormData", {
                   work_section_id: { required },
                   work_team_id: { required }
                 },
-            }
+            },
+
+            sectionsForm: {
+                
+            },
+            universitiesForm: {
+                
+            },
         };
     },
-
-    persist: true,
 
     actions: {
         setData(intern) {

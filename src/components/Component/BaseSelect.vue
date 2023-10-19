@@ -13,8 +13,8 @@
     <option disabled selected v-if="setDefault" value="">{{ placeholder }}</option>
     <option
       v-if="firstOptionType == 'object'"
-      :value="option[value]"
       v-for="option in options"
+      :value="(value) ? option[value] : JSON.stringify(option)"
     >
       {{ option[text] }}
     </option>
@@ -42,6 +42,7 @@ const props = defineProps({
   },
   value: {
     type: String,
+    default: null,
   },
   setDefault: {
     type: Boolean,
@@ -51,7 +52,7 @@ const props = defineProps({
     type: String,
   },
   options: {
-    type: Array,
+    type: [Array, Object],
   },
   placeholder: {
     type: String,
