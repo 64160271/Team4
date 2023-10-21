@@ -1,38 +1,51 @@
 <template>
-    <LayoutMenuName page-name="จัดการข้อมูลเอกสารรับรอง > บริษัท" /> 
-        <div class="header me-1">
-            <div class="col-md-4 my-auto">
-                <div class="input-group">
-                    <span class="bg-grays-200 input-group-text" id="basic-addon1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
-                            viewBox="0 0 16 16">
-                            <path
-                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                        </svg>
-                    </span>
+    <LayoutMenuName page-name="จัดการข้อมูลเอกสารรับรอง > บริษัท" />
+    <div class="header me-1">
+        <div class="col-md-4 my-auto">
+            <div class="input-group">
+                <span class="bg-grays-200 input-group-text" id="basic-addon1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </span>
                 <input v-model="searchData" type="text" id="search-bar" class="bg-grays-200 form-control"
                     placeholder="Search" aria-label="" aria-describedby="basic-addon1">
-                </div>
             </div>
-
-            <button class="btn_add ms-auto" @click="$router.push('#')">
-                เพิ่มข้อมูล
-            </button>
         </div>
 
-    <BaseCard class="outline-card mt-5"
-        title="ClickNext Co.,Ltd."
-        sub="กรุงเทพมหานคร ฯ" 
-        content="พญาไท พลาซ่า 128/323-333 ชั้น 30
-            ถ. พญาไท แขวงทุ่งพญาไท เขตราชเทวี 
-            กรุงเทพมหานคร 10400">
-        <EditIcon class="stroke_edit position-absolute top-0 end-0 m-1 p-1"/>
-    </BaseCard>
+        <button class="btn_add ms-auto" @click="$router.push('#')">
+            เพิ่มข้อมูล
+        </button>
+    </div>
+
+    <div class="content_card" style="display: flex; flex-wrap: wrap;">
+        <BaseCard v-for="Company in companies" class="outline-card mt-5" :title=Company.com_name sub="กรุงเทพมหานคร ฯ">
+            {{ Company.com_address.addr_house_number }}
+            {{ Company.com_address.addr_village_number }}
+            {{ Company.com_address.addr_subdistrict }}
+            {{ Company.com_address.addr_district }}
+            {{ Company.com_address.addr_province }}
+            {{ Company.com_address.addr_post_code }}
+            <EditIcon class="stroke_edit position-absolute top-0 end-0 m-1 p-1" />
+        </BaseCard>
+    </div>
 </template>
 
 <script setup>
-    import BaseCard from '../Component/BaseCard.vue';
-    import EditIcon from '../icons/EditIcon.vue';
+import apiService from '../../services/api';
+import BaseCard from '../Component/BaseCard.vue';
+import EditIcon from '../icons/EditIcon.vue';
+import { ref, onMounted } from 'vue';
+
+const apiCall = new apiService();
+const companies = ref([])
+
+onMounted(async () => {
+    companies.value = await apiCall.getCompanyWithAddress()
+})
+
 </script>
 
 <style scoped>

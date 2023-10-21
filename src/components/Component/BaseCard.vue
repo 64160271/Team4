@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-3">
+    <div class="col-md-3" style="margin-left: 30px;">
         <div class="card h-100 content border shadow-sm text-center pt-5 rounded-5">
             <div class="card-body">
                 <h6 class="card-title py-2">{{ title }}</h6>

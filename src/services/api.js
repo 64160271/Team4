@@ -121,4 +121,19 @@ export default class apiService {
             })
     }
 
+    getAllCompany = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/companies`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getCompanyWithAddress = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/companies/address`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+
 }
