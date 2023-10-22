@@ -17,7 +17,7 @@
                     @click="$emit('close')">
                         ยกเลิก
                     </button>
-                    <button type="button" class="col-md-3 btn outline-red">
+                    <button type="button" class="col-md-3 btn outline-red" @click="$emit('save')">
                         บันทึก
                     </button>
                 </div>

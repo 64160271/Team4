@@ -1,5 +1,4 @@
 <template>
-    <div>
         <svg v-bind="$attrs" class="" width="27" height="32" viewBox="0 0 42 42" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -9,5 +8,4 @@
                 d="M29.2361 5.7061L36.2949 12.7649M39.5537 9.43549C40.4804 8.5088 41.001 7.25194 41.001 5.9414C41.001 4.63086 40.4804 3.37399 39.5537 2.4473C38.627 1.52061 37.3701 1 36.0596 1C34.7491 1 33.4922 1.52061 32.5655 2.4473L12.7656 22.1766V29.2354H19.8244L39.5537 9.43549Z"
                 stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-    </div>
 </template>
