@@ -120,8 +120,10 @@
                 {{ Company.com_address.addr_province }}
                 {{ Company.com_address.addr_post_code }}
             </div>
-            <EditIcon class="stroke_edit position-absolute top-0 end-0 m-1 p-1" data-bs-toggle="modal"
+            <button class="stroke_edit position-absolute top-0 end-0 m-1 p-1 w-25 h-25 border-0" style="border-radius: 50px; background-color: white;">
+                <EditIcon data-bs-toggle="modal"
                 data-bs-target="#edit-company" />
+            </button>
         </BaseCard>
     </div>
 
