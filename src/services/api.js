@@ -121,4 +121,18 @@ export default class apiService {
             })
     }
 
+    createSignature = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/signatures`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getAllSignature = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/signatures`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
 }

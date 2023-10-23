@@ -18,7 +18,7 @@
 
         <BaseButton class="sm col-2 btn outline-red ms-auto" label="+ เพิ่มข้อมูล" @click="openModal = true" />
 
-        <BaseModal v-if="openModal == true" title="เพิ่มข้อมูลลายเซ็น" @close="openModal = !openModal">
+        <BaseModal v-if="openModal == true" title="เพิ่มข้อมูลลายเซ็น" @close="openModal = !openModal" @save="submitForm">
             <div class="row mx-2">
                 <div class="col">
                     <BaseInput label="ชื่อ - นามสกุล" v-model="formData.sign_name" placeholder="ชื่อ - นามสกุล"
@@ -28,7 +28,9 @@
                     <label for="inputImage" class="form-label text-gray ">ลายเซ็นผู้รับรอง</label>
 
                     <div class="row">
-                        <button id="picture" type="button" class="col-auto btn btn-sm outline-red position-relative px-4 mx-auto mb-3" v-if="!formData.sign_image">
+                        <button id="picture" type="button"
+                            class="col-auto btn btn-sm outline-red position-relative px-4 mx-auto mb-3"
+                            v-if="!formData.sign_image">
                             <input id="img-upload" type="file" accept="image/*" @change="showImg" />
 
                             <svg class="me-1" width="20" height="20" viewBox="0 0 42 42" fill="none"
@@ -60,8 +62,12 @@
     </div>
 
     <div class="row mb-2">
-        <BaseCard title="" sub="นายปริญญา" content="Senior Human Resources">
+        <BaseCard v-for="signature in signatures" title=" " :sub="signature.sign_fname + ' ' + signature.sign_lname"
+            content="Senior Human Resources">
             <EditIcon class="position-absolute top-0 end-0 m-2" />
+            <div>
+                <img width="120" :src="getImage(signature.sign_image)" alt="">
+            </div>
         </BaseCard>
     </div>
 </template>
@@ -72,7 +78,10 @@ import BaseCard from '../Component/BaseCard.vue';
 import EditIcon from '../icons/EditIcon.vue';
 import BaseModal from '../Component/BaseModal.vue';
 import BaseInput from '../Component/BaseInput.vue';
+import { confirmation } from '../../assets/js/func';
 import { ref } from 'vue';
+import apiService from '../../services/api';
+import { onMounted } from 'vue';
 
 const openModal = ref(false)
 const formData = ref({
@@ -80,14 +89,31 @@ const formData = ref({
     sign_role: '',
     sign_image: ''
 })
+const apiCall = new apiService()
+const signatures = ref({})
+
+async function submitForm() {
+    const result = await confirmation()
+    if (result) {
+        await apiCall.createSignature(formData)
+    }
+}
 
 function showImg() {
     const imgUpload = document.getElementById("img-upload");
 
     if (imgUpload.files[0] != undefined) {
-      formData.value.sign_image = imgUpload.files[0];
+        formData.value.sign_image = imgUpload.files[0];
     }
-  }
+}
+onMounted(async () => {
+    signatures.value = await apiCall.getAllSignature()
+    console.log(signatures.value)
+})
+
+function getImage(img) {
+    return `src/assets/images/signature/${img}`
+}
 </script>
 
 <style scoped>
@@ -99,5 +125,4 @@ function showImg() {
 
 .pointer {
     cursor: pointer;
-}
-</style>
+}</style>
