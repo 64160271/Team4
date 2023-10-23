@@ -10,8 +10,7 @@
 
                 <div class="row py-2">
                     <label>{{ content }}</label>
-                </div>
-                
+                </div>            
                 <div class="row py-2">
                     <slot></slot>
                 </div>
@@ -32,6 +31,6 @@ defineProps({
 <style scoped>
 .card:hover {
     border-color: var(--main-color) !important;
-    color: var(--main-color) !important
+    /* color: var(--main-color) !important */
 }
 </style>

@@ -1,7 +1,5 @@
 <template>
-    <div>
-        Preview ออกเอกสาร
-    </div>
+    <LayoutMenuName page-name="เอกสารรับรอง > เอกสารรับรองนักศึกษาฝึกงาน" />
 </template>
 
 <script setup>
