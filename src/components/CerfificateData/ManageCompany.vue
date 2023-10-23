@@ -1,3 +1,9 @@
+<!--
+    AddInternForm
+    Parent of module add intern by form
+    Author : keetapong Rodjanavichai
+    Created date : 21-10-2566
+-->
 <template>
     <LayoutMenuName page-name="จัดการข้อมูลเอกสารรับรอง > บริษัท" />
     <div class="header me-1">
@@ -41,67 +47,52 @@
                         <div class="content-body" style="width: 60%; margin: 10% 20% 5% 20%;">
                             <label for="exampleInputEmail1" class="form-label">ชื่อบริษัท</label>
                             <input class="form-control" type="text" placeholder="ชื่อบริษัท"
-                                aria-label="default input example">
+                                aria-label="default input example" v-model="companyData.com_name">
 
-                            <label for="exampleInputEmail1" class="form-label">สาขา</label>
-                            <input class="form-control" type="text" placeholder="สาขา" aria-label="default input example">
+                            <div class="box1" style="display: flex; flex-wrap: wrap;">
+                                <label for="exampleInputEmail1" class="form-label">เลขที่</label>
+                                <input class="form-control" type="text" placeholder="เลขที่"
+                                    aria-label="default input example" v-model="companyData.addr_house_number">
 
-                            <label for="exampleInputEmail1" class="form-label">ที่อยู่</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                placeholder="เลขที่ 22/14-15 ถนนบางแสนสาย 4 เหนือ ตำบลแสนสุข อำเภอเมืองชลบุรี จังหวัดชลบุรี 20130"
-                                aria-label="default input example"></textarea>
+                                <label for="exampleInputEmail1" class="form-label">หมู่</label>
+                                <input class="form-control" type="text" placeholder="หมู่"
+                                    aria-label="default input example" v-model="companyData.addr_village_number">
+                            </div>
+
+                            <div class="box1" style="display: flex; flex-wrap: wrap;">
+                                <label for="exampleInputEmail1" class="form-label">ตรอก</label>
+                                <input class="form-control" type="text" placeholder="ตรอก"
+                                    aria-label="default input example" v-model="companyData.addr_alley">
+
+                                <label for="exampleInputEmail1" class="form-label">ถนน</label>
+                                <input class="form-control" type="text" placeholder="ถนน" aria-label="default input example"
+                                    v-model="companyData.addr_street">
+                            </div>
+
+                            <div class="box1" style="display: flex; flex-wrap: wrap;">
+                                <label for="exampleInputEmail1" class="form-label">ตำบล/แขวง</label>
+                                <input class="form-control" type="text" placeholder="ตำบล/แขวง"
+                                    aria-label="default input example" v-model="companyData.addr_subdistrict">
+
+                                <label for="exampleInputEmail1" class="form-label">อำเภอ/เขต</label>
+                                <input class="form-control" type="text" placeholder="อำเภอ/เขต"
+                                    aria-label="default input example" v-model="companyData.addr_district">
+                            </div>
+
+                            <div class="box1" style="display: flex; flex-wrap: wrap;">
+                                <label for="exampleInputEmail1" class="form-label">สาขา(ชื่อจังหวัด)</label>
+                                <input class="form-control" type="text" placeholder="สาขา"
+                                    aria-label="default input example" v-model="companyData.addr_province">
+
+                                <label for="exampleInputEmail1" class="form-label">เลขไปรษณีย์</label>
+                                <input class="form-control" type="text" placeholder="เลขไปรษณีย์"
+                                    aria-label="default input example" v-model="companyData.addr_post_code">
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary w-25" data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-outline-danger w-25" data-bs-toggle="modal"
-                            data-bs-target="#comfirmcompany">บันทึก</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal" id="comfirmcompany" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body" style="width: 100%;">
-                        <div class="content-body" style="width: 60%; margin: 30% 0% 20% 20%;">
-                            <center><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
-                                    class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" style="fill: yellow;">
-                                    <path
-                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                                </svg></center>
-                            <p>
-                                <center style="font-size: 25px;">คุณต้องการบันทึกข้อมูลหรือไม่</center>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary w-25" data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-outline-danger w-25" data-bs-toggle="modal"
-                            data-bs-target="#successcompany">บันทึก</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal" id="successcompany" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body" style="width: 100%;">
-                        <div class="content-body" style="width: 60%; margin: 30% 0% 17.5% 20%;">
-                            <center>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor"
-                                    class="bi bi-check-circle-fill" viewBox="0 0 16 16"
-                                    style="fill: green; margin-bottom: 20px;">
-                                    <path
-                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                                </svg>
-                            </center>
-                            <p>
-                                <center style="font-size: 25px;">บันทึกข้อมูลเสร็จสิ้น</center>
-                            </p>
-                        </div>
+                        <button type="button" class="btn btn-outline-danger w-25" @click="confirmation">บันทึก</button>
                     </div>
                 </div>
             </div>
@@ -120,9 +111,9 @@
                 {{ Company.com_address.addr_province }}
                 {{ Company.com_address.addr_post_code }}
             </div>
-            <button class="stroke_edit position-absolute top-0 end-0 m-1 p-1 w-25 h-25 border-0" style="border-radius: 50px; background-color: white;">
-                <EditIcon data-bs-toggle="modal"
-                data-bs-target="#edit-company" />
+            <button class="stroke_edit position-absolute top-0 end-0 m-1 p-1 w-25 h-25 border-0"
+                style="border-radius: 50px; background-color: white;">
+                <EditIcon data-bs-toggle="modal" data-bs-target="#edit-company" />
             </button>
         </BaseCard>
     </div>
@@ -133,83 +124,115 @@
                 <div class="modal-body" style="width: 100%;">
                     <div class="content-body" style="width: 60%; margin: 10% 20% 5% 20%;">
                         <label for="exampleInputEmail1" class="form-label">ชื่อบริษัท</label>
-                        <input class="form-control" type="text" placeholder="ชื่อบริษัท" aria-label="default input example">
+                        <input class="form-control" type="text" placeholder="ชื่อบริษัท" aria-label="default input example"
+                            v-model="companyData.com_name">
 
-                        <label for="exampleInputEmail1" class="form-label">สาขา</label>
-                        <input class="form-control" type="text" placeholder="สาขา" aria-label="default input example">
+                        <div class="box1" style="display: flex; flex-wrap: wrap;">
+                            <label for="exampleInputEmail1" class="form-label">เลขที่</label>
+                            <input class="form-control" type="text" placeholder="เลขที่" aria-label="default input example"
+                                v-model="companyData.addr_house_number">
 
-                        <label for="exampleInputEmail1" class="form-label">ที่อยู่</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                            placeholder="เลขที่ 22/14-15 ถนนบางแสนสาย 4 เหนือ ตำบลแสนสุข อำเภอเมืองชลบุรี จังหวัดชลบุรี 20130"
-                            aria-label="default input example"></textarea>
+                            <label for="exampleInputEmail1" class="form-label">หมู่</label>
+                            <input class="form-control" type="text" placeholder="หมู่" aria-label="default input example"
+                                v-model="companyData.addr_village_number">
+                        </div>
+
+                        <div class="box1" style="display: flex; flex-wrap: wrap;">
+                            <label for="exampleInputEmail1" class="form-label">ตรอก</label>
+                            <input class="form-control" type="text" placeholder="ตรอก" aria-label="default input example"
+                                v-model="companyData.addr_alley">
+
+                            <label for="exampleInputEmail1" class="form-label">ถนน</label>
+                            <input class="form-control" type="text" placeholder="ถนน" aria-label="default input example"
+                                v-model="companyData.addr_street">
+                        </div>
+
+                        <div class="box1" style="display: flex; flex-wrap: wrap;">
+                            <label for="exampleInputEmail1" class="form-label">ตำบล/แขวง</label>
+                            <input class="form-control" type="text" placeholder="ตำบล/แขวง"
+                                aria-label="default input example" v-model="companyData.addr_subdistrict">
+
+                            <label for="exampleInputEmail1" class="form-label">อำเภอ/เขต</label>
+                            <input class="form-control" type="text" placeholder="อำเภอ/เขต"
+                                aria-label="default input example" v-model="companyData.addr_district">
+                        </div>
+
+                        <div class="box1" style="display: flex; flex-wrap: wrap;">
+                            <label for="exampleInputEmail1" class="form-label">สาขา(ชื่อจังหวัด)</label>
+                            <input class="form-control" type="text" placeholder="สาขา" aria-label="default input example"
+                                v-model="companyData.addr_province">
+
+                            <label for="exampleInputEmail1" class="form-label">เลขไปรษณีย์</label>
+                            <input class="form-control" type="text" placeholder="เลขไปรษณีย์"
+                                aria-label="default input example" v-model="companyData.addr_post_code">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary w-25" data-bs-dismiss="modal">ยกเลิก</button>
-                    <button type="button" class="btn btn-outline-danger w-25" data-bs-toggle="modal"
-                        data-bs-target="#comfirm-edit-company">บันทึก</button>
+                    <button type="button" class="btn btn-outline-danger w-25" @click="confirmation">บันทึก</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="modal" id="comfirm-edit-company" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body" style="width: 100%;">
-                        <div class="content-body" style="width: 60%; margin: 30% 0% 20% 20%;">
-                            <center><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
-                                    class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16" style="fill: yellow;">
-                                    <path
-                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                                </svg></center>
-                            <p>
-                                <center style="font-size: 25px;">คุณต้องการบันทึกข้อมูลหรือไม่</center>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary w-25" data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-outline-danger w-25" data-bs-toggle="modal"
-                            data-bs-target="#success-company">บันทึก</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal" id="success-company" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body" style="width: 100%;">
-                        <div class="content-body" style="width: 60%; margin: 30% 0% 17.5% 20%;">
-                            <center>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor"
-                                    class="bi bi-check-circle-fill" viewBox="0 0 16 16"
-                                    style="fill: green; margin-bottom: 20px;">
-                                    <path
-                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                                </svg>
-                            </center>
-                            <p>
-                                <center style="font-size: 25px;">บันทึกข้อมูลเสร็จสิ้น</center>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 </template>
 
 <script setup>
 import apiService from '../../services/api';
 import BaseCard from '../Component/BaseCard.vue';
 import EditIcon from '../icons/EditIcon.vue';
-import BaseModal from '../Component/BaseModal.vue'
+import Swal from "sweetalert2";
 import { ref, onMounted } from 'vue';
 
 const apiCall = new apiService();
 const companies = ref([])
+const companyData = ref({
+    com_name: '',
+    addr_house_number: '',
+    addr_village_number: '',
+    addr_alley: '',
+    addr_street: '',
+    addr_subdistrict: '',
+    addr_district: '',
+    addr_province: '',
+    addr_post_code: '',
+})
+
+async function submitForm() {
+    await apiCall.createCompany(companyData.value)
+        .then(() => {
+            Swal.fire({
+                icon: 'success',
+                text: 'บันทึกข้อมูลเสร็จสิ้น',
+                showConfirmButton: false,
+                timer: 3000
+            }).then(() => {
+                router.push({ name: 'index' })
+            })
+        })
+}
+
+async function confirmation() {
+    const result = true
+
+    if (result) {
+        Swal.fire({
+            text: "คุณต้องการบันทึกข้อมูลหรือไม่",
+            icon: "warning",
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: "ยืนยัน",
+            cancelButtonText: "ยกเลิก",
+            confirmButtonColor: "var(--main-color)",
+            reverseButtons: true,
+            focusConfirm: false,
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                submitForm()
+            }
+        });
+    }
+}
 
 onMounted(async () => {
     companies.value = await apiCall.getCompanyWithAddress()

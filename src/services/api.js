@@ -135,5 +135,11 @@ export default class apiService {
             })
     }
 
+    createCompany = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/companies/createCompany`, data)
+            .then((response) => {
+                return response
+            })
+    }
 
 }

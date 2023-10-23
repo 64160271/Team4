@@ -1,8 +1,8 @@
 <!--
  AddInternForm
  Parent of module add intern by form
- Author : Rawich Piboonsin
- Created date : 04-09-2566
+ Author : keetapong Rodjanavichai
+ Created date : 21-10-2566
 -->
 
 <template>
