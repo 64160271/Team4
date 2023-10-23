@@ -1,31 +1,25 @@
 <template>
-  <div v-if="!['index'].includes($route.name)" class="container-fluid vh-100 p-0 row">
-
+  <div class="container-fluid vh-100 p-0">
     <Login v-if="['login'].includes($route.name)" />
 
-    <LayoutNavbar v-if="!['login', 'index'].includes($route.name)" />
+    <LayoutSidebar v-if="!['login'].includes($route.name)" />
 
-    <LayoutSidebar v-if="!['login', 'index'].includes($route.name)" />
-
-    <main v-if="!['login', 'index'].includes($route.name)" class="px-5 pt-4 col"
-      style="margin-left: 280px; margin-top: 63px;">
+    <main
+      v-if="!['login'].includes($route.name)"
+      class="px-5 pt-4 col"
+      style="margin-left: 280px"
+    >
       <router-view />
     </main>
-
-  </div>
-
-  <div v-if="['index'].includes($route.name)" class="container-fluid vh-100 p-0 row">
-    <router-view />
   </div>
 </template>
 
 <script setup>
-import LayoutSidebar from './components/layouts/LayoutSidebar.vue';
-import LayoutNavbar from './components/layouts/LayoutNavbar.vue';
-import Login from './components/Login.vue'
-import { ref, onMounted } from 'vue';
-import axios from 'axios'
-
+import LayoutSidebar from "./components/layouts/LayoutSidebar.vue";
+import LayoutNavbar from "./components/layouts/LayoutNavbar.vue";
+import Login from "./components/Login.vue";
+import { ref, onMounted } from "vue";
+import axios from "axios";
 </script>
 
 <style scoped></style>

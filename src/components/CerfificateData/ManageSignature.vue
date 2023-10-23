@@ -1,189 +1,103 @@
 <template>
-    <div class="d-flex mb-3" style="width: 100%;">
-        <div style="width: 80%">
-            <label style="font-size: 20px;" for="">จัดการข้อมูลเอกสารรับรอง
-                <font style="font-size: 20px; color: var(--main-color);"> > ลายเซ็น</font>
-            </label>
-        </div>
-        <div style="width: 20%;">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn_add  btn outline-red btn-primary" data-bs-toggle="modal" data-bs-target="#add">
-                เพิ่มข้อมูล
-            </button>
-        </div>
-    </div>
-    <div>
-        <div class="card card_sign outline-card stroke_edit">
-            <div class="">
-                <button class="btn" style="margin-left: 80%; " data-bs-toggle="modal" data-bs-target="#edit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 23 22" fill="none">
+    <LayoutMenuName page-name="จัดการข้อมูลลายเซ็น" />
+
+    <div class="row mb-5">
+        <div class="col-md-4 my-auto">
+            <div class="input-group">
+                <span class="bg-grays-200 input-group-text" id="basic-addon1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                        viewBox="0 0 16 16">
                         <path
-                            d="M5.02942 5.70312H3.85294C3.2289 5.70313 2.63042 5.95102 2.18916 6.39229C1.7479 6.83355 1.5 7.43204 1.5 8.05608V18.6444C1.5 19.2684 1.7479 19.8669 2.18916 20.3082C2.63042 20.7494 3.2289 20.9973 3.85294 20.9973H14.4412C15.0652 20.9973 15.6637 20.7494 16.105 20.3082C16.5462 19.8669 16.7941 19.2684 16.7941 18.6444V17.4679" />
-                        <path
-                            d="M15.6181 3.35308L19.1475 6.88251M20.7769 5.2178C21.2403 4.75444 21.5006 4.126 21.5006 3.47073C21.5006 2.81545 21.2403 2.18701 20.7769 1.72366C20.3136 1.26031 19.6852 1 19.0299 1C18.3746 1 17.7462 1.26031 17.2828 1.72366L7.38281 11.5884V15.1178H10.9122L20.7769 5.2178Z" />
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                     </svg>
-                </button>
-            </div>
-            <div style="text-align: center;">
-                <img class="card-img-top " src="src\assets\images\sign.png" alt="" style="width:150px">
-            </div>
-            <div class="card-body">
-                <label class="card-title " style="font-size: 14px; font-weight: bold;" for="">นายปริญญา ก้อนจันทึก
-                    (แมน)</label>
-                <label class="card-text " style="font-size: 14px;" for="">Senior Human Resources</label>
+                </span>
+                <input v-model="searchData" type="text" id="search-bar" class="bg-grays-200 form-control"
+                    placeholder="Search" aria-label="" aria-describedby="basic-addon1">
             </div>
         </div>
-    </div>
 
-    <!-- Modal add sign-->
-    <div class="modal " id="add" tabindex="-1" aria-labelledby="add" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered ">
-            <div class="modal-content rounded-5 ">
+        <BaseButton class="sm col-2 btn outline-red ms-auto" label="+ เพิ่มข้อมูล" @click="openModal = true" />
 
-                <div class="modal-body">
-                    <div style="margin-top: 10%;">
-                        <label class="size_font_modal" for="">ชื่อ - นามสกุล</label>
-                    </div>
-                    <div>
-                        <input class="size_input_modal" type="text" placeholder="ชื่อ - นามสกุล">
-                    </div>
-                    <div>
-                        <label class="size_font_modal" for="">ตำแหน่ง</label>
-                    </div>
-                    <div>
-                        <input class="size_input_modal" type="text" placeholder="ตำแหน่ง">
-                    </div>
-                    <div>
-                        <label class="size_font_modal" for="">ลายเซ็นผู้รับรอง</label>
-                    </div>
-                    <div>
-                        <button class=" btn " style="margin: 10px 0px 0px 22%; border-radius: 20px;" id="picture">
-                            <input type="file" id="img-upload" accept="image/*" />
+        <BaseModal v-if="openModal == true" title="เพิ่มข้อมูลลายเซ็น" @close="openModal = !openModal">
+            <div class="row mx-2">
+                <div class="col">
+                    <BaseInput label="ชื่อ - นามสกุล" v-model="formData.sign_name" placeholder="ชื่อ - นามสกุล"
+                        class="mb-3"></BaseInput>
+                    <BaseInput label="ตำแหน่ง" v-model="formData.sign_role" placeholder="ตำแหน่ง" class="mb-3"></BaseInput>
+
+                    <label for="inputImage" class="form-label text-gray ">ลายเซ็นผู้รับรอง</label>
+
+                    <div class="row">
+                        <button id="picture" type="button" class="col-auto btn btn-sm outline-red position-relative px-4 mx-auto mb-3" v-if="!formData.sign_image">
+                            <input id="img-upload" type="file" accept="image/*" @change="showImg" />
+
+                            <svg class="me-1" width="20" height="20" viewBox="0 0 42 42" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.9474 36.5556H5.21053C4.09383 36.5556 3.02286 36.0873 2.23323 35.2538C1.44361 34.4203 1 33.2899 1 32.1111V12.1111C1 10.9324 1.44361 9.80191 2.23323 8.96841C3.02286 8.13492 4.09383 7.66667 5.21053 7.66667H7.31579C8.43249 7.66667 9.50345 7.19841 10.2931 6.36492C11.0827 5.53142 11.5263 4.40096 11.5263 3.22222C11.5263 2.63285 11.7481 2.06762 12.1429 1.65087C12.5377 1.23413 13.0732 1 13.6316 1H26.2632C26.8215 1 27.357 1.23413 27.7518 1.65087C28.1466 2.06762 28.3684 2.63285 28.3684 3.22222C28.3684 4.40096 28.812 5.53142 29.6017 6.36492C30.3913 7.19841 31.4622 7.66667 32.5789 7.66667H34.6842C35.8009 7.66667 36.8719 8.13492 37.6615 8.96841C38.4511 9.80191 38.8947 10.9324 38.8947 12.1111V19.8889"
+                                    stroke="var(--main-color)" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path class="stroke-white"
+                                    d="M34.6854 41.0026V27.6693M34.6854 27.6693L41.0012 34.3359M34.6854 27.6693L28.3697 34.3359M19.9486 27.6693C21.6237 27.6693 23.2301 26.9669 24.4145 25.7166C25.599 24.4664 26.2644 22.7707 26.2644 21.0026C26.2644 19.2345 25.599 17.5388 24.4145 16.2886C23.2301 15.0383 21.6237 14.3359 19.9486 14.3359C18.2736 14.3359 16.6671 15.0383 15.4827 16.2886C14.2982 17.5388 13.6328 19.2345 13.6328 21.0026C13.6328 22.7707 14.2982 24.4664 15.4827 25.7166C16.6671 26.9669 18.2736 27.6693 19.9486 27.6693Z"
+                                    stroke="var(--main-color)" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            อัปโหลดไฟล์
                         </button>
                     </div>
-                    <div class="d-flex mb-2 " style="margin-left: 10%; margin-top: 20px;">
-                        <div class="">
-                            <button type="button" class="btn btn-secondary size_btn_modal"
-                                data-bs-dismiss="modal">ยกเลิก</button>
-                        </div>
-                        <div class="" style="margin-left: 18%;">
-                            <button type="button" class="btn btn-primary size_btn_modal">บันทึก</button>
+
+                    <div class="row" v-if="formData.sign_image">
+                        <div class="position-relative col-5 border border-dark rounded-3 py-2 mx-auto">
+                            <div class="text-overflow-ellipsis mx-2">{{ formData.sign_image.name }}</div>
+                            <div class="col position-absolute top-0 end-0 me-1 pointer" @click="formData.sign_image = ''">
+                                x
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-        </div>
+        </BaseModal>
     </div>
 
-    <!-- Modal edit sign-->
-    <div class="modal " id="edit" tabindex="-1" aria-labelledby="edit" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered ">
-            <div class="modal-content rounded-5 ">
-
-                <div class="modal-body">
-                    <div style="margin-top: 10%;">
-                        <label class="size_font_modal" for="">ชื่อ - นามสกุล</label>
-                    </div>
-                    <div>
-                        <input class="size_input_modal" type="text" placeholder="ชื่อ - นามสกุล">
-                    </div>
-                    <div>
-                        <label class="size_font_modal" for="">ตำแหน่ง</label>
-                    </div>
-                    <div>
-                        <input class="size_input_modal" type="text" placeholder="ตำแหน่ง">
-                    </div>
-                    <div>
-                        <label class="size_font_modal" for="">ลายเซ็นผู้รับรอง</label>
-                    </div>
-                    <div>
-                        <button class=" btn " style="margin: 10px 0px 0px 22%; border-radius: 20px;" id="picture">
-                            <input type="file" id="img-upload" accept="image/*" />
-                        </button>
-                    </div>
-                    <div class="d-flex mb-2 " style="margin-left: 10%; margin-top: 20px;">
-                        <div class="">
-                            <button type="button" class="btn btn-secondary size_btn_modal"
-                                data-bs-dismiss="modal">ยกเลิก</button>
-                        </div>
-                        <div class="" style="margin-left: 18%;">
-                            <button type="button" class="btn btn-primary size_btn_modal">บันทึก</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+    <div class="row mb-2">
+        <BaseCard title="" sub="นายปริญญา" content="Senior Human Resources">
+            <EditIcon class="position-absolute top-0 end-0 m-2" />
+        </BaseCard>
     </div>
 </template>
 
 <script setup>
+import BaseButton from '../Component/BaseButton.vue';
+import BaseCard from '../Component/BaseCard.vue';
+import EditIcon from '../icons/EditIcon.vue';
+import BaseModal from '../Component/BaseModal.vue';
+import BaseInput from '../Component/BaseInput.vue';
+import { ref } from 'vue';
 
+const openModal = ref(false)
+const formData = ref({
+    sign_name: '',
+    sign_role: '',
+    sign_image: ''
+})
+
+function showImg() {
+    const imgUpload = document.getElementById("img-upload");
+
+    if (imgUpload.files[0] != undefined) {
+      formData.value.sign_image = imgUpload.files[0];
+    }
+  }
 </script>
 
 <style scoped>
-.btn_add {
-    background-color: white;
-    border: 1px solid red;
-    border-radius: 20px;
-    color: red;
-    width: 150px;
-    height: 35px;
-    outline: none;
+.text-overflow-ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-.card_sign {
-    border: 1px solid black;
-    width: 200px;
-    height: 250px;
-    border-radius: 20px;
-    text-align: center;
-}
-
-
-.size_font_modal {
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 15px;
-    margin-left: 25%;
-}
-
-.size_input_modal {
-    border: 1px solid black;
-    border-radius: 5px;
-    margin-left: 25%;
-    margin-top: 10px;
-}
-
-.size_btn_modal {
-    border: 1px solid black;
-    border-radius: 20px;
-    width: 150px;
-}
-
-
-.stroke_edit {
-    stroke: black;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.stroke_edit:hover {
-    stroke: var(--main-color);
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.outline-card {
-    border: 1px solid black;
-    color: black;
-}
-
-.outline-card:hover {
-    border: 1px solid var(--main-color);
-    color: var(--main-color);
+.pointer {
+    cursor: pointer;
 }
 </style>
