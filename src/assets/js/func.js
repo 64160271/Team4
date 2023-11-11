@@ -59,4 +59,15 @@ export async function confirmation() {
     });
 
     return result.isConfirmed
-} 
+}
+
+export function successAlert() {
+    Swal.fire({
+        icon: "success",
+        text: "บันทึกข้อมูลเสร็จสิ้น",
+        showConfirmButton: false,
+        timer: 3000,
+    })
+
+    return
+}

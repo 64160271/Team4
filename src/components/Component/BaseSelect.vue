@@ -1,32 +1,33 @@
 <template>
-  <label for="" class="form-label text-gray"
-    >{{ label }}
+  <label for="" class="form-label text-gray">{{ label }}
     <span class="text-danger" v-if="required">*</span>
   </label>
-  <select
-    class="form-select"
-    :value="modelValue"
-    :required="required"
-    @change="$emit('update:modelValue', $event.target.value)"
+  <select 
+    class="form-select" 
+    :value="modelValue" 
+    :required="required" 
+    @change="updatedValue"
     v-bind="$attrs"
-  >
-    <option disabled selected v-if="setDefault" value="">{{ placeholder }}</option>
-    <option
-      v-if="firstOptionType == 'object'"
-      v-for="option in options"
-      :value="(value) ? option[value] : JSON.stringify(option)"
-    >
+   >
+    <option disabled selected v-if="setDefault && firstOptionType != null" value="">{{ placeholder }}</option>
+    <option 
+     v-if="firstOptionType == 'object'"
+     v-for="option in options" 
+     :value="option[value]">
       {{ option[text] }}
     </option>
 
-    <option v-else :value="option" v-for="option in options">
+    <option v-else-if="firstOptionType != null" :value="option" v-for="option in options">
       {{ option }}
     </option>
+    <option v-else disabled selected value="">{{ placeholder }}</option>
   </select>
 </template>
 
 <script setup>
 import { computed } from "vue";
+
+const emit = defineEmits()
 
 const props = defineProps({
   label: {
@@ -52,7 +53,7 @@ const props = defineProps({
     type: String,
   },
   options: {
-    type: [Array, Object],
+    type: [Array, Object, String],
   },
   placeholder: {
     type: String,
@@ -60,10 +61,15 @@ const props = defineProps({
   },
 });
 
+async function updatedValue() {
+  emit('update:modelValue', event.target.value)
+}
+
 const firstOptionType = computed(() => {
   if (!props.options) {
     return null;
   }
+
   return props.options[0] ? typeof props.options[0] : null;
 });
 </script>

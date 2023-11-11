@@ -66,8 +66,12 @@
 
           <div class="row mb-3 gx-5">
             <div class="col-md-6">
-              <BaseSelect label="ฝ่าย" :options="sections" v-model="sectionsForm.section" text="sec_name"
-                :class="{ 'is-invalid': v$.work_info.work_section_id.$error }" @change="setRelatedData" required />
+              <label for="" class="form-label text-gray">ฝ่าย <span class="text-danger">*</span></label>
+              <select v-model="sectionsForm.section" class="form-select"
+                :class="{ 'is-invalid': v$.work_info.work_section_id.$error }" @change="setRelatedData" required>
+                <option disabled selected value="">เลือก</option>
+                <option v-for="section in sections" :value="section">{{ section.sec_name }}</option>
+              </select>
               <InvalidFeedback :errors="v$.work_info.work_section_id.$errors" />
             </div>
 
@@ -245,16 +249,22 @@
 
         <div class="row mb-4">
           <div class="col ms-1">
-            <BaseSelect label="ชื่อสถานศึกษา" :options="universities" v-model="universitiesForm"
-              value="uni_id" text="uni_name" :class="{ 'is-invalid': v$.college_info.col_university_id.$error }"
-              @change="setFaculty" required />
+            <label for="" class="form-label text-gray">ชื่อสถานศึกษา <span class="text-danger">*</span></label>
+            <select v-model="universitiesForm.university" class="form-select"
+              :class="{ 'is-invalid': v$.college_info.col_university_id.$error }" @change="setFaculty" required>
+              <option disabled selected value="">เลือก</option>
+              <option v-for="university in universities" :value="university">{{ university.uni_name }}</option>
+            </select>
             <InvalidFeedback :errors="v$.college_info.col_university_id.$errors" />
           </div>
 
           <div class="col">
-            <BaseSelect label="คณะ" :options="faculties" v-model="collegeInfo.col_faculty_id" value="fac_id"
-              text="fac_name" placeholder="เลือก (ต้องเลือกสถานศึกษาก่อน)"
-              :class="{ 'is-invalid': v$.college_info.col_faculty_id.$error }" @change="setMajor" required />
+            <label for="" class="form-label text-gray">คณะ <span class="text-danger">*</span></label>
+            <select v-model="universitiesForm.faculty" class="form-select"
+              :class="{ 'is-invalid': v$.college_info.col_faculty_id.$error }" @change="setMajor" required>
+              <option disabled selected value="">เลือก (ต้องเลือกสถานศึกษาก่อน)</option>
+              <option v-for="faculty in faculties" :value="faculty">{{ faculty.fac_name }}</option>
+            </select>
             <InvalidFeedback :errors="v$.college_info.col_faculty_id.$errors" />
           </div>
 
@@ -443,7 +453,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { onUnmounted, onMounted, toRaw } from "vue";
+import { onMounted, toRaw } from "vue";
 import {
   usePrefixData,
   useStatusData,
@@ -454,9 +464,8 @@ import {
   useBloodType,
 } from "../../stores/constData";
 import { useInternFormData } from "../../stores/addInternFormData";
-import { getAge, confirmation } from "../../assets/js/func";
+import { getAge, confirmation, successAlert } from "../../assets/js/func";
 import apiService from "../../services/api";
-import router from "@/router";
 import useVuelidate from "@vuelidate/core"; // validate
 import BaseInput from "../Component/BaseInput.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
@@ -493,23 +502,17 @@ const universitiesForm = ref(formData.universitiesForm)
 const v$ = useVuelidate(rules, formData); // validate
 
 async function submitForm() {
-  console.log(workInfo.value)
   const validate = await v$.value.$validate();
   if (validate) {
     const result = await confirmation();
     if (result) {
-      await apiCall.createIntern(personalInfo.value).then((response) => {
+      workInfo.value.work_from_date = personalInfo.value.intn_start_date
+      await apiCall.createIntern(formData).then((response) => {
         console.log(response);
-        /* Swal.fire({
-          icon: "success",
-          text: "บันทึกข้อมูลเสร็จสิ้น",
-          showConfirmButton: false,
-          timer: 3000,
-        }).then(() => {
+        successAlert().then(() => {
           router.push({ name: "index" });
-        }); */
+        });
       });
-      await Promise.all([apiCall.createIntern(personalInfo.value)]);
     }
   }
 }
@@ -523,50 +526,46 @@ function reset() {
   address.value = formData.address;
 }
 
-async function setFaculty() {
-  faculties.value = await apiCall.getFacultyByUniversityId(
-    collegeInfo.value.col_university_id
-  );
-  majors.value = "";
-  collegeInfo.value.col_major_id = "";
-  collegeInfo.value.col_faculty_id = "";
+function setFaculty() {
+  collegeInfo.value.col_university_id = universitiesForm.value.university.uni_id
+  faculties.value = universitiesForm.value.university.faculties
+  universitiesForm.value.faculty = ''
+
+  majors.value = ''
+  collegeInfo.value.col_major_id = '';
+  collegeInfo.value.col_faculty_id = '';
 }
 
-async function setMajor() {
-  majors.value = await apiCall.getMajorByFacultyId(collegeInfo.value.col_faculty_id);
+function setMajor() {
+  collegeInfo.value.col_faculty_id = universitiesForm.value.faculty.fac_id
+  majors.value = universitiesForm.value.faculty.majors
   collegeInfo.value.col_major_id = "";
 }
 
 async function setRelatedData() {
-  if (sectionsForm.value.section) {
-    workInfo.value.work_section_id = JSON.parse(sectionsForm.value.section)
-    teams.value = workInfo.value.work_section_id.teams
-    departments.value = (workInfo.value.work_section_id.departments[0]) ?
-    workInfo.value.work_section_id.departments : null
-    mentors.value = workInfo.value.work_section_id.mentors
+  workInfo.value.work_section_id = sectionsForm.value.section.sec_id
+  teams.value = sectionsForm.value.section.teams
+  departments.value = (sectionsForm.value.section.departments[0]) ?
+      sectionsForm.value.section.departments : ''
+  mentors.value = sectionsForm.value.section.mentors
 
-    console.log(departments.value)
-
-    workInfo.value.work_team_id = ''
-    workInfo.value.work_department_id = ''
-    personalInfo.value.intn_mentor_id = ''
-  }
+  workInfo.value.work_team_id = null
+  workInfo.value.work_department_id = null
+  personalInfo.value.intn_mentor_id = null
 }
 
 async function setFilledData() {
   if (sectionsForm.value.section) {
-    workInfo.value.work_section_id = JSON.parse(sectionsForm.value.section)
-    teams.value = workInfo.value.work_section_id.teams
-    departments.value = workInfo.value.work_section_id.departments
-    mentors.value = workInfo.value.work_section_id.mentors
+    teams.value = sectionsForm.value.section.teams
+    departments.value = sectionsForm.value.section.departments
+    mentors.value = sectionsForm.value.section.mentors
   }
 
   if (universitiesForm.value.university) {
-    collegeInfo.value.col_university_id = JSON.parse(universitiesForm.value.university)
-    faculties.value = collegeInfo.value.col_university_id.faculty
-    
+    faculties.value = universitiesForm.value.university.faculties
+
     if (universitiesForm.value.faculty) {
-      collegeInfo.value.col_faculty_id = JSON.parse(universitiesForm.value.faculty)
+      majors.value = universitiesForm.value.faculty.majors
     }
   }
 }
