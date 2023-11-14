@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Card -->
     <div class="row mt-3 ">
         <BaseCard title="ClickNext Co.,Ltd." sub="กรุงเทพมหานคร ฯ" content="พญาไท พลาซ่า 128/323-333
                 ชั้น 30 
@@ -68,7 +68,6 @@ import BaseButton from '../Component/BaseButton.vue';
     color: black;
 
 }
-
 
 .btn_choose:hover {
     border: 1px solid var(--main-color);

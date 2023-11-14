@@ -19,7 +19,7 @@
 
         </div>
 
-        <div class="col-md-4 my-auto">
+        <div class="col-md-4">
             <div class="input-group">
                 <span class="bg-grays-200 input-group-text" id="basic-addon1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
@@ -50,7 +50,7 @@
 <script setup>
 
 import BaseCard from '../Component/BaseCard.vue';
-import BaseButton from '../Component/BaseButton.vue';
+
 
 
 </script>

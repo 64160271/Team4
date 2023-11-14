@@ -20,11 +20,11 @@
     <div>
         <BaseTable :heads="['รหัสนักศึกษา', 'ชื่อไฟล์', 'มหาวิทยาลัย', 'วันที่ออกเอกสาร', 'ดาวน์โหลด']">
             <tr>
-                <td scope="row" class="text-center">00001</td>
-                <td scope="row" class="text-center">CN-INT-2023-001</td>
-                <td scope="row" class="text-center">เกษตรศาสตร์</td>
-                <td scope="row" class="text-center">01-06-2566</td>
-                <td scope="row" class="text-center">
+                <td class="text-center">00001</td>
+                <td class="text-center">CN-INT-2023-001</td>
+                <td class="text-center">เกษตรศาสตร์</td>
+                <td class="text-center">01-06-2566</td>
+                <td  class="text-center">
                     <button class="btn ">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path
