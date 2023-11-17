@@ -29,6 +29,7 @@
           </div>
         </div>
 
+        <!-- เริ่มต้นส่วนข้อมูลพนักงาน -->
         <div class="col ms-5 align-self-center">
           <span class="row h5 my-3">ข้อมูลพนักงาน</span>
 
@@ -102,6 +103,10 @@
         </div>
       </div>
 
+      <!-- สิ้นสุดส่วนส่วนข้อมูลพนักงาน -->ล
+
+      <!-- เริ่มต้นส่วนข้อมูลส่วนตัว -->
+
       <div class="container border-bottom">
         <div class="row my-2">
           <span class="h5">ข้อมูลส่วนตัว</span>
@@ -159,14 +164,14 @@
             <label for="" class="form-label text-gray">นามสกุล (อังกฤษ)</label>
             <input id="lname_en" v-model="personalInfo.intn_lname_en" placeholder="Lamakul" type="text"
               class="form-control" :class="{ 'is-invalid': v$.personal_info.intn_lname_en.$error }" />
-              <InvalidFeedback :errors="v$.personal_info.intn_lname_en.$errors" />
+            <InvalidFeedback :errors="v$.personal_info.intn_lname_en.$errors" />
           </div>
 
           <div class="col-2">
             <label for="" class="form-label text-gray">ชื่อเล่น (อังกฤษ)</label>
             <input id="nickname_en" v-model="personalInfo.intn_nickname_en" placeholder="Nual" type="text"
               class="form-control" :class="{ 'is-invalid': v$.personal_info.intn_nickname_en.$error }" />
-              <InvalidFeedback :errors="v$.personal_info.intn_nickname_en.$errors" />
+            <InvalidFeedback :errors="v$.personal_info.intn_nickname_en.$errors" />
           </div>
         </div>
 
@@ -276,6 +281,10 @@
         </div>
       </div>
 
+      <!-- สิ้นสุดส่วนข้อมูลส่วนตัว -->
+
+      <!-- เริ่มต้นส่วนสัญญาการจ้างงาน -->
+
       <div class="container border-bottom">
         <div class="row my-2">
           <span class="h5">สัญญาการจ้างงาน</span>
@@ -318,6 +327,10 @@
           </div>
         </div>
       </div>
+
+      <!-- สิ้นสุดส่วนสัญญาการจ้างงาน -->
+
+      <!-- เริ่มต้นส่วนข้อมูลที่อยู่ / ติดต่อ -->
 
       <div class="container border-bottom">
         <div class="row my-2">
@@ -389,6 +402,8 @@
         </div>
       </div>
 
+      <!-- สิ้นสุดส่วนข้อมูลที่อยู่ / ติดต่อ -->
+      
       <div class="container border-bottom">
         <div class="row my-2">
           <span class="h5">สถานภาพทางทหาร</span>
@@ -490,30 +505,43 @@
 
   const v$ = useVuelidate(rules, formData); // validate
 
+  /*
+  * submitForm
+  * จัดการเมื่อมีการกดปุ่มบันทึก
+  * param: -
+  * return: -
+ */
   async function submitForm() {
 
+    /* แปลงรูปภาพเป็น base64 */
     if (personalInfo.value.image) {
       convertToBase64(personalInfo.value.image)
     }
 
-    const validate = await v$.value.$validate();
+    const validate = await v$.value.$validate(); /* validate แบบฟอร์ม */
     if (validate) {
       const result = await confirmation();
       if (result) {
         workInfo.value.work_from_date = personalInfo.value.intn_start_date
         personalInfo.value.intn_code = new String("INT-").concat(personalInfo.value.intn_code)
         personalInfo.value.intn_intern_email.concat("@clicknext.com")
-        console.log(formData)
+
+        /* สร้างข้อมูลนักศึกษาผ่าน API */
         await apiCall.createIntern(formData).then((response) => {
-          console.log(response)
           successAlert().then(() => {
-            router.push({ name: "index" });
+            router.push({ name: "index" }); /* ย้อนกลับหน้า index */
           })
         });
       }
     }
   }
 
+  /*
+  * convertToBase64
+  * แปลงรูปภาพจาก FileUpload เป็น base64 และเก็บไว้ในตัวแปร
+  * param: ไฟล์จาก input
+  * return: -
+ */
   function convertToBase64(img) {
     let result = new String
     let reader = new FileReader()
@@ -523,6 +551,12 @@
     }
   }
 
+  /*
+  * reset
+  * รีเซ็ตค่าในแบบฟอร์ม
+  * param: -
+  * return: -
+ */
   function reset() {
     formData.$reset();
 
@@ -532,6 +566,12 @@
     address.value = formData.address;
   }
 
+  /*
+  * setFaculty
+  * กำหนดข้อมูลคณะที่แสดงในตัวเลือก โดยให้แสดงเฉพาะคณะที่อยู่ในสถานศึกษาที่เลือก
+  * param: -
+  * return: -
+ */
   function setFaculty() {
     collegeInfo.value.col_university_id = universitiesForm.value.university.uni_id
     faculties.value = universitiesForm.value.university.faculties
@@ -542,12 +582,24 @@
     collegeInfo.value.col_faculty_id = '';
   }
 
+  /*
+  * setMajor
+  * กำหนดข้อมูลสาขาวิชาที่แสดงในตัวเลือก โดยให้แสดงเฉพาะสาขาที่อยู่ในคณะที่เลือก
+  * param: -
+  * return: -
+ */
   function setMajor() {
     collegeInfo.value.col_faculty_id = universitiesForm.value.faculty.fac_id
     majors.value = universitiesForm.value.faculty.majors
     collegeInfo.value.col_major_id = "";
   }
 
+  /*
+  * setRelatedData
+  * กำหนดข้อมูลที่สัมพันธ์กันกับฝ่ายที่แสดงในตัวเลือก เช่น ทีม แผนก พี่เลี้ยง โดยให้แสดงเฉพาะข้อมูลที่อยู่ในฝ่ายที่เลือกเท่านั้น
+  * param: -
+  * return: -
+ */
   async function setRelatedData() {
     workInfo.value.work_section_id = sectionsForm.value.section.sec_id
     teams.value = sectionsForm.value.section.teams
@@ -560,6 +612,12 @@
     personalInfo.value.intn_mentor_id = null
   }
 
+  /*
+  * setFilledData
+  * จัดการกับความสัมพันธ์ของข้อมูลในตัวเลือกของ ฝ่าย และ มหาวิทยาลัย หากผู้ใช้มีการย้อนกลับไปที่หน้าจอ
+  * param: -
+  * return: -
+ */
   async function setFilledData() {
     if (sectionsForm.value.section) {
       teams.value = sectionsForm.value.section.teams
@@ -576,12 +634,24 @@
     }
   }
 
+  /*
+  * changePrefix
+  * กำหนดคำนำหน้าของภาษาอังกฤษให้สัมพันธ์กับภาษาไทย (นาย -> Mr.)
+  * param: คำนำหน้าภาษาไทย
+  * return: -
+ */
   function changePrefix(prefix) {
     let splitted = prefix.split(',')
     personalInfo.value.intn_prefix_th = splitted[0]
     personalInfo.value.intn_prefix_en = splitted[1]
   }
 
+  /*
+  * showImg
+  * แสดงรูปภาพเมื่อมีการอัปโหลดไฟล์รูปแบบ
+  * param: -
+  * return: -
+ */
   function showImg() {
     const imgUpload = document.getElementById("img-upload");
 
@@ -603,6 +673,7 @@
 
     setFilledData();
 
+    /* สำหรับตัว Autocomplete ที่อยู่ */
     $.Thailand({
       $district: $("#district"), // input ของตำบล
       $amphoe: $("#amphoe"), // input ของอำเภอ

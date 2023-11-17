@@ -1,3 +1,11 @@
+<!--
+ ฺBaseInput
+ Component สำหรับ Input
+ Props:
+    label: ข้อความด้านบนกล่องข้อความ
+    modelValue: ตัวแปรที่ใช้สำหรับเก็บค่าจาก Input
+-->
+
 <template>
   <label for="" class="form-label text-gray"
     >{{ label }}

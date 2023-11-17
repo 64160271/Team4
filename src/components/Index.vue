@@ -111,6 +111,12 @@ const pageSize = 10
 const interns = ref([])
 const searchData = ref('')
 
+/*
+ * setCurrentPage
+ * เรียกดูข้อมูลเมื่อผู้ใช้ทำการเปลี่ยนหน้าของ Paginate
+ * param: เลขหน้า
+ * return: -
+ */
 async function setCurrentPage(pageNumber) {
     if (pageNumber > 0 && pageNumber <= pageMax.value) {
         page.value = pageNumber
@@ -131,6 +137,12 @@ onMounted(() => {
     getAllIntern()
 })
 
+/*
+ * getImage
+ * เรียกดูรูปภาพของนักศึกษาในรูปแบบ base64
+ * param: base64 image
+ * return: รูปภาพ
+ */
 function getImage(img) {
     return `data:image/png;base64, ${img}`
 }

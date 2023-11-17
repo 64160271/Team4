@@ -1,5 +1,11 @@
 import Swal from "sweetalert2";
 
+/*
+ * getAge
+ * คำนวนอายุจากวันที่
+ * param: วันที่รูปแบบ yyyy-mm-dd
+ * return: ตัวเลขวันเกิด
+ */
 export function getAge(birthdate) {
     birthdate = new Date(birthdate)
     const today = new Date();
@@ -9,12 +15,18 @@ export function getAge(birthdate) {
     return age
 }
 
+/*
+ * getAgeBuddisht
+ * คำนวนอายุจากวันที่
+ * param: วันที่รูปแบบ yyyy-mm-dd ที่เป็นปี พ.ศ.
+ * return: ตัวเลขวันเกิด
+ */
 export function getAgeBuddisht(birthdate) {
     if (!birthdate) return
 
     birthdate = birthdate.replaceAll('-', '/')
 
-    birthdate = new Date(birthdate) 
+    birthdate = new Date(birthdate)
     const today = new Date();
     const age = today.getFullYear() - birthdate.getFullYear() + 543 -
         (today.getMonth() < birthdate.getMonth() ||
@@ -22,6 +34,12 @@ export function getAgeBuddisht(birthdate) {
     return age
 }
 
+/*
+ * isRequire
+ * validate แบบฟอร์มทั้ง input text และ select
+ * param: -
+ * return: boolean (ผ่าน = true)
+ */
 export function isRequire() {
     let form = $("#form")[0]
 
@@ -33,6 +51,12 @@ export function isRequire() {
     return false
 }
 
+/*
+ * formatDate
+ * แก้ไขรูปแบบวันที่ให้เป็น dd/mm/yyyy
+ * param: วันที่รูปแบบ yyyy/mm/dd
+ * return: วันที่ที่ถูกแก้ไข
+ */
 export function formatDate(strDate) {
     if (!strDate) {
         return
@@ -47,6 +71,12 @@ export function formatDate(strDate) {
     return day + "/" + month + "/" + year
 }
 
+/*
+ * confirmation
+ * แสดง Pop-up ยืนยันการเพิ่มข้อมูล
+ * param: -
+ * return: ผลลัพธ์ของปุ่มที่กด (หากกดยืนยันจะคืนค่า true)
+ */
 export async function confirmation() {
     let result = await Swal.fire({
         text: "คุณต้องการบันทึกข้อมูลหรือไม่",
@@ -63,6 +93,12 @@ export async function confirmation() {
     return result.isConfirmed
 }
 
+/*
+ * successAlert
+ * แสดง Pop-up บันทึกข้อมูลสำเร็จ
+ * param: -
+ * return: null
+ */
 export async function successAlert() {
     await Swal.fire({
         icon: "success",
@@ -74,33 +110,33 @@ export async function successAlert() {
     })
 }
 
-function convertToArrayBuffer(data) {
+/* function convertToArrayBuffer(data) {
     let reader = new FileReader()
     let contentType = 'image/*'
     let binary = atob(data)
     let bytes = new Uint8Array(binary.length)
     for (var i = 0; i < binary.length; i++) {
-          bytes[i] = binary.charCodeAt(i);
-      }
-  
+        bytes[i] = binary.charCodeAt(i);
+    }
+
     let blob = new Blob([bytes], { type: contentType })
     personalInfo.value.intn_image = blob
-  }
-  
-  function convertToBase64(img) {
-      let result = new String
-      let reader = new FileReader()
-      reader.readAsDataURL(img)
-      reader.onload = function () {
+}
+
+function convertToBase64(img) {
+    let result = new String
+    let reader = new FileReader()
+    reader.readAsDataURL(img)
+    reader.onload = function () {
         convertToArrayBuffer((reader.result.split(',')[1]))
     }
-  }
+}
 
-  function toImage(buffer) {
+function toImage(buffer) {
     let reader = new FileReader()
     let blob = new Blob(buffer.data)
     reader.readAsDataURL(blob)
-    reader.onload = function() {
+    reader.onload = function () {
         console.log(reader.result)
     }
-}
+} */

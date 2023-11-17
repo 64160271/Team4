@@ -1,3 +1,11 @@
+<!--
+BaseTable
+ Component สำหรับตาราง
+ Props:
+    heads: ข้อความที่ปรากฏบนหัวตาราง
+    align: การจัดเรียงข้อความของหัวตารางแต่ละตัว
+-->
+
 <template>
     <div class="rounded-3">
         <table id="myTable" class="table" v-bind="$attrs">
