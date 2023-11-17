@@ -12,7 +12,9 @@ export function getAge(birthdate) {
 export function getAgeBuddisht(birthdate) {
     if (!birthdate) return
 
-    birthdate = new Date(birthdate)
+    birthdate = birthdate.replaceAll('-', '/')
+
+    birthdate = new Date(birthdate) 
     const today = new Date();
     const age = today.getFullYear() - birthdate.getFullYear() + 543 -
         (today.getMonth() < birthdate.getMonth() ||
@@ -61,13 +63,44 @@ export async function confirmation() {
     return result.isConfirmed
 }
 
-export function successAlert() {
-    Swal.fire({
+export async function successAlert() {
+    await Swal.fire({
         icon: "success",
         text: "บันทึกข้อมูลเสร็จสิ้น",
         showConfirmButton: false,
         timer: 3000,
+    }).then(() => {
+        return
     })
+}
 
-    return
+function convertToArrayBuffer(data) {
+    let reader = new FileReader()
+    let contentType = 'image/*'
+    let binary = atob(data)
+    let bytes = new Uint8Array(binary.length)
+    for (var i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+      }
+  
+    let blob = new Blob([bytes], { type: contentType })
+    personalInfo.value.intn_image = blob
+  }
+  
+  function convertToBase64(img) {
+      let result = new String
+      let reader = new FileReader()
+      reader.readAsDataURL(img)
+      reader.onload = function () {
+        convertToArrayBuffer((reader.result.split(',')[1]))
+    }
+  }
+
+  function toImage(buffer) {
+    let reader = new FileReader()
+    let blob = new Blob(buffer.data)
+    reader.readAsDataURL(blob)
+    reader.onload = function() {
+        console.log(reader.result)
+    }
 }

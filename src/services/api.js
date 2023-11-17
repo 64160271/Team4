@@ -108,7 +108,7 @@ export default class apiService {
     }
 
     createIntern = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/interns/key`, data)
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, data)
             .then((response) => {
                 return response
             })

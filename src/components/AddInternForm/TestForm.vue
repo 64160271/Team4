@@ -38,6 +38,8 @@
     :class="{ 'is-invalid': v$.address.house_number.$error }"
   />
   <InvalidFeedback :errors="v$.address.house_number.$errors" />
+
+  <img :src="'data:image/png;base64,'+ image" alt="">
 </template>
 
 <script setup>
@@ -50,6 +52,7 @@ import BaseInput from "../Component/BaseInput.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import { useGenderData } from "../../stores/constData";
+import axios from 'axios'
 
 const form = ref(String(""));
 const formData = useInternFormData();
@@ -72,6 +75,7 @@ const opt = ref([
 ]);
 
 const v$ = useVuelidate(rules, formData);
+const image = ref('')
 
 async function validate() {
   const result = await v$.value.$validate();

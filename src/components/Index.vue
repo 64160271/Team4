@@ -35,25 +35,27 @@
     </div>
 
     <BaseTable
-        :heads="['รหัสนักศึกษาฝึกงาน', 'ชื่อ - นามสกุล', 'ชื่อเล่น', 'ตำแหน่ง', 'สถานศึกษา', 'วันที่เริ่มฝึกงาน', 'วันที่สิ้นสุดฝึกงาน']"
+        :heads="['รหัสนักศึกษาฝึกงาน', 'ชื่อ - นามสกุล', 'ชื่อเล่น', 'ตำแหน่ง', 'ทีม', 'วันที่เริ่มฝึกงาน', 'วันที่สิ้นสุดฝึกงาน']"
+        :align="['center', 'left', 'left', 'left', 'left', 'center', 'center']"
     >
 
-        <tr v-for="intern in filterData" class="tb-hov tr-custom" @click="$router.push('/interns/' + intern.intn_id)">
-            <td class="col">
-                <img v-if="intern.intn_image" class="img-custom ms-2" :src="getImage(intern.intn_image)" width="35"
-                    height="35" alt="" />
+        <tr v-for="intern in filterData" class="tb-hov tr-custom border-start border-end border-bottom" @click="$router.push('/interns/' + intern.intn_id)">
+            <td class="col-md-2">
+                <img v-if="intern.intn_image" class="img-custom ms-2" :src="getImage(intern.intn_image)" width="40"
+                    height="40" alt="" />
                 <img v-else class="ms-2" src="../assets/images/person-nm.png" alt="" width="35">
                 <span class="ms-lg-5 ms-sm-2">{{ intern.intn_code }}</span>
             </td>
             <td>{{ intern.intn_name_th }}</td>
-            <td class="text-center">{{ intern.intn_nickname_th || '-' }}</td>
-            <td v-if="intern.work_infos[0] != undefined" scope="" class="text-center">
+            <td class="text-left">{{ intern.intn_nickname_th || '-' }}</td>
+            <td v-if="intern.work_infos[0] != undefined" scope="" class="text-left">
                 {{ intern.work_infos[0].work_role.role_name }}
             </td>
-            <td v-else class="text-center">
-                {{ '-' }}
+            <td v-else class="text-left">-</td>
+            <td v-if="intern.work_infos[0] != undefined" class="text-left">
+                {{ intern.work_infos[0].work_team.team_name }}
             </td>
-            <td class="text-center">{{ intern.college_info.col_uni.uni_name || '-' }}</td>
+            <td v-else class="text-left">-</td>
             <td class="text-center">{{ intern.intn_start_date }}</td>
             <td class="text-center">{{ intern.intn_end_date || '-' }}</td>
         </tr>
@@ -62,7 +64,7 @@
     <hr>
 
     <div class="row my-2">
-        <span class="col-5">รายการทั้งหมด {{ total || 0 }} รายการ</span>
+        <span class="col-5">รายการทั้งหมด {{ filterData.length || 0 }} รายการ</span>
 
         <div class="col">
             <nav aria-label="Page navigation example">
@@ -106,7 +108,6 @@ const total = ref()
 const page = ref(1)
 const pageMax = ref(1)
 const pageSize = 10
-const date = new Date()
 const interns = ref([])
 const searchData = ref('')
 
@@ -120,7 +121,6 @@ async function setCurrentPage(pageNumber) {
 const getAllIntern = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/interns?page=${page.value}&limit=${pageSize}`)
         .then((response) => {
-            console.log(response)
             interns.value = response.data.rows
             total.value = response.data.count
             pageMax.value = Math.ceil(total.value / pageSize)
@@ -132,24 +132,25 @@ onMounted(() => {
 })
 
 function getImage(img) {
-    return `src/assets/images/interns/${img}`
+    return `data:image/png;base64, ${img}`
 }
 
 const filterData = computed(() => {
 
     let keyword = searchData.value.trim()
     return interns.value.filter(intern => {
-        return (intern.intn_fname?.indexOf(keyword) > -1 ||
-            intern.intn_lname?.indexOf(keyword) > -1 ||
+        return (intern.intn_fname_th?.indexOf(keyword) > -1 ||
+            intern.intn_lname_th?.indexOf(keyword) > -1 ||
             intern.intn_start_date?.indexOf(keyword) > -1 ||
             intern.intn_end_date?.indexOf(keyword) > -1 ||
-            intern.intn_prefix?.indexOf(keyword) > -1 ||
+            intern.intn_prefix_th?.indexOf(keyword) > -1 ||
             intern.intn_code?.indexOf(keyword) > -1 ||
-            intern.college_info?.col_uni.uni_name.indexOf(keyword) > -1 ||
-            intern.intn_nickname?.indexOf(keyword) > -1 ||
-            /* intern.work_infos?.work_role?.role_name.indexOf(keyword) > -1 || */
-            intern.college_info?.col_faculty.fac_name.indexOf(keyword) > -1 ||
-            intern.college_info?.col_major.maj_name.indexOf(keyword) > -1
+            intern.college_infos[0]?.col_major.maj_faculty.fac_university.uni_name.indexOf(keyword) > -1 ||
+            intern.intn_nickname_th?.indexOf(keyword) > -1 ||
+            intern.work_infos[0]?.work_role.role_name.indexOf(keyword) > -1 ||
+            intern.work_infos[0]?.work_team.team_name.indexOf(keyword) > -1 ||
+            /* intern.college_info?.col_major.maj_name.indexOf(keyword) > -1 || */
+            intern.intn_name_th.indexOf(keyword) > -1
         )
     })
 })

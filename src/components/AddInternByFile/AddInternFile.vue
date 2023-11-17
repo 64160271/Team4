@@ -7,7 +7,7 @@
 
 <template>
   <div class="d-flex flex-column mb-3">
-    <LayoutMenuName page-name="เพิ่มไฟล์ Excel" />
+    <LayoutMenuName page-name="เพิ่มนักศึกษาฝึกงาน > เพิ่มจากไฟล์ Excel" />
 
     <div
       id="upload-box"

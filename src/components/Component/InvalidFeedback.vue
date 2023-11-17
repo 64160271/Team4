@@ -1,6 +1,11 @@
 <template>
     <span v-for="error in errors" :key="error.$uid" class="invalid-feedback">
-        กรุณากรอกข้อมูล
+        <template v-if="error.$validator == 'required'">
+            กรุณากรอกข้อมูล
+        </template>
+        <template v-else>
+            {{ error.$message }}
+        </template>
     </span>
 </template>
 

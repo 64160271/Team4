@@ -1,5 +1,12 @@
 import { defineStore } from "pinia";
-import { required, minValue } from "@vuelidate/validators";
+import { required, minValue, email, integer, helpers } from "@vuelidate/validators";
+
+const thaiFeedback = 'ข้อมูลต้องเป็นภาษาไทยเท่านั้น'
+const numberFeedback = 'ข้อมูลต้องเป็นตัวเลขเท่านั้น'
+const engFeedback = 'ข้อมูลต้องเป็นภาษาอังกฤษเท่านั้น'
+const emailFeedback = 'ข้อมูลต้องอยู่ในรูปแบบอีเมล'
+const requiredThai = helpers.regex(/^[ก-๙]+$/)
+const requiredEng = helpers.regex(/^[a-zA-Z]*$/)
 
 export const useInternFormData = defineStore("internFormData", {
     state: () => {
@@ -68,28 +75,55 @@ export const useInternFormData = defineStore("internFormData", {
 
             rules: {
                 personal_info: {
-                  intn_code: { required },
-                  intn_status: { required },
-                  intn_mentor_id: { required },
-                  intn_prefix_th: { required },
-                  intn_fname_th: { required },
-                  intn_lname_th: { required },
-                  intn_nickname_th: { required },
-                  intn_gender: { required },
-                  intn_tel: { required },
-                  intn_email: { required },
-                  intn_start_date: { required },
-                  intn_intern_type: { required },
+                    intn_code: {
+                        required,
+                        integer: helpers.withMessage(numberFeedback, integer)
+                    },
+                    intn_work_status: { required },
+                    intn_mentor_id: { required },
+                    intn_prefix_th: { required },
+                    intn_fname_th: {
+                        required,
+                        requiredThai: helpers.withMessage(thaiFeedback, requiredThai)
+                    },
+                    intn_lname_th: {
+                        required,
+                        requiredThai: helpers.withMessage(thaiFeedback, requiredThai),
+                    },
+                    intn_nickname_th: {
+                        required,
+                        requiredThai: helpers.withMessage(thaiFeedback, requiredThai)
+                    },
+                    intn_fname_en: {
+                        requiredEng: helpers.withMessage(engFeedback, requiredEng)
+                    },
+                    intn_lname_en: {
+                        requiredEng: helpers.withMessage(engFeedback, requiredEng)
+                    },
+                    intn_nickname_en: {
+                        requiredEng: helpers.withMessage(engFeedback, requiredEng)
+                    },
+                    intn_gender: { required },
+                    intn_tel: {
+                        required,
+                        integer: helpers.withMessage(numberFeedback, integer)
+                    },
+                    intn_email: {
+                        required,
+                        email: helpers.withMessage(emailFeedback, email)
+                    },
+                    intn_start_date: { required },
+                    intn_intern_type: { required },
                 },
                 college_info: {
-                  col_university_id: { required },
-                  col_faculty_id: { required },
-                  col_major_id: { required },
+                    col_university_id: { required },
+                    col_faculty_id: { required },
+                    col_major_id: { required },
                 },
                 work_info: {
-                  work_role_id: { required },
-                  work_section_id: { required },
-                  work_team_id: { required }
+                    work_role_id: { required },
+                    work_section_id: { required },
+                    work_team_id: { required }
                 },
             },
 
