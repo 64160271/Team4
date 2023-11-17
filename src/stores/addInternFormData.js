@@ -5,7 +5,7 @@ const thaiFeedback = 'ข้อมูลต้องเป็นภาษาไ�
 const numberFeedback = 'ข้อมูลต้องเป็นตัวเลขเท่านั้น'
 const engFeedback = 'ข้อมูลต้องเป็นภาษาอังกฤษเท่านั้น'
 const emailFeedback = 'ข้อมูลต้องอยู่ในรูปแบบอีเมล'
-const requiredThai = helpers.regex(/^[ก-ฮ]+$/)
+const requiredThai = helpers.regex(/^[ก-์]+$/)
 const requiredEng = helpers.regex(/^[a-zA-Z]*$/)
 
 export const useInternFormData = defineStore("internFormData", {
