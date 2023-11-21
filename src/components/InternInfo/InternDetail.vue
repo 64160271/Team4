@@ -2,7 +2,7 @@
     <div class="mx-auto" style="width: 85%">
         <div class="row border-bottom">
             <div class="col-auto">
-                <img id="blah" :src="getImage(intern.intn_image)" alt="" class="img bg-grays-200" />
+                <img id="blah" :src="getImageFromBuffer(intern.image?.file_type, intern.image?.file_image?.data)" alt="" class="img bg-grays-200" />
             </div>
 
             <div class="col align-self-center ms-5 mb-2">
@@ -361,7 +361,7 @@
 
 <script setup>
     import { onMounted, ref, computed } from "vue";
-    import { formatDate, getAgeBuddisht } from "../../assets/js/func";
+    import { formatDate, getAgeBuddisht, getImageFromBuffer } from "../../assets/js/func";
 
     const internProp = defineProps({
         intern: Object

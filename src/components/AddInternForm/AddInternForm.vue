@@ -512,13 +512,8 @@
   * return: -
  */
   async function submitForm() {
-
-    /* แปลงรูปภาพเป็น base64 */
-    if (personalInfo.value.image) {
-      convertToBase64(personalInfo.value.image)
-    }
-
     const validate = await v$.value.$validate(); /* validate แบบฟอร์ม */
+
     if (validate) {
       const result = await confirmation();
       if (result) {
@@ -656,11 +651,11 @@
     const imgUpload = document.getElementById("img-upload");
 
     if (imgUpload.files[0] != undefined) {
-      personalInfo.value.image = imgUpload.files[0];
+      formData.intn_image = imgUpload.files[0];
     }
 
-    if (personalInfo.value.image) {
-      blah.src = URL.createObjectURL(personalInfo.value.image);
+    if (formData.intn_image) {
+      blah.src = URL.createObjectURL(formData.intn_image);
     }
   }
 
@@ -672,6 +667,7 @@
     ]);
 
     setFilledData();
+    showImg()
 
     /* สำหรับตัว Autocomplete ที่อยู่ */
     $.Thailand({

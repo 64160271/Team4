@@ -110,6 +110,17 @@ export async function successAlert() {
     })
 }
 
+export function getImageFromBuffer(type, buffer) {
+    let binary = ''
+    let bytes = new Uint8Array(buffer)
+    let len = bytes.byteLength
+    for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i])
+    }
+
+    return `data:${type};base64,${binary}`
+}
+
 /* function convertToArrayBuffer(data) {
     let reader = new FileReader()
     let contentType = 'image/*'

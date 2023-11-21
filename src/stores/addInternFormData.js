@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { required, minValue, email, integer, helpers } from "@vuelidate/validators";
-import { start } from "@popperjs/core";
 
 const thaiFeedback = 'ข้อมูลต้องเป็นภาษาไทยเท่านั้น'
 const numberFeedback = 'ข้อมูลต้องเป็นตัวเลขเท่านั้น'
@@ -13,11 +12,11 @@ const startWithZero = (value) => value[0] == '0'
 export const useInternFormData = defineStore("internFormData", {
     state: () => {
         return {
+            intn_image: '',
             personal_info: {
                 intn_code: '',
                 intn_intern_email: '',
                 intn_status: '',
-                intn_image: '',
                 intn_prefix_th: '',
                 intn_prefix_en: '',
                 intn_fname_th: '',

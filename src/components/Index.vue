@@ -41,7 +41,7 @@
 
         <tr v-for="intern in filterData" class="tb-hov tr-custom border-start border-end border-bottom" @click="$router.push('/interns/' + intern.intn_id)">
             <td class="col-md-2">
-                <img v-if="intern.intn_image" class="img-custom ms-2" :src="getImage(intern.intn_image)" width="40"
+                <img v-if="intern.image" class="img-custom ms-2" :src="getImageFromBuffer(intern.image.file_type, intern.image.file_image.data)" width="40"
                     height="40" alt="" />
                 <img v-else class="ms-2" src="../assets/images/person-nm.png" alt="" width="35">
                 <span class="ms-lg-5 ms-sm-2">{{ intern.intn_code }}</span>
@@ -98,11 +98,12 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, toRaw } from 'vue';
 import { computed } from 'vue'
 import FormIconVue from './icons/FormIcon.vue';
 import ExcelIcon from './icons/ExcelIcon.vue';
 import BaseTable from './Component/BaseTable.vue';
+import { getImageFromBuffer } from '@/assets/js/func'
 
 const total = ref()
 const page = ref(1)
@@ -137,15 +138,6 @@ onMounted(() => {
     getAllIntern()
 })
 
-/*
- * getImage
- * เรียกดูรูปภาพของนักศึกษาในรูปแบบ base64
- * param: base64 image
- * return: รูปภาพ
- */
-function getImage(img) {
-    return `data:image/png;base64, ${img}`
-}
 
 const filterData = computed(() => {
 

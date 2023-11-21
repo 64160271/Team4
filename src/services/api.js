@@ -108,7 +108,7 @@ export default class apiService {
     }
 
     createIntern = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, data)
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, data, { headers: {"Content-Type": "multipart/form-data"} })
             .then((response) => {
                 return response
             })
