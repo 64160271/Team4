@@ -25,12 +25,12 @@
 
         <button class="col-auto btn ms-auto outline-red" @click="$router.push('/interns/key-data')">
             <FormIconVue />
-            เพิ่มแบบฟอร์ม
+            เพิ่มจากแบบฟอร์ม
         </button>
 
         <button class="ms-4 col-auto btn outline-red" @click="$router.push('/interns/add-file')">
             <ExcelIcon />
-            เพิ่มไฟล์ Excel
+            เพิ่มจากไฟล์ Excel
         </button>
     </div>
 
@@ -39,7 +39,7 @@
         :align="['center', 'left', 'left', 'left', 'left', 'center', 'center']"
     >
 
-        <tr v-for="intern in filterData" class="tb-hov tr-custom border-start border-end border-bottom" @click="$router.push('/interns/' + intern.intn_id)">
+        <tr v-for="intern in findInternData" class="tb-hov tr-custom border-start border-end border-bottom" @click="$router.push('/interns/' + intern.intn_id)">
             <td class="col-md-2">
                 <img v-if="intern.image" class="img-custom ms-2" :src="getImageFromBuffer(intern.image.file_type, intern.image.file_image.data)" width="40"
                     height="40" alt="" />
@@ -61,10 +61,11 @@
         </tr>
     </BaseTable>
 
+
+    <div class="row my-2" v-if="total > 0 && findInternData.length > 0">
     <hr>
 
-    <div class="row my-2">
-        <span class="col-5">รายการทั้งหมด {{ filterData.length || 0 }} รายการ</span>
+        <span class="col-5">รายการทั้งหมด {{ total || 0 }} รายการ</span>
 
         <div class="col">
             <nav aria-label="Page navigation example">
@@ -92,6 +93,10 @@
                 </ul>
             </nav>
         </div>
+    </div>
+
+    <div class="row" v-if="findInternData.length < 1">
+        <span class="text-center h5 mt-5">ไม่พบข้อมูล</span>
     </div>
 </template>
 
@@ -139,7 +144,7 @@ onMounted(() => {
 })
 
 
-const filterData = computed(() => {
+const findInternData = computed(() => {
 
     let keyword = searchData.value.trim()
     return interns.value.filter(intern => {
