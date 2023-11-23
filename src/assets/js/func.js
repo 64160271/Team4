@@ -110,6 +110,16 @@ export async function successAlert() {
     })
 }
 
+export async function errorAlert(message) {
+    await Swal.fire({
+        icon: "error",
+        text: message,
+        timer: 3000
+    })
+
+    return
+}
+
 export function getImageFromBuffer(type, buffer) {
     let binary = ''
     let bytes = new Uint8Array(buffer)

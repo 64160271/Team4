@@ -72,6 +72,7 @@ import readXlsxFile from "read-excel-file";
 import InternSelect from "./InternSelect.vue";
 import { ref } from "vue";
 import BaseButton from "../Component/BaseButton.vue";
+import axios from "axios";
 
 const excelData = ref({});
 const examplePathFile = "../../src/assets/example_file.xlsx";
@@ -100,11 +101,13 @@ function showFileName(callback) {
  * param: -
  * return: -
  */
-function downloadExample() {
-  let link = document.createElement("a");
+async function downloadExample() {
+  /* let link = document.createElement("a");
   link.href = examplePathFile;
   link.download = "example_file";
-  link.click();
+  link.click(); */
+
+  window.open(`${import.meta.env.VITE_API_HOST}/interns/file/example`)
 }
 
 /*

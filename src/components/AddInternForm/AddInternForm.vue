@@ -403,7 +403,7 @@
       </div>
 
       <!-- สิ้นสุดส่วนข้อมูลที่อยู่ / ติดต่อ -->
-      
+
       <div class="container border-bottom">
         <div class="row my-2">
           <span class="h5">สถานภาพทางทหาร</span>
@@ -466,7 +466,7 @@
     useBloodType,
   } from "../../stores/constData";
   import { useInternFormData } from "../../stores/addInternFormData";
-  import { getAge, confirmation, successAlert } from "../../assets/js/func";
+  import { getAge, confirmation, successAlert, errorAlert } from "../../assets/js/func";
   import apiService from "../../services/api";
   import useVuelidate from "@vuelidate/core"; // validate
   import BaseInput from "../Component/BaseInput.vue";
@@ -522,11 +522,21 @@
         personalInfo.value.intn_intern_email.concat("@clicknext.com")
 
         /* สร้างข้อมูลนักศึกษาผ่าน API */
-        await apiCall.createIntern(formData).then((response) => {
+        await apiCall.createIntern({
+          personal_info: formData.personal_info,
+          address: formData.address,
+          work_info: formData.work_info,
+          college_info: formData.college_info,
+          intn_image: formData.intn_image
+        }).then((response) => {
           successAlert().then(() => {
             router.push({ name: "index" }); /* ย้อนกลับหน้า index */
           })
-        });
+        }).catch((err) => {
+          errorAlert('เกิดข้อผิดพลาด: ข้อมูลซ้ำ')
+        })
+
+        personalInfo.value.intn_code = personalInfo.value.intn_code.replace('INT-', '')
       }
     }
   }
