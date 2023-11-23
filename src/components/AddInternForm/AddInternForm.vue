@@ -103,7 +103,7 @@
         </div>
       </div>
 
-      <!-- สิ้นสุดส่วนส่วนข้อมูลพนักงาน -->ล
+      <!-- สิ้นสุดส่วนส่วนข้อมูลพนักงาน -->
 
       <!-- เริ่มต้นส่วนข้อมูลส่วนตัว -->
 
@@ -595,7 +595,7 @@
   * param: -
   * return: -
  */
-  async function setRelatedData() {
+  function setRelatedData() {
     workInfo.value.work_section_id = sectionsForm.value.section.sec_id
     teams.value = sectionsForm.value.section.teams
     departments.value = (sectionsForm.value.section.departments[0]) ?
@@ -613,7 +613,7 @@
   * param: -
   * return: -
  */
-  async function setFilledData() {
+  function setFilledData() {
     if (sectionsForm.value.section) {
       teams.value = sectionsForm.value.section.teams
       departments.value = sectionsForm.value.section.departments
