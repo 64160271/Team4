@@ -1,13 +1,22 @@
 import { defineStore } from "pinia";
 import { required, minValue, email, integer, helpers } from "@vuelidate/validators";
+import { getAge } from "../assets/js/func";
 
 const thaiFeedback = 'ข้อมูลต้องเป็นภาษาไทยเท่านั้น'
 const numberFeedback = 'ข้อมูลต้องเป็นตัวเลขเท่านั้น'
 const engFeedback = 'ข้อมูลต้องเป็นภาษาอังกฤษเท่านั้น'
 const emailFeedback = 'ข้อมูลต้องอยู่ในรูปแบบอีเมล'
+const ageFeedback = 'อายุขั้นต่ำ 18 ปี'
+
 const requiredThai = helpers.regex(/^[ก-์]+$/)
 const requiredEng = helpers.regex(/^[a-zA-Z]*$/)
 const startWithZero = (value) => value[0] == '0'
+const checkAge = (value) => {
+    if (value) {
+        return (getAge(value) > 18)
+    }
+    return true
+}
 
 export const useInternFormData = defineStore("internFormData", {
     state: () => {
@@ -114,6 +123,9 @@ export const useInternFormData = defineStore("internFormData", {
                         required,
                         email: helpers.withMessage(emailFeedback, email)
                     },
+                    intn_birth_date: {
+                        checkAge: helpers.withMessage(ageFeedback, checkAge)
+                    },
                     intn_start_date: { required },
                     intn_intern_type: { required },
                 },
@@ -195,6 +207,8 @@ export const useInternFormData = defineStore("internFormData", {
         }
     },
     getters: {
-
+        getStartDate(state) {
+            return state.personal_info.intn_start_date
+        }
     },
 });

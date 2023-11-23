@@ -191,7 +191,8 @@
           <div class="col">
             <label for="" class="form-label text-gray">อายุ (ปี)</label>
             <input type="text" class="form-control" :value="getAge(personalInfo.intn_birth_date) || 0" readonly
-              disabled />
+              disabled :class="{ 'is-invalid': v$.personal_info.intn_birth_date.$error }" />
+              <InvalidFeedback :errors="v$.personal_info.intn_birth_date.$errors" />
           </div>
         </div>
 
@@ -314,6 +315,7 @@
           <div class="col">
             <label for="" class="form-label text-gray">วันที่ผ่านทดลองงาน</label>
             <input id="enddate" v-model="personalInfo.intn_end_date" type="date" class="form-control" />
+            
           </div>
 
           <div class="col">
