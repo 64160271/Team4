@@ -147,6 +147,10 @@
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
+.text-gray {
+    color: #212121 !important;
+  }
+
 .tb-hov:hover td {
     color: var(--main-color);
 }

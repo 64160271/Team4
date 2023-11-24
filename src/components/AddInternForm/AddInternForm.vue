@@ -712,10 +712,6 @@
     border: 1px solid var(--main-color);
   }
 
-  .text-gray {
-    color: #90969e !important;
-  }
-
   .border-bottom {
     border-color: var(--main-color) !important;
     margin-bottom: 12px;
