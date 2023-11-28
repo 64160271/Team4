@@ -4,6 +4,7 @@ import Login from '../components/Login.vue'
 import InternData from '../components/InternData.vue'
 import AddInternForm from '../components/AddInternForm.vue'
 import AddInternFile from '../components/AddInternFile.vue'
+import Cookies from "js-cookie";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -34,6 +35,11 @@ const router = createRouter({
             component: AddInternFile
         }
     ]
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.name !== 'login' && !Cookies.get('token')) next({ name: 'login' })
+    else next()
 })
 
 export default router
