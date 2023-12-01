@@ -25,26 +25,12 @@
             เพิ่มข้อมูล
         </button>
 
-        <!-- <BaseModal>
-            <div class="content-body" style="width: 60%; margin: 0% 20% 5% 20%;">
-                <label for="exampleInputEmail1" class="form-label">ชื่อบริษัท</label>
-                <input class="form-control" type="text" placeholder="ชื่อบริษัท" aria-label="default input example">
-
-                <label for="exampleInputEmail1" class="form-label">สาขา</label>
-                <input class="form-control" type="text" placeholder="สาขา" aria-label="default input example">
-
-                <label for="exampleInputEmail1" class="form-label">ที่อยู่</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                    placeholder="เลขที่ 22/14-15 ถนนบางแสนสาย 4 เหนือ ตำบลแสนสุข อำเภอเมืองชลบุรี จังหวัดชลบุรี 20130"
-                    aria-label="default input example"></textarea>
-            </div>
-        </BaseModal> -->
-
         <div class="modal" id="addcompany" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body" style="width: 100%;">
                         <div class="content-body" style="width: 60%; margin: 10% 20% 5% 20%;">
+                            <h1><center><strong>เพิ่มข้อมูลบริษัท</strong></center></h1>
                             <label for="exampleInputEmail1" class="form-label">ชื่อบริษัท</label>
                             <input class="form-control" type="text" placeholder="ชื่อบริษัท"
                                 aria-label="default input example" v-model="companyData.com_name">
@@ -123,6 +109,7 @@
             <div class="modal-content">
                 <div class="modal-body" style="width: 100%;">
                     <div class="content-body" style="width: 60%; margin: 10% 20% 5% 20%;">
+                        <h1><center><strong>แก้ไขข้อมูลบริษัท</strong></center></h1>
                         <label for="exampleInputEmail1" class="form-label">ชื่อบริษัท</label>
                         <input class="form-control" type="text" placeholder="ชื่อบริษัท" aria-label="default input example"
                             v-model="companyData.com_name">
