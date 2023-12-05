@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { required, minValue, email, integer, helpers } from "@vuelidate/validators";
-import { getAge } from "../assets/js/func";
+import { getAge, formatDate } from "../assets/js/func";
 
 const thaiFeedback = 'ข้อมูลต้องเป็นภาษาไทยเท่านั้น'
 const numberFeedback = 'ข้อมูลต้องเป็นตัวเลขเท่านั้น'
@@ -153,62 +153,57 @@ export const useInternFormData = defineStore("internFormData", {
 
     actions: {
         setData(intern) {
-
-            this.code = intern.intn_code
-            this.intern_email = intern.intn_intern_email
-            this.status = intern.intn_work_status
-            this.role = intern.work_infos[0]?.work_role_id
-            this.prefix_th = intern.prefix_th
-            this.prefix_en = intern.prefix_en
-            this.fname_th = intern.fname_th
-            this.fname_en = intern.fname_en
-            this.lname_th = intern.lname_th
-            this.lname_en = intern.lname_en
-            this.nickname_th = intern.nickname_th
-            this.nickname_en = intern.nickname_en
-            this.citizen_id = intern.intn_citizen_id
-            this.birth_date = intern.intn_birth_date
-            this.gender = intern.intn_gender
-            this.blood_type = intern.intn_blood_type
-            this.weight = intern.intn_weight
-            this.height = intern.intn_height
-            this.nationality = intern.intn_nationality
-            this.nation = intern.intn_nation
-            this.religion = intern.intn_religion
-            this.university = intern.college_info?.col_uni_id
-            this.faculty = intern.college_info?.col_faculty_id
-            this.major = intern.college_info?.col_major_id
-            this.martial_status = intern.intn_martial_status
-            this.military_status = intern.intn_military_status
-            this.reason = intern.intn_reason
-            this.house_number = intern.intn_address?.addr_house_number
-            this.village_number = intern.intn_address?.addr_village_number
-            this.alley = intern.intn_address?.addr_alley
-            this.street = intern.intn_address?.addr_street
-            this.subdistrict = intern.intn_address?.addr_subdistrict
-            this.district = intern.intn_address?.addr_district
-            this.province = intern.intn_address?.addr_province
-            this.post_code = intern.intn_address?.addr_post_code
-            this.tel = intern.intn_tel
-            this.email = intern.intn_email
-            this.intern_type = intern.intn_intern_type
-            this.contract_number = intern.intn_contract_num
-            this.start_date = intern.intn_start_date
-            this.end_date = intern.intn_end_date
-            this.last_work_date = intern.intn_last_work_date
-            this.contract_end_date = intern.intn_contract_end_date
-            this.mentor = intern.intn_mentor.ment_id
-            this.section = intern.work_infos[0]?.work_sec_id
-            this.department = intern.work_infos[0]?.work_dept?.dept_name
+            this.personal_info.intn_code = intern.intn_code
+            this.personal_info.intn_intern_email = intern.intn_intern_email
+            this.personal_info.intn_status = intern.intn_work_status
+            this.personal_info.intn_prefix_th = intern.intn_prefix_th
+            this.personal_info.intn_prefix_en = intern.intn_prefix_en
+            this.personal_info.intn_fname_th = intern.intn_fname_th
+            this.personal_info.intn_fname_en = intern.intn_fname_en
+            this.personal_info.intn_lname_th = intern.intn_lname_th
+            this.personal_info.intn_lname_en = intern.intn_lname_en
+            this.personal_info.intn_nickname_th = intern.intn_nickname_th
+            this.personal_info.intn_nickname_en = intern.intn_nickname_en
+            this.personal_info.intn_citizen_id = intern.intn_citizen_id
+            this.personal_info.intn_birth_date = formatDate(intern.intn_birth_date)
+            this.personal_info.intn_gender = intern.intn_gender
+            this.personal_info.intn_blood_type = intern.intn_blood_type
+            this.personal_info.intn_weight = intern.intn_weight
+            this.personal_info.intn_height = intern.intn_height
+            this.personal_info.intn_nationality = intern.intn_nationality
+            this.personal_info.intn_nation = intern.intn_nation
+            this.personal_info.intn_religion = intern.intn_religion
+            this.college_info.col_university_id = intern.college_infos[0]?.col_major?.maj_faculty?.fac_university?.uni_id
+            this.college_info.col_faculty_id = intern.college_infos[0]?.col_major?.maj_faculty?.fac_id
+            this.college_info.col_major_id = intern.college_infos[0]?.col_major?.maj_id
+            this.personal_info.intn_martial_status = intern.intn_martial_status
+            this.personal_info.intn_military_status = intern.intn_military_status
+            this.personal_info.intn_reason = intern.intn_reason
+            this.address.addr_house_number = intern.intn_address?.addr_house_number
+            this.address.addr_village_number = intern.intn_address?.addr_village_number
+            this.address.addr_alley = intern.intn_address?.addr_alley
+            this.address.addr_street = intern.intn_address?.addr_street
+            this.address.addr_subdistrict = intern.intn_address?.addr_subdistrict
+            this.address.addr_district = intern.intn_address?.addr_district
+            this.address.addr_province = intern.intn_address?.addr_province
+            this.address.addr_post_code = intern.intn_address?.addr_post_code
+            this.personal_info.intn_tel = intern.intn_tel
+            this.personal_info.intn_email = intern.intn_email
+            this.personal_info.intn_intern_type = intern.intn_intern_type
+            this.personal_info.intn_contract_number = intern.intn_contract_num
+            this.personal_info.intn_start_date = formatDate(intern.intn_start_date)
+            this.personal_info.intn_end_date = formatDate(intern.intn_end_date)
+            this.personal_info.intn_last_work_date = formatDate(intern.intn_last_work_date)
+            this.personal_info.intn_contract_end_date = formatDate(intern.intn_contract_end_date)
+            this.personal_info.intn_mentor_id = intern.intn_mentor.ment_id
+            this.work_info.work_role_id = intern.work_infos[0]?.work_role.role_id
+            this.work_info.work_section_id = intern.work_infos[0]?.work_section.sec_id
+            this.work_info.work_department_id = intern.work_infos[0]?.work_department?.dept_id
+            this.work_info.work_team_id = intern.work_infos[0]?.work_team?.team_id
         },
 
         reset() {
             Object.assign(this, defaultState);
-        }
-    },
-    getters: {
-        getStartDate(state) {
-            return state.personal_info.intn_start_date
         }
     },
 });
