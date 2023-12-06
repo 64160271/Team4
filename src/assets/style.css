@@ -4,6 +4,7 @@
 * {
     font-size: 16px;
     font-family: 'IBM Plex Sans Thai', sans-serif;
+    /* font-family: 'Kanit'; */
     font-weight: 400 !important;
 }
 
@@ -12,7 +13,7 @@
 }
 
 :root {
-    --main-color: rgb(44, 3, 225);
+    --main-color: #e1032b;
 }
 
 .text-custom {

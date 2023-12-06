@@ -51,25 +51,6 @@ export function isRequire() {
     return false
 }
 
-/*
- * formatDate
- * แก้ไขรูปแบบวันที่ให้เป็น dd/mm/yyyy
- * param: วันที่รูปแบบ yyyy/mm/dd
- * return: วันที่ที่ถูกแก้ไข
- */
-export function formatDate(strDate) {
-    if (!strDate) {
-        return
-    }
-
-    strDate = new Date(strDate)
-
-    const day = strDate.getDate()
-    const month = strDate.getMonth() + 1
-    const year = strDate.getFullYear()
-
-    return day + "/" + month + "/" + year
-}
 
 /*
  * confirmation
@@ -129,6 +110,26 @@ export function getImageFromBuffer(type, buffer) {
     }
 
     return `data:${type};base64,${binary}`
+}
+
+export function formatDate(strdate) {
+    if (!strdate || strdate == '-') {
+        return null
+    }
+
+    let part = strdate.split('-')
+
+    let date = new Date(part[2], part[1] - 1, part[0]),
+        month = '' + (date.getMonth() + 1),
+        day = '' + date.getDate(),
+        year = date.getFullYear() -543;
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
 }
 
 /* function convertToArrayBuffer(data) {

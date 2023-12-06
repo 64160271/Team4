@@ -51,6 +51,20 @@
                             :value="intern.intn_mentor?.ment_name" readonly required />
                     </div>
                 </div>
+
+                <div class="row mb-2">
+                    <label for="" class="col-md-2 col-form-label text-gray"> แผนก </label>
+                    <div class="col">
+                        <input placeholder="-" type="text" class="form-control-plaintext" :value="getDepartment" readonly
+                            required />
+                    </div>
+
+                    <label for="" class="col-md-2 col-form-label text-gray"> ทีม </label>
+                    <div class="col">
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            :value="getTeam" readonly required />
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -386,6 +400,22 @@
     const getSection = computed(() => {
         if (internProp.intern.work_infos) {
             return internProp.intern.work_infos[0]?.work_section.sec_name
+        }
+
+        return '-'
+    })
+
+    const getDepartment = computed(() => {
+        if (internProp.intern.work_infos) {
+            return internProp.intern.work_infos[0]?.work_department?.dept_name
+        }
+
+        return '-'
+    })
+
+    const getTeam = computed(() => {
+        if (internProp.intern.work_infos) {
+            return internProp.intern.work_infos[0]?.work_team.team_name
         }
 
         return '-'
