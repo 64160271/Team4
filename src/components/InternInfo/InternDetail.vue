@@ -7,7 +7,7 @@
 
             <div class="col align-self-center ms-5 mb-2">
                 <div class="row mb-2">
-                    <span class="h5">ข้อมูลพนักงาน</span>
+                    <span class="h5 text-decoration-underline">ข้อมูลพนักงาน</span>
                 </div>
 
                 <div class="row mb-2">
@@ -70,7 +70,7 @@
 
         <div class="row border-bottom">
             <div class="row my-2">
-                <span class="h5">ข้อมูลส่วนตัว</span>
+                <span class="h5 text-decoration-underline">ข้อมูลส่วนตัว</span>
             </div>
 
             <div class="row mb-2">
@@ -188,7 +188,7 @@
 
         <div class="row border-bottom">
             <div class="row my-2">
-                <span class="h5">สถานศึกษา</span>
+                <span class="h5 text-decoration-underline">สถานศึกษา</span>
             </div>
 
             <div class="row mb-4">
@@ -214,7 +214,7 @@
 
         <div class="row border-bottom">
             <div class="row my-2">
-                <span class="h5">ข้อมูลที่อยู่ / ติดต่อ</span>
+                <span class="h5 text-decoration-underline">ข้อมูลที่อยู่ / ติดต่อ</span>
             </div>
 
             <div class="row mb-2">
@@ -292,7 +292,7 @@
 
         <div class="row border-bottom">
             <div class="row my-2">
-                <span class="h5">สัญญาการจ้างงาน</span>
+                <span class="h5 text-decoration-underline">สัญญาการจ้างงาน</span>
             </div>
 
             <div class="row mb-4">
@@ -339,7 +339,7 @@
 
         <div class="row border-bottom">
             <div class="row my-2">
-                <span class="h5">สถานภาพทางทหาร</span>
+                <span class="h5 text-decoration-underline">สถานภาพทางทหาร</span>
             </div>
 
             <div class="row mb-4">
@@ -360,7 +360,7 @@
         </div>
 
         <div class="row my-2">
-            <span class="h5">หมายเหตุอื่น ๆ</span>
+            <span class="h5 text-decoration-underline">หมายเหตุอื่น ๆ</span>
         </div>
 
         <div class="row">

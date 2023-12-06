@@ -13,7 +13,7 @@
           <div class="col-auto my-auto">
             <div class="row">
               <div class="col text-center">
-                <img id="blah" src="" alt="" class="img bg-grays-200" />
+                <img id="blah" :src="getImageFromBuffer(intern.image?.file_type, intern.image?.file_image?.data)" alt="" class="img bg-grays-200" />
               </div>
             </div>
   
@@ -34,7 +34,7 @@
   
           <!-- เริ่มต้นส่วนข้อมูลพนักงาน -->
           <div class="col ms-5 align-self-center">
-            <span class="row h5 my-3">ข้อมูลพนักงาน</span>
+            <span class="row h5 text-decoration-underline my-3">ข้อมูลพนักงาน</span>
   
             <div class="row gx-5 mb-3">
               <div class="col-md-6">
@@ -167,7 +167,7 @@
   
         <div class="container border-bottom">
           <div class="row my-2">
-            <span class="h5">ข้อมูลส่วนตัว</span>
+            <span class="h5 text-decoration-underline">ข้อมูลส่วนตัว</span>
           </div>
   
           <div class="row mb-3">
@@ -420,7 +420,7 @@
   
         <div class="container border-bottom">
           <div class="row my-2">
-            <span class="h5">สถานศึกษา</span>
+            <span class="h5 text-decoration-underline">สถานศึกษา</span>
           </div>
   
           <div class="row mb-4">
@@ -484,7 +484,7 @@
   
         <div class="container border-bottom">
           <div class="row my-2">
-            <span class="h5">สัญญาการจ้างงาน</span>
+            <span class="h5 text-decoration-underline">สัญญาการจ้างงาน</span>
           </div>
   
           <div class="row mb-3">
@@ -565,7 +565,7 @@
   
         <div class="container border-bottom">
           <div class="row my-2">
-            <span class="h5">ข้อมูลที่อยู่ / ติดต่อ</span>
+            <span class="h5 text-decoration-underline">ข้อมูลที่อยู่ / ติดต่อ</span>
           </div>
   
           <div class="row mb-3 gx-5">
@@ -681,7 +681,7 @@
   
         <div class="container border-bottom">
           <div class="row my-2">
-            <span class="h5">สถานภาพทางทหาร</span>
+            <span class="h5 text-decoration-underline">สถานภาพทางทหาร</span>
           </div>
   
           <div class="row mb-4 gx-5">
@@ -709,7 +709,7 @@
   
         <div class="container border-bottom">
           <div class="row my-2">
-            <span class="h5">หมายเหตุอื่น ๆ</span>
+            <span class="h5 text-decoration-underline">หมายเหตุอื่น ๆ</span>
           </div>
   
           <div class="row">
@@ -757,7 +757,7 @@
     useBloodType,
   } from "../../stores/constData";
   import { useInternFormData } from "../../stores/addInternFormData";
-  import { getAge, confirmation, successAlert, errorAlert } from "../../assets/js/func";
+  import { getAge, confirmation, successAlert, errorAlert, getImageFromBuffer } from "../../assets/js/func";
   import apiService from "../../services/api";
   import useVuelidate from "@vuelidate/core"; // validate
   import BaseInput from "../Component/BaseInput.vue";
@@ -819,13 +819,13 @@
   
         /* สร้างข้อมูลนักศึกษาผ่าน API */
         await apiCall
-          .createIntern({
+          .editInternData({
             personal_info: formData.personal_info,
             address: formData.address,
             work_info: formData.work_info,
             college_info: formData.college_info,
             intn_image: formData.intn_image,
-          })
+          }, prop.intern.intn_id)
           .then((response) => {
             successAlert().then(() => {
               router.push({ name: "index" }); /* ย้อนกลับหน้า index */
@@ -962,10 +962,21 @@
       (formData.setData(prop.intern))
     ]);
 
-    console.log(formData)
+    formData.sectionsForm.section = sections.value.find(section =>
+      section.sec_id === formData.work_info.work_section_id
+    )
 
+    formData.universitiesForm.university = universities.value.find(university => 
+      university.uni_id === formData.college_info.col_university_id
+    )
+
+
+    formData.universitiesForm.faculty = formData.universitiesForm.university.faculties.find(faculty => 
+      faculty.fac_id === formData.college_info.col_faculty_id
+    )
+
+    
     setFilledData();
-    showImg();
   
     /* สำหรับตัว Autocomplete ที่อยู่ */
     $.Thailand({

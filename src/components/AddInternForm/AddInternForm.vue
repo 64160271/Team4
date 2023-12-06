@@ -35,7 +35,7 @@
 
         <!-- เริ่มต้นส่วนข้อมูลพนักงาน -->
         <div class="col ms-5 align-self-center">
-          <span class="row h5 my-3">ข้อมูลพนักงาน</span>
+          <span class="row h5 my-3 text-decoration-underline">ข้อมูลพนักงาน</span>
 
           <div class="row gx-5 mb-3">
             <div class="col-md-6">
@@ -168,7 +168,7 @@
 
       <div class="container border-bottom">
         <div class="row my-2">
-          <span class="h5">ข้อมูลส่วนตัว</span>
+          <span class="h5 text-decoration-underline">ข้อมูลส่วนตัว</span>
         </div>
 
         <div class="row mb-3">
@@ -421,7 +421,7 @@
 
       <div class="container border-bottom">
         <div class="row my-2">
-          <span class="h5">สถานศึกษา</span>
+          <span class="h5 text-decoration-underline">สถานศึกษา</span>
         </div>
 
         <div class="row mb-4">
@@ -485,7 +485,7 @@
 
       <div class="container border-bottom">
         <div class="row my-2">
-          <span class="h5">สัญญาการจ้างงาน</span>
+          <span class="h5 text-decoration-underline">สัญญาการจ้างงาน</span>
         </div>
 
         <div class="row mb-3">
@@ -566,7 +566,7 @@
 
       <div class="container border-bottom">
         <div class="row my-2">
-          <span class="h5">ข้อมูลที่อยู่ / ติดต่อ</span>
+          <span class="h5 text-decoration-underline">ข้อมูลที่อยู่ / ติดต่อ</span>
         </div>
 
         <div class="row mb-3 gx-5">
@@ -682,7 +682,7 @@
 
       <div class="container border-bottom">
         <div class="row my-2">
-          <span class="h5">สถานภาพทางทหาร</span>
+          <span class="h5 text-decoration-underline">สถานภาพทางทหาร</span>
         </div>
 
         <div class="row mb-4 gx-5">
@@ -710,7 +710,7 @@
 
       <div class="container border-bottom">
         <div class="row my-2">
-          <span class="h5">หมายเหตุอื่น ๆ</span>
+          <span class="h5 text-decoration-underline">หมายเหตุอื่น ๆ</span>
         </div>
 
         <div class="row">
