@@ -115,7 +115,7 @@ export default class apiService {
     }
 
     editInternData = async (data, id) => {
-        return await axios.put(`${import.meta.env.VITE_API_HOST}/interns/${id}`, data)
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/interns/${id}`, data, { headers: {"Content-Type": "multipart/form-data"} })
             .then((response) => {
                 return response.data
             })

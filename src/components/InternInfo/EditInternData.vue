@@ -466,7 +466,7 @@
               <BaseSelect
                 label="สาขาวิชา"
                 :options="majors"
-                v-model="collegeInfo.col_major_id"
+                v-model.number="collegeInfo.col_major_id"
                 value="maj_id"
                 text="maj_name"
                 placeholder="เลือก (ต้องเลือกคณะก่อน)"
@@ -807,11 +807,12 @@
    */
   async function submitForm() {
     const validate = await v$.value.$validate(); /* validate แบบฟอร์ม */
+    console.log(formData)
   
     if (validate) {
       const result = await confirmation();
       if (result) {
-        workInfo.value.work_from_date = personalInfo.value.intn_start_date;
+        workInfo.value.work_from_date = new Date()
         personalInfo.value.intn_code = new String("INT-").concat(
           personalInfo.value.intn_code
         );
@@ -828,7 +829,7 @@
           }, prop.intern.intn_id)
           .then((response) => {
             successAlert().then(() => {
-              router.push({ name: "index" }); /* ย้อนกลับหน้า index */
+              location.reload()
             });
           })
           .catch((err) => {

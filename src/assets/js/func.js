@@ -7,6 +7,10 @@ import Swal from "sweetalert2";
  * return: ตัวเลขวันเกิด
  */
 export function getAge(birthdate) {
+    if (!birthdate) {
+        return 0
+    }
+
     birthdate = new Date(birthdate)
     const today = new Date();
     const age = today.getFullYear() - birthdate.getFullYear() -

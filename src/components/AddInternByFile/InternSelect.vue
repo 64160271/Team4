@@ -298,8 +298,8 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked {
-  border: 1px solid var(--main-color);
-  background-color: var(--main-color);
+  border: 1px solid green;
+  background-color: green;
 }
 
 .tooltip-inner {
@@ -331,7 +331,7 @@ tr {
   background-color: transparent !important;
 }
 
-.bg-duplicate {
-  background-color: blanchedalmond !important;
+.bg-duplicate td {
+  background-color: rgb(255, 241, 221) !important;
 }
 </style>
