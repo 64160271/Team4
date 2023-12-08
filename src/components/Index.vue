@@ -77,9 +77,9 @@
                         </a>
                     </li>
 
-                    <li v-for="pageNum in pageMax" class="page-item">
-                        <router-link to="#" class="page-link rounded-circle mx-1" @click="setCurrentPage(pageNum)"
-                            active-class="active">
+                    <li v-for="(pageNum, index) in pageMax" class="page-item">
+                        <router-link :id="'p' + index" aria-current="page" to="#" class="page-link rounded-circle mx-1" @click="setCurrentPage(pageNum)"
+                        :class="{ 'active': index == page-1 }">
                             {{ pageNum }}
                         </router-link>
                     </li>
@@ -131,7 +131,12 @@ async function setCurrentPage(pageNumber) {
 }
 
 const getAllIntern = async () => {
-    await axios.get(`${import.meta.env.VITE_API_HOST}/interns?page=${page.value}&limit=${pageSize}`)
+    const params = {
+        page: page.value,
+        limit: pageSize
+    }
+    
+    await axios.get(`${import.meta.env.VITE_API_HOST}/interns`, {params})
         .then((response) => {
             interns.value = response.data.rows
             total.value = response.data.count
@@ -140,7 +145,7 @@ const getAllIntern = async () => {
 }
 
 onMounted(() => {
-    getAllIntern()
+    setCurrentPage(page.value)
 })
 
 
