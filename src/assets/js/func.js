@@ -116,6 +116,11 @@ export function getImageFromBuffer(type, buffer) {
     return `data:${type};base64,${binary}`
 }
 
+export function getImageFromBuffer2(type, buffer) {
+    let b64encoded = btoa(String.fromCharCode.apply(null, buffer));
+    return 'data:' + type +';base64,' + b64encoded;
+}
+
 export function formatDate(strdate) {
     if (!strdate || strdate == '-') {
         return null

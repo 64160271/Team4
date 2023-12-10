@@ -21,11 +21,11 @@
 
         <tbody>
           <tr v-for="(leave, index) in leavesInfo" class="tr-custom">
-            <td class="text-center border-left">{{ leave.lvs_edit_date || "-" }}</td>
+            <td class="text-center border-left">{{ leave.lvs_updated_at || "-" }}</td>
             <td class="text-center">{{ leave.lvs_id }}</td>
-            <td class="text-center">{{ leave.lvs_type_name }}</td>
-            <td class="text-center">{{ leave.lvs_leave_day }}</td>
-            <td class="text-center">{{ leave.lvs_edit_by_user.user_name }}</td>
+            <td class="text-center">{{ leave.lvs_reason }}</td>
+            <td class="text-center">{{ leave.lvs_type }}</td>
+            <td class="text-center">{{ leave.lvs_updated_by_user.user_name }}</td>
             <td class="text-center border-right">
               <a class="btn">
                 <PictureLogo />
@@ -148,16 +148,18 @@ import PictureLogo from "../icons/PictureLogo.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseButton from "../Component/BaseButton.vue";
 import { useLeaveFormData } from "../../stores/leaveFormData";
+import { getImageFromBuffer2 } from "../../assets/js/func"
 
 const internId = useRoute().params.id;
 const leavesInfo = ref({});
 const apiCall = new apiService();
+const image = ref()
 const formData = ref(useLeaveFormData());
 const modal = ref();
 
 onMounted(async () => {
   leavesInfo.value = await apiCall.getLeaveInfoByInternId(internId);
-  modal.value = new bootstrap.Modal("#modal", {});
+  /* modal.value = new bootstrap.Modal("#modal", {}); */
 });
 
 function formSubmit() {

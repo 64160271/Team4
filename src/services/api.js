@@ -142,6 +142,13 @@ export default class apiService {
             })
     }
 
+    getLeaveInfoFile = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/leavesinfo/file/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
     createSalaryData = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/salaries`, data)
             .then((response) => {
