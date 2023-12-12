@@ -39,7 +39,11 @@
   />
   <InvalidFeedback :errors="v$.address.house_number.$errors" />
 
-  <img :src="'data:image/png;base64,'+ image" alt="">
+  <DataTable :heads="heads" :items="sections">
+    <template #action="{ index }">
+      <BaseButton class="sm" label="แก้ไข" @click="console.log(index)" />
+    </template>
+  </DataTable>
 </template>
 
 <script setup>
@@ -50,11 +54,15 @@ import { required } from "@vuelidate/validators"; // validate
 import BaseCard from "../Component/BaseCard.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
+import BaseButton from "../Component/BaseButton.vue";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import { useGenderData } from "../../stores/constData";
-import axios from 'axios'
+import DataTable from "../Component/DataTable.vue";
+import apiService from "../../services/api";
 
+const apiCall = new apiService()
 const form = ref(String(""));
+const sections = ref([])
 const formData = useInternFormData();
 const addressdd = ref(formData.address);
 const workInfo = ref(formData.work_info);
@@ -65,6 +73,13 @@ const rules = ref({
   },
   form: { required },
 });
+
+const heads = ref([
+  { key: 'mentors[0].ment_lname', title: 'ชื่อพี่เลี้ยง' },
+  { key: 'sec_name', title: 'ชื่อฝ่าย' },
+  { key: 'sec_created_at', title: 'วันที่สร้างฝ่าย' },
+  { key: 'action', title: 'แก้ไข', align: 'center' }
+])
 
 const opt = ref([
   { id: 2, name: "tttt" },
@@ -82,7 +97,8 @@ async function validate() {
 }
 
 onMounted(async () => {
-  console.log(gender.value.list);
+  sections.value = await apiCall.getSectionWithMentor()
+  console.log(sections.value)
 });
 </script>
 
