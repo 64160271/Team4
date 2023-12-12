@@ -8,13 +8,12 @@ import LeaveInfo from '../components/InternInfo/LeaveInfo.vue'
 import DocumentInfo from '../components/InternInfo/DocumentInfo.vue'
 import AddInternForm from '../components/AddInternForm/AddInternForm.vue'
 import AddInternFile from '../components/AddInternByFile/AddInternFile.vue'
-import AddInternFormV2 from '../components/AddInternForm/AddInternFormV2.vue'
 import ShowCertificate from '../components/Certificate/ShowCertificate.vue'
 import SalaryReport from '../components/Report/SalaryReport.vue'
 import ManageCompany from '../components/CerfificateData/ManageCompany.vue'
 import ManageSignature from '../components/CerfificateData/ManageSignature.vue'
 import ManageUniversity from '../components/University/ManageUniversity.vue'
-import TestComponents from '@/components/TestComponents.vue'
+import TestForm from '../components/AddInternForm/TestForm.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -65,11 +64,6 @@ const router = createRouter({
             component: AddInternFile
         },
         {
-            path: '/interns/key-data-v2',
-            name: 'addInternFormV2',
-            component: AddInternFormV2
-        },
-        {
             path: '/certificates',
             name: 'showCertificate',
             component: ShowCertificate
@@ -96,8 +90,7 @@ const router = createRouter({
         },
         {
             path: '/test',
-            name: 'test',
-            component: TestComponents
+            component: TestForm
         }
     ]
 })

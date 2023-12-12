@@ -26,7 +26,7 @@
 
         <InternDetail v-if="!isEdit" :intern="intern" class="mt-3" />
 
-        <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" class="mt-3" />
+        <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" />
 
     </div>
 </template>
@@ -69,6 +69,7 @@ function editData() {
 
 onMounted(async () => {
     intern.value = await apiCall.getInternById(id);
+    console.log(intern.value)
 })
 </script>
 

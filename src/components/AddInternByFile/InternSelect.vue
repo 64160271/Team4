@@ -8,53 +8,68 @@
 <template>
   <div class="form-check mt-3">
     <input id="main" type="checkbox" class="form-check-input" @change="checkAll" />
-    <label for="" class="form-check-label">เลือกทั้งหมด</label>
+    <label for="main" id="select-all" name="select-all" class="form-check-label"
+      >เลือกทั้งหมด</label
+    >
   </div>
 
   <form @submit.prevent="createInterns">
     <div class="row mt-2 table-wrapper-scroll-y my-custom-scrollbar">
-      <table id="tb-data" class="table table-borderless fixed-head">
-        <thead class="text-center bg-red">
-          <tr>
-            <th scope="col" class="col-2 border-left">ลำดับ</th>
-            <th scope="col">ชื่อ - นามสกุล</th>
-            <th scope="col">ชื่อเล่น</th>
-            <th scope="col">ตำแหน่ง</th>
-            <th scope="col">มหาวิทยาลัย</th>
-            <th scope="col" class="col-sm-auto">วันที่เริ่มฝึกงาน</th>
-            <th scope="col" class="col-sm-auto border-right">วันที่สิ้นสุดฝึกงาน</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(data, index) in excelData">
-            <td scope="row" class="d-flex justify-content-start">
+      <BaseTable
+        :heads="[
+          'ลำดับ',
+          'ชื่อ-นามสกุล',
+          'ชื่อเล่น',
+          'ตำแหน่งฝึกงาน',
+          'ทีม',
+          'วันที่เริ่มฝึกงาน',
+          'วันที่สิ้นสุดฝึกงาน',
+          '',
+        ]"
+        :align="['center', 'left', 'left', 'left', 'left', 'center', 'center']"
+      >
+        <tr
+          v-for="(data, index) in excelData"
+          class="tr-custom border-start border-end border-bottom"
+          @click="checkRow(index)"
+          :class="{ 'bg-duplicate': data.duplicate }"
+        >
+          <td>
+            <div class="form-check my-auto">
               <input
                 name="tb-check"
+                :id="'tb-check' + index"
                 type="checkbox"
-                class="my-auto form-check-input ms-2"
+                @click="checkRow(index)"
+                class="form-check-input mt-2 p-2"
                 @change="unSelectAll"
               />
-              <label for="" class="mx-auto">{{ index + 1 }}</label>
-            </td>
-            <td scope="row">{{ data[7] + data[8] }}</td>
-            <td scope="row" class="text-center">{{ data[9] }}</td>
-            <td scope="row" class="text-center">{{ data[6] }}</td>
-            <td scope="row" class="text-center">{{ data[15] }}</td>
-            <td scope="row" class="text-center">{{ dateFormat(data[10]) }}</td>
-            <td scope="row" class="text-center">{{ dateFormat(data[11]) || "-" }}</td>
-            <td v-if="data.duplicate" class="text-center" @mouseover.once="openTooltip">
-              <img
-                src="../../assets/images/warning.png"
-                width="24"
-                alt=""
-                data-bs-toggle="tooltip"
-                data-bs-placement="left"
-                title="มีข้อมูลนี้อยู่ในระบบอยู่แล้ว หากทำการเพิ่มข้อมูลจะเป็นการแก้ไขข้อมูลที่มีอยู่"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <label :for="'tb-check' + index" class="form-check-label ms-3">{{
+                index + 1
+              }}</label>
+            </div>
+          </td>
+          <td>{{ data[7] + data[8] }}</td>
+          <td class="text-left">{{ data[9] }}</td>
+          <td class="text-left">{{ data[6] }}</td>
+          <td class="text-left">{{ data[4] }}</td>
+          <td class="text-center">{{ dateFormat(data[10]) }}</td>
+          <td class="text-center">{{ dateFormat(data[11]) || "-" }}</td>
+          <td v-if="data.duplicate" class="text-center" @mouseover.once="openTooltip">
+            <img
+              src="../../assets/images/warning.png"
+              width="24"
+              alt=""
+              data-bs-toggle="tooltip"
+              data-bs-placement="left"
+              title="มีข้อมูลนี้อยู่ในระบบอยู่แล้ว หากทำการเพิ่มข้อมูลจะเป็นการแก้ไขข้อมูลที่มีอยู่"
+            />
+          </td>
+        </tr>
+      </BaseTable>
+      <span v-if="nonSelectedError" class="h6 text-danger"
+        >กรุณาเลือกอย่างน้อย 1 ข้อมูล</span
+      >
     </div>
   </form>
 
@@ -77,18 +92,32 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
 import router from "@/router";
+import BaseTable from "../Component/BaseTable.vue";
 
 const selectedIndex = ref([]);
 const selectedData = ref([]);
+const nonSelectedError = ref(false);
 const props = defineProps({
   excelData: Array,
 });
 
+/*
+ * openTooltip
+ * แสดงข้อความของการแจ้งเตือนข้อมูลซ้ำ
+ * param: -
+ * return: -
+ */
 function openTooltip() {
   let tooltipList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
   tooltipList.forEach((tooltipNode) => new Tooltip(tooltipNode));
 }
 
+/*
+ * checkAll
+ * เลือกข้อมูลทั้งหมดภายในไฟล์
+ * param: -
+ * return: -
+ */
 function checkAll() {
   let main = document.getElementById("main");
   let tbCheckBox = document.getElementsByName("tb-check");
@@ -98,6 +127,12 @@ function checkAll() {
   }
 }
 
+/*
+ * unSelectAll
+ * ยกเลิกการเลือกทั้งหมด
+ * param: -
+ * return: -
+ */
 function unSelectAll() {
   let main = document.getElementById("main");
   main.checked = false;
@@ -115,31 +150,62 @@ function dateFormat(date) {
   return day + "/" + month + "/" + year;
 }
 
-function confirmation() {
-  Swal.fire({
-    text: "คุณต้องการบันทึกข้อมูลหรือไม่",
-    icon: "warning",
-    showCancelButton: true,
-    showConfirmButton: true,
-    confirmButtonText: "ยืนยัน",
-    cancelButtonText: "ยกเลิก",
-    confirmButtonColor: "var(--main-color)",
-    reverseButtons: true,
-    focusConfirm: false,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      createInterns();
-    }
-  });
+/*
+ * checkRow
+ * เลือกข้อมูลในแถว
+ * param: index (แถวของข้อมูล)
+ * return: -
+ */
+function checkRow(index) {
+  let checkbox = document.getElementById("tb-check" + index);
+
+  checkbox.click();
 }
 
+function isSelected() {
+  let tbCheckBox = document.getElementsByName("tb-check");
+
+  for (let i = 0; i < tbCheckBox.length; i++) {
+    if (tbCheckBox[i].checked) {
+      return true;
+    }
+  }
+
+  nonSelectedError.value = true;
+  return false;
+}
+
+function confirmation() {
+  if (isSelected()) {
+    Swal.fire({
+      text: "คุณต้องการบันทึกข้อมูลหรือไม่",
+      icon: "warning",
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "ยกเลิก",
+      confirmButtonColor: "var(--main-color)",
+      reverseButtons: true,
+      focusConfirm: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        createInterns();
+      }
+    });
+  }
+}
+
+/*
+ * getAllIntern
+ * เรียกดูข้อมูลของนักศึกษาทั้งหมด และตรวจสอบข้อมูลซ้ำ
+ * param: -
+ * return: -
+ */
 const getAllIntern = async () => {
   await axios.get(`${import.meta.env.VITE_API_HOST}/interns`).then((response) => {
     const interns = response.data;
     let fname = "";
     let lname = "";
-
-    console.log(interns);
 
     if (Array.isArray(interns.rows)) {
       props.excelData.forEach((data, index) => {
@@ -148,9 +214,8 @@ const getAllIntern = async () => {
         lname = name[1];
 
         interns.rows.forEach((element) => {
-
-          let fname_th = element.intn_fname.split("|")[0]
-          let lname_th = element.intn_lname.split("|")[0]
+          let fname_th = element.intn_fname_th;
+          let lname_th = element.intn_lname_th;
 
           if (fname_th == fname && lname_th == lname) {
             props.excelData[index].duplicate = true;
@@ -161,6 +226,12 @@ const getAllIntern = async () => {
   });
 };
 
+/*
+ * createInterns
+ * สร้างข้อมูลนักศึกษาโดยมีการนำข้อมูลไปทำเป็น object ก่อน
+ * param: -
+ * return: -
+ */
 async function createInterns() {
   let checked = $('[name="tb-check"]');
 
@@ -168,7 +239,7 @@ async function createInterns() {
     let $this = $(this);
 
     if ($this.is(":checked")) {
-      let index = $(this).parent().parent().index();
+      let index = $(this).parent().parent().parent().index();
       selectedIndex.value.push(index);
     }
   });
@@ -200,7 +271,7 @@ async function createInterns() {
   });
 
   await axios
-    .post(`${import.meta.env.VITE_API_HOST}/interns/file`, selectedData.value)
+    .post(`${import.meta.env.VITE_API_HOST}/interns/bulk`, selectedData.value)
     .then((response) => console.log(response))
     .then(() => {
       Swal.fire({
@@ -227,8 +298,8 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked {
-  border: 1px solid var(--main-color);
-  background-color: var(--main-color);
+  border: 1px solid green;
+  background-color: green;
 }
 
 .tooltip-inner {
@@ -256,33 +327,11 @@ th {
   display: block;
 }
 
-table {
-  border-collapse: collapse;
-  overflow: hidden;
-}
-
-th {
-  color: white;
-  background-color: transparent;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border-collapse: collapse;
-  overflow: auto;
-}
-
 tr {
-  line-height: 40px;
-  min-height: 30px;
-  height: 30px;
-  border-collapse: collapse;
-  overflow: hidden;
+  background-color: transparent !important;
 }
 
-.tb-hov:hover {
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
-}
-
-.tb-hov:hover td {
-  color: var(--main-color);
+.bg-duplicate td {
+  background-color: rgb(255, 241, 221) !important;
 }
 </style>

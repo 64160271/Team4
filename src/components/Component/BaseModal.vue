@@ -1,3 +1,11 @@
+<!--
+ ฺBaseModal
+ Component สำหรับ Modal
+ Props:
+    open: Boolean สำหรับกำหนดการเปิด/ปิด Modal
+    title: หัวข้อ Modal
+-->
+
 <template>
   <div id="modal" class="modal" tabindex="-1" aria-hidden="true" v-show="open">
     <div class="modal-dialog modal-dialog-centered">
@@ -39,9 +47,10 @@ import { ref, onMounted } from "vue";
 const modal = ref();
 
 onMounted(() => {
-  modal.value = new bootstrap.Modal("#modal", {});
-  modal.value.show();
-});
+    /* กำหนดให้ modal เป็น modal แบบ bootstrap */
+    modal.value = new bootstrap.Modal("#modal", {})
+    modal.value.show()
+})
 
 defineProps({
   open: Boolean,

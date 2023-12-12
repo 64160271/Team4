@@ -1,3 +1,8 @@
+<!--
+ BaseButton
+ Component สำหรับปุ่ม
+-->
+
 <template>
   <button class="btn outline-red" v-bind="$attrs">
     {{ label }}

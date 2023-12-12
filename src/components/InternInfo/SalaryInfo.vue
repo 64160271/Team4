@@ -2,12 +2,6 @@
   <div class="row mb-3">
     <LayoutMenu />
 
-    <div class="row mb-3">
-      <button class="btn btn-std outline-red col-auto ms-auto" @click="openModal">
-        แก้ไขข้อมูลเบี้ยเลี้ยง
-      </button>
-    </div>
-
     <div class="row">
       <table class="table table-borderless table-striped">
         <thead class="bg-red">
