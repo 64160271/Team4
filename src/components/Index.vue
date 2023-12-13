@@ -61,7 +61,6 @@
         </tr>
     </BaseTable>
 
-
     <div class="row my-2" v-if="total > 0 && findInternData.length > 0">
     <hr>
 

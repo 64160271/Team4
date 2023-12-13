@@ -39,9 +39,9 @@
   />
   <InvalidFeedback :errors="v$.address.house_number.$errors" />
 
-  <DataTable :heads="heads" :items="sections">
-    <template #action="{ index }">
-      <BaseButton class="sm" label="แก้ไข" @click="console.log(index)" />
+  <DataTable striped :heads="heads" :items="sections" :total="sections.length">
+    <template #action="{ data }">
+      <BaseButton class="sm" label="แก้ไข" @click="console.log(data)" />
     </template>
   </DataTable>
 </template>
@@ -60,9 +60,9 @@ import { useGenderData } from "../../stores/constData";
 import DataTable from "../Component/DataTable.vue";
 import apiService from "../../services/api";
 
-const apiCall = new apiService()
+const apiCall = new apiService();
 const form = ref(String(""));
-const sections = ref([])
+const sections = ref([]);
 const formData = useInternFormData();
 const addressdd = ref(formData.address);
 const workInfo = ref(formData.work_info);
@@ -75,11 +75,11 @@ const rules = ref({
 });
 
 const heads = ref([
-  { key: 'mentors[0].ment_lname', title: 'ชื่อพี่เลี้ยง' },
-  { key: 'sec_name', title: 'ชื่อฝ่าย' },
-  { key: 'sec_created_at', title: 'วันที่สร้างฝ่าย' },
-  { key: 'action', title: 'แก้ไข', align: 'center' }
-])
+  { key: "mentors[0].ment_lname", title: "ชื่อพี่เลี้ยง" },
+  { key: "sec_name", title: "ชื่อฝ่าย" },
+  { key: "sec_created_at", title: "วันที่สร้างฝ่าย" },
+  { key: "action", title: "แก้ไข", align: "center" },
+]);
 
 const opt = ref([
   { id: 2, name: "tttt" },
@@ -90,15 +90,14 @@ const opt = ref([
 ]);
 
 const v$ = useVuelidate(rules, formData);
-const image = ref('')
+const image = ref("");
 
 async function validate() {
   const result = await v$.value.$validate();
 }
 
 onMounted(async () => {
-  sections.value = await apiCall.getSectionWithMentor()
-  console.log(sections.value)
+  sections.value = await apiCall.getSectionWithMentor();
 });
 </script>
 
