@@ -6,39 +6,17 @@
       <BaseButton label="เพิ่มข้อมูลการลา" @click="openModal" class="col-auto ms-auto" />
     </div>
 
-    <div class="row">
-      <table class="table table-borderless table-striped">
-        <thead class="bg-red">
-          <tr class="text-center tr-custom">
-            <th scope="col" class="th-custom border-left">วันที่แก้ไข</th>
-            <th scope="col" class="th-custom">เลขที่ใบลา</th>
-            <th scope="col" class="th-custom">ประเภทการลา</th>
-            <th scope="col" class="th-custom">จำนวนวัน</th>
-            <th scope="col" class="th-custom">ผู้ทำการแก้ไข</th>
-            <th scope="col" class="th-custom border-right">หลักฐาน</th>
-          </tr>
-        </thead>
+    <DataTable :heads="tableHead" :items="leavesInfo">
+      <template #open_file>
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-card-image"
+          viewBox="0 0 16 16">
+          <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+          <path
+            d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5z" />
+        </svg>
+      </template>
+    </DataTable>
 
-        <tbody>
-          <tr v-for="(leave, index) in leavesInfo" class="tr-custom">
-            <td class="text-center border-left">{{ leave.lvs_updated_at || "-" }}</td>
-            <td class="text-center">{{ leave.lvs_id }}</td>
-            <td class="text-center">{{ leave.lvs_reason }}</td>
-            <td class="text-center">{{ leave.lvs_type }}</td>
-            <td class="text-center">{{ leave.lvs_updated_by_user.user_name }}</td>
-            <td class="text-center border-right">
-              <a class="btn">
-                <PictureLogo />
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div v-if="leavesInfo == 0" class="text-center mt-5">
-        <span class="h5">----- ไม่มีข้อมูลการลา -----</span>
-      </div>
-    </div>
   </div>
 
   <div id="modal" class="modal" tabindex="-1" aria-hidden="true">
@@ -46,12 +24,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 id="exampleModalLabel" class="modal-title">เพิ่มข้อมูลการลา</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form action="">
@@ -62,13 +35,7 @@
             </div>
             <div class="row mb-4 mx-2">
               <div class="col">
-                <BaseInput
-                  v-model="formData.title"
-                  type="text"
-                  label="เรื่อง"
-                  placeholder="ชื่อเรื่อง"
-                  required="true"
-                />
+                <BaseInput v-model="formData.title" type="text" label="เรื่อง" placeholder="ชื่อเรื่อง" required="true" />
               </div>
             </div>
 
@@ -113,7 +80,7 @@
                 <BaseInput />
               </div>
             </div>
-            
+
             <div class="row mb-4 mx-2">
               <div class="col">
                 <BaseInput />
@@ -122,12 +89,7 @@
           </form>
         </div>
         <div class="modal-footer justify-content-center gap-4">
-          <button
-            type="button"
-            class="col-md-3 btn outline-gray"
-            data-bs-dismiss="modal"
-            @click="closeModal"
-          >
+          <button type="button" class="col-md-3 btn outline-gray" data-bs-dismiss="modal" @click="closeModal">
             ยกเลิก
           </button>
           <button type="button" class="col-md-3 btn outline-red" @click="formSubmit">
@@ -148,14 +110,24 @@ import PictureLogo from "../icons/PictureLogo.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseButton from "../Component/BaseButton.vue";
 import { useLeaveFormData } from "../../stores/leaveFormData";
-import { getImageFromBuffer2 } from "../../assets/js/func"
+import { getImageFromBuffer2 } from "../../assets/js/func";
+import DataTable from "../Component/DataTable.vue";
 
 const internId = useRoute().params.id;
 const leavesInfo = ref({});
 const apiCall = new apiService();
-const image = ref()
+const image = ref();
 const formData = ref(useLeaveFormData());
 const modal = ref();
+const tableHead = ref([
+  { key: "lvs_created_at", title: "วันที่เพิ่มข้อมูล", align: 'center' },
+  { key: "lvs_id", title: "เลขที่ใบลา" },
+  { key: "lvs_type_name", title: "ประเภทการลา" },
+  { key: "lvs_day", title: "ระยะเวลา" },
+  { key: "lvs_updated_by_user.user_name", title: "ผู้ทำการแก้ไข" },
+  { key: "open_file", title: "หลักฐาน", align: 'center' },
+]
+);
 
 onMounted(async () => {
   leavesInfo.value = await apiCall.getLeaveInfoByInternId(internId);
