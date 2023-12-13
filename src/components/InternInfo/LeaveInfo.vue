@@ -8,7 +8,7 @@
 
     <DataTable :heads="tableHead" :items="leavesInfo">
       <template #open_file>
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-card-image"
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-card-image cursor-p"
           viewBox="0 0 16 16">
           <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
           <path
@@ -106,7 +106,6 @@ import LayoutMenu from "./LayoutMenu.vue";
 import apiService from "../../services/api";
 import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
-import PictureLogo from "../icons/PictureLogo.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseButton from "../Component/BaseButton.vue";
 import { useLeaveFormData } from "../../stores/leaveFormData";
@@ -114,19 +113,20 @@ import { getImageFromBuffer2 } from "../../assets/js/func";
 import DataTable from "../Component/DataTable.vue";
 
 const internId = useRoute().params.id;
-const leavesInfo = ref({});
+const leavesInfo = ref([]);
 const apiCall = new apiService();
 const image = ref();
 const formData = ref(useLeaveFormData());
 const modal = ref();
-const tableHead = ref([
-  { key: "lvs_created_at", title: "วันที่เพิ่มข้อมูล", align: 'center' },
-  { key: "lvs_id", title: "เลขที่ใบลา" },
-  { key: "lvs_type_name", title: "ประเภทการลา" },
-  { key: "lvs_day", title: "ระยะเวลา" },
-  { key: "lvs_updated_by_user.user_name", title: "ผู้ทำการแก้ไข" },
-  { key: "open_file", title: "หลักฐาน", align: 'center' },
-]
+const tableHead = ref(
+  [
+    { key: "lvs_created_at", title: "วันที่เพิ่มข้อมูล", align: 'center' },
+    { key: "lvs_id", title: "เลขที่ใบลา" },
+    { key: "lvs_type_name", title: "ประเภทการลา" },
+    { key: "lvs_day", title: "ระยะเวลา" },
+    { key: "lvs_updated_by_user.user_name", title: "ผู้ทำการแก้ไข" },
+    { key: "open_file", title: "หลักฐาน", align: 'center' },
+  ]
 );
 
 onMounted(async () => {

@@ -159,3 +159,7 @@
 .btn-std {
     height: 50px;
 }
+
+.cursor-p {
+    cursor: pointer;
+}

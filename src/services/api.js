@@ -149,6 +149,20 @@ export default class apiService {
             })
     }
 
+    getDocumentByInternId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/documents/intern/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getDocumentFile = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/documents/file/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
     createSalaryData = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/salaries`, data)
             .then((response) => {

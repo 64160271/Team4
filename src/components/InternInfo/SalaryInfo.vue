@@ -2,37 +2,11 @@
   <div class="row mb-3">
     <LayoutMenu />
 
-    <div class="row">
-      <table class="table table-borderless table-striped">
-        <thead class="bg-red">
-          <tr class="text-center tr-custom">
-            <th scope="col" class="th-custom border-left">วันที่แก้ไข</th>
-            <th scope="col" class="th-custom">วันที่ได้รับเบี้ยเลี้ยงเริ่มต้น</th>
-            <th scope="col" class="th-custom">เบี้ยเลี้ยงก่อนหน้า (บาท)</th>
-            <th scope="col" class="th-custom">เบี้ยงเลี้ยงที่ปรับแก้</th>
-            <th scope="col" class="th-custom border-right">ผู้ทำการแก้ไข</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr v-for="(salary, index) in salaries" class="tr-custom">
-            <td class="text-center border-left">
-              {{ salary.sal_edit_date || "-" }}
-            </td>
-            <td class="text-center">{{ salary.sal_from_date }}</td>
-            <td class="text-center">{{ salaries[index + 1]?.sal_salary || "-" }}</td>
-            <td class="text-center">{{ salary.sal_salary }}</td>
-            <td class="text-center border-right">
-              {{ salary.sal_edit_by_user.user_name || "-" }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div v-if="salaries == 0" class="text-center mt-5">
-        <span class="h5">----- ไม่มีข้อมูลเบี้ยเลี้ยง -----</span>
-      </div>
-    </div>
+    <DataTable striped :heads="tableHead" :items="salaries">
+      <template #total="{ data }">
+          {{ calculateTotal(data) }}
+      </template>
+    </DataTable>
   </div>
 
   <!-- Modal -->
@@ -142,17 +116,27 @@ import { onMounted, ref, computed, isProxy, toRaw } from "vue";
 import { formatDate, getAgeBuddisht, confirmation } from "../../assets/js/func";
 import { useAddSalaryForm } from "../../stores/addSalaryFormdata";
 import Swal from "sweetalert2";
-import router from "@/router";
+import DataTable from "../Component/DataTable.vue";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 
 const internId = useRoute().params.id;
-const salaries = ref({});
+const salaries = ref([]);
 const apiCall = new apiService();
 const formData = ref(useAddSalaryForm());
 const modal = ref();
 const rules = toRaw(formData.value.rules);
 const v$ = useVuelidate(rules, formData.value); // validate
+const tableHead = ref([
+  { key: "sal_report.rep_code", title: "รหัสรายการ", align: 'left' },
+  { key: "sal_from_date", title: "วันเริ่มต้น", align: 'center' },
+  { key: "sal_to_date", title: "วันที่สิ้นสุด", align: 'center' },
+  { key: "sal_day", title: "จำนวนวันที่ได้รับ", align:'end' },
+  { key: "sal_salary", title: "เบี้ยเลี้ยง (บาท/วัน)", align: 'end' },
+  { key: "sal_extra", title: "เบี้ยเลี้ยงพิเศษ (บาท)", align: 'end' },
+  { key: "total", title: "รวมเบี้ยเลี้ยง (บาท)", align: 'end' },
+]
+);
 
 const lastSalary = computed(() => {
   return salaries.value[0]?.sal_salary || 0;
@@ -162,6 +146,11 @@ onMounted(async () => {
   salaries.value = await apiCall.getSalaryByInternId(internId);
   modal.value = new bootstrap.Modal("#modal", {});
 });
+
+function calculateTotal(data) {
+  let total = Number(Number(data?.sal_salary) * Number(data?.sal_day)) + Number(data?.sal_extra)
+  return total.toFixed(2)
+}
 
 async function formSubmit() {
   const validate = await v$.value.$validate();
