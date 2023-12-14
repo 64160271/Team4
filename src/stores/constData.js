@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { getImageFromBuffer } from "../assets/js/func";
 
 export const useBloodType = defineStore('blood_type', {
     state: () => {
@@ -84,6 +85,26 @@ export const useMartialStatus = defineStore('martialStatus', {
                 'หม้าย',
                 'ซับซ้อน'
             ]
+        }
+    }
+})
+
+export const useInternName = defineStore('internName', {
+    state: () => {
+        return {
+            intn_code: '',
+            intn_name: '',
+            intn_image: '',
+            intn_id: '',
+        }
+    },
+
+    actions: {
+        setData(data) {
+            this.intn_code = data.intn_code,
+            this.intn_image = getImageFromBuffer(data.image?.file_type, data.image?.file_image.data),
+            this.intn_name = data.intn_name_th,
+            this.intn_id = data.intn_id
         }
     }
 })

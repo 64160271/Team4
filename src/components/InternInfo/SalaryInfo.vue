@@ -2,11 +2,33 @@
   <div class="row mb-3">
     <LayoutMenu />
 
-    <DataTable striped :heads="tableHead" :items="salaries">
-      <template #total="{ data }">
+    <div class="row mb-3">
+      <CardInternInfo :internId="internId">
+        <div class="row mb-2">
+          <label for="" class="col-md-3 col-form-label text-gray">
+            เบี้ยเลี้ยงปัจจุบัน (บาท)
+          </label>
+          <div class="col-auto">
+            <input placeholder="-" :value="lastSalary" type="text" class="form-control-plaintext" readonly
+              required />
+          </div>
+
+          <label for="" class="col-md-3 col-form-label text-gray"> เบี้ยเลี้ยงพิเศษ (บาท) </label>
+          <div class="col-auto">
+            <input placeholder="-" value="" type="text" class="form-control-plaintext" readonly
+              required />
+          </div>
+        </div>
+      </CardInternInfo>
+    </div>
+
+    <div class="row">
+      <DataTable striped :heads="tableHead" :items="salaries">
+        <template #total="{ data }">
           {{ calculateTotal(data) }}
-      </template>
-    </DataTable>
+        </template>
+      </DataTable>
+    </div>
   </div>
 
   <!-- Modal -->
@@ -15,34 +37,18 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 id="exampleModalLabel" class="modal-title">แก้ไขจำนวนเบี้ยเลี้ยง</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form action="">
             <div class="row mb-4 mx-2">
               <div class="col">
-                <label for="" class="form-label text-gray"
-                  >วันที่เริ่มต้นได้รับเบี้ยเลี้ยง
+                <label for="" class="form-label text-gray">วันที่เริ่มต้นได้รับเบี้ยเลี้ยง
                   <span class="text-danger">*</span>
                 </label>
-                <input
-                  id=""
-                  v-model="formData.from_date"
-                  type="date"
-                  class="datepicker form-control"
-                  name=""
-                  :class="{ 'is-invalid': v$.from_date.$error }"
-                />
-                <span
-                  v-for="error in v$.from_date.$errors"
-                  :key="error.$uid"
-                  class="invalid-feedback"
-                >
+                <input id="" v-model="formData.from_date" type="date" class="datepicker form-control" name=""
+                  :class="{ 'is-invalid': v$.from_date.$error }" />
+                <span v-for="error in v$.from_date.$errors" :key="error.$uid" class="invalid-feedback">
                   กรุณากรอกข้อมูล
                 </span>
               </div>
@@ -50,40 +56,21 @@
 
             <div class="row mb-4 mx-2">
               <div class="col">
-                <label for="" class="form-label text-gray"
-                  >เบี้ยเลี้ยงปัจจุบัน (บาท)
+                <label for="" class="form-label text-gray">เบี้ยเลี้ยงปัจจุบัน (บาท)
                   <span class="text-danger">*</span>
                 </label>
-                <input
-                  id=""
-                  :value="lastSalary"
-                  type="number"
-                  class="form-control"
-                  name=""
-                  readonly
-                />
+                <input id="" :value="lastSalary" type="number" class="form-control" name="" readonly />
               </div>
             </div>
 
             <div class="row mb-4 mx-2">
               <div class="col">
-                <label for="" class="form-label text-gray"
-                  >เบี้ยเลี้ยงที่ทำการแก้ไข (บาท)
+                <label for="" class="form-label text-gray">เบี้ยเลี้ยงที่ทำการแก้ไข (บาท)
                   <span class="text-danger">*</span>
                 </label>
-                <input
-                  id=""
-                  v-model="formData.salary"
-                  type="number"
-                  class="form-control"
-                  name=""
-                  :class="{ 'is-invalid': v$.salary.$error }"
-                />
-                <span
-                  v-for="error in v$.salary.$errors"
-                  :key="error.$uid"
-                  class="invalid-feedback"
-                >
+                <input id="" v-model="formData.salary" type="number" class="form-control" name=""
+                  :class="{ 'is-invalid': v$.salary.$error }" />
+                <span v-for="error in v$.salary.$errors" :key="error.$uid" class="invalid-feedback">
                   กรุณากรอกข้อมูล
                 </span>
               </div>
@@ -91,12 +78,7 @@
           </form>
         </div>
         <div class="modal-footer justify-content-center gap-4">
-          <button
-            type="button"
-            class="col-md-3 btn outline-gray"
-            data-bs-dismiss="modal"
-            @click="closeModal"
-          >
+          <button type="button" class="col-md-3 btn outline-gray" data-bs-dismiss="modal" @click="closeModal">
             ยกเลิก
           </button>
           <button type="button" class="col-md-3 btn outline-red" @click="formSubmit">
@@ -118,6 +100,7 @@ import { useAddSalaryForm } from "../../stores/addSalaryFormdata";
 import Swal from "sweetalert2";
 import DataTable from "../Component/DataTable.vue";
 import useVuelidate from "@vuelidate/core";
+import CardInternInfo from "./CardInternInfo.vue";
 import { required } from "@vuelidate/validators";
 
 const internId = useRoute().params.id;
@@ -131,7 +114,7 @@ const tableHead = ref([
   { key: "sal_report.rep_code", title: "รหัสรายการ", align: 'left' },
   { key: "sal_from_date", title: "วันเริ่มต้น", align: 'center' },
   { key: "sal_to_date", title: "วันที่สิ้นสุด", align: 'center' },
-  { key: "sal_day", title: "จำนวนวันที่ได้รับ", align:'end' },
+  { key: "sal_day", title: "จำนวนวันที่ได้รับ", align: 'end' },
   { key: "sal_salary", title: "เบี้ยเลี้ยง (บาท/วัน)", align: 'end' },
   { key: "sal_extra", title: "เบี้ยเลี้ยงพิเศษ (บาท)", align: 'end' },
   { key: "total", title: "รวมเบี้ยเลี้ยง (บาท)", align: 'end' },
@@ -139,7 +122,7 @@ const tableHead = ref([
 );
 
 const lastSalary = computed(() => {
-  return salaries.value[0]?.sal_salary || 0;
+  return salaries.value[0]?.sal_salary || '-';
 });
 
 onMounted(async () => {

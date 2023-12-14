@@ -1,5 +1,4 @@
 <template>
-  <div class="rounded-3">
     <table id="myTable" class="table" v-bind="$attrs" :class="{ 'table-striped': striped }">
       <thead class="bg-red">
         <tr class="tr-custom">
@@ -23,7 +22,6 @@
         </tr>
       </tbody>
     </table>
-  </div>
 
   <div class="row my-2" v-if="total">
     <hr>
