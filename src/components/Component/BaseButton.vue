@@ -5,13 +5,15 @@
 
 <template>
   <button class="btn outline-red" v-bind="$attrs">
-    {{ label }}
+    <slot name="before-text"></slot>
+    <span>{{ label }}</span>
+    <slot name="after-text"></slot>
   </button>
 </template>
 
 <script setup>
 const prop = defineProps({
-  label: [Boolean, String],
+  label: [String, Boolean],
 });
 </script>
 

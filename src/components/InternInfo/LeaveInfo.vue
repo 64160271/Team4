@@ -8,7 +8,9 @@
     </div>
 
     <div class="row mb-3">
-      <BaseButton label="เพิ่มข้อมูลการลา" @click="openModal" class="col-auto ms-auto" />
+      <BaseButton label="+ เพิ่มข้อมูลการลา" @click="openModal" class="col-md-2 ms-auto">
+
+      </BaseButton>
     </div>
 
     <div class="row">
@@ -119,6 +121,7 @@ import { useLeaveFormData } from "../../stores/leaveFormData";
 import { getImageFromBuffer2 } from "../../assets/js/func";
 import DataTable from "../Component/DataTable.vue";
 import CardInternInfo from "./CardInternInfo.vue";
+import { Modal } from 'bootstrap'
 
 const internId = useRoute().params.id;
 const leavesInfo = ref([]);
@@ -139,7 +142,7 @@ const tableHead = ref(
 
 onMounted(async () => {
   leavesInfo.value = await apiCall.getLeaveInfoByInternId(internId);
-  /* modal.value = new bootstrap.Modal("#modal", {}); */
+  modal.value = new Modal("#modal", {});
 });
 
 function formSubmit() {

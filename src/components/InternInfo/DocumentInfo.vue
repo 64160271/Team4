@@ -8,6 +8,12 @@
             </CardInternInfo>
         </div>
 
+        <div class="row mb-3">
+            <BaseButton class="col-md-2 ms-auto" label="+ เพิ่มข้อมูล">
+            
+            </BaseButton>
+        </div>
+
         <div class="row">
             <DataTable :heads="tableHead" :items="documents">
                 <template #open_file="{ data }">
@@ -37,6 +43,7 @@ import { onMounted, ref } from "vue";
 import DataTable from "../Component/DataTable.vue";
 import { getImageFromBuffer2 } from "../../assets/js/func";
 import CardInternInfo from "./CardInternInfo.vue";
+import BaseButton from "../Component/BaseButton.vue";
 
 const internId = useRoute().params.id;
 const documents = ref([]);

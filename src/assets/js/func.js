@@ -117,7 +117,9 @@ export function getImageFromBuffer(type, buffer) {
 }
 
 export function getImageFromBuffer2(type, buffer) {
-    let b64encoded = btoa(String.fromCharCode.apply(null, buffer));
+    let b64encoded = btoa(buffer.reduce(function (data, byte) {
+        return data + String.fromCharCode(byte);
+    }, ''));
     return 'data:' + type +';base64,' + b64encoded;
 }
 
