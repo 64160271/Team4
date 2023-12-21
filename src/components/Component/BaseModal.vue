@@ -8,7 +8,10 @@
 
 <template>
   <div id="modal" class="modal" tabindex="-1" aria-hidden="true" v-show="open">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered"
+      :class="{ 'modal-lg': size == 'lg' },
+      { 'modal-xl': size == 'xl' }"
+    >
       <div class="modal-content">
         <div class="modal-header">
           <h5 id="exampleModalLabel" class="modal-title">{{ title }}</h5>
@@ -42,19 +45,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
+import { Modal } from "bootstrap";
 
 const modal = ref();
 
 onMounted(() => {
     /* กำหนดให้ modal เป็น modal แบบ bootstrap */
-    modal.value = new bootstrap.Modal("#modal", {})
+    modal.value = new Modal("#modal", {})
     modal.value.show()
 })
 
-defineProps({
+const props = defineProps({
   open: Boolean,
   title: String,
+  size: [String, Boolean],
 });
 </script>
 

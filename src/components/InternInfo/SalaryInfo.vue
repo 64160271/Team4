@@ -8,16 +8,17 @@
           <label for="" class="col-md-3 col-form-label text-gray">
             เบี้ยเลี้ยงปัจจุบัน (บาท)
           </label>
-          <div class="col-auto">
-            <input placeholder="-" :value="lastSalary" type="text" class="form-control-plaintext" readonly
-              required />
-          </div>
+          <label for="" class="col-md-3 col-form-label text-gray">
+            {{ lastSalary }}
+          </label>
 
-          <label for="" class="col-md-3 col-form-label text-gray"> เบี้ยเลี้ยงพิเศษ (บาท) </label>
-          <div class="col-auto">
-            <input placeholder="-" value="" type="text" class="form-control-plaintext" readonly
-              required />
-          </div>
+          <label for="" class="col-md-3 col-form-label text-gray"> 
+            เบี้ยเลี้ยงพิเศษ (บาท) 
+          </label>
+
+          <label for="" class="col-md-3 col-form-label text-gray">
+            -
+          </label>
         </div>
       </CardInternInfo>
     </div>

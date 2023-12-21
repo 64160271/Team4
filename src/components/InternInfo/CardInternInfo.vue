@@ -1,25 +1,25 @@
 <template>
   <div class="card shadow-sm border-0">
-    <div class="row mx-auto my-3" style="width: 80%">
-      <div class="col-auto">
+    <div class="card-body row">
+      <div class="col-lg-3 text-center">
         <img id="blah" :src="internData.intn_image" alt="" class="img bg-grays-200" />
       </div>
 
-      <div class="col ms-5 align-self-center">
+      <div class="col-md-8 align-self-center">
         <div class="row mb-2">
           <label for="" class="col-md-3 col-form-label text-gray">
             รหัสนักศึกษาฝึกงาน
           </label>
-          <div class="col-auto">
-            <input placeholder="-" :value="internData.intn_code" type="text" class="form-control-plaintext" readonly
-              required />
-          </div>
+          <label for="" class="col-md-3 col-form-label text-gray"> 
+            {{ internData.intn_code }} 
+          </label>
 
-          <label for="" class="col-md-3 col-form-label text-gray"> ชื่อ-นามสกุล </label>
-          <div class="col-auto">
-            <input placeholder="-" :value="internData.intn_name" type="text" class="form-control-plaintext" readonly
-              required />
-          </div>
+          <label for="" class="col-md-3 col-form-label text-gray"> 
+            ชื่อ-นามสกุล 
+          </label>
+          <label for="" class="col-md-3 col-form-label text-gray"> 
+            {{ internData.intn_name }} 
+          </label>
         </div>
         <slot></slot>
       </div>
@@ -36,7 +36,7 @@ import { getImageFromBuffer } from '../../assets/js/func';
 const internData = ref(useInternName())
 
 const props = defineProps({
-  internId: [Number, Boolean]
+  internId: [Number, String, Boolean]
 })
 
 onMounted(async () => {
@@ -52,5 +52,4 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

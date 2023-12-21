@@ -143,11 +143,9 @@ function dateFormat(date) {
     return;
   }
 
-  const day = date.getDate();
-  const month = date.getMonth();
-  const year = date.getFullYear();
-
-  return day + "/" + month + "/" + year;
+  return new Date(date).toLocaleDateString(
+            'en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }
+        ).replace(/\//g, '-')
 }
 
 /*
@@ -219,6 +217,7 @@ const getAllIntern = async () => {
 
           if (fname_th == fname && lname_th == lname) {
             props.excelData[index].duplicate = true;
+            props.excelData[index].intn_id = element.intn_id
           }
         });
       });
@@ -244,34 +243,36 @@ async function createInterns() {
     }
   });
 
-  selectedIndex.value.forEach((index) => {
+  selectedIndex.value.forEach((index) => {  
     let rawData = props.excelData;
     let name = rawData[index][8].split(" ");
     let row = {
-      section: rawData[index][2],
-      department: rawData[index][3],
-      team: rawData[index][4],
-      mentor: rawData[index][5],
-      role: rawData[index][6],
-      prefix: rawData[index][7],
-      fname: name[0],
-      lname: name[1],
-      nickname: rawData[index][9],
-      start_date: dateFormat(rawData[index][10]),
-      end_date: dateFormat(rawData[index][11]),
-      tel: rawData[index][13],
-      email: rawData[index][14],
-      university: rawData[index][15],
-      faculty: rawData[index][16],
-      major: rawData[index][17],
+      intn_id: rawData[index]["intn_id"],
+      sec_name: rawData[index][2],
+      dept_name: rawData[index][3],
+      team_name: rawData[index][4],
+      ment_name: rawData[index][5],
+      role_name: rawData[index][6],
+      intn_prefix_th: rawData[index][7],
+      intn_fname_th: name[0],
+      intn_lname_th: name[1],
+      intn_nickname_th: rawData[index][9],
+      intn_start_date: dateFormat(rawData[index][10]),
+      intn_end_date: dateFormat(rawData[index][11]),
+      intn_tel: rawData[index][13],
+      intn_email: rawData[index][14],
+      uni_name: rawData[index][15],
+      fac_name: rawData[index][16],
+      maj_name: rawData[index][17],
       duplicate: rawData[index]["duplicate"],
+      intn_updated_by: 1
     };
 
     selectedData.value.push(row);
   });
 
   await axios
-    .post(`${import.meta.env.VITE_API_HOST}/interns/bulk`, selectedData.value)
+    .post(`${import.meta.env.VITE_API_HOST}/interns/file/create`, selectedData.value)
     .then((response) => console.log(response))
     .then(() => {
       Swal.fire({

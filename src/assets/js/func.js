@@ -120,7 +120,7 @@ export function getImageFromBuffer2(type, buffer) {
     let b64encoded = btoa(buffer.reduce(function (data, byte) {
         return data + String.fromCharCode(byte);
     }, ''));
-    return 'data:' + type +';base64,' + b64encoded;
+    return 'data:' + type + ';base64,' + b64encoded;
 }
 
 export function formatDate(strdate) {
@@ -133,7 +133,7 @@ export function formatDate(strdate) {
     let date = new Date(part[2], part[1] - 1, part[0]),
         month = '' + (date.getMonth() + 1),
         day = '' + date.getDate(),
-        year = date.getFullYear() -543;
+        year = date.getFullYear() - 543;
 
     if (month.length < 2)
         month = '0' + month;
@@ -141,6 +141,48 @@ export function formatDate(strdate) {
         day = '0' + day;
 
     return [year, month, day].join('-');
+}
+
+export function diffDate(from, to) {
+    let date1 = new Date(from);
+    let date2 = new Date(to);
+
+    // To calculate the time difference of two dates
+    let Difference_In_Time = date2.getTime() - date1.getTime();
+
+    // To calculate the no. of days between two dates
+    return Math.round(Difference_In_Time / (1000 * 3600 * 24));
+}
+
+export function diffTime(from, to) {
+    var from = new Date(2000, 0, 1, 9, 0); // 9:00 AM
+    var to = new Date(2000, 0, 1, 17, 0); // 5:00 PM
+
+    // the following is to handle cases where the times are on the opposite side of
+    // midnight e.g. when you want to get the difference between 9:00 PM and 5:00 AM
+
+    if (to < from) {
+        to.setDate(to.getDate() + 1);
+    }
+
+    return to - from;
+}
+
+export function parseTime(s) {
+    var part = s.match(/(\d+):(\d+)(?: )?(am|pm)?/i);
+    var hh = parseInt(part[1], 10);
+    var ap = part[3] ? part[3].toUpperCase() : null;
+    if (ap === "AM") {
+        if (hh == 12) {
+            hh = 0;
+        }
+    }
+    if (ap === "PM") {
+        if (hh != 12) {
+            hh += 12;
+        }
+    }
+    return hh
 }
 
 /* function convertToArrayBuffer(data) {
