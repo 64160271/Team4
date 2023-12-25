@@ -18,34 +18,64 @@
 
     </div>
     <div>
-        <BaseTable
-            :heads="['รหัสนักศึกษาฝึกงาน', 'ชื่อ-นามสกุล', 'ชื่อเล่น', 'ตำแหน่ง', 'ชื่อทีม', 'วันที่เริ่มฝึกวาน', 'วันที่สิ้นสุดฝึกงาน']">
-            <tr class="tb-hov tr-custom ">
-                <td scope="row" class="text-center">
-                    <label class="checkbox-label">
-                        <input class="checkbox" type="checkbox">
-                        00001
-                    </label>
-                </td>
-                <td scope="row" class="text-center">นางสาวคัทยา รินรดา</td>
-                <td scope="row" class="text-center">โซเฟีย</td>
-                <td scope="row" class="text-center">MakeWebEasy</td>
-                <td scope="row" class="text-center">เกษตรศาสตร์</td>
-                <td scope="row" class="text-center">28-11-2566</td>
-                <td scope="row" class="text-center">28-03-2567</td>
-            </tr>
-        </BaseTable>
+        <form action="">
+            <BaseTable
+                :heads="['รหัสนักศึกษาฝึกงาน', 'ชื่อ-นามสกุล', 'ชื่อเล่น', 'ตำแหน่ง', 'ชื่อทีม', 'วันที่เริ่มฝึกวาน', 'วันที่สิ้นสุดฝึกงาน']">
+                <tr class="tb-hov tr-custom ">
+                    <td scope="row" class="text-center">
+                        <label class="checkbox-label">
+                            <input class="checkbox" type="checkbox">
+                            {{ intern.cer_intern_id }}
+                        </label>
+                    </td>
+                    <td scope="row" class="text-center">{{ intern.cer_intern_id.intn_name_th }}</td>
+                    <td scope="row" class="text-center">{{ intern.intn_nickname_th || '-' }}</td>
+                    <td scope="row" class="text-center">{{ intern.work_infos[0].work_role.role_name }}</td>
+                    <td scope="row" class="text-center">{{ intern.college_info.col_uni.uni_name || '-' }}</td>
+                    <td scope="row" class="text-center">{{ intern.intn_start_date }}</td>
+                    <td scope="row" class="text-center">{{ intern.intn_end_date || '-' }}</td>
+                </tr>
+            </BaseTable>
+        </form>
+
         <div class="row mb-3 mt-4 me-1">
-            <BaseButton class="col-auto ms-auto " label="ยืนยัน" @click="$router.push('/certificates/previewCertificate')" />
+            <BaseButton class="col-auto ms-auto " label="ยืนยัน"
+                @click="$router.push('/certificates/previewCertificate')" />
         </div>
-        
 
     </div>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import BaseButton from '../Component/BaseButton.vue';
 import BaseTable from '../Component/BaseTable.vue';
+
+const searchData = ref('')
+const interns = ref([])
+const total = ref()
+const page = ref(1)
+const pageMax = ref()
+const pageSize = 10
+
+async function setCurrentPage(pageNumber) {
+    if (pageNumber > 0 && pageNumber <= pageMax.value) {
+        page.value = pageNumber
+        await getIntern()
+    }
+}
+
+const getIntern = async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/interns?page=${page.value}&limit=${pageSize}`)
+        .then((response) => {
+            interns.value = response.data.rows
+            total.value = response.data.count
+            pageMax.value = Math.ceil(total.value / pageSize)
+        })
+}
+
+
 </script>
 
 <style scoped>
@@ -56,6 +86,7 @@ import BaseTable from '../Component/BaseTable.vue';
     height: 25px;
     margin-bottom: 5px;
 }
+
 .back {
     display: flex;
     margin-right: 10px;
