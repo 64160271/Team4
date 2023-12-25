@@ -154,7 +154,7 @@ export const useInternFormData = defineStore("internFormData", {
     actions: {
         setData(intern) {
             this.personal_info.intn_code = intern.intn_code.split('-')[1]
-            this.personal_info.intn_intern_email = intern.intn_intern_email
+            this.personal_info.intn_intern_email = intern.intn_intern_email || ''
             this.personal_info.intn_work_status = intern.intn_work_status
             this.personal_info.intn_prefix_th = intern.intn_prefix_th
             this.personal_info.intn_prefix_en = intern.intn_prefix_en

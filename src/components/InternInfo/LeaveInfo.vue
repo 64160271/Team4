@@ -32,7 +32,7 @@
   </div>
 
   <BaseModal v-if="openModal" size="lg" @close="openModal = false" title="เพิ่มข้อมูลการลา">
-    <BaseInput v-model="today" class="mb-3" label="วันที่" disabled />
+    <BaseInput v-model="today" class="mb-3" label="วันที่เพิ่มข้อมูล" disabled />
 
     <div class="row mb-3">
       <div class="col-md-6">
@@ -80,7 +80,7 @@
           <BaseInput v-model="formData.lvs_from_date" type="date" label="วันเริ่มต้น" />
         </div>
         <div class="col-md-5">
-          <BaseInput v-model="formData.lvs_to_date" type="date" label="วันสิ้นสุด" />
+          <BaseInput v-model="formData.lvs_to_date" :min="formData.lvs_to_date" type="date" label="วันสิ้นสุด" />
         </div>
         <div class="col-md-2">
           <BaseInput :value="diffDate(formData.lvs_from_date, formData.lvs_to_date) || 0" label="รวม (วัน)" disabled />
