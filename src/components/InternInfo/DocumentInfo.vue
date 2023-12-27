@@ -18,7 +18,7 @@
             <DataTable :heads="tableHead" :items="documents">
                 <template #open_file="{ data }">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
-                        class="bi bi-file-earmark cursor-p" viewBox="0 0 16 16" @click="showDocumentFile(data.doc_id)">
+                        class="bi bi-file-earmark cursor-p" viewBox="0 0 16 16" @click="showDocumentFile(data.doc_file_path)">
                         <path
                             d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
                     </svg>
@@ -41,14 +41,12 @@ import apiService from "../../services/api";
 import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
 import DataTable from "../Component/DataTable.vue";
-import { getImageFromBuffer2 } from "../../assets/js/func";
 import CardInternInfo from "./CardInternInfo.vue";
 import BaseButton from "../Component/BaseButton.vue";
 
 const internId = useRoute().params.id;
 const documents = ref([]);
 const apiCall = new apiService();
-const file = ref({});
 const modal = ref();
 const tableHead = ref([
     { key: "doc_title", title: "ชื่อไฟล์" },
@@ -65,15 +63,8 @@ onMounted(async () => {
     /* modal.value = new bootstrap.Modal("#modal", {}); */
 });
 
-async function showDocumentFile(id) {
-    file.value = await apiCall.getDocumentFile(id).then((file) => {
-        return getImageFromBuffer2(file.file_type, file.file_image.data)
-    })
-
-    let img = new Image()
-    img.src = file.value
-    let win = window.open("")
-    win.document.write(img.outerHTML)
+function showDocumentFile(path) {
+    window.open(path)
 }
 
 function formSubmit() {
