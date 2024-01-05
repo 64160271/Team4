@@ -80,6 +80,11 @@ const router = createRouter({
             component: SalaryReport,
         },
         {
+            path: '/reports/manageSalary',
+            name: 'manageSalary',
+            component: ManageSalary,
+        },
+        {
             path: '/universities',
             name: 'manageUniversity',
             component: ManageUniversity,
@@ -94,11 +99,7 @@ const router = createRouter({
             name: 'manageCompany',
             component: ManageCompany
         },
-        {
-            path: '/test',
-            name: 'test',
-            component: TestComponents
-        }
+        
     ]
 })
 
