@@ -75,7 +75,7 @@
 
 <script setup>
 import BaseButton from '../Component/BaseButton.vue'
-import BaseTable from './Component/BaseTable.vue'
+import BaseTable from '../Component/BaseTable.vue'
 </script>
 
 <style scoped></style> 
