@@ -62,9 +62,9 @@ export function isRequire() {
  * param: -
  * return: ผลลัพธ์ของปุ่มที่กด (หากกดยืนยันจะคืนค่า true)
  */
-export async function confirmation() {
+export async function confirmation(str) {
     let result = await Swal.fire({
-        text: "คุณต้องการบันทึกข้อมูลหรือไม่",
+        text: str || "คุณต้องการบันทึกข้อมูลหรือไม่",
         icon: "warning",
         showCancelButton: true,
         showConfirmButton: true,
@@ -84,10 +84,10 @@ export async function confirmation() {
  * param: -
  * return: null
  */
-export async function successAlert() {
+export async function successAlert(str) {
     await Swal.fire({
         icon: "success",
-        text: "บันทึกข้อมูลเสร็จสิ้น",
+        text: str || "บันทึกข้อมูลเสร็จสิ้น",
         showConfirmButton: false,
         timer: 3000,
     }).then(() => {

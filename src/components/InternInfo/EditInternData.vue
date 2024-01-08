@@ -459,21 +459,21 @@
                   {{ faculty.fac_name }}
                 </option>
               </select>
-              <InvalidFeedback :errors="v$.college_info.col_major_id.$errors" />
+              <InvalidFeedback :errors="v$.college_info.col_faculty_id.$errors" />
             </div>
   
             <div class="col">
               <BaseSelect
                 label="สาขาวิชา"
                 :options="majors"
-                v-model.number="collegeInfo.col_major_id"
+                v-model.number="personalInfo.intn_major_id"
                 value="maj_id"
                 text="maj_name"
                 placeholder="เลือก (ต้องเลือกคณะก่อน)"
-                :class="{ 'is-invalid': v$.college_info.col_major_id.$error }"
+                :class="{ 'is-invalid': v$.personal_info.intn_major_id.$error }"
                 required
               />
-              <InvalidFeedback :errors="v$.college_info.col_major_id.$errors" />
+              <InvalidFeedback :errors="v$.personal_info.intn_major_id.$errors" />
             </div>
           </div>
         </div>
@@ -868,7 +868,7 @@
     universitiesForm.value.faculty = "";
   
     majors.value = "";
-    collegeInfo.value.col_major_id = "";
+    personalInfo.value.intn_major_id = "";
     collegeInfo.value.col_faculty_id = "";
   }
   
@@ -881,7 +881,7 @@
   function setMajor() {
     collegeInfo.value.col_faculty_id = universitiesForm.value.faculty.fac_id;
     majors.value = universitiesForm.value.faculty.majors;
-    collegeInfo.value.col_major_id = "";
+    personalInfo.value.intn_major_id = "";
   }
   
   /*

@@ -8,9 +8,9 @@
 
 <template>
   <div id="modal" class="modal" tabindex="-1" aria-hidden="true" v-show="open">
-    <div class="modal-dialog modal-dialog-centered"
-      :class="{ 'modal-lg': size == 'lg' },
-      { 'modal-xl': size == 'xl' }"
+    <div
+      class="modal-dialog modal-dialog-centered"
+      :class="{ 'modal-lg': size == 'lg' }, { 'modal-xl': size == 'xl' }"
     >
       <div class="modal-content">
         <div class="modal-header">
@@ -45,16 +45,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { Modal } from "bootstrap";
 
 const modal = ref();
+const emit = defineEmits();
 
 onMounted(() => {
-    /* กำหนดให้ modal เป็น modal แบบ bootstrap */
-    modal.value = new Modal("#modal", {})
-    modal.value.show()
-})
+  /* กำหนดให้ modal เป็น modal แบบ bootstrap */
+  modal.value = new Modal("#modal", {});
+  modal.value.show();
+});
+
+onUnmounted(() => {
+  emit("close");
+});
 
 const props = defineProps({
   open: Boolean,

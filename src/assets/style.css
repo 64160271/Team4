@@ -64,6 +64,10 @@
     fill: white !important;
 }
 
+.outline-hov-red:hover path {
+    fill: #e1032b !important;
+}
+
 .img {
     height: 150px;
     width: 150px;
@@ -150,7 +154,7 @@
 
 .text-gray {
     color: #212121 !important;
-  }
+}
 
 .tb-hov:hover td {
     color: var(--main-color);
@@ -162,4 +166,27 @@
 
 .cursor-p {
     cursor: pointer;
+}
+
+.upload-box {
+    position: relative;
+    text-align: center;
+    border: 1px black dotted;
+}
+
+.file-upload {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.text-overflow-ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }

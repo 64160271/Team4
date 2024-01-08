@@ -163,6 +163,20 @@ export default class apiService {
             })
     }
 
+    createDocument = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/documents`, data, { headers: {"Content-Type": "multipart/form-data"} })
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    deleteDocument = async (id) => {
+        return await axios.delete(`${import.meta.env.VITE_API_HOST}/documents/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
     createSalaryData = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/salaries`, data)
             .then((response) => {

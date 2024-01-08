@@ -69,7 +69,6 @@ function editData() {
 
 onMounted(async () => {
     intern.value = await apiCall.getInternById(id);
-    console.log(intern.value)
 })
 </script>
 

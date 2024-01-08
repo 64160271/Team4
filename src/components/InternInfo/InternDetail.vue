@@ -383,7 +383,7 @@
 
     const getCollegeInfo = computed(() => {
         if (internProp.intern.college_infos) {
-            return internProp.intern.college_infos[0].col_major
+            return internProp.intern.intn_major
         }
 
         return '-'

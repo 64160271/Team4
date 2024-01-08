@@ -33,6 +33,7 @@
           placeholder="Search"
           aria-label=""
           aria-describedby="basic-addon1"
+          @input="search"
         />
       </div>
     </div>
@@ -61,6 +62,11 @@
     clickable
     clickReturn="intn_id"
     @clicked="handleClick"
+    paginate
+    :total="total"
+    :active-page="page"
+    :items-per-page="pageSize"
+    @page-change="setCurrentPage"
   >
     <template class="col-md-2" #intn_key="{ data }">
       <img
@@ -76,7 +82,7 @@
     </template>
   </DataTable>
 
-  <div class="row my-2" v-if="total > 0 && findInternData.length > 0">
+  <!-- <div class="row my-2" v-if="total > 0">
     <hr />
 
     <span class="col-5">รายการทั้งหมด {{ total || 0 }} รายการ</span>
@@ -117,17 +123,13 @@
               @click="setCurrentPage(++page)"
               aria-label="Next"
             >
-              <span aria-hidden="true">></span>
+              <span aria-hidden="true">&gt</span>
             </a>
           </li>
         </ul>
       </nav>
     </div>
-  </div>
-
-  <div class="row" v-if="findInternData.length < 1">
-    <span class="text-center h5 mt-5">ไม่พบข้อมูล</span>
-  </div>
+  </div> -->
 </template>
 
 <script setup>
@@ -146,6 +148,7 @@ const pageMax = ref(1);
 const pageSize = 10;
 const interns = ref([]);
 const searchData = ref("");
+let timer;
 const tableHead = ref([
   { key: "intn_key", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
   { key: "intn_name_th", title: "ชื่อ-นามสกุล" },
@@ -188,6 +191,17 @@ onMounted(() => {
   setCurrentPage(page.value);
 });
 
+function search() {
+  if (timer) {
+    clearTimeout(timer)
+  }
+
+  timer = setTimeout(() => {
+    console.log(1)
+  }, 2000)
+}
+
+/* 
 const findInternData = computed(() => {
   let keyword = searchData.value.trim();
   return interns.value.filter((intern) => {
@@ -204,11 +218,11 @@ const findInternData = computed(() => {
       intern.intn_nickname_th?.indexOf(keyword) > -1 ||
       intern.work_infos[0]?.work_role.role_name.indexOf(keyword) > -1 ||
       intern.work_infos[0]?.work_team.team_name.indexOf(keyword) > -1 ||
-      /* intern.college_info?.col_major.maj_name.indexOf(keyword) > -1 || */
+      intern.college_info?.col_major.maj_name.indexOf(keyword) > -1 ||
       intern.intn_name_th.indexOf(keyword) > -1
     );
   });
-});
+}); */
 
 function handleClick(intn_id) {
   router.push({ name: "internData", params: { id: intn_id } });

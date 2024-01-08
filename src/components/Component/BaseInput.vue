@@ -12,14 +12,14 @@
     <span class="text-danger" v-if="required">*</span>
   </label>
   <input
-    :value="modelValue || value"
-    :placeholder="placeholder"
+    :modelValue="modelValue"
     :type="input_type"
     class="form-control"
     :readonly="readonly"
     :required="required"
     @input="$emit('update:modelValue', $event.target.value)"
     v-bind="$attrs"
+    :placeholder="placeholder"
   />
 </template>
 
@@ -39,10 +39,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  value: {
-    type: [Boolean, String],
-    default: false,
-  },
   readonly: {
     type: Boolean,
     default: false,
@@ -51,7 +47,6 @@ const props = defineProps({
     type: String,
     default: "text",
   },
-  
 });
 </script>
 

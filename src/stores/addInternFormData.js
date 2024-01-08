@@ -56,13 +56,13 @@ export const useInternFormData = defineStore("internFormData", {
                 intn_last_work_date: '',
                 intn_contract_end_date: '',
                 intn_mentor_id: '',
+                intn_major_id: '',
                 intn_updated_by: 1,
             },
 
             college_info: {
                 col_university_id: '',
                 col_faculty_id: '',
-                col_major_id: '',
             },
 
             work_info: {
@@ -128,11 +128,11 @@ export const useInternFormData = defineStore("internFormData", {
                     },
                     intn_start_date: { required },
                     intn_intern_type: { required },
+                    intn_major_id: { required },
                 },
                 college_info: {
                     col_university_id: { required },
                     col_faculty_id: { required },
-                    col_major_id: { required },
                 },
                 work_info: {
                     work_role_id: { required },
@@ -173,9 +173,8 @@ export const useInternFormData = defineStore("internFormData", {
             this.personal_info.intn_nationality = intern.intn_nationality
             this.personal_info.intn_nation = intern.intn_nation
             this.personal_info.intn_religion = intern.intn_religion
-            this.college_info.col_university_id = intern.college_infos[0]?.col_major?.maj_faculty?.fac_university?.uni_id
-            this.college_info.col_faculty_id = intern.college_infos[0]?.col_major?.maj_faculty?.fac_id
-            this.college_info.col_major_id = intern.college_infos[0]?.col_major?.maj_id
+            this.college_info.col_university_id = intern.intn_major?.maj_faculty?.fac_university?.uni_id
+            this.college_info.col_faculty_id = intern.intn_major?.maj_faculty?.fac_id
             this.personal_info.intn_martial_status = intern.intn_martial_status
             this.personal_info.intn_military_status = intern.intn_military_status
             this.personal_info.intn_reason = intern.intn_reason
@@ -196,6 +195,7 @@ export const useInternFormData = defineStore("internFormData", {
             this.personal_info.intn_last_work_date = formatDate(intern.intn_last_work_date)
             this.personal_info.intn_contract_end_date = formatDate(intern.intn_contract_end_date)
             this.personal_info.intn_mentor_id = intern.intn_mentor.ment_id
+            this.personal_info.intn_major_id = intern.intn_major.major_id
             this.work_info.work_role_id = intern.work_infos[0]?.work_role.role_id
             this.work_info.work_section_id = intern.work_infos[0]?.work_section.sec_id
             this.work_info.work_department_id = intern.work_infos[0]?.work_department?.dept_id
