@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { getImageFromBuffer } from "../assets/js/func";
 
 export const useBloodType = defineStore('blood_type', {
     state: () => {
@@ -87,3 +88,51 @@ export const useMartialStatus = defineStore('martialStatus', {
         }
     }
 })
+
+export const useInternName = defineStore('internName', {
+    state: () => {
+        return {
+            intn_code: '',
+            intn_name: '',
+            intn_image: '',
+            intn_id: '',
+            intn_role: '',
+        }
+    },
+
+    actions: {
+        setData(data) {
+            this.intn_code = data.intn_code
+            this.intn_image = getImageFromBuffer(data.image?.file_type, data.image?.file_image.data)
+            this.intn_name = data.intn_name_th
+            this.intn_id = data.intn_id
+            this.intn_role = data.work_infos[0]?.work_role.role_name
+        }
+    },
+
+    getters: {
+        getName() {
+            return this.intn_name
+        },
+
+        getRole() {
+            return this.intn_role
+        }
+    }
+})
+
+export const useLeavesType = {
+    list: [
+        { value: 1, text: 'ลาป่วย' },
+        { value: 2, text: 'ลาคลอดบุตร' },
+        { value: 3, text: 'ลาไปช่วยเหลือภริยาที่คลอดบุตร' },
+        { value: 4, text: 'ลากิจส่วนตัว' },
+        { value: 5, text: 'ลาพักผ่อน' },
+        { value: 6, text: 'ลาอุปสมบทหรือการลาไปประกอบพิธีฮัจย์' },
+        { value: 7, text: 'ลาเข้ารับการตรวจเลือกหรือเข้ารับการเตรียมพล' },
+        { value: 8, text: 'ลาไปศึกษา ฝึกอบรม ปฏิบัติการวิจัย หรือดูงาน' },
+        { value: 9, text: 'ลาไปปฏิบัติงานในองค์การระหว่างประเทศ' },
+        { value: 10, text: 'ลาติดตามคู่สมรส' },
+        { value: 11, text: 'ลาไปฟื้นฟูสมรรถภาพด้านอาชีพ' },
+    ]
+}

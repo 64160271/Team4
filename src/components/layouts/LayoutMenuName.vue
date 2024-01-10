@@ -1,5 +1,5 @@
 <template>
-  <div class="row border-bottom mb-3">
+  <div class="row border-bottom nm-color mb-3">
     <span class="h4 fw-bold text-custom">{{ pageName }}</span>
   </div>
 </template>
@@ -13,7 +13,7 @@
 </script>
 
 <style scoped>
-  .border-bottom {
-    border-color: none !important;
+  .nm-color {
+    border-color: var(--bs-border-color) !important;
   }
 </style>

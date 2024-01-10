@@ -7,7 +7,7 @@
 
 <template>
   <div class="d-flex flex-column mb-3">
-    <LayoutMenuName page-name="เพิ่มไฟล์ Excel" />
+    <LayoutMenuName page-name="เพิ่มนักศึกษาฝึกงาน > เพิ่มจากไฟล์ Excel" />
 
     <div
       id="upload-box"
@@ -62,6 +62,7 @@
       <button type="button" class="outline-red btn" @click="uploaded()">Import</button>
     </div>
 
+    <!-- แสดงหน้าจอเลือกรายการเมื่อมีการอัปโหลดไฟล์แล้วเท่านั้น -->
     <InternSelect v-if="isUploaded" :excel-data="excelData" />
   </div>
 </template>
@@ -71,11 +72,18 @@ import readXlsxFile from "read-excel-file";
 import InternSelect from "./InternSelect.vue";
 import { ref } from "vue";
 import BaseButton from "../Component/BaseButton.vue";
+import axios from "axios";
 
 const excelData = ref({});
 const examplePathFile = "../../src/assets/example_file.xlsx";
 let isUploaded = ref(false);
 
+/*
+ * showFileName
+ * แสดงชื่อและขนาดของไฟล์ที่อัปโหลด
+ * param: callback function
+ * return: -
+ */
 function showFileName(callback) {
   let file = document.getElementById("file");
   let display = document.getElementById("filename");
@@ -87,13 +95,27 @@ function showFileName(callback) {
   callback(filename);
 }
 
-function downloadExample() {
-  let link = document.createElement("a");
+/*
+ * downloadExample
+ * ดาวน์โหลดไฟล์ที่เป็นตัวอย่างในการ Import
+ * param: -
+ * return: -
+ */
+async function downloadExample() {
+  /* let link = document.createElement("a");
   link.href = examplePathFile;
   link.download = "example_file";
-  link.click();
+  link.click(); */
+
+  window.open(`${import.meta.env.VITE_API_HOST}/interns/file/example`)
 }
 
+/*
+ * readDataInFile
+ * อ่านข้อมูลในไฟล์ Excel ทั้งหมด
+ * param: ไฟล์ Excel
+ * return: -
+ */
 function readDataInFile(file) {
   readXlsxFile(file).then((rows) => {
     excelData.value = rows;
@@ -101,6 +123,12 @@ function readDataInFile(file) {
   });
 }
 
+/*
+ * uploaded
+ * ตรวจสอบว่ามีการอัปโหลดไฟล์แล้วหรือไม่
+ * param: -
+ * return: -
+ */
 function uploaded() {
   let file = document.getElementById("file");
   if (file.files[0]) {
