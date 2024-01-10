@@ -1,27 +1,17 @@
-<!--
-BaseTable
- Component สำหรับตาราง
- Props:
-    heads: ข้อความที่ปรากฏบนหัวตาราง
-    align: การจัดเรียงข้อความของหัวตารางแต่ละตัว
--->
-
 <template>
-    <div class="rounded-3">
-        <table id="myTable" class="table" v-bind="$attrs">
-            <thead class="bg-red">
+    <div class="row border rounded-3">
+        <table id="myTable" class="table table-borderless" v-bind="$attrs">
+            <thead class="text-center bg-red">
                 <tr class="tr-custom">
                     <th scope="col" v-for="(head, index) in heads" class="th-custom fw-bold col-auto" :class="{ 'border-left': (index == 0) },
-                        { 'border-right': (index == heads.length - 1) },
-                        { 'text-center': (align[index] == 'center') },
-                        { 'text-left': (align[index] == 'left') },
-                        { 'text-right': (align[index] == 'right') }">
+                        { 'border-right': (index == heads.length - 1) }">
                         {{ head }}
+                        {{ index }}
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <slot></slot>   
+                <slot></slot>
             </tbody>
         </table>
     </div>
@@ -29,11 +19,7 @@ BaseTable
 
 <script setup>
 defineProps({
-    heads: Array,
-    align: {
-        type: Array,
-        default: Array(10).fill('center')
-    },
+    heads: Array
 })
 </script>
 
@@ -62,10 +48,10 @@ defineProps({
 }
 
 .border-left {
-    border-radius: 8px 0 0 0px;
+    border-radius: 8px 0 0 8px;
 }
 
 .border-right {
-    border-radius: 0 8px 0 0;
+    border-radius: 0 8px 8px 0;
 }
 </style>

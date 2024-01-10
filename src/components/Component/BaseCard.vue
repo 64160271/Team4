@@ -1,12 +1,3 @@
-<!--
- ฺBaseCard
- Component สำหรับการ์ด
- Props:
-    title: หัวข้อการ์ด
-    sub: หัวข้อย่อย
-    content: เนื้อหาของการ์ด
--->
-
 <template>
     <div class="col-md-3">
         <div class="card h-100 content border shadow-sm text-center">
