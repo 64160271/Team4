@@ -58,6 +58,20 @@ export default class apiService {
             })
     }
 
+    getDepartmentBySectionId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/departments/section/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getTeamBySectionId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/teams/section/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
     getSectionWithMentor = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/sections/mentors`)
             .then((response) => {
@@ -79,15 +93,29 @@ export default class apiService {
             })
     }
 
-    createIntern = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/interns/key`, data)
+    getAllSectionWithRelated = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/sections/related`)
             .then((response) => {
-                return response
+                return response.data
+            })
+    }
+
+    getAllUniversityWithRelated = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/universities/related`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    createIntern = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, data, { headers: {"Content-Type": "multipart/form-data"} })
+            .then((response) => {
+                return response.data
             })
     }
 
     editInternData = async (data, id) => {
-        return await axios.put(`${import.meta.env.VITE_API_HOST}/interns/${id}`, data)
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/interns/${id}`, data, { headers: {"Content-Type": "multipart/form-data"} })
             .then((response) => {
                 return response.data
             })
@@ -114,6 +142,41 @@ export default class apiService {
             })
     }
 
+    getLeaveInfoFile = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/leavesinfo/file/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getDocumentByInternId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/documents/intern/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getDocumentFile = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/documents/file/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    createDocument = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/documents`, data, { headers: {"Content-Type": "multipart/form-data"} })
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    deleteDocument = async (id) => {
+        return await axios.delete(`${import.meta.env.VITE_API_HOST}/documents/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
     createSalaryData = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/salaries`, data)
             .then((response) => {
@@ -121,4 +184,17 @@ export default class apiService {
             })
     }
 
+    createWorkInfo = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/workinfo`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    createAddress = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/addresses`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
 }

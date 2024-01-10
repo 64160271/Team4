@@ -1,16 +1,16 @@
 <template>
-    <div class="row mx-auto" style="width: 100%">
+    <div class="mx-auto" style="width: 85%">
         <div class="row border-bottom">
             <div class="col-auto">
-                <img id="blah" :src="getImage(intern.intn_image)" alt="" class="img bg-grays-200" />
+                <img id="blah" :src="getImageFromBuffer(intern.image?.file_type, intern.image?.file_image?.data)" alt="" class="img bg-grays-200" />
             </div>
 
-            <div class="col ms-5 align-self-center mb-2 mt-1">
+            <div class="col align-self-center ms-5 mb-2">
                 <div class="row mb-2">
-                    <span class="col h5 my-auto">ข้อมูลส่วนตัวเกี่ยวกับบริษัท</span>
+                    <span class="h5 text-decoration-underline">ข้อมูลพนักงาน</span>
                 </div>
 
-                <div class="row mb-2 ms-2">
+                <div class="row mb-2">
                     <label for="" class="col-md-2 col-form-label text-gray"> รหัสพนักงาน </label>
                     <div class="col">
                         <input v-model="intern.intn_code" placeholder="-" type="text" class="form-control-plaintext"
@@ -24,7 +24,7 @@
                     </div>
                 </div>
 
-                <div class="row mb-2 ms-2">
+                <div class="row mb-2">
                     <label for="" class="col-md-2 col-form-label text-gray"> อีเมลพนักงาน </label>
                     <div class="col">
                         <input v-model="intern.intn_intern_email" placeholder="-" type="text"
@@ -38,7 +38,7 @@
                     </div>
                 </div>
 
-                <div class="row mb-2 ms-2">
+                <div class="row mb-2">
                     <label for="" class="col-md-2 col-form-label text-gray"> ฝ่าย </label>
                     <div class="col">
                         <input placeholder="-" type="text" class="form-control-plaintext" :value="getSection" readonly
@@ -51,14 +51,30 @@
                             :value="intern.intn_mentor?.ment_name" readonly required />
                     </div>
                 </div>
+
+                <div class="row mb-2">
+                    <label for="" class="col-md-2 col-form-label text-gray"> แผนก </label>
+                    <div class="col">
+                        <input placeholder="-" type="text" class="form-control-plaintext" :value="getDepartment" readonly
+                            required />
+                    </div>
+
+                    <label for="" class="col-md-2 col-form-label text-gray"> ทีม </label>
+                    <div class="col">
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            :value="getTeam" readonly required />
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="row border-bottom">
-            <span class="h5">ข้อมูลส่วนตัว</span>
+            <div class="row my-2">
+                <span class="h5 text-decoration-underline">ข้อมูลส่วนตัว</span>
+            </div>
 
             <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">
+                <label for="" class="col-2 col-form-label text-gray">
                     ชื่อ-นามสกุล (ไทย)
                 </label>
                 <div class="col">
@@ -74,7 +90,7 @@
             </div>
 
             <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">
+                <label for="" class="col-2 col-form-label text-gray">
                     ชื่อ-นามสกุล (อังกฤษ)
                 </label>
                 <div class="col">
@@ -90,7 +106,7 @@
             </div>
 
             <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">เลขบัตรประชาชน/พาสปอร์ต</label>
+                <label for="" class="col-2 col-form-label text-gray">เลขบัตรประชาชน/พาสปอร์ต</label>
                 <div class="col">
                     <input v-model="intern.intn_citizen_id" placeholder="-" type="text" class="form-control-plaintext"
                         readonly required />
@@ -106,15 +122,15 @@
 
                 <div class="col">
                     <div class="row">
-                        <label for="" class="col-2 col-form-label text-gray">อายุ</label>
+                        <label for="" class="col-auto col-form-label text-gray">อายุ (ปี)</label>
                         <input placeholder="-" type="text" class="col form-control-plaintext"
-                            :value="getAgeBuddisht(intern.intn_birth_date) || '-'" readonly />
+                            :value="intern.intn_age" readonly />
                     </div>
                 </div>
             </div>
 
             <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">เพศ </label>
+                <label for="" class="col-2 col-form-label text-gray">เพศ </label>
                 <div class="col">
                     <input v-model="intern.intn_gender" placeholder="-" type="text" class="form-control-plaintext"
                         readonly required />
@@ -128,7 +144,7 @@
             </div>
 
             <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">น้ำหนัก (กิโลกรัม)</label>
+                <label for="" class="col-2 col-form-label text-gray">น้ำหนัก (กิโลกรัม)</label>
                 <div class="col">
                     <input v-model="intern.intn_weight" placeholder="-" type="text" class="form-control-plaintext"
                         readonly />
@@ -142,7 +158,7 @@
             </div>
 
             <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">สัญชาติ </label>
+                <label for="" class="col-2 col-form-label text-gray">สัญชาติ </label>
                 <div class="col">
                     <input v-model="intern.intn_nationality" placeholder="-" type="text" class="form-control-plaintext"
                         readonly required />
@@ -156,7 +172,7 @@
             </div>
 
             <div class="row mb-4">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">ศาสนา </label>
+                <label for="" class="col-2 col-form-label text-gray">ศาสนา </label>
                 <div class="col">
                     <input v-model="intern.intn_religion" placeholder="-" type="text" class="form-control-plaintext"
                         readonly required />
@@ -171,34 +187,38 @@
         </div>
 
         <div class="row border-bottom">
-            <span class="h5">สถานศึกษา</span>
+            <div class="row my-2">
+                <span class="h5 text-decoration-underline">สถานศึกษา</span>
+            </div>
 
             <div class="row mb-4">
-                <div class="col ms-5">
+                <div class="col">
                     <label for="" class="form-label text-gray">ชื่อสถานศึกษา</label>
                     <input placeholder="-" type="text" class="form-control-plaintext"
-                        :value="intern.college_info?.col_uni.uni_name" required readonly />
+                        :value="getCollegeInfo.maj_faculty?.fac_university?.uni_name" required readonly />
                 </div>
 
                 <div class="col">
                     <label for="" class="form-label text-gray">คณะ </label>
                     <input placeholder="-" type="text" class="form-control-plaintext"
-                        :value="intern.college_info?.col_faculty.fac_name" required readonly />
+                        :value="getCollegeInfo.maj_faculty?.fac_name" required readonly />
                 </div>
 
                 <div class="col">
                     <label for="" class="form-label text-gray">สาขาวิชา </label>
                     <input placeholder="-" type="text" class="form-control-plaintext"
-                        :value="intern.college_info?.col_major.maj_name" required readonly />
+                        :value="getCollegeInfo.maj_name" required readonly />
                 </div>
             </div>
         </div>
 
         <div class="row border-bottom">
-            <span class="h5">ข้อมูลที่อยู่ / ติดต่อ</span>
+            <div class="row my-2">
+                <span class="h5 text-decoration-underline">ข้อมูลที่อยู่ / ติดต่อ</span>
+            </div>
 
             <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">บ้านเลขที่ </label>
+                <label for="" class="col-2 col-form-label text-gray">บ้านเลขที่ </label>
                 <div class="col">
                     <input placeholder="-" type="text" class="form-control-plaintext"
                         :value="intern.intn_address?.addr_house_number" readonly />
@@ -212,7 +232,7 @@
             </div>
 
             <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">หมู่ </label>
+                <label for="" class="col-2 col-form-label text-gray">หมู่ </label>
                 <div class="col">
                     <input placeholder="-" type="text" class="form-control-plaintext"
                         :value="intern.intn_address?.addr_village_number" readonly />
@@ -226,7 +246,7 @@
             </div>
 
             <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">จังหวัด </label>
+                <label for="" class="col-2 col-form-label text-gray">จังหวัด </label>
                 <div class="col">
                     <input placeholder="-" type="text" class="form-control-plaintext"
                         :value="intern.intn_address?.addr_province" readonly />
@@ -240,7 +260,7 @@
             </div>
 
             <div class="row mb-2">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">ตำบล / แขวง </label>
+                <label for="" class="col-2 col-form-label text-gray">ตำบล / แขวง </label>
                 <div class="col">
                     <input placeholder="-" type="text" class="form-control-plaintext"
                         :value="intern.intn_address?.addr_subdistrict" readonly />
@@ -254,7 +274,7 @@
             </div>
 
             <div class="row mb-4">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">
+                <label for="" class="col-2 col-form-label text-gray">
                     เบอร์โทรศัพท์
                 </label>
                 <div class="col">
@@ -271,10 +291,12 @@
         </div>
 
         <div class="row border-bottom">
-            <span class="h5">สัญญาการจ้างงาน</span>
+            <div class="row my-2">
+                <span class="h5 text-decoration-underline">สัญญาการจ้างงาน</span>
+            </div>
 
             <div class="row mb-4">
-                <div class="col ms-5">
+                <div class="col">
                     <label for="" class="form-label text-gray">ประเภทพนักงาน </label>
                     <input v-model="intern.intn_intern_type" placeholder="-" type="text" class="form-control-plaintext"
                         required readonly />
@@ -316,10 +338,12 @@
         </div>
 
         <div class="row border-bottom">
-            <span class="h5">สถานภาพทางทหาร</span>
+            <div class="row my-2">
+                <span class="h5 text-decoration-underline">สถานภาพทางทหาร</span>
+            </div>
 
             <div class="row mb-4">
-                <label for="" class="col-2 col-form-label ms-5 text-gray">
+                <label for="" class="col-2 col-form-label text-gray">
                     สถานภาพทางทหาร
                 </label>
                 <div class="col">
@@ -335,24 +359,34 @@
             </div>
         </div>
 
-        <span class="h5">หมายเหตุอื่น ๆ เกี่ยวกับนักศึกษา</span>
+        <div class="row my-2">
+            <span class="h5 text-decoration-underline">หมายเหตุอื่น ๆ</span>
+        </div>
 
         <div class="row">
-            <label for="" class="col form-label ms-5 text-gray">หมายเหตุ</label>
+            <label for="" class="col form-label text-gray">หมายเหตุ</label>
         </div>
 
         <div class="row mb-4">
-            <textarea id="" name="" class="form-control col ms-5" rows="2"></textarea>
+            <textarea id="" name="" class="form-control col" rows="2"></textarea>
         </div>
     </div>
 </template>
 
 <script setup>
     import { onMounted, ref, computed } from "vue";
-    import { formatDate, getAgeBuddisht } from "../../assets/js/func";
+    import { formatDate, getAgeBuddisht, getImageFromBuffer } from "../../assets/js/func";
 
     const internProp = defineProps({
         intern: Object
+    })
+
+    const getCollegeInfo = computed(() => {
+        if (internProp.intern.college_infos) {
+            return internProp.intern.intn_major
+        }
+
+        return '-'
     })
 
     const getWorkRole = computed(() => {
@@ -365,7 +399,23 @@
 
     const getSection = computed(() => {
         if (internProp.intern.work_infos) {
-            return internProp.intern.work_infos[0]?.work_sec.sec_name
+            return internProp.intern.work_infos[0]?.work_section.sec_name
+        }
+
+        return '-'
+    })
+
+    const getDepartment = computed(() => {
+        if (internProp.intern.work_infos) {
+            return internProp.intern.work_infos[0]?.work_department?.dept_name
+        }
+
+        return '-'
+    })
+
+    const getTeam = computed(() => {
+        if (internProp.intern.work_infos) {
+            return internProp.intern.work_infos[0]?.work_team.team_name
         }
 
         return '-'
