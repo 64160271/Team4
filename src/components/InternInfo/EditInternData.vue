@@ -13,7 +13,7 @@
           <div class="col-auto my-auto">
             <div class="row">
               <div class="col text-center">
-                <img id="blah" :src="getImageFromBuffer(intern.image?.file_type, intern.image?.file_image?.data)" alt="" class="img bg-grays-200" />
+                <img id="blah" :src="intern?.intn_image_path" alt="" class="img bg-grays-200" />
               </div>
             </div>
   

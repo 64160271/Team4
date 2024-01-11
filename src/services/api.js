@@ -65,6 +65,13 @@ export default class apiService {
             })
     }
 
+    getAllTeam = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/teams`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
     getTeamBySectionId = async (id) => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/teams/section/${id}`)
             .then((response) => {
@@ -79,8 +86,8 @@ export default class apiService {
             })
     }
 
-    getAllRole = async () => {
-        return await axios.get(`${import.meta.env.VITE_API_HOST}/roles`)
+    getAllRole = async (params) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/roles`, { params: params })
             .then((response) => {
                 return response.data
             })
