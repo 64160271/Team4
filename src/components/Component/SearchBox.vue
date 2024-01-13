@@ -26,4 +26,8 @@ const props = defineProps({
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+#search-bar:focus {
+  box-shadow: none !important;
+}
+</style>

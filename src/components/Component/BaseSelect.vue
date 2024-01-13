@@ -11,7 +11,7 @@
 -->
 
 <template>
-  <label for="" class="form-label text-gray">{{ label }}
+  <label for="" class="form-label text-gray" v-if="label">{{ label }}
     <span class="text-danger" v-if="required">*</span>
   </label>
   <select 
