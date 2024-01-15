@@ -2,7 +2,7 @@
     <div class="mx-auto" style="width: 85%">
         <div class="row border-bottom">
             <div class="col-auto">
-                <img id="blah" :src="getImageFromBuffer(intern.image?.file_type, intern.image?.file_image?.data)" alt="" class="img bg-grays-200" />
+                <img id="blah" :src="intern?.intn_image_path" alt="" class="img bg-grays-200" />
             </div>
 
             <div class="col align-self-center ms-5 mb-2">
@@ -207,7 +207,7 @@
                 <div class="col">
                     <label for="" class="form-label text-gray">สาขาวิชา </label>
                     <input placeholder="-" type="text" class="form-control-plaintext"
-                        :value="getCollegeInfo.maj_name" required readonly />
+                        :value="intern.intn_major?.maj_name" required readonly />
                 </div>
             </div>
         </div>
@@ -382,7 +382,7 @@
     })
 
     const getCollegeInfo = computed(() => {
-        if (internProp.intern.college_infos) {
+        if (internProp.intern.intn_major) {
             return internProp.intern.intn_major
         }
 
