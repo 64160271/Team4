@@ -36,10 +36,7 @@
 
     <!-- Card -->
     <div class="row mt-3 ">
-        <BaseCard title="ClickNext Co.,Ltd." sub="กรุงเทพมหานคร ฯ" content="พญาไท พลาซ่า 128/323-333
-                ชั้น 30 
-                ถ.พญาไท แขวงทุ่งพญาไทย เขตราชเทวี
-                กรุงเทพมหานคร 10400">
+        <BaseCard title={{ companies.com_name }} sub="กรุงเทพมหานคร ฯ" content="{{ companies.com_address }}">
                 <div style="text-align: center;">
                     <button  class="col-auto btn btn_choose" @click="$router.push('/certificates/selectSignature')">เลือก</button>
                 </div>
@@ -49,8 +46,19 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import BaseCard from '../Component/BaseCard.vue';
 import BaseButton from '../Component/BaseButton.vue';
+
+const companies = ref([])
+
+const getCompany= async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/companies`)
+    .then((response) => {
+        companies.value = response.data.rows
+        })
+}
 </script>
 
 <style scoped>

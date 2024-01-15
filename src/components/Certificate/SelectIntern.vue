@@ -28,12 +28,12 @@
                             {{ intern.cer_intern_id }}
                         </label>
                     </td>
-                    <td scope="row" class="text-center">{{ intern.cer_intern_id.intn_name_th }}</td>
-                    <td scope="row" class="text-center">{{ intern.intn_nickname_th || '-' }}</td>
-                    <td scope="row" class="text-center">{{ intern.work_infos[0].work_role.role_name }}</td>
-                    <td scope="row" class="text-center">{{ intern.college_info.col_uni.uni_name || '-' }}</td>
-                    <td scope="row" class="text-center">{{ intern.intn_start_date }}</td>
-                    <td scope="row" class="text-center">{{ intern.intn_end_date || '-' }}</td>
+                    <td scope="row" class="text-center">{{ interns.intn_name_th }}</td>
+                    <td scope="row" class="text-center">{{ interns.intn_nickname_th || '-' }}</td>
+                    <td scope="row" class="text-center">{{ interns.work_infos[0].work_role.role_name }}</td>
+                    <td scope="row" class="text-center">{{ interns.college_info.col_uni.uni_name || '-' }}</td>
+                    <td scope="row" class="text-center">{{ interns.intn_start_date }}</td>
+                    <td scope="row" class="text-center">{{ interns.intn_end_date || '-' }}</td>
                 </tr>
             </BaseTable>
         </form>
