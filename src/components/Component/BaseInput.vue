@@ -1,22 +1,30 @@
+<!--
+ ฺBaseInput
+ Component สำหรับ Input
+ Props:
+    label: ข้อความด้านบนกล่องข้อความ
+    modelValue: ตัวแปรที่ใช้สำหรับเก็บค่าจาก Input
+-->
+
 <template>
-  <label for="" class="form-label text-gray"
+  <label for="" class="form-label text-gray" v-if="label"
     >{{ label }}
     <span class="text-danger" v-if="required">*</span>
   </label>
   <input
-    :value="modelValue"
-    :placeholder="placeholder"
+    :modelValue="modelValue"
     :type="input_type"
     class="form-control"
     :readonly="readonly"
     :required="required"
     @input="$emit('update:modelValue', $event.target.value)"
     v-bind="$attrs"
+    :placeholder="placeholder"
   />
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   label: {
     type: [Boolean, String],
   },
@@ -24,15 +32,11 @@ defineProps({
     type: [Boolean, String],
   },
   modelValue: {
-    type: String,
-    default: "",
+    type: [Boolean, String],
+    default: false,
   },
   required: {
     type: Boolean,
-    default: false,
-  },
-  value: {
-    type: String,
     default: false,
   },
   readonly: {
