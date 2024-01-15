@@ -14,7 +14,7 @@
     </div>
 
     <div class="col-md-2 my-auto">
-      <BaseSelect @change="getAllIntern" v-model="team_id" placeholder="ทีม" :options="teams" value="team_id" text="team_name" />
+      <BaseSelect placeholder="ทีม" all-select @change="getAllIntern" v-model="team_id" :options="teams" value="team_id" text="team_name" />
     </div>
 
     <button class="col-auto btn ms-auto outline-red" @click="$router.push('/interns/key-data')">

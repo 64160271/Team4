@@ -22,6 +22,7 @@
     v-bind="$attrs"
    >
     <option disabled selected v-if="setDefault && firstOptionType != null" value="">{{ placeholder }}</option>
+    <option v-if="allSelect" value="">ทั้งหมด</option>
     <option 
      v-if="firstOptionType == 'object'"
      v-for="option in options" 
@@ -71,6 +72,10 @@ const props = defineProps({
     type: String,
     default: "เลือก",
   },
+  allSelect: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 /*
