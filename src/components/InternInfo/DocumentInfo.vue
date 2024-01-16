@@ -7,6 +7,10 @@
     </div>
 
     <div class="row mb-3">
+      <div class="my-auto col-md-3">
+        <SearchBox @search="fetchDocuments" placeholder="ชื่อเอกสาร" />
+      </div>
+
       <BaseButton class="col-md-2 ms-auto" label="+ เพิ่มข้อมูล" @click="openModal = true">
       </BaseButton>
     </div>
@@ -80,15 +84,18 @@ import BaseButton from "../Component/BaseButton.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseModal from "../Component/BaseModal.vue";
 import { confirmation, successAlert } from "../../assets/js/func";
+import SearchBox from "../Component/SearchBox.vue";
 
 const router = useRouter();
 const internId = useRoute().params.id;
 const documents = ref([]);
+let timer
+const searchKey = ref()
 const apiCall = new apiService();
 const openModal = ref(false);
 const today = ref(new Date());
 const tableHead = ref([
-  { key: "doc_title", title: "ชื่อไฟล์" },
+  { key: "doc_title", title: "ชื่อเอกสาร" },
   { key: "doc_mimetype", title: "ประเภทไฟล์" },
   { key: "doc_created_at", title: "วันที่อัปโหลดไฟล์", align: "center" },
   /* { key: "lvs_day", title: "ผู้ทำการแก้ไข" }, */
@@ -102,8 +109,22 @@ const formData = ref({
   doc_intern_id: "",
 });
 
-onMounted(async () => {
-  documents.value = await apiCall.getDocumentByInternId(internId);
+async function fetchDocuments(value, delay=500) {
+  if (timer) {
+    clearTimeout(timer)
+  }
+
+  const params = {
+    doc_title: value || ''
+  }
+
+  timer = setTimeout(async () => {
+    documents.value = await apiCall.getDocumentByInternId(internId, params);
+  }, delay)
+}
+
+onMounted(() => {
+  fetchDocuments('', 0)
   /* modal.value = new bootstrap.Modal("#modal", {}); */
 });
 
