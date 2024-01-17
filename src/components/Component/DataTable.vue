@@ -2,50 +2,80 @@
   <table id="myTable" class="table" v-bind="$attrs" :class="{ 'table-striped': striped }">
     <thead class="bg-red">
       <tr class="tr-custom">
-        <th scope="col" v-for="(head, index) in heads" class="th-custom fw-bold col-auto" :class="{ 'border-left': index == 0 },
-          { 'border-right': index == heads.length - 1 },
-          { 'text-left': !head.align },
-          { ['text-' + head.align]: head.align }
-          ">
+        <th
+          scope="col"
+          v-for="(head, index) in heads"
+          class="th-custom fw-bold col-auto"
+          :class="
+            { 'border-left': index == 0 },
+            { 'border-right': index == heads.length - 1 },
+            { 'text-left': !head.align },
+            { ['text-' + head.align]: head.align }
+          "
+        >
           {{ head.title }}
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, index) in items" class="tr-custom border-start border-end" :class="{ 'tb-hov': hovers }"
-        @click="clickable && clickReturn && handleRowClick(_.get(item, clickReturn))">
+      <tr
+        v-for="(item, index) in items"
+        class="tr-custom border-start border-end"
+        :class="{ 'tb-hov': hovers }"
+        @click="clickable && clickReturn && handleRowClick(_.get(item, clickReturn))"
+      >
         <td v-for="head in heads" :class="{ ['text-' + head.align]: head.align }">
           <span>{{ _.get(item, head.key) }}</span>
-          <slot :index="index" :data="item" :name="head.key" v-if="!_.get(item, head.key)"></slot>
+          <slot
+            :index="index"
+            :data="item"
+            :name="head.key"
+            v-if="!_.get(item, head.key)"
+          ></slot>
         </td>
       </tr>
     </tbody>
   </table>
 
   <div class="row my-2" v-if="total">
-    <hr />
     <span class="col-5">รายการทั้งหมด {{ total || 0 }} รายการ</span>
 
     <div class="col" v-if="paginate">
       <nav>
         <ul class="pagination">
           <li class="page-item">
-            <a v-if="activePage > 1" class="page-link border-0 rounded-circle" href="#"
-              @click="$emit('pageChange', --activePage)" aria-label="Previous">
+            <a
+              v-if="activePage > 1"
+              class="page-link border-0 rounded-circle"
+              href="#"
+              @click="$emit('pageChange', --activePage)"
+              aria-label="Previous"
+            >
               <span aria-hidden="true">&lt</span>
             </a>
           </li>
 
           <li v-for="(pageNum, index) in pageMax" class="page-item">
-            <router-link :id="'p' + index" aria-current="page" to="#" class="page-link rounded-circle mx-1"
-              @click="$emit('pageChange', pageNum)" :class="{ 'active-page': index == activePage - 1 }">
+            <router-link
+              :id="'p' + index"
+              aria-current="page"
+              to="#"
+              class="page-link rounded-circle mx-1"
+              @click="$emit('pageChange', pageNum)"
+              :class="{ 'active-page': index == activePage - 1 }"
+            >
               {{ pageNum }}
             </router-link>
           </li>
 
           <li class="page-item">
-            <a v-if="activePage < pageMax" class="page-link border-0 rounded-circle" href="#"
-              @click="$emit('pageChange', ++activePage)" aria-label="Next">
+            <a
+              v-if="activePage < pageMax"
+              class="page-link border-0 rounded-circle"
+              href="#"
+              @click="$emit('pageChange', ++activePage)"
+              aria-label="Next"
+            >
               <span aria-hidden="true">></span>
             </a>
           </li>
@@ -65,7 +95,7 @@ import { onMounted, ref, computed } from "vue";
 
 const pageMax = computed(() => {
   return Math.ceil(props.total / props.itemsPerPage);
-})
+});
 
 const emit = defineEmits(["clicked"]);
 
@@ -86,10 +116,7 @@ function handleRowClick(value) {
   emit("clicked", value);
 }
 
-onMounted(async () => {
-
-})
-
+onMounted(async () => {});
 </script>
 
 <style scoped>

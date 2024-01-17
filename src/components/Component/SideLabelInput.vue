@@ -7,11 +7,24 @@
 -->
 
 <template>
-  <label for="" class="form-label text-gray" v-if="label">{{ label }}
-    <span class="text-danger" v-if="required">*</span>
-  </label>
-  <input :modelValue="modelValue" :type="input_type" class="form-control" :readonly="readonly" :required="required"
-    @input="$emit('update:modelValue', $event.target.value)" v-bind="$attrs" :placeholder="placeholder" />
+  <div class="col-auto" :class="{ nopadding: noPadding }">
+    <label for="" class="col-form-label text-gray" v-if="label"
+      >{{ label }}
+      <span class="text-danger" v-if="required">*</span>
+    </label>
+  </div>
+  <div class="col-md-2">
+    <input
+      :modelValue="modelValue"
+      :type="input_type"
+      class="form-control"
+      :readonly="readonly"
+      :required="required"
+      @input="$emit('update:modelValue', $event.target.value)"
+      v-bind="$attrs"
+      :placeholder="placeholder"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -37,6 +50,10 @@ const props = defineProps({
   input_type: {
     type: String,
     default: "text",
+  },
+  noPadding: {
+    type: Boolean,
+    default: false,
   },
 });
 </script>
