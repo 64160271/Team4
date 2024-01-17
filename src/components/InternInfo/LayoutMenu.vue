@@ -6,7 +6,7 @@
 -->
 
 <template>
-    <div class="row mt-2 mb-4 text-center">
+    <div class="row mb-4 text-center bg-white fixed">
         <router-link :to="{ name: 'internData', params: { id: internId } }"
             class="text-decoration-none col h5 my-0 pb-3 border-bottom border-2" active-class="active">
             ข้อมูลส่วนตัว

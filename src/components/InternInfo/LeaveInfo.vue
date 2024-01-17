@@ -7,6 +7,8 @@
     </div>
 
     <div class="row mb-3">
+      <SideLabelInput no-padding input-size="3" label="วันที่ลา" type="date" />
+
       <BaseButton
         label="+ เพิ่มข้อมูลการลา"
         @click="openModal = true"
@@ -16,7 +18,7 @@
     </div>
 
     <div class="row">
-      <DataTable :heads="tableHead" :items="leavesInfo">
+      <DataTable :total="leavesInfo.length" :heads="tableHead" :items="leavesInfo">
         <template #lvs_duration="{ data }">
           {{ getDuration(data) }}
         </template>
@@ -220,6 +222,7 @@ import BaseSelect from "../Component/BaseSelect.vue";
 import { useLeavesType } from "../../stores/constData";
 import { useInternName } from "../../stores/constData";
 import { diffDate, diffTime } from "../../assets/js/func";
+import SideLabelInput from "../Component/SideLabelInput.vue";
 
 const router = useRouter();
 const internRole = ref();

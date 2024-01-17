@@ -7,13 +7,13 @@
 -->
 
 <template>
-  <div class="col-auto" :class="{ nopadding: noPadding }">
+  <div class="col-auto my-auto" :class="{ nopadding: noPadding }">
     <label for="" class="col-form-label text-gray" v-if="label"
       >{{ label }}
       <span class="text-danger" v-if="required">*</span>
     </label>
   </div>
-  <div class="col-md-2">
+  <div :class="[`col-md-${inputSize}`, 'my-auto']">
     <input
       :modelValue="modelValue"
       :type="input_type"
@@ -55,6 +55,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  inputSize: {
+    type: [Boolean, Number],
+    default: 2
+  }
 });
 </script>
 

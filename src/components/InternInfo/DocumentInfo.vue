@@ -20,7 +20,7 @@
     </div>
 
     <div class="row">
-      <DataTable :heads="tableHead" :items="documents">
+      <DataTable :total="documents.length" :heads="tableHead" :items="documents">
         <template #open_file="{ data }">
           <svg
             xmlns="http://www.w3.org/2000/svg"

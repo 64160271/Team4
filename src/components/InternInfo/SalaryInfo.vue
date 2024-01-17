@@ -21,7 +21,7 @@
       </CardInternInfo>
     </div>
 
-    <div class="row mb-3">
+    <div class="row mb-4 mt-2">
       <SideLabelInput type="date" label="วันเริ่มต้น - สิ้นสุด" noPadding />
 
       <div class="col-md-2">
@@ -30,7 +30,7 @@
     </div>
 
     <div class="row">
-      <DataTable striped :heads="tableHead" :items="salaries">
+      <DataTable :total="salaries.length" striped :heads="tableHead" :items="salaries">
         <template #total="{ data }">
           {{ calculateTotal(data) }}
         </template>
@@ -88,34 +88,6 @@ function calculateTotal(data) {
   let total =
     Number(Number(data?.sal_salary) * Number(data?.sal_day)) + Number(data?.sal_extra);
   return total.toFixed(2);
-}
-
-async function formSubmit() {
-  const validate = await v$.value.$validate();
-  if (validate) {
-    const result = await confirmation();
-    if (result) {
-      formData.value.intern_id = internId;
-      await apiCall.createSalaryData(formData.value).then(() => {
-        Swal.fire({
-          icon: "success",
-          text: "บันทึกข้อมูลเสร็จสิ้น",
-          showConfirmButton: false,
-          timer: 3000,
-        }).then(() => {
-          location.reload();
-        });
-      });
-    }
-  }
-}
-
-function openModal() {
-  modal.value.show();
-}
-
-function closeModal() {
-  modal.value.hide();
 }
 </script>
 
