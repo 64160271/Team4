@@ -42,7 +42,7 @@
   </div> -->
 
   <div class="background">
-    <div class="card content w-75 mt-5 rounded-5 border-0 shadow py-3">
+    <div class="card content w-75 rounded-5 border-0 shadow py-3">
       <div class="box_clicknext ms-5 mb-2">
         <img src="../assets/images/clicknext-logo.png" width="240" alt="" />
       </div>
@@ -111,7 +111,7 @@
 
     <img
       height="184"
-      class="row position-absolute bottom-0"
+      class="overflow-auto w-100 position-absolute bottom-0"
       src="../assets/images/wave.png"
       alt=""
     />
@@ -152,18 +152,14 @@ const login = async () => {
 <style scoped>
 .card {
   height: fit-content;
+  margin-top: 5%;
 }
 
 .background {
   display: flex;
   justify-content: center;
   background-color: rgba(239, 238, 238, 0.852);
-}
-
-.box {
-  display: flex;
-  background-color: #ffffff;
-  border-radius: 20px;
+  height: 100%;
 }
 
 .box_clicknext {
