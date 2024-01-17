@@ -36,6 +36,7 @@
       <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
     </template>
   </DataTable>
+  
 </template>
 
 <script setup>

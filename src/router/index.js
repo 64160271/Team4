@@ -20,9 +20,9 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/',
+            path: '/interns',
             name: 'index',
-            component: Index
+            component: Index,
         },
         {
             path: '/login',
@@ -97,7 +97,17 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.name !== 'login' && !Cookies.get('token')) next({ name: 'login' })
+    const token = Cookies.get('token')
+
+    if (to.name !== 'login' && !token) {
+        next({ name: 'login' })
+    }
+
+    if (to.name == 'login') {
+        Cookies.remove('token')
+        Cookies.remove('user')
+        next()
+    }
     else next()
 })
 

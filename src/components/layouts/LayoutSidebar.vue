@@ -6,33 +6,30 @@
 -->
 
 <template>
-  <div
-    class="position-fixed d-flex flex-column p-4 bg-white border-end vh-100"
-    style="width: 280px"
-  >
-    <ClicknextLogo class="mb-3" />
+  <div class="position-fixed d-flex flex-column p-4 bg-white border-end vh-100" style="width: 280px">
+    <ClicknextLogo />
+
+    <hr />
+
+    <label class="text-center fw-bold" for="">ฝ่ายบุคคล</label>
+    <label class="text-center" for="">{{ user }}</label>
+
+    <hr />
 
     <ul class="nav nav-pills flex-column">
       <li class="nav-item py-2">
-        <router-link
-          to="/"
-          class="nav-link text-dark hov-red"
-          active-class="active"
-          @click="changeActiveMenu($event)"
-        >
+        <router-link to="/interns" class="nav-link text-dark hov-red" 
+          :class="{ active: router.currentRoute.value.path.includes('/interns') }"
+          active-class="active" @click="changeActiveMenu($event)">
           <InternListIcon class="hov-red" />
-          
+
           รายชื่อนักศึกษา
         </router-link>
       </li>
 
       <li class="nav-item py-2">
-        <router-link
-          to="/certificates"
-          class="nav-link text-dark hov-red"
-          active-class="active"
-          @click="changeActiveMenu($event)"
-        >
+        <router-link to="/certificates" class="nav-link text-dark hov-red" active-class="active"
+          @click="changeActiveMenu($event)">
           <CertificateIcon class="hov-red" />
 
           เอกสารรับรอง
@@ -40,25 +37,35 @@
       </li>
 
       <li class="nav-item py-2">
-        <router-link
-          to="/reports"
-          class="nav-link text-dark hov-red"
-          active-class="active"
-          @click="changeActiveMenu($event)"
-        >
+        <a class="btn nav-link text-dark text-start hov-red" type="button" @click="dropdownSalary = !dropdownSalary">
           <ReportIcon class="hov-red" />
+          เบี้ยเลี้ยง
+          <span class="dropdown-toggle"></span>
+        </a>
 
-          รายงานเบี้ยเลี้ยง
-        </router-link>
+        <Transition>
+          <div v-if="dropdownSalary">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-5">
+              <li>
+                <router-link to="/signatures" class="nav-link text-dark hov-red" active-class="active"
+                  @click="changeActiveMenu($event)">
+                  รายงานเบี้ยเลี้ยง
+                </router-link>
+              </li>
+              <li>
+                <router-link to="/companies" class="nav-link text-dark hov-red" active-class="active"
+                  @click="changeActiveMenu($event)">
+                  จัดการเบี้ยเลี้ยง
+                </router-link>
+              </li>
+            </ul>
+          </div>
+        </Transition>
       </li>
 
       <li class="nav-item py-2">
-        <router-link
-          to="/universities"
-          class="nav-link text-dark hov-red"
-          active-class="active"
-          @click="changeActiveMenu($event)"
-        >
+        <router-link to="/universities" class="nav-link text-dark hov-red" active-class="active"
+          @click="changeActiveMenu($event)">
           <ManageUniversityIcon class="hov-red" />
 
           จัดการมหาวิทยาลัย
@@ -66,36 +73,25 @@
       </li>
 
       <li class="py-2">
-        <a
-          class="btn nav-link text-dark text-start dropdown-toggle hov-red"
-          type="button"
-          @click="showDropdown = !showDropdown"
-        >
+        <a class="btn nav-link text-dark text-start dropdown-toggle hov-red" type="button"
+          @click="dropdownManageCertificate = !dropdownManageCertificate">
           <CertificateDataIcon class="hov-red" />
 
           จัดการเอกสารรับรอง
         </a>
 
         <Transition>
-          <div v-if="showDropdown">
+          <div v-if="dropdownManageCertificate">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-5">
               <li>
-                <router-link
-                  to="/signatures"
-                  class="nav-link text-dark hov-red"
-                  active-class="active"
-                  @click="changeActiveMenu($event)"
-                >
+                <router-link to="/signatures" class="nav-link text-dark hov-red" active-class="active"
+                  @click="changeActiveMenu($event)">
                   ลายเซ็น
                 </router-link>
               </li>
               <li>
-                <router-link
-                  to="/companies"
-                  class="nav-link text-dark hov-red"
-                  active-class="active"
-                  @click="changeActiveMenu($event)"
-                >
+                <router-link to="/companies" class="nav-link text-dark hov-red" active-class="active"
+                  @click="changeActiveMenu($event)">
                   บริษัท
                 </router-link>
               </li>
@@ -116,7 +112,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, toRaw } from "vue";
 import ClicknextLogo from "../icons/ClicknextLogo.vue";
 import CertificateDataIcon from "../icons/CertificateDataIcon.vue";
 import CertificateIcon from "../icons/CertificateIcon.vue"
@@ -124,22 +120,27 @@ import ManageUniversityIcon from "../icons/ManageUniversityIcon.vue"
 import ReportIcon from "../icons/ReportIcon.vue"
 import InternListIcon from "../icons/InternListIcon.vue"
 import LogoutIcon from "../icons/LogoutIcon.vue"
+import Cookies from "js-cookie"
+import { useRouter } from "vue-router"
 
-const showDropdown = ref(false);
+const dropdownManageCertificate = ref(false);
+const dropdownSalary = ref(false);
+const user = ref(Cookies.get('user'))
+const router = useRouter()
 
 function changeActiveMenu(event) {
-  const active = document.querySelector(".active");
+  /* const active = document.querySelector(".active");
   const element = event.target;
   element.classList.add("active");
-  active.classList.remove("active");
+  active.classList.remove("active"); */
 }
 </script>
 
 <style scoped>
-
 .active {
   background-color: var(--main-color) !important;
   color: white !important;
+  font-weight: bold !important;
 }
 
 .hov-red:hover {
@@ -157,4 +158,5 @@ function changeActiveMenu(event) {
   transform: translateY(-20px);
   opacity: 0;
 }
+
 </style>
