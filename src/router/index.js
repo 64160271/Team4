@@ -99,12 +99,14 @@ const router = createRouter({
         {
             path: '/certificates/selectSignature/:companyId',
             name: 'selectSignature',
-            component: SelectSignature
+            component: SelectSignature,
+            props: true,
         },
         {
-            path: '/certificates/selectIntern',
+            path: '/certificates/selectIntern/:companyId',
             name: 'selectIntern',
-            component: SelectIntern
+            component: SelectIntern,
+            props: true,
         },
         {
             path: '/certificates/previewCertificate',

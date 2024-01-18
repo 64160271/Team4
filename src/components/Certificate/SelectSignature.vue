@@ -2,7 +2,7 @@
     <div>
         <div class="input-group">
             <div class="col-0">
-                <button class="btn back" @click="$router.push('/certificates/selectCompany')">
+                <button class="btn back" @click="sentBack()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="20" viewBox="0 0 19 20" fill="none">
                         <path
                             d="M11.4008 1.70312L3.10078 10.0031L11.4008 18.3031L10.0008 19.7031L0.300781 10.0031L10.0008 0.303123L11.4008 1.70312Z"
@@ -39,7 +39,7 @@
     <div class="row mt-3">
         <BaseCard v-for="signature in signatures" :title="signature?.sign_image" :sub="getName(signature)" content="">
             <div style="text-align: center;">
-                <button class="col-auto btn btn_choose" @click="$router.push('/certificates/selectIntern')">เลือก</button>
+                <button class="col-auto btn btn_choose" @click="sentCompanyId(signature.sign_id)">เลือก</button>
             </div>
         </BaseCard>
 
@@ -52,6 +52,7 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import BaseCard from '../Component/BaseCard.vue';
 import { useRoute } from 'vue-router';
+import router from "@/router";
 const route = useRoute();
 
 
@@ -68,6 +69,25 @@ const getSignature = async () => {
     }
 }
 
+function sentCompanyId(sign){
+    console.log(sign)
+    router.push({
+        name: 'selectIntern',
+        params: {
+            companyId: id.value,
+        },
+        query: {signId: sign}
+    })
+}
+
+function sentBack(){
+    router.push({
+        name: 'selectCompany',
+        params: {
+            companyId: id
+        }
+    })
+}
 
 onMounted(()=>{
     getSignature()
