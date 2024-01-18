@@ -13,7 +13,7 @@
           <div class="col-auto my-auto">
             <div class="row">
               <div class="col text-center">
-                <img id="blah" :src="getImageFromBuffer(intern.image?.file_type, intern.image?.file_image?.data)" alt="" class="img bg-grays-200" />
+                <img id="blah" :src="intern?.intn_image_path" alt="" class="img bg-grays-200" />
               </div>
             </div>
   
@@ -466,7 +466,7 @@
               <BaseSelect
                 label="สาขาวิชา"
                 :options="majors"
-                v-model.number="personalInfo.intn_major_id"
+                v-model="personalInfo.intn_major_id"
                 value="maj_id"
                 text="maj_name"
                 placeholder="เลือก (ต้องเลือกคณะก่อน)"
@@ -975,7 +975,7 @@
     formData.universitiesForm.faculty = formData.universitiesForm.university.faculties.find(faculty => 
       faculty.fac_id === formData.college_info.col_faculty_id
     )
-
+    console.log(personalInfo.value.intn_birth_date)
     
     setFilledData();
   

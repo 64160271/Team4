@@ -94,7 +94,7 @@ export const useInternName = defineStore('internName', {
         return {
             intn_code: '',
             intn_name: '',
-            intn_image: '',
+            intn_image_path: '',
             intn_id: '',
             intn_role: '',
         }
@@ -103,7 +103,7 @@ export const useInternName = defineStore('internName', {
     actions: {
         setData(data) {
             this.intn_code = data.intn_code
-            this.intn_image = getImageFromBuffer(data.image?.file_type, data.image?.file_image.data)
+            this.intn_image_path = data?.intn_image_path
             this.intn_name = data.intn_name_th
             this.intn_id = data.intn_id
             this.intn_role = data.work_infos[0]?.work_role.role_name
