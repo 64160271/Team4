@@ -23,23 +23,41 @@
                 </div>
             </div>
         </div>
+        <div class="modal-body">
+          <slot></slot>
+        </div>
+        <div class="modal-footer justify-content-center gap-4">
+          <button
+            type="button"
+            class="col-md-3 btn outline-gray"
+            data-bs-dismiss="modal"
+            @click="$emit('close')"
+          >
+            ยกเลิก
+          </button>
+          <button type="button" class="col-md-3 btn outline-red" @click="$emit('save')">
+            บันทึก
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 
-const modal = ref()
+const modal = ref();
 
 onMounted(() => {
-    modal.value = new bootstrap.Modal("#modal", {})
-    modal.value.show()
-})
+  modal.value = new bootstrap.Modal("#modal", {});
+  modal.value.show();
+});
 
 defineProps({
-    open: Boolean,
-    title: String,
-})
+  open: Boolean,
+  title: String,
+});
 </script>
 
 <style scoped></style>
