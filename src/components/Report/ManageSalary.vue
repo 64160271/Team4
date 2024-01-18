@@ -20,13 +20,26 @@
         </div>
         <div class="col-auto ms-auto my-auto">
             <div>
-                <BaseButton label="เพิ่มข้อมูล" onclick="openModal = true" />
+                <BaseButton label="เพิ่มข้อมูล" @click="openModal = true" />
             </div>
         </div>
     </div>
-    <BaseModal v-if="openModal == true" @close="openModal = false">
+    <BaseModal v-if="openModal" @close="openModal = false"
+    title="เพิ่มรายการข้อมูล" >
+        <div class="col mb-3">
+            <BaseInput v-model="listId" label="รหัสรายการ"  
+            input_type="text" required="required" placeholder="xx/xxxx"/>
+        </div>
+        <div class="col mb-3">
+            <BaseInput :value="new Date()" label="วันที่สร้างรายการ"  
+            input_type="text" readonly="readonly" />
+        </div>
+        <div class="col mb-3">
+            <BaseInput :value="nameUser" label="ผู้ทำการแก้ไขข้อมูล"  
+            input_type="text" readonly="readonly" />
+        </div>
     </BaseModal>
-    <DataTable :heads="dataHead">
+    <DataTable :heads="dataHead" :items="reports">
 
     </DataTable>
 </template>
@@ -36,8 +49,16 @@ import { ref } from 'vue';
 import BaseButton from '../Component/BaseButton.vue'
 import DataTable from '../Component/DataTable.vue'
 import BaseSelect from '../Component/BaseSelect.vue'
+import BaseModal from '../Component/BaseModal.vue'
+import BaseInput from '../Component/BaseInput.vue'
+import { onMounted } from 'vue';
+import axios from 'axios'
+
+const reports = ref([])
+const listId = ref('')
 
 const openModal = ref(false)
+
 const dataHead = ref([
     { key: "rep_id", title: "รหัสรายการ", align: "center" },
     { key: "rep_count_name", title: "จำนวนรายชื่อ", align: "right" },
@@ -47,13 +68,27 @@ const dataHead = ref([
     { key: "rep_update_user", title: "ผู้แก้ไขข้อมูลล่าสุด" },
     { key: "rep_status", title: "สถานะ", align: "center" },
     { key: "rep_action", title: "แก้ไข / ลบ", align: "center" },
-
 ])
-function Check (){
-    let IsOpen = true ;
-    return IsOpen ;
+
+const getReport = async() =>{
+    await axios.get(`${import.meta.env.VITE_API_HOST}/reports`).
+    then((response ) => {
+        reports.value = response.data
+    })
 }
 
+const creatReport = async() =>{
+    await axios.post(`${import.meta.env.VITE_API_HOST}/reports`).
+    then((response) => {
+        
+    })
+}
+
+let nameUser = "ปริญญา ก้อนจันทึก"
+
+onMounted (() => {
+    getReport()
+})
 </script>
 
 <style scoped></style> 
