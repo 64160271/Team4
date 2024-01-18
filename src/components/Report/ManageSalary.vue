@@ -20,10 +20,12 @@
         </div>
         <div class="col-auto ms-auto my-auto">
             <div>
-                <BaseButton label="เพิ่มข้อมูล" />
+                <BaseButton label="เพิ่มข้อมูล" onclick="openModal = true" />
             </div>
         </div>
     </div>
+    <BaseModal v-if="openModal == true" @close="openModal = false">
+    </BaseModal>
     <DataTable :heads="dataHead">
 
     </DataTable>
@@ -35,6 +37,7 @@ import BaseButton from '../Component/BaseButton.vue'
 import DataTable from '../Component/DataTable.vue'
 import BaseSelect from '../Component/BaseSelect.vue'
 
+const openModal = ref(false)
 const dataHead = ref([
     { key: "rep_id", title: "รหัสรายการ", align: "center" },
     { key: "rep_count_name", title: "จำนวนรายชื่อ", align: "right" },
@@ -46,6 +49,10 @@ const dataHead = ref([
     { key: "rep_action", title: "แก้ไข / ลบ", align: "center" },
 
 ])
+function Check (){
+    let IsOpen = true ;
+    return IsOpen ;
+}
 
 </script>
 
