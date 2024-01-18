@@ -18,7 +18,7 @@
 
         <BaseButton class="sm col-2 btn outline-red ms-auto" label="+ เพิ่มข้อมูล" @click="openModal = true" />
 
-        <BaseModal v-if="openModal == true" title="เพิ่มข้อมูลลายเซ็น" @close="openModal = !openModal" @save="submitForm">
+        <BaseModal v-if="openModal == true" title="เพิ่มข้อมูลลายเซ็น" @close="openModal = false" @save="submitForm">
             <div class="row mx-2">
                 <div class="col">
                     <BaseInput label="ชื่อ - นามสกุล" v-model="formData.sign_name" placeholder="ชื่อ - นามสกุล"
@@ -66,7 +66,7 @@
             content="Senior Human Resources">
             <EditIcon class="position-absolute top-0 end-0 m-2" />
             <div>
-                <img width="120" :src="getImage(signature.sign_image)" alt="">
+                <img width="120" :src="signature.sign_image_path" alt="">
             </div>
         </BaseCard>
     </div>
