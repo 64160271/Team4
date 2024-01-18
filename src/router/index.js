@@ -8,7 +8,6 @@ import LeaveInfo from '../components/InternInfo/LeaveInfo.vue'
 import DocumentInfo from '../components/InternInfo/DocumentInfo.vue'
 import AddInternForm from '../components/AddInternForm/AddInternForm.vue'
 import AddInternFile from '../components/AddInternByFile/AddInternFile.vue'
-import AddInternFormV2 from '../components/AddInternForm/AddInternFormV2.vue'
 import ShowCertificate from '../components/Certificate/ShowCertificate.vue'
 import SalaryReport from '../components/Report/SalaryReport.vue'
 import ManageCompany from '../components/CerfificateData/ManageCompany.vue'
@@ -62,11 +61,6 @@ const router = createRouter({
             path: '/interns/add-file',
             name: 'addInternFile',
             component: AddInternFile
-        },
-        {
-            path: '/interns/key-data-v2',
-            name: 'addInternFormV2',
-            component: AddInternFormV2
         },
         {
             path: '/certificates',
