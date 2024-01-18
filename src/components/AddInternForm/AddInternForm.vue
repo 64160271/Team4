@@ -766,7 +766,6 @@ import BaseSelect from "../Component/BaseSelect.vue";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import CameraLogo from "../icons/CameraLogo.vue";
 import router from "@/router";
-import { saveAs } from "file-saver";
 
 const formData = useInternFormData();
 const personalInfo = ref(formData.personal_info);

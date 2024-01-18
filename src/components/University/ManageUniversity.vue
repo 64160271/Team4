@@ -1,22 +1,28 @@
 <template>
     <LayoutMenuName page-name="จัดการมหาวิทยาลัย" />
 
-    <div class="row">
-         <input v-model="searchData" type="text" id="search-bar" class="bg-grays-200 form-control"
-                    placeholder="Search" aria-label="" aria-describedby="basic-addon1">
-        <button class="col-1 btn outline-red ms-auto" @click="isOpen = true">เพิ่มมหาวิทยาลัย</button>
+    <div class="row mb-4">
+        <div class="col-md-3 my-auto">
+            <SearchBox class="my-auto"  />
+        </div>
+      
+    <BaseButton label="เพิ่มมหาวิทยาลัย" class="col-md-2 ms-auto" @click="isOpen = true">
+    <template #before-text ><ManageUniversityIcon class="fill-red" /></template>
+    </BaseButton>
     </div>
 
     <BaseModal v-if="isOpen == true" 
+        @save="formSubmit" 
         title="เพิ่มข้อมูลมหาวิทยาลัย"
-        @close="isOpen = !isOpen">
+        @close="isOpen = false">
         <div class="col-md-12">
         <div class="text-center">
             <img
                 id="blah"
                 src="#"
                 alt=""
-                class="img bg-grays-200">
+                class="img-add bg-grays-200" 
+            >
         </div>
 
         <div class="row mt-4">
@@ -61,8 +67,13 @@
         <div class="card outline-black mb-3">
             <div class="card-body">
                 <div class="row" @click="showDetail[index] = !showDetail[index]">
-                    <label class="col">{{ university.uni_name }}</label>
-                    <div class="col-auto dropdown-toggle"></div>
+                    <label class="col">
+                        <span class="me-2">
+                            <img class="img" :src="university.uni_image_path" height="40" width="40">
+                        </span>
+                        {{ university.uni_name }}
+                    </label>
+                    <div class="col-auto dropdown-toggle my-auto"></div>
                 </div>
                 <Transition>
                     <div v-if="showDetail[index]" class="row row-cols-3 mt-3">
@@ -104,13 +115,17 @@ import axios from 'axios'
 import BaseButton from '../Component/BaseButton.vue';
 import BaseInput from '../Component/BaseInput.vue';
 import BaseModal from '../Component/BaseModal.vue';
+import SearchBox from '../Component/SearchBox.vue';
+import ManageUniversityIcon from '../icons/ManageUniversityIcon.vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const showDetail = ref([])
 const universities = ref({})
 const isOpen = ref(false) 
 const formData =ref({
-    uni_name:'',
-    uni_logo:''
+    uni_name:'มหาวิทยาลัย',
+    uni_file:'',
 })
 
 const getAllUniversity = async () => {
@@ -124,13 +139,19 @@ function showImg() {
     const imgUpload = document.getElementById("img-upload")
 
     if (imgUpload.files[0] != undefined) {
-        formData.value.uni_logo = imgUpload.files[0]
+        formData.value.uni_file = imgUpload.files[0]
     }
 
-    if (formData.value.uni_logo) {
-        blah.src = URL.createObjectURL(formData.value.uni_logo)
+    if (formData.value.uni_file) {
+        blah.src = URL.createObjectURL(formData.value.uni_file)
     }
 }
+
+async function formSubmit() {
+    await axios.post(`${import.meta.env.VITE_API_HOST}/universities`, formData.value,{ headers: {"Content-Type": "multipart/form-data"} })
+    router.go()
+}
+
 
 onMounted(() => {
     getAllUniversity()
@@ -148,5 +169,19 @@ onMounted(() => {
 .v-leave-to {
     transform: translateY(-20px);
     opacity: 0;
+}
+
+.img {
+    width: 80px;
+    height: 80px;
+    border: none;
+    
+}
+
+.img-add {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    border: 1px solid var(--main-color);
 }
 </style>
