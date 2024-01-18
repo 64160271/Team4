@@ -112,7 +112,7 @@ const formData =ref({
 })
 
 const getAllUniversity = async () => {
-    await axios.get(`${import.meta.env.VITE_API_HOST}/universities`)
+    await axios.get(`${import.meta.env.VITE_API_HOST}/universities/related`)
         .then((response) => {
             universities.value = response.data
             console.log(universities.value)
