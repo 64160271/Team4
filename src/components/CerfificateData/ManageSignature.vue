@@ -64,10 +64,10 @@
     <div class="row mb-2">
         <BaseCard v-for="signature in signatures" title=" " :sub="signature.sign_fname + ' ' + signature.sign_lname"
             content="Senior Human Resources">
-            <EditIcon class="position-absolute top-0 end-0 m-2" />
-            <div>
-                <img width="120" :src="signature.sign_image_path" alt="">
-            </div>
+            <template #before-title>
+                <EditIcon class="position-absolute top-0 end-0 m-2" />
+                <img width="150" height="110" :src="signature.sign_image_path" alt="">
+            </template>
         </BaseCard>
     </div>
 </template>
