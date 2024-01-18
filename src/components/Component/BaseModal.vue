@@ -1,27 +1,27 @@
-<template>
-    <div id="modal" class="modal" tabindex="-1" aria-hidden="true" v-show="open">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 id="exampleModalLabel" class="modal-title">{{ title }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    @click="$emit('close')"></button>
-                </div>
-                <div class="modal-body">
-                    
-                    <slot></slot>
+<!--
+ ฺBaseModal
+ Component สำหรับ Modal
+ Props:
+    open: Boolean สำหรับกำหนดการเปิด/ปิด Modal
+    title: หัวข้อ Modal
+-->
 
-                </div>
-                <div class="modal-footer justify-content-center gap-4">
-                    <button type="button" class="col-md-3 btn outline-gray" data-bs-dismiss="modal"
-                    @click="$emit('close')">
-                        ยกเลิก
-                    </button>
-                    <button type="button" class="col-md-3 btn outline-red" @click="$emit('save')">
-                        บันทึก
-                    </button>
-                </div>
-            </div>
+<template>
+  <div id="modal" class="modal" tabindex="-1" aria-hidden="true" v-show="open">
+    <div
+      class="modal-dialog modal-dialog-centered"
+      :class="{ 'modal-lg': size == 'lg' }, { 'modal-xl': size == 'xl' }"
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="exampleModalLabel" class="modal-title">{{ title }}</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            @click="$emit('close')"
+          ></button>
         </div>
         <div class="modal-body">
           <slot></slot>
@@ -45,18 +45,26 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
+import { Modal } from "bootstrap";
 
 const modal = ref();
+const emit = defineEmits();
 
 onMounted(() => {
-  modal.value = new bootstrap.Modal("#modal", {});
+  /* กำหนดให้ modal เป็น modal แบบ bootstrap */
+  modal.value = new Modal("#modal", {});
   modal.value.show();
 });
 
-defineProps({
+onUnmounted(() => {
+  emit("close");
+});
+
+const props = defineProps({
   open: Boolean,
   title: String,
+  size: [String, Boolean],
 });
 </script>
 

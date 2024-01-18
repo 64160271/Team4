@@ -26,7 +26,7 @@
 
         <InternDetail v-if="!isEdit" :intern="intern" class="mt-3" />
 
-        <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" class="mt-3" />
+        <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" />
 
     </div>
 </template>
