@@ -439,4 +439,8 @@
         border-color: var(--main-color) !important;
         margin-bottom: 12px;
     }
+
+    label {
+        font-weight: bold !important;
+    }
 </style>

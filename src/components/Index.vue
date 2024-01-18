@@ -14,7 +14,7 @@
     </div>
 
     <div class="col-md-2 my-auto">
-      <BaseSelect @change="getAllIntern" v-model="team_id" placeholder="ทีม" :options="teams" value="team_id" text="team_name" />
+      <BaseSelect placeholder="ทีม" all-select @change="getAllIntern" v-model="team_id" :options="teams" value="team_id" text="team_name" />
     </div>
 
     <button class="col-auto btn ms-auto outline-red" @click="$router.push('/interns/key-data')">
@@ -66,8 +66,8 @@ const tableHead = ref([
   { key: "intn_nickname_th", title: "ชื่อเล่น" },
   { key: "work_infos[0].work_role.role_name", title: "ตำแหน่ง" },
   { key: "work_infos[0].work_team.team_name", title: "ทีม" },
-  { key: "intn_start_date", title: "วันที่เริ่มฝึกงาน" },
-  { key: "intn_end_date", title: "วันที่สิ้นสุดฝึกงาน" },
+  { key: "intn_start_date", title: "วันที่เริ่มฝึกงาน", align: "center" },
+  { key: "intn_end_date", title: "วันที่สิ้นสุดฝึกงาน", align: "center" },
 ]);
 
 /*
@@ -87,7 +87,7 @@ const getAllIntern = async () => {
   const params = {
     page: page.value,
     limit: pageSize,
-    team_id: team_id.value || 0
+    team_id: team_id.value || null
   };
 
   await axios

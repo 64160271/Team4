@@ -142,6 +142,13 @@ export default class apiService {
             })
     }
 
+    createLeaveInfo = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/leavesinfo`, data, { headers: { "Content-Type": "multipart/form-data" } })
+            .then((response) => {
+                return response.data
+            })
+    }
+
     getWorkInfoByInternId = async (id) => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/workinfo/intern/${id}`)
             .then((response) => {
@@ -156,8 +163,8 @@ export default class apiService {
             })
     }
 
-    getDocumentByInternId = async (id) => {
-        return await axios.get(`${import.meta.env.VITE_API_HOST}/documents/intern/${id}`)
+    getDocumentByInternId = async (id, params = null) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/documents/intern/${id}`, { params: params })
             .then((response) => {
                 return response.data
             })

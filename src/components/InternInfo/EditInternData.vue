@@ -466,7 +466,7 @@
               <BaseSelect
                 label="สาขาวิชา"
                 :options="majors"
-                v-model.number="personalInfo.intn_major_id"
+                v-model="personalInfo.intn_major_id"
                 value="maj_id"
                 text="maj_name"
                 placeholder="เลือก (ต้องเลือกคณะก่อน)"
@@ -975,7 +975,7 @@
     formData.universitiesForm.faculty = formData.universitiesForm.university.faculties.find(faculty => 
       faculty.fac_id === formData.college_info.col_faculty_id
     )
-
+    console.log(personalInfo.value.intn_birth_date)
     
     setFilledData();
   

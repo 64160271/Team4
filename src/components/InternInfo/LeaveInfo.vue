@@ -7,6 +7,8 @@
     </div>
 
     <div class="row mb-3">
+      <SideLabelInput no-padding input-size="3" label="วันที่ลา" type="date" />
+
       <BaseButton
         label="+ เพิ่มข้อมูลการลา"
         @click="openModal = true"
@@ -16,9 +18,9 @@
     </div>
 
     <div class="row">
-      <DataTable :heads="tableHead" :items="leavesInfo">
-        <template #lvs_duration="{ data }">
-          {{ getDuration(data) }}
+      <DataTable :total="leavesInfo.length" :heads="tableHead" :items="leavesInfo">
+        <template #lvs_duration_fake="{ data }">
+          {{ getDuration(data.lvs_duration) }}
         </template>
         <template #open_file="{ data }">
           <svg
@@ -26,7 +28,7 @@
             width="32"
             height="32"
             fill="currentColor"
-            class="bi bi-card-image cursor-p outline-hov-red" 
+            class="bi bi-card-image cursor-p outline-hov-red"
             viewBox="0 0 16 16"
             @click="showLeaveFile(data.lvs_file_path)"
           >
@@ -45,6 +47,7 @@
     size="lg"
     @close="openModal = false"
     title="เพิ่มข้อมูลการลา"
+    @save="formSubmit"
   >
     <BaseInput :value="today" class="mb-3" label="วันที่เพิ่มข้อมูล" disabled />
 
@@ -82,41 +85,66 @@
         ระยะเวลา :
       </label>
       <Radio
-        v-model="formData.lvs_duration"
+        v-model="lvs_time"
         id="hour"
         class="col-md-2"
-        name="duration"
+        name="time"
         value="hr"
         type="radio"
         label="ชั่วโมง"
         checked
       />
       <Radio
-        v-model="formData.lvs_duration"
+        v-model="lvs_time"
         id="day"
         class="col-auto"
-        name="duration"
+        name="time"
         value="day"
         type="radio"
         label="วัน"
       />
     </div>
 
-    <div v-if="formData.lvs_duration == 'hr'">
+    <div v-if="lvs_time == 'hr'">
       <div class="row mb-3">
-        <div class="col-md-5">
-          <BaseInput v-model="formData.lvs_from_date" type="time" label="เวลาเริ่มต้น" />
+        <div class="col-md-4">
+          <BaseInput v-model="formData.lvs_from_date" type="date" label="วันที่ลา" />
         </div>
-        <div class="col-md-5">
-          <BaseInput v-model="formData.lvs_to_date" type="time" label="เวลาสิ้นสุด" />
+        <div class="col-auto mt-auto">
+          <Radio
+            v-model="formData.lvs_duration"
+            id="full-day"
+            name="duration"
+            value="F"
+            type="radio"
+            label="เต็มวัน"
+            checked
+          />
         </div>
-        <div class="col-md-2">
-          <BaseInput value="0" label="รวม (ชั่วโมง)" disabled />
+        <div class="col-auto mt-auto">
+          <Radio
+            v-model="formData.lvs_duration"
+            id="am"
+            name="duration"
+            value="AM"
+            type="radio"
+            label="ครึ่งวันเช้า"
+          />
+        </div>
+        <div class="col-md-2 mt-auto">
+          <Radio
+            v-model="formData.lvs_duration"
+            id="pm"
+            name="duration"
+            value="PM"
+            type="radio"
+            label="ครึ่งวันบ่าย"
+          />
         </div>
       </div>
     </div>
 
-    <div v-if="formData.lvs_duration == 'day'">
+    <div v-if="lvs_time == 'day'">
       <div class="row mb-3">
         <div class="col-md-5">
           <BaseInput v-model="formData.lvs_from_date" type="date" label="วันเริ่มต้น" />
@@ -124,7 +152,7 @@
         <div class="col-md-5">
           <BaseInput
             v-model="formData.lvs_to_date"
-            :min="formData.lvs_to_date"
+            :min="formData.lvs_from_date"
             type="date"
             label="วันสิ้นสุด"
           />
@@ -195,7 +223,7 @@
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
 import apiService from "../../services/api";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseButton from "../Component/BaseButton.vue";
@@ -206,30 +234,34 @@ import Radio from "../Component/Radio.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
 import { useLeavesType } from "../../stores/constData";
 import { useInternName } from "../../stores/constData";
-import { diffDate, diffTime, parseTime, getImageFromBuffer2 } from "../../assets/js/func";
+import { diffDate, diffTime } from "../../assets/js/func";
+import SideLabelInput from "../Component/SideLabelInput.vue";
 
+const router = useRouter();
 const internRole = ref();
 const internName = ref();
 const leavesType = ref(useLeavesType);
 const internId = useRoute().params.id;
 const leavesInfo = ref([]);
 const apiCall = new apiService();
-const file = ref();
 const today = ref(new Date());
 const openModal = ref(false);
+const lvs_time = ref("hr")
 const formData = ref({
   lvs_type: "",
   lvs_reason: "",
   lvs_from_date: "",
   lvs_to_date: "",
   lvs_file: "",
-  lvs_duration: "hr",
+  lvs_intern_id: "",
+  lvs_duration: "",
 });
 const tableHead = ref([
-  { key: "lvs_created_at", title: "วันที่เพิ่มข้อมูล", align: "center" },
-  { key: "lvs_id", title: "เลขที่ใบลา" },
+  { key: "lvs_id", title: "เลขที่ใบลา", align: "center" },
+  { key: "lvs_from_date", title: "วันที่ลา", align: "center" },
+  { key: "lvs_to_date", title: "ถึงวันที่", align: "center" },
   { key: "lvs_type_name", title: "ประเภทการลา" },
-  { key: "lvs_duration", title: "ระยะเวลา" },
+  { key: "lvs_duration_fake", title: "ระยะเวลา" },
   { key: "lvs_updated_by_user.user_name", title: "ผู้ทำการแก้ไข" },
   { key: "open_file", title: "หลักฐาน", align: "center" },
 ]);
@@ -239,6 +271,19 @@ onMounted(async () => {
   internName.value = await useInternName().getName;
   internRole.value = await useInternName().getRole;
 });
+
+async function formSubmit() {
+  if (lvs_time.value == "hr") {
+    formData.value.lvs_to_date = formData.value.lvs_from_date
+  }
+
+  formData.value.lvs_intern_id = internId;
+  try {
+    await apiCall.createLeaveInfo(data);
+  } catch (e) {
+    return e;
+  }
+}
 
 function showLeaveFile(path) {
   window.open(path);
@@ -252,12 +297,12 @@ function showFileName() {
   }
 }
 
-function getDuration(data) {
-  if (data.lvs_day) {
-    return data.lvs_day + " วัน";
-  } else if (data.lvs_hour) {
-    return data.lvs_hour + " ชั่วโมง";
-  }
+function getDuration(duration) {
+  const isNumber = (!isNaN(duration) && !isNaN(parseFloat(duration)))
+
+  if (isNumber) return `${duration} วัน`
+  else return duration
+  
 }
 </script>
 
