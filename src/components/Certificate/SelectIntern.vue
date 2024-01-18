@@ -25,12 +25,12 @@
                     <td scope="row" class="text-center">
                         <label class="checkbox-label">
                             <input class="checkbox" type="checkbox">
-                            {{ intern.cer_intern_id }}
+                            
                         </label>
                     </td>
-                    <td scope="row" class="text-center">{{ interns.intn_name_th }}</td>
+                    <td scope="row" class="text-center">{{ interns.intn_name_th}}</td>
                     <td scope="row" class="text-center">{{ interns.intn_nickname_th || '-' }}</td>
-                    <td scope="row" class="text-center">{{ interns.work_infos[0].work_role.role_name }}</td>
+                    <td scope="row" class="text-center">{{ }}</td>
                     <td scope="row" class="text-center">{{ interns.college_info.col_uni.uni_name || '-' }}</td>
                     <td scope="row" class="text-center">{{ interns.intn_start_date }}</td>
                     <td scope="row" class="text-center">{{ interns.intn_end_date || '-' }}</td>
@@ -60,21 +60,33 @@ const pageMax = ref()
 const pageSize = 10
 
 async function setCurrentPage(pageNumber) {
-    if (pageNumber > 0 && pageNumber <= pageMax.value) {
-        page.value = pageNumber
-        await getIntern()
-    }
+  if (pageNumber > 0 && pageNumber <= pageMax.value) {
+    page.value = pageNumber;
+    await getAllIntern();
+  }
 }
 
-const getIntern = async () => {
-    await axios.get(`${import.meta.env.VITE_API_HOST}/interns?page=${page.value}&limit=${pageSize}`)
-        .then((response) => {
-            interns.value = response.data.rows
-            total.value = response.data.count
-            pageMax.value = Math.ceil(total.value / pageSize)
-        })
-}
+const getAllIntern = async () => {
+  const params = {
+    page: page.value,
+    limit: pageSize,
+    team_id: team_id.value || 0
+  };
 
+  await axios
+    .get(`${import.meta.env.VITE_API_HOST}/interns`, { params })
+    .then((response) => {
+      interns.value = response.data.rows;
+      total.value = response.data.count;
+      pageMax.value = Math.ceil(total.value / pageSize);
+    });
+};
+
+onMounted(async () => {
+  setCurrentPage(page.value);
+  let service = new apiService()
+  teams.value = await service.getAllTeam();
+});
 
 </script>
 

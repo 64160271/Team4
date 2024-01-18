@@ -37,7 +37,7 @@
 
     <!-- Modal -->
     <div class="row mt-3">
-        <BaseCard title="Picture" sub="นายปริญญา ก้อนจันทึก (แมน)" content="Senior Human Resources">
+        <BaseCard v-for="signature in signatures" :title="signature?.sign_image" :sub="getName(signature)" content="">
             <div style="text-align: center;">
                 <button class="col-auto btn btn_choose" @click="$router.push('/certificates/selectIntern')">เลือก</button>
             </div>
@@ -48,10 +48,38 @@
 </template>
 
 <script setup>
-
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import BaseCard from '../Component/BaseCard.vue';
+import { useRoute } from 'vue-router';
+const route = useRoute();
 
 
+const signatures = ref([]);
+const id = ref(route.params.companyId);
+
+
+const getSignature = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_API_HOST}/signatures/company/${id.value}`);
+        signatures.value = response.data;
+    } catch (error) {
+        console.error('Error fetching signatures:', error);
+    }
+}
+
+
+onMounted(()=>{
+    getSignature()
+})
+
+function getName(signature){
+    let name = `${signature.sign_prefix}
+    ${signature.sign_fname}
+    ${signature.sign_lname}`
+    return name
+
+}
 
 </script>
 

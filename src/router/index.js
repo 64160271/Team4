@@ -97,7 +97,7 @@ const router = createRouter({
             component: SelectCompany
         },
         {
-            path: '/certificates/selectSignature',
+            path: '/certificates/selectSignature/:companyId',
             name: 'selectSignature',
             component: SelectSignature
         },

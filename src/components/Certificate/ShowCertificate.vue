@@ -43,9 +43,23 @@
 </template>
 
 <script setup>
-
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import BaseButton from '../Component/BaseButton.vue';
 import BaseTable from '../Component/BaseTable.vue';
+
+const certificates = ref([])
+
+const getCertificate = async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/certificate`)
+    .then((response) => {
+        certificates.value = response.data
+        })
+}
+onMounted(()=>{
+    getCertificate()
+})
+
 </script>
 
 <style scoped>
