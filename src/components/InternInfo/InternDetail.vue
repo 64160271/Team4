@@ -17,7 +17,7 @@
                             readonly required />
                     </div>
 
-                    <label for="" class="col-md-2 col-form-label text-gray"> สถานะพนักงาน </label>
+                    <label for="" class="col-md-2 col-form-label text-gray"> สถานะการฝึกงาน </label>
                     <div class="col">
                         <input v-model="intern.intn_work_status" placeholder="-" type="text"
                             class="form-control-plaintext" readonly required />

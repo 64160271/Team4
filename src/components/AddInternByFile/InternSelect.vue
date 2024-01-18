@@ -6,7 +6,7 @@
 -->
 
 <template>
-  <div class="form-check mt-3">
+  <div class="form-check mt-1">
     <input id="main" type="checkbox" class="form-check-input" @change="checkAll" />
     <label for="main" id="select-all" name="select-all" class="form-check-label"
       >เลือกทั้งหมด</label

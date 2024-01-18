@@ -58,7 +58,7 @@
   
               <div class="col-md-6">
                 <BaseSelect
-                  label="สถานะพนักงาน"
+                  label="สถานะการฝึกงาน"
                   :options="statusList.list"
                   v-model="personalInfo.intn_work_status"
                   :class="{ 'is-invalid': v$.personal_info.intn_work_status.$error }"

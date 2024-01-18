@@ -18,7 +18,7 @@
     </div>
 
     <div class="row">
-      <DataTable :total="leavesInfo.length" :heads="tableHead" :items="leavesInfo">
+      <DataTable striped :total="leavesInfo.length" :heads="tableHead" :items="leavesInfo">
         <template #lvs_duration_fake="{ data }">
           {{ getDuration(data.lvs_duration) }}
         </template>
@@ -92,6 +92,7 @@
         value="hr"
         type="radio"
         label="ชั่วโมง"
+        @change="formData.lvs_duration == 'F'"
         checked
       />
       <Radio
@@ -254,7 +255,7 @@ const formData = ref({
   lvs_to_date: "",
   lvs_file: "",
   lvs_intern_id: "",
-  lvs_duration: "",
+  lvs_duration: "F",
 });
 const tableHead = ref([
   { key: "lvs_id", title: "เลขที่ใบลา", align: "center" },
@@ -273,14 +274,15 @@ onMounted(async () => {
 });
 
 async function formSubmit() {
-  if (lvs_time.value == "hr") {
-    formData.value.lvs_to_date = formData.value.lvs_from_date
-  }
+  if (lvs_time.value == "hr") formData.value.lvs_to_date = formData.value.lvs_from_date
+  else if (lvs_time.value == "day") formData.value.lvs_duration = "M"
 
   formData.value.lvs_intern_id = internId;
   try {
-    await apiCall.createLeaveInfo(data);
+    await apiCall.createLeaveInfo(formData.value);
+    router.go()
   } catch (e) {
+    console.log(e)
     return e;
   }
 }
