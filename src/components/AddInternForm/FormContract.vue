@@ -1,0 +1,250 @@
+<!--
+ FormContract
+ Display contract input form
+ Author : Rawich Piboonsin
+ Created date : 04-09-2566
+-->
+
+<template>
+    <div class="row mb-3">
+        <span>สัญญาการจ้างงาน</span>
+    </div>
+
+    <hr>
+
+    <div class="row mb-4">
+        <div class="col">
+            <label
+for=""
+class="form-label">ประเภทพนักงาน <font color="#e1032b">*</font></label>
+            <select
+id="type"
+v-model="data.emp_type"
+name="type"
+class="form-select"
+required>
+                <option
+disabled
+selected
+:value="{ name: '' }">--- เลือก ---</option>
+                <option
+v-for="(intern_type, index) in internType"
+:value="intern_type">{{ intern_type.name }}</option>
+            </select>
+        </div>
+
+        <div class="col">
+            <label
+for=""
+class="form-label">เลขที่สัญญาจ้าง <font color="#e1032b">*</font></label>
+            <input
+v-model="data.contract_number"
+type="text"
+class="form-control"
+placeholder="10000">
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col">
+            <label
+for=""
+class="form-label">วันที่เริ่มฝึกงาน <font color="#e1032b">*</font></label>
+            <input
+v-model="data.start_date"
+min="2564-01-01"
+max="2566-12-31"
+type="date"
+class="form-control"
+                placeholder="DD/MM/YYYY">
+        </div>
+
+        <div class="col">
+            <label
+for=""
+class="form-label">วันที่ทำงานวันสุดท้าย </label>
+            <input
+v-model="data.last_work_date"
+min="2564-01-01"
+max="2566-12-31"
+type="date"
+class="form-control"
+                placeholder="DD/MM/YYYY">
+        </div>
+
+        <div class="col">
+            <label
+for=""
+class="form-label">วันที่สิ้นสุดสัญญาการฝึกงาน <font color="#e1032b">*</font></label>
+            <input
+v-model="data.contract_end_date"
+min="2564-01-01"
+max="2566-12-31"
+type="date"
+class="form-control"
+                placeholder="DD/MM/YYYY">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <span>ข้อมูลการทำงาน</span>
+    </div>
+
+    <hr>
+
+    <div class="row mb-4">
+        <div class="col">
+            <label
+for=""
+class="form-label">พี่เลี้ยง <font color="#e1032b">*</font></label>
+            <select
+id="menter"
+v-model=data.mentor
+name="menter"
+class="form-select"
+required>
+                <option
+disabled
+selected
+value="">--- เลือก ---</option>
+                <option
+v-for="(mentor, index) in mentors"
+:value="mentor">{{ mentor.ment_fname + " " + mentor.ment_lname }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col">
+            <label
+for=""
+class="form-label">ฝ่าย <font color="#e1032b">*</font></label>
+            <select
+id="faction"
+v-model="data.section"
+name="faction"
+class="form-select"
+required>
+                <option
+disabled
+selected
+value="">--- เลือก ---</option>
+                <option
+v-for="(section, index) in sections"
+:value="section">{{ section.sec_name }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col">
+            <label
+for=""
+class="form-label">แผนก <font color="#e1032b">*</font></label>
+            <select
+id="department"
+v-model="data.department"
+name="department"
+class="form-select"
+required>
+                <option
+disabled
+selected
+value="">--- เลือก ---</option>
+                <option
+v-for="(department, index) in departments"
+:value="department">{{ department.dept_name }}</option>
+            </select>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { onUnmounted, onMounted } from 'vue'
+import axios from 'axios'
+import { useContractStore } from '../../stores/formData';
+
+const internType = ref([
+    { id: 1, name: 'นักศึกษาฝึกงาน' },
+    { id: 2, name: 'พนักงานประจำ' },
+    { id: 3, name: 'พนักงานพาร์ทไทม์' }
+])
+
+const mentors = ref({})
+const sections = ref({})
+const departments = ref({})
+const roles = ref({})
+
+const data = ref(useContractStore())
+/* const data = ref({
+    emp_type: {
+        name: ''
+    },
+    contract_number: '',
+    start_date: '',
+    last_work_date: '',
+    contract_end_date: '',
+    mentor: '',
+    section: '',
+    department: '',
+}) */
+
+const prop = defineProps({
+    setParentData: Function,
+})
+
+const getAllMentor = async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/mentors`)
+        .then((response) => {
+            mentors.value = response.data
+        })
+}
+
+const getAllSection = async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/sections`)
+        .then((response) => {
+            sections.value = response.data
+        })
+}
+
+const getAllDepartment = async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/departments`)
+        .then((response) => {
+            departments.value = response.data
+        })
+}
+
+const getAllRole = async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/roles`)
+        .then((response) => {
+            roles.value = response.data
+        })
+}
+
+onMounted(() => {
+    getAllMentor(),
+        getAllSection(),
+        getAllDepartment(),
+        getAllRole()
+})
+
+onUnmounted(() => {
+    prop.setParentData(3, data.value)
+})
+
+</script>
+
+<style scoped>
+hr {
+    background-color: var(--main-color);
+    height: 1px;
+    border: none;
+}
+
+span {
+    color: var(--main-color);
+    font-size: 1.1rem;
+}
+</style>
