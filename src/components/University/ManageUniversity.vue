@@ -1,8 +1,10 @@
 <template>
-    <LayoutMenuName page-name="จัดการข้อมูลมหาวิทยาลัย" />
+    <LayoutMenuName page-name="จัดการมหาวิทยาลัย" />
 
     <div class="row">
-        <button class="col-2 btn outline-red ms-auto" @click="isOpen = true">เพิ่มมหาวิทยาลัย</button>
+         <input v-model="searchData" type="text" id="search-bar" class="bg-grays-200 form-control"
+                    placeholder="Search" aria-label="" aria-describedby="basic-addon1">
+        <button class="col-1 btn outline-red ms-auto" @click="isOpen = true">เพิ่มมหาวิทยาลัย</button>
     </div>
 
     <BaseModal v-if="isOpen == true" 
