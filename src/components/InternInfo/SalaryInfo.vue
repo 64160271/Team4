@@ -22,15 +22,15 @@
     </div>
 
     <div class="row mb-4 mt-2">
-      <SideLabelInput type="date" label="วันเริ่มต้น - สิ้นสุด" noPadding />
+      <SideLabelInput v-model="searchData.sal_from_date" type="date" label="วันเริ่มต้น - สิ้นสุด" noPadding />
 
       <div class="col-md-2">
-        <BaseInput type="date" />
+        <BaseInput v-model="searchData.sal_to_date" type="date" />
       </div>
     </div>
 
     <div class="row">
-      <DataTable :total="salaries.length" striped :heads="tableHead" :items="salaries">
+      <DataTable :total="filterData.length" striped :heads="tableHead" :items="filterData">
         <template #total="{ data }">
           {{ calculateTotal(data) }}
         </template>
@@ -44,22 +44,18 @@ import LayoutMenu from "./LayoutMenu.vue";
 import apiService from "../../services/api";
 import { useRoute } from "vue-router";
 import { onMounted, ref, computed, isProxy, toRaw } from "vue";
-import { confirmation } from "../../assets/js/func";
 import { useAddSalaryForm } from "../../stores/addSalaryFormdata";
-import Swal from "sweetalert2";
 import DataTable from "../Component/DataTable.vue";
-import useVuelidate from "@vuelidate/core";
 import CardInternInfo from "./CardInternInfo.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import SideLabelInput from "../Component/SideLabelInput.vue";
+import { slashDtoDashY } from "../../assets/js/func";
 
 const internId = useRoute().params.id;
 const salaries = ref([]);
 const apiCall = new apiService();
 const formData = ref(useAddSalaryForm());
 const modal = ref();
-const rules = toRaw(formData.value.rules);
-const v$ = useVuelidate(rules, formData.value); // validate
 const tableHead = ref([
   { key: "sal_report.rep_code", title: "รหัสรายการ", align: "left" },
   { key: "sal_from_date", title: "วันเริ่มต้น", align: "center" },
@@ -70,7 +66,7 @@ const tableHead = ref([
   { key: "total", title: "รวมเบี้ยเลี้ยง (บาท)", align: "end" },
 ]);
 
-const searchKey = ref({
+const searchData = ref({
   sal_from_date: "",
   sal_to_date: "",
 });
@@ -81,7 +77,6 @@ const lastSalary = computed(() => {
 
 onMounted(async () => {
   salaries.value = await apiCall.getSalaryByInternId(internId);
-  modal.value = new bootstrap.Modal("#modal", {});
 });
 
 function calculateTotal(data) {
@@ -89,6 +84,15 @@ function calculateTotal(data) {
     Number(Number(data?.sal_salary) * Number(data?.sal_day)) + Number(data?.sal_extra);
   return total.toFixed(2);
 }
+
+const filterData = computed(() => {
+  return salaries.value.filter((salary) => {
+    return (
+      slashDtoDashY(salary.sal_from_date) >= searchData.value.sal_from_date.trim() ||
+      slashDtoDashY(salary.sal_to_date) <= searchData.value.sal_to_date.trim()
+    )
+  })
+})
 </script>
 
 <style scoped></style>

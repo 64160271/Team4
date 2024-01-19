@@ -156,12 +156,12 @@ input {
 .upload-box {
   position: relative;
   text-align: center;
-  border: 1px black dotted;
+  border: 2px black dashed;
   height: 75vh;
 }
 
 .upload-box:hover {
-  border: 1px var(--main-color) dotted;
+  border: 2px #1d6f42 dashed;
   color: #1d6f42 !important;
 }
 

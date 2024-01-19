@@ -7,7 +7,7 @@
     </div>
 
     <div class="row mb-3">
-      <SideLabelInput no-padding input-size="3" label="วันที่ลา" type="date" />
+      <SideLabelInput v-model="searchData" no-padding input-size="3" label="วันที่ลา" type="date" />
 
       <BaseButton
         label="+ เพิ่มข้อมูลการลา"
@@ -18,7 +18,7 @@
     </div>
 
     <div class="row">
-      <DataTable striped :total="leavesInfo.length" :heads="tableHead" :items="leavesInfo">
+      <DataTable striped :total="filterData.length" :heads="tableHead" :items="filterData">
         <template #lvs_duration_fake="{ data }">
           {{ getDuration(data.lvs_duration) }}
         </template>
@@ -225,7 +225,7 @@
 import LayoutMenu from "./LayoutMenu.vue";
 import apiService from "../../services/api";
 import { useRoute, useRouter } from "vue-router";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseButton from "../Component/BaseButton.vue";
 import DataTable from "../Component/DataTable.vue";
@@ -235,9 +235,10 @@ import Radio from "../Component/Radio.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
 import { useLeavesType } from "../../stores/constData";
 import { useInternName } from "../../stores/constData";
-import { diffDate, diffTime } from "../../assets/js/func";
+import { diffDate, slashDtoDashY } from "../../assets/js/func";
 import SideLabelInput from "../Component/SideLabelInput.vue";
 
+const searchData = ref('')
 const router = useRouter();
 const internRole = ref();
 const internName = ref();
@@ -282,7 +283,6 @@ async function formSubmit() {
     await apiCall.createLeaveInfo(formData.value);
     router.go()
   } catch (e) {
-    console.log(e)
     return e;
   }
 }
@@ -304,8 +304,16 @@ function getDuration(duration) {
 
   if (isNumber) return `${duration} วัน`
   else return duration
-  
+
 }
+
+const filterData = computed(() => {
+  return leavesInfo.value.filter((leaveInfo) => {
+    return (
+      slashDtoDashY(leaveInfo.lvs_from_date) >= searchData.value.trim()
+    )
+  })
+})
 </script>
 
 <style scoped></style>

@@ -766,7 +766,6 @@ import BaseSelect from "../Component/BaseSelect.vue";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import CameraLogo from "../icons/CameraLogo.vue";
 import router from "@/router";
-import { saveAs } from "file-saver";
 
 const formData = useInternFormData();
 const personalInfo = ref(formData.personal_info);
@@ -837,21 +836,6 @@ async function submitForm() {
       personalInfo.value.intn_code = personalInfo.value.intn_code.replace("INT-", "");
     }
   }
-}
-
-/*
- * convertToBase64
- * แปลงรูปภาพจาก FileUpload เป็น base64 และเก็บไว้ในตัวแปร
- * param: ไฟล์จาก input
- * return: -
- */
-function convertToBase64(img) {
-  let result = new String();
-  let reader = new FileReader();
-  reader.readAsDataURL(img);
-  reader.onload = function () {
-    personalInfo.value.intn_image = reader.result.split(",")[1];
-  };
 }
 
 /*
@@ -1014,5 +998,22 @@ onMounted(async () => {
 
 .nm-color {
   border-color: var(--bs-border-color) !important;
+}
+
+input:focus {
+  transition: 0s;
+  box-shadow: none;
+  border: 2px solid rgb(0, 119, 255);
+}
+
+select:focus {
+  transition: 0s;
+  box-shadow: none;
+  border: 2px solid rgb(0, 119, 255);
+}
+
+.is-invalid:focus {
+  transition: 0s;
+  box-shadow: none;
 }
 </style>

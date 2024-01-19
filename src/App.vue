@@ -6,8 +6,7 @@
 
     <main
       v-if="!['login'].includes($route.name)"
-      class="px-5 pt-4"
-      style="margin-left: 280px"
+      class="px-5 pt-4 main-style "
     >
       <router-view />
     </main>
@@ -22,4 +21,9 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 </script>
 
-<style scoped></style>
+<style scoped>
+.main-style {
+  margin-left: 280px;
+  /* background-color: #f5f6f8; */
+}
+</style>

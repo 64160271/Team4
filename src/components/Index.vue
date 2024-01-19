@@ -8,13 +8,14 @@
 <template>
   <LayoutMenuName page-name="รายชื่อนักศึกษา" />
 
-  <div class="row mb-3 me-1">
-    <div class="col-md-3 my-auto">
-      <SearchBox @search="search" />
+  <div class="row mb-3">
+    <div class="col-md-3 my-auto nopadding">
+      <SearchBox v-model="searchData" @search="search" />
     </div>
 
     <div class="col-md-2 my-auto">
-      <BaseSelect placeholder="ทีม" all-select @change="getAllIntern" v-model="team_id" :options="teams" value="team_id" text="team_name" />
+      <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="team_id" :options="teams" value="team_id"
+        text="team_name" />
     </div>
 
     <button class="col-auto btn ms-auto outline-red" @click="$router.push('/interns/key-data')">
@@ -28,14 +29,16 @@
     </button>
   </div>
 
-  <DataTable :heads="tableHead" :items="interns" hovers clickable clickReturn="intn_id" @clicked="handleClick" paginate
-    :total="total" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
-    <template class="col-md-2" #intn_key="{ data }">
-      <img v-if="data.intn_image" class="img-custom" :src="data.intn_image_path" width="40" height="40" alt="" />
-      <img v-else src="../assets/images/person-nm.png" alt="" width="35" />
-      <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
-    </template>
-  </DataTable>
+  <div class="row">
+    <DataTable striped :heads="tableHead" :items="interns" hovers clickable clickReturn="intn_id" @clicked="handleClick" paginate
+      :total="total" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
+      <template class="col-md-2" #intn_key="{ data }">
+        <img v-if="data.intn_image" class="img-custom" :src="data.intn_image_path" width="40" height="40" alt="" />
+        <img v-else src="../assets/images/person-nm.png" alt="" width="35" />
+        <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
+      </template>
+    </DataTable>
+  </div>
 </template>
 
 <script setup>
@@ -79,15 +82,18 @@ const tableHead = ref([
 async function setCurrentPage(pageNumber) {
   if (pageNumber > 0 && pageNumber <= pageMax.value) {
     page.value = pageNumber;
-    await getAllIntern();
   }
+
+  await getAllIntern();
 }
 
 const getAllIntern = async () => {
+  console.log(searchData.value)
   const params = {
     page: page.value,
     limit: pageSize,
-    team_id: team_id.value || null
+    team_id: team_id.value || undefined,
+    filter: searchData.value || undefined,
   };
 
   await axios
@@ -105,14 +111,14 @@ onMounted(async () => {
   teams.value = await service.getAllTeam();
 });
 
-function search(value) {
+function search() {
   if (timer) {
     clearTimeout(timer)
   }
-
+  
   timer = setTimeout(() => {
-    console.log(value)
-  }, 1500)
+    setCurrentPage(1)
+  }, 500)
 }
 
 /* 
