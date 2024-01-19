@@ -18,18 +18,60 @@
 
         <BaseButton class="sm col-2 btn outline-red ms-auto" label="+ เพิ่มข้อมูล" @click="openModal = true" />
 
-        <BaseModal v-if="openModal == true" title="เพิ่มข้อมูลลายเซ็น" @close="openModal = false" @save="submitForm">
+        <BaseModal v-if="openModal == true" title="เพิ่มข้อมูลลายเซ็น" size="lg" @close="openModal = false"
+            @save="submitForm">
             <div class="row mx-2">
                 <div class="col">
-                    <BaseInput label="ชื่อ - นามสกุล" v-model="formData.sign_name" placeholder="ชื่อ - นามสกุล"
-                        class="mb-3"></BaseInput>
-                    <BaseInput label="ตำแหน่ง" v-model="formData.sign_role" placeholder="ตำแหน่ง" class="mb-3"></BaseInput>
+
+                    <!-- แถวกรอกข้อมูลชื่อ -->
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <BaseSelect 
+                                label="คำนำหน้า" 
+                                v-model="formData.sign_prefix" 
+                                :options="prefix">
+                            </BaseSelect>
+                        </div>
+                        <div class="col-md-5">
+                            <BaseInput 
+                                label="ชื่อ" 
+                                v-model="formData.sign_fname" 
+                                placeholder="ชื่อ">
+                            </BaseInput>
+                        </div>
+                        <div class="col-md-5">
+                            <BaseInput 
+                                label="นามสกุล" 
+                                v-model="formData.sign_lname" 
+                                placeholder="นามสกุล">
+                            </BaseInput>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <BaseInput 
+                                label="ตำแหน่ง" 
+                                v-model="formData.sign_role" 
+                                placeholder="ตำแหน่ง">
+                            </BaseInput>
+                        </div>
+                        <div class="col-md-6">
+                            <BaseSelect
+                                label="บริษัท"
+                                v-model="formData.sign_company_id"
+                                :options="companies"
+                                text="com_name"
+                                value="com_id">
+                            </BaseSelect>
+                        </div>
+                    </div>
 
                     <label for="inputImage" class="form-label text-gray ">ลายเซ็นผู้รับรอง</label>
 
                     <div class="row">
                         <button id="picture" type="button"
-                            class="col-auto btn btn-sm outline-red position-relative px-4 mx-auto mb-3"
+                            class="col-auto btn outline-red position-relative px-4 mx-auto mb-3"
                             v-if="!formData.sign_image">
                             <input id="img-upload" type="file" accept="image/*" @change="showImg" />
 
@@ -52,7 +94,7 @@
                         <div class="position-relative col-5 border border-dark rounded-3 py-2 mx-auto">
                             <div class="text-overflow-ellipsis mx-2">{{ formData.sign_image.name }}</div>
                             <div class="col position-absolute top-0 end-0 me-1 pointer" @click="formData.sign_image = ''">
-                                x
+                                X
                             </div>
                         </div>
                     </div>
@@ -63,10 +105,15 @@
 
     <div class="row mb-2">
         <BaseCard v-for="signature in signatures" title=" " :sub="signature.sign_fname + ' ' + signature.sign_lname"
-            content="Senior Human Resources">
+            content="Senior Human Resources" class="mb-4">
             <template #before-title>
                 <EditIcon class="position-absolute top-0 end-0 m-2" />
                 <img width="150" height="110" :src="signature.sign_image_path" alt="">
+            </template>
+            <template #after-title>
+                <span class="text-center">
+                    {{ signature.sign_company?.com_name }}
+                </span>
             </template>
         </BaseCard>
     </div>
@@ -78,25 +125,32 @@ import BaseCard from '../Component/BaseCard.vue';
 import EditIcon from '../icons/EditIcon.vue';
 import BaseModal from '../Component/BaseModal.vue';
 import BaseInput from '../Component/BaseInput.vue';
-import { confirmation } from '../../assets/js/func';
+import BaseSelect from '../Component/BaseSelect.vue'
 import { ref } from 'vue';
 import apiService from '../../services/api';
 import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const openModal = ref(false)
 const formData = ref({
-    sign_name: '',
+    sign_prefix: '',
+    sign_fname: '',
+    sign_lname: '',
     sign_role: '',
+    sign_company_id: '',
     sign_image: ''
 })
+
+const prefix = ref(['นาย', 'นางสาว', 'นาง'])
 const apiCall = new apiService()
-const signatures = ref({})
+const signatures = ref([])
+const companies = ref([])
 
 async function submitForm() {
-    const result = await confirmation()
-    if (result) {
-        await apiCall.createSignature(formData)
-    }
+    /* const result = await confirmation() */
+    await apiCall.createSignature(formData.value)
+    router.go()
 }
 
 function showImg() {
@@ -107,13 +161,12 @@ function showImg() {
     }
 }
 onMounted(async () => {
-    signatures.value = await apiCall.getAllSignature()
+    signatures.value = await apiCall.getAllSignatureWithCompany()
+    companies.value = await apiCall.getAllCompany()
     console.log(signatures.value)
 })
 
-function getImage(img) {
-    return `src/assets/images/signature/${img}`
-}
+
 </script>
 
 <style scoped>
@@ -125,4 +178,5 @@ function getImage(img) {
 
 .pointer {
     cursor: pointer;
-}</style>
+}
+</style>
