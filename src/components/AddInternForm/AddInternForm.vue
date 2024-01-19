@@ -549,13 +549,15 @@
           </div>
 
           <div class="col">
-            <label for="" class="form-label text-gray">วันที่สิ้นสุดสัญญา</label>
-            <input
+            <BaseInput
+              label="วันที่สิ้นสุดสัญญา"
               id="contractend"
               v-model="personalInfo.intn_contract_end_date"
               type="date"
-              class="form-control"
+              :class="{ 'is-invalid': v$.personal_info.intn_contract_end_date.$error }"
+              required
             />
+            <InvalidFeedback :errors="v$.personal_info.intn_contract_end_date.$errors" />
           </div>
         </div>
       </div>
@@ -757,7 +759,7 @@ import {
   useInternType,
   useBloodType,
 } from "../../stores/constData";
-import { useInternFormData } from "../../stores/addInternFormData";
+import { useInternFormData, addInternFormRules } from "../../stores/addInternFormData";
 import { getAge, confirmation, successAlert, errorAlert } from "../../assets/js/func";
 import apiService from "../../services/api";
 import useVuelidate from "@vuelidate/core"; // validate
@@ -772,7 +774,7 @@ const personalInfo = ref(formData.personal_info);
 const workInfo = ref(formData.work_info);
 const collegeInfo = ref(formData.college_info);
 const address = ref(formData.address);
-const rules = toRaw(formData.rules);
+const rules = toRaw(addInternFormRules);
 
 const apiCall = new apiService();
 const roles = ref({});

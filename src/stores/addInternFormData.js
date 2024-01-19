@@ -84,64 +84,6 @@ export const useInternFormData = defineStore("internFormData", {
                 addr_post_code: '',
             },
 
-            rules: {
-                personal_info: {
-                    intn_code: {
-                        required,
-                        integer: helpers.withMessage(numberFeedback, integer)
-                    },
-                    intn_work_status: { required },
-                    intn_mentor_id: { required },
-                    intn_prefix_th: { required },
-                    intn_fname_th: {
-                        required,
-                        requiredThai: helpers.withMessage(thaiFeedback, requiredThai)
-                    },
-                    intn_lname_th: {
-                        required,
-                        requiredThai: helpers.withMessage(thaiFeedback, requiredThai),
-                    },
-                    intn_nickname_th: {
-                        required,
-                        requiredThai: helpers.withMessage(thaiFeedback, requiredThai)
-                    },
-                    intn_fname_en: {
-                        requiredEng: helpers.withMessage(engFeedback, requiredEng)
-                    },
-                    intn_lname_en: {
-                        requiredEng: helpers.withMessage(engFeedback, requiredEng)
-                    },
-                    intn_nickname_en: {
-                        requiredEng: helpers.withMessage(engFeedback, requiredEng)
-                    },
-                    intn_gender: { required },
-                    intn_tel: {
-                        required,
-                        integer: helpers.withMessage(numberFeedback, integer),
-                        startWithZero: helpers.withMessage('ข้อมูลต้องอยู่ในรูปแบบเบอร์โทรศัพท์', startWithZero)
-                    },
-                    intn_email: {
-                        required,
-                        email: helpers.withMessage(emailFeedback, email)
-                    },
-                    intn_birth_date: {
-                        checkAge: helpers.withMessage(ageFeedback, checkAge)
-                    },
-                    intn_start_date: { required },
-                    intn_intern_type: { required },
-                    intn_major_id: { required },
-                },
-                college_info: {
-                    col_university_id: { required },
-                    col_faculty_id: { required },
-                },
-                work_info: {
-                    work_role_id: { required },
-                    work_section_id: { required },
-                    work_team_id: { required }
-                },
-            },
-
             sectionsForm: {
                 section: ''
             },
@@ -208,3 +150,62 @@ export const useInternFormData = defineStore("internFormData", {
         }
     },
 });
+
+export const addInternFormRules =  {
+    personal_info: {
+        intn_code: {
+            required,
+            integer: helpers.withMessage(numberFeedback, integer)
+        },
+        intn_work_status: { required },
+        intn_mentor_id: { required },
+        intn_prefix_th: { required },
+        intn_fname_th: {
+            required,
+            requiredThai: helpers.withMessage(thaiFeedback, requiredThai)
+        },
+        intn_lname_th: {
+            required,
+            requiredThai: helpers.withMessage(thaiFeedback, requiredThai),
+        },
+        intn_nickname_th: {
+            required,
+            requiredThai: helpers.withMessage(thaiFeedback, requiredThai)
+        },
+        intn_fname_en: {
+            requiredEng: helpers.withMessage(engFeedback, requiredEng)
+        },
+        intn_lname_en: {
+            requiredEng: helpers.withMessage(engFeedback, requiredEng)
+        },
+        intn_nickname_en: {
+            requiredEng: helpers.withMessage(engFeedback, requiredEng)
+        },
+        intn_gender: { required },
+        intn_tel: {
+            required,
+            integer: helpers.withMessage(numberFeedback, integer),
+            startWithZero: helpers.withMessage('ข้อมูลต้องอยู่ในรูปแบบเบอร์โทรศัพท์', startWithZero)
+        },
+        intn_email: {
+            required,
+            email: helpers.withMessage(emailFeedback, email)
+        },
+        intn_birth_date: {
+            checkAge: helpers.withMessage(ageFeedback, checkAge)
+        },
+        intn_start_date: { required },
+        intn_contract_end_date: { required },
+        intn_intern_type: { required },
+        intn_major_id: { required },
+    },
+    college_info: {
+        col_university_id: { required },
+        col_faculty_id: { required },
+    },
+    work_info: {
+        work_role_id: { required },
+        work_section_id: { required },
+        work_team_id: { required }
+    },
+}

@@ -18,6 +18,11 @@
         text="team_name" />
     </div>
 
+    <div class="col-md-2 my-auto nopadding">
+      <BaseInput placeholder="วันที่เริ่มต้นฝึกงาน" @change="setCurrentPage(1)" v-model="startDate" 
+        onfocus="(this.type='date')" onblur="(this.type='text')" />
+    </div>
+
     <button class="col-auto btn ms-auto outline-red" @click="$router.push('/interns/key-data')">
       <FormIconVue />
       เพิ่มจากแบบฟอร์ม
@@ -53,6 +58,7 @@ import router from "@/router";
 import SearchBox from "./Component/SearchBox.vue";
 import apiService from "../services/api";
 import BaseSelect from "./Component/BaseSelect.vue";
+import BaseInput from "./Component/BaseInput.vue";
 
 const total = ref();
 const page = ref(1);
@@ -61,6 +67,7 @@ const pageSize = 10;
 const interns = ref([]);
 const teams = ref([]);
 const team_id = ref()
+const startDate = ref('')
 const searchData = ref("");
 let timer;
 const tableHead = ref([
@@ -88,12 +95,12 @@ async function setCurrentPage(pageNumber) {
 }
 
 const getAllIntern = async () => {
-  console.log(searchData.value)
   const params = {
     page: page.value,
     limit: pageSize,
     team_id: team_id.value || undefined,
     filter: searchData.value || undefined,
+    intn_start_date: startDate.value || undefined,
   };
 
   await axios
@@ -120,29 +127,6 @@ function search() {
     setCurrentPage(1)
   }, 500)
 }
-
-/* 
-const findInternData = computed(() => {
-  let keyword = searchData.value.trim();
-  return interns.value.filter((intern) => {
-    return (
-      intern.intn_fname_th?.indexOf(keyword) > -1 ||
-      intern.intn_lname_th?.indexOf(keyword) > -1 ||
-      intern.intn_start_date?.indexOf(keyword) > -1 ||
-      intern.intn_end_date?.indexOf(keyword) > -1 ||
-      intern.intn_prefix_th?.indexOf(keyword) > -1 ||
-      intern.intn_code?.indexOf(keyword) > -1 ||
-      intern.college_infos[0]?.col_major.maj_faculty.fac_university.uni_name.indexOf(
-        keyword
-      ) > -1 ||
-      intern.intn_nickname_th?.indexOf(keyword) > -1 ||
-      intern.work_infos[0]?.work_role.role_name.indexOf(keyword) > -1 ||
-      intern.work_infos[0]?.work_team.team_name.indexOf(keyword) > -1 ||
-      intern.college_info?.col_major.maj_name.indexOf(keyword) > -1 ||
-      intern.intn_name_th.indexOf(keyword) > -1
-    );
-  });
-}); */
 
 function handleClick(intn_id) {
   router.push({ name: "internData", params: { id: intn_id } });
