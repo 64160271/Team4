@@ -8,51 +8,51 @@
 <template>
   <LayoutMenuName page-name="รายชื่อนักศึกษา" />
 
-  <div class="row mb-3">
-    <div class="col-md-3 my-auto nopadding">
-      <SearchBox v-model="searchData" @search="search" />
+  <SectionSpace>
+    <div class="row mb-3">
+      <div class="col-md-3 my-auto nopadding">
+        <SearchBox v-model="searchData" @search="search" />
+      </div>
+
+      <div class="col-md-2 my-auto">
+        <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="team_id" :options="teams"
+          value="team_id" text="team_name" />
+      </div>
+
+      <div class="col-md-2 my-auto nopadding">
+        <BaseInput placeholder="วันที่เริ่มต้นฝึกงาน" @change="setCurrentPage(1)" v-model="startDate"
+          onfocus="(this.type='date')" onblur="(this.type='text')" />
+      </div>
+
+      <button class="col-auto btn ms-auto btn-sm outline-red" @click="$router.push('/interns/key-data')">
+        <FormIconVue />
+        เพิ่มจากแบบฟอร์ม
+      </button>
+
+      <button class="ms-4 col-auto btn btn-sm outline-red" @click="$router.push('/interns/add-file')">
+        <ExcelIcon />
+        เพิ่มจากไฟล์ Excel
+      </button>
     </div>
 
-    <div class="col-md-2 my-auto">
-      <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="team_id" :options="teams" value="team_id"
-        text="team_name" />
+    <div class="row">
+      <DataTable striped :heads="tableHead" :items="interns" hovers clickable clickReturn="intn_id" @clicked="handleClick"
+        paginate :total="total" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
+        <template class="col-md-2" #intn_key="{ data }">
+          <img v-if="data.intn_image" class="img-custom" :src="data.intn_image_path" width="40" height="40" alt="" />
+          <img v-else src="../assets/images/person-nm.png" alt="" width="35" />
+          <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
+        </template>
+      </DataTable>
     </div>
-
-    <div class="col-md-2 my-auto nopadding">
-      <BaseInput placeholder="วันที่เริ่มต้นฝึกงาน" @change="setCurrentPage(1)" v-model="startDate" 
-        onfocus="(this.type='date')" onblur="(this.type='text')" />
-    </div>
-
-    <button class="col-auto btn ms-auto outline-red" @click="$router.push('/interns/key-data')">
-      <FormIconVue />
-      เพิ่มจากแบบฟอร์ม
-    </button>
-
-    <button class="ms-4 col-auto btn outline-red" @click="$router.push('/interns/add-file')">
-      <ExcelIcon />
-      เพิ่มจากไฟล์ Excel
-    </button>
-  </div>
-
-  <div class="row">
-    <DataTable striped :heads="tableHead" :items="interns" hovers clickable clickReturn="intn_id" @clicked="handleClick" paginate
-      :total="total" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
-      <template class="col-md-2" #intn_key="{ data }">
-        <img v-if="data.intn_image" class="img-custom" :src="data.intn_image_path" width="40" height="40" alt="" />
-        <img v-else src="../assets/images/person-nm.png" alt="" width="35" />
-        <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
-      </template>
-    </DataTable>
-  </div>
+  </SectionSpace>
 </template>
 
 <script setup>
 import axios from "axios";
 import { ref, onMounted, toRaw } from "vue";
-import { computed } from "vue";
 import FormIconVue from "./icons/FormIcon.vue";
 import ExcelIcon from "./icons/ExcelIcon.vue";
-import { getImageFromBuffer } from "@/assets/js/func";
 import DataTable from "./Component/DataTable.vue";
 import router from "@/router";
 import SearchBox from "./Component/SearchBox.vue";
@@ -122,7 +122,7 @@ function search() {
   if (timer) {
     clearTimeout(timer)
   }
-  
+
   timer = setTimeout(() => {
     setCurrentPage(1)
   }, 500)

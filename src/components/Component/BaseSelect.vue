@@ -110,4 +110,8 @@ select:focus {
   box-shadow: none;
   border: 2px solid red !important;
 }
+
+/* select {
+  border: 1px solid rgba(0, 0, 0, 0.575)
+} */
 </style>
