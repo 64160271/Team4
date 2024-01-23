@@ -1,12 +1,10 @@
 <template>
-  <div class="row mb-3">
     <LayoutMenu />
 
-    <div class="row mb-3">
-      <CardInternInfo :internId="internId"> </CardInternInfo>
-    </div>
+    <CardInternInfo class="mb-3" :internId="internId"> </CardInternInfo>
 
-    <div class="row mb-3">
+    <SectionSpace>
+      <div class="row mb-3">
       <div class="my-auto col-md-3 nopadding">
         <SearchBox v-model="searchData" placeholder="ชื่อเอกสาร" />
       </div>
@@ -53,7 +51,7 @@
         </template>
       </DataTable>
     </div>
-  </div>
+  </SectionSpace>
 
   <BaseModal
     v-if="openModal"

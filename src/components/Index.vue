@@ -9,7 +9,7 @@
   <LayoutMenuName page-name="รายชื่อนักศึกษา" />
 
   <SectionSpace>
-    <div class="row mb-3">
+    <div class="row mb-3 top-300">
       <div class="col-md-3 my-auto nopadding">
         <SearchBox v-model="searchData" @search="search" />
       </div>

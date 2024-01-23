@@ -6,9 +6,11 @@
 
     <main
       v-if="!['login'].includes($route.name)"
-      class="px-5 main-style vh-100"
+      class="px-5 main-style"
     >
-      <router-view />
+      <div class="mb-3">
+        <router-view />
+      </div>
     </main>
   </div>
 </template>
@@ -22,5 +24,7 @@ import Login from "./components/Login.vue";
 .main-style {
   margin-left: 280px;
   background-color: #f5f6f8;
+  height: 100%;
+  overflow-y: scroll;
 }
 </style>

@@ -6,7 +6,7 @@
 -->
 
 <template>
-    <div class="row mb-4 text-center bg-white fixed pt-4">
+    <div class="row mb-4 text-center bg-white pt-4">
         <router-link :to="{ name: 'internData', params: { id: internId } }"
             class="text-decoration-none col h5 my-0 pb-3 border-bottom border-2" active-class="active">
             ข้อมูลส่วนตัว
@@ -59,5 +59,6 @@ button:active {
 
 div {
     margin-left: -48px !important;
-  }
+    margin-right: -48px !important;
+ }
 </style>

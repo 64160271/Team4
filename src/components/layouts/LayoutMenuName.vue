@@ -20,5 +20,7 @@
   div {
     margin-left: -48px !important;
     margin-right: -48px !important;
+/*     z-index: 50;
+    width: 100%; */
   }
 </style>

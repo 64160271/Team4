@@ -1,12 +1,10 @@
 <template>
-  <div class="row mb-3">
     <LayoutMenu />
 
-    <div class="row mb-3">
-      <CardInternInfo :internId="internId"> </CardInternInfo>
-    </div>
+      <CardInternInfo class="mb-3" :internId="internId"> </CardInternInfo>
 
-    <div class="row mb-3">
+    <SectionSpace>
+      <div class="row mb-3">
       <SideLabelInput v-model="searchData" no-padding input-size="3" label="วันที่ลา" type="date" />
 
       <BaseButton
@@ -40,7 +38,7 @@
         </template>
       </DataTable>
     </div>
-  </div>
+    </SectionSpace>
 
   <BaseModal
     v-if="openModal"
