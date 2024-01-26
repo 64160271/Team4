@@ -7,7 +7,8 @@
 -->
 
 <template>
-  <label for="" class="form-label text-gray" v-if="label">{{ label }}
+  <label for="" class="form-label text-gray" v-if="label"
+    >{{ label }}
     <span class="text-danger" v-if="required">*</span>
   </label>
   <input :modelValue="modelValue" :type="input_type" class="form-control" :readonly="readonly" :required="required"
