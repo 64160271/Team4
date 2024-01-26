@@ -1,6 +1,6 @@
 <template>
-  <div class="row border-bottom mb-3">
-    <span class="h4 fw-bold text-custom">{{ pageName }}</span>
+  <div class="row mb-3 pt-4 bg-white">
+    <span class="h4 fw-bold text-custom px-5">{{ pageName }}</span>
   </div>
 </template>
 
@@ -13,7 +13,14 @@
 </script>
 
 <style scoped>
-  .border-bottom {
-    border-color: none !important;
+  .nm-color {
+    border-color: var(--bs-border-color) !important;
+  }
+
+  div {
+    margin-left: -48px !important;
+    margin-right: -48px !important;
+/*     z-index: 50;
+    width: 100%; */
   }
 </style>

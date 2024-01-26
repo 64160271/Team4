@@ -139,8 +139,6 @@ const login = async () => {
       return response.data;
     });
 
-  console.log(result);
-  console.log(result.status);
 
   if (result.status) {
     router.push({ name: "index" });
