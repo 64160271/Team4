@@ -13,14 +13,15 @@ import SalaryReport from '../components/Report/SalaryReport.vue'
 import ManageCompany from '../components/CerfificateData/ManageCompany.vue'
 import ManageSignature from '../components/CerfificateData/ManageSignature.vue'
 import ManageUniversity from '../components/University/ManageUniversity.vue'
+import Cookies from "js-cookie";
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/',
+            path: '/interns',
             name: 'index',
-            component: Index
+            component: Index,
         },
         {
             path: '/login',
@@ -88,6 +89,21 @@ const router = createRouter({
             component: ManageCompany
         },
     ]
+})
+
+router.beforeEach((to, from, next) => {
+    const token = Cookies.get('token')
+
+    if (to.name !== 'login' && !token) {
+        next({ name: 'login' })
+    }
+
+    if (to.name == 'login') {
+        Cookies.remove('token')
+        Cookies.remove('user')
+        next()
+    }
+    else next()
 })
 
 export default router

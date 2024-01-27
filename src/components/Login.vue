@@ -59,13 +59,8 @@
             <span class="col-auto align-self-center">
               <UserIcon />
             </span>
-            <input
-              v-model="credentials.username"
-              class="col form-control rounded-pill"
-              placeholder="Username"
-              type="text"
-              required
-            />
+            <input v-model="credentials.username" class="col form-control rounded-pill" placeholder="Username" type="text"
+              required />
           </div>
 
           <label class="form-label h5">Password</label>
@@ -73,13 +68,8 @@
             <span class="col-auto align-self-center">
               <PasswordIcon />
             </span>
-            <input
-              v-model="credentials.password"
-              class="col form-control rounded-pill"
-              type="password"
-              placeholder="Password"
-              required
-            />
+            <input v-model="credentials.password" class="col form-control rounded-pill" type="password"
+              placeholder="Password" required />
           </div>
 
           <div class="row mb-4">
@@ -94,10 +84,7 @@
             <span class="col-auto">
               <UserIcon class="fake-display" />
             </span>
-            <router-link
-              to="#"
-              class="col-auto mx-auto text-center text-dark text-decoration-underline"
-            >
+            <router-link to="#" class="col-auto mx-auto text-center text-dark text-decoration-underline">
               ลืมรหัสผ่าน
             </router-link>
           </div>
@@ -109,12 +96,7 @@
       </div>
     </div>
 
-    <img
-      height="184"
-      class="overflow-auto w-100 position-absolute bottom-0"
-      src="../assets/images/wave.png"
-      alt=""
-    />
+    <img height="184" class="overflow-auto w-100 position-absolute bottom-0" src="../assets/images/wave.png" alt="" />
   </div>
 </template>
 
@@ -124,6 +106,7 @@ import PasswordIcon from "./icons/PasswordIcon.vue";
 import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import Cookies from "js-cookie";
 
 const error = ref();
 const router = useRouter();
@@ -139,13 +122,29 @@ const login = async () => {
       return response.data;
     });
 
-
   if (result.status) {
+    let me = await validateTokent(result.token)
+
+    Cookies.set("token", result.token, {
+      expires: new Date(me.exp * 1000)
+    });
+
+    Cookies.set("user", `${me.fname} ${me.lname}`)
+
     router.push({ name: "index" });
   } else {
     error.value = result.error;
   }
 };
+
+const validateTokent = (async (token) => {
+  return await axios.get(`${import.meta.env.VITE_API_HOST}/users/me`, { headers: { "Authorization": `Bearer ${token}` } })
+    .then((res) => {
+      return res.data
+    }).catch((e) => {
+      return false
+    })
+})
 </script>
 
 <style scoped>
@@ -165,6 +164,25 @@ const login = async () => {
   display: flex;
   margin-top: 20px;
   height: 50px;
+}
+
+.box_wel {
+  margin-top: 15px;
+  margin-left: 50px;
+}
+
+.box_login {
+  margin-top: 20px;
+  margin-left: 88px;
+}
+
+.group_box {
+  display: inline-block;
+}
+
+.box_img_people {
+  display: inline-block;
+  margin-top: 50px;
 }
 
 button {
