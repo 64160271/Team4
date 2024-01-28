@@ -4,7 +4,7 @@
 * {
     font-size: 16px;
     font-family: 'IBM Plex Sans Thai', sans-serif;
-    /* font-family: 'Kanit'; */
+/*     font-family: 'Kanit', sans-serif; */
     font-weight: 400 !important;
 }
 
@@ -195,4 +195,9 @@
 .nopadding {
     padding: 0 !important;
     margin: 0 !important;
+}
+
+.spinner-border {
+    width: 4rem !important;
+    height: 4rem !important;
 }

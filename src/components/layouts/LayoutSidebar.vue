@@ -45,17 +45,20 @@
 
         <Transition>
           <div v-if="dropdownSalary">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-5">
-              <li>
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-2">
+              <li class="my-2">
                 <router-link to="/signatures" class="nav-link text-dark hov-red" active-class="active"
                   @click="changeActiveMenu($event)">
-                  รายงานเบี้ยเลี้ยง
+                  <Monitor />
+                  <span class="ms-3">รายงานเบี้ยเลี้ยง</span>
                 </router-link>
               </li>
               <li>
                 <router-link to="/companies" class="nav-link text-dark hov-red" active-class="active"
                   @click="changeActiveMenu($event)">
-                  จัดการเบี้ยเลี้ยง
+                  <ManageSalaryIcon />
+                  
+                  <span class="ms-3">จัดการเบี้ยเลี้ยง</span>
                 </router-link>
               </li>
             </ul>
@@ -82,17 +85,21 @@
 
         <Transition>
           <div v-if="dropdownManageCertificate">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-5">
-              <li>
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-2">
+              <li class="my-2">
                 <router-link to="/signatures" class="nav-link text-dark hov-red" active-class="active"
                   @click="changeActiveMenu($event)">
-                  ลายเซ็น
+                  <ManageSignatureIcon />
+                  
+                  <span class="ms-3">ลายเซ็น</span>
                 </router-link>
               </li>
               <li>
                 <router-link to="/companies" class="nav-link text-dark hov-red" active-class="active"
                   @click="changeActiveMenu($event)">
-                  บริษัท
+                  <ManageCompanyIcon />
+
+                  <span class="ms-3">บริษัท</span>
                 </router-link>
               </li>
             </ul>
@@ -117,7 +124,11 @@ import ClicknextLogo from "../icons/ClicknextLogo.vue";
 import CertificateDataIcon from "../icons/CertificateDataIcon.vue";
 import CertificateIcon from "../icons/CertificateIcon.vue"
 import ManageUniversityIcon from "../icons/ManageUniversityIcon.vue"
-import ReportIcon from "../icons/ReportIcon.vue"
+import Monitor from "../icons/Monitor.vue";
+import ReportIcon from "../icons/ReportIcon.vue";
+import ManageSignatureIcon from "../icons/ManageSignatureIcon.vue";
+import ManageSalaryIcon from "../icons/ManageSalaryIcon.vue";
+import ManageCompanyIcon from "../icons/ManageCompanyIcon.vue"
 import InternListIcon from "../icons/InternListIcon.vue"
 import LogoutIcon from "../icons/LogoutIcon.vue"
 import Cookies from "js-cookie"

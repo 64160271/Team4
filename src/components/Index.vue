@@ -36,7 +36,7 @@
     </div>
 
     <div class="row">
-      <DataTable striped :heads="tableHead" :items="interns" hovers clickable clickReturn="intn_id" @clicked="handleClick"
+      <DataTable v-if="loaded" striped :heads="tableHead" :items="interns" hovers clickable clickReturn="intn_id" @clicked="handleClick"
         paginate :total="total" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
         <template class="col-md-2" #intn_key="{ data }">
           <img v-if="data.intn_image" class="img-custom" :src="data.intn_image_path" width="40" height="40" alt="" />
@@ -44,6 +44,11 @@
           <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
         </template>
       </DataTable>
+    </div>
+
+    <div v-if="!loaded" class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+      </div>
     </div>
   </SectionSpace>
 </template>
@@ -61,6 +66,7 @@ import BaseSelect from "./Component/BaseSelect.vue";
 import BaseInput from "./Component/BaseInput.vue";
 
 const total = ref();
+const loaded = ref(false);
 const page = ref(1);
 const pageMax = ref(1);
 const pageSize = 10;
@@ -95,6 +101,7 @@ async function setCurrentPage(pageNumber) {
 }
 
 const getAllIntern = async () => {
+  loaded.value = false
   const params = {
     page: page.value,
     limit: pageSize,
@@ -106,6 +113,7 @@ const getAllIntern = async () => {
   await axios
     .get(`${import.meta.env.VITE_API_HOST}/interns`, { params })
     .then((response) => {
+      loaded.value = true
       interns.value = response.data.rows;
       total.value = response.data.count;
       pageMax.value = Math.ceil(total.value / pageSize);
