@@ -55,6 +55,7 @@ button:active {
 .active {
     border-color: var(--main-color) !important;
     color: var(--main-color) !important;
+    font-weight: bold !important;
 }
 
 div {

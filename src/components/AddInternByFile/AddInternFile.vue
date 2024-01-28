@@ -7,7 +7,7 @@
 
 <template>
   <div class="d-flex flex-column mb-3">
-    <LayoutMenuName page-name="เพิ่มนักศึกษาฝึกงาน > เพิ่มจากไฟล์ Excel" />
+    <LayoutMenuName backButton page-name="เพิ่มนักศึกษาฝึกงาน > เพิ่มจากไฟล์ Excel" />
 
     <SectionSpace>
       <div id="upload-box" class="d-flex justify-content-center align-items-center mt-3 upload-box upload">
