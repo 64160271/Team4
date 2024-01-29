@@ -42,4 +42,16 @@ const props = defineProps({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+input:focus {
+  transition: 0s;
+  box-shadow: none !important;
+  border: 2px solid rgb(0, 119, 255) !important;
+}
+
+.is-invalid:focus {
+  transition: 0s;
+  box-shadow: none;
+  border: 2px solid red !important;
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <table id="myTable" class="table" v-bind="$attrs" :class="{ 'table-striped': striped }">
+  <table id="myTable" class="table" v-bind="$attrs" :class="{ 'table-striped-custom': striped }">
     <thead class="bg-red">
       <tr class="tr-custom">
         <th
@@ -20,7 +20,7 @@
     <tbody>
       <tr
         v-for="(item, index) in items"
-        class="tr-custom border-start border-end"
+        class="tr-custom border"
         :class="{ 'tb-hov': hovers }"
         @click="clickable && clickReturn && handleRowClick(_.get(item, clickReturn))"
       >
@@ -38,7 +38,7 @@
   </table>
 
   <div class="row my-2" v-if="total">
-    <span class="col-md-5 nopadding my-auto">รายการทั้งหมด {{ total || 0 }} รายการ</span>
+    <span class="col-md-5 nopadding">รายการทั้งหมด {{ total || 0 }} รายการ</span>
 
     <div class="col" v-if="paginate">
       <nav>
@@ -158,5 +158,9 @@ onMounted(async () => {});
 .page-link:focus {
   background-color: white;
   box-shadow: none;
+}
+
+.table-striped-custom > tbody > tr:nth-child(odd) > td {
+  background-color: #f5f6f8 !important;
 }
 </style>

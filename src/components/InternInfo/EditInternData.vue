@@ -58,7 +58,7 @@
   
               <div class="col-md-6">
                 <BaseSelect
-                  label="สถานะพนักงาน"
+                  label="สถานะการฝึกงาน"
                   :options="statusList.list"
                   v-model="personalInfo.intn_work_status"
                   :class="{ 'is-invalid': v$.personal_info.intn_work_status.$error }"
@@ -756,7 +756,7 @@
     useInternType,
     useBloodType,
   } from "../../stores/constData";
-  import { useInternFormData } from "../../stores/addInternFormData";
+  import { useInternFormData, addInternFormRules } from "../../stores/addInternFormData";
   import { getAge, confirmation, successAlert, errorAlert, getImageFromBuffer } from "../../assets/js/func";
   import apiService from "../../services/api";
   import useVuelidate from "@vuelidate/core"; // validate
@@ -765,14 +765,13 @@
   import InvalidFeedback from "../Component/InvalidFeedback.vue";
   import CameraLogo from "../icons/CameraLogo.vue";
   import router from "@/router";
-  import { saveAs } from "file-saver";
   
   const formData = useInternFormData();
   const personalInfo = ref(formData.personal_info);
   const workInfo = ref(formData.work_info);
   const collegeInfo = ref(formData.college_info);
   const address = ref(formData.address);
-  const rules = toRaw(formData.rules);
+  const rules = toRaw(addInternFormRules);
   const prop = defineProps({
     intern: Object,
   })

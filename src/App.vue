@@ -6,8 +6,7 @@
 
     <main
       v-if="!['login'].includes($route.name)"
-      class="px-5 pt-4"
-      style="margin-left: 280px"
+      class="px-5 main-style vh-100"
     >
       <router-view />
     </main>
@@ -16,10 +15,12 @@
 
 <script setup>
 import LayoutSidebar from "./components/layouts/LayoutSidebar.vue";
-import LayoutNavbar from "./components/layouts/LayoutNavbar.vue";
 import Login from "./components/Login.vue";
-import { ref, onMounted } from "vue";
-import axios from "axios";
 </script>
 
-<style scoped></style>
+<style scoped>
+.main-style {
+  margin-left: 280px;
+  background-color: #f5f6f8;
+}
+</style>
