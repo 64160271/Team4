@@ -103,6 +103,11 @@
         </BaseModal>
     </div>
 
+    <div v-if="!loaded" class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+      </div>
+    </div>
+
     <div class="row mb-2">
         <BaseCard v-for="signature in signatures" title=" " :sub="signature.sign_fname + ' ' + signature.sign_lname"
             content="Senior Human Resources" class="mb-4">
@@ -133,6 +138,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter()
 const openModal = ref(false)
+const loaded = ref(false)
 const formData = ref({
     sign_prefix: '',
     sign_fname: '',
@@ -163,7 +169,7 @@ function showImg() {
 onMounted(async () => {
     signatures.value = await apiCall.getAllSignatureWithCompany()
     companies.value = await apiCall.getAllCompany()
-    console.log(signatures.value)
+    loaded.value = true
 })
 
 

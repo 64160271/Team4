@@ -38,8 +38,13 @@ import SectionSpace from '../Component/SectionSpace.vue';
       </div>
     </BaseModal>
 
-    <div class="row" v-if="filterData.length == 0">
+    <div class="row" v-if="filterData.length == 0 && loaded">
       <NotFound />
+    </div>
+
+    <div v-if="!loaded" class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+      </div>
     </div>
 
     <div v-for="(university, index) in filterData" class="row mx-auto mt-2">
@@ -118,6 +123,7 @@ const showDetail = ref([]);
 const universities = ref([]);
 const isOpen = ref(false);
 const modalMode = ref("");
+const loaded = ref(false)
 const formData = ref({
   uni_name: "มหาวิทยาลัย",
   uni_file: "",
@@ -141,6 +147,7 @@ const getAllUniversity = async () => {
     .get(`${import.meta.env.VITE_API_HOST}/universities/related`)
     .then((response) => {
       universities.value = response.data;
+      loaded.value = true
     });
 };
 
