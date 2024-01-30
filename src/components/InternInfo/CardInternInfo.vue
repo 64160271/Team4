@@ -31,7 +31,6 @@
 import { onMounted, ref } from 'vue';
 import { useInternName } from '../../stores/constData';
 import axios from 'axios';
-import { getImageFromBuffer } from '../../assets/js/func';
 
 const internData = ref(useInternName())
 

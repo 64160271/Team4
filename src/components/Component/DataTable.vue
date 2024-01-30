@@ -37,7 +37,7 @@
     </tbody>
   </table>
 
-  <div class="row my-2" v-if="total">
+  <div class="row mt-2" :class="{ 'mb-2': !paginate }" v-if="total">
     <span class="col-md-5 nopadding">รายการทั้งหมด {{ total || 0 }} รายการ</span>
 
     <div class="col" v-if="paginate">

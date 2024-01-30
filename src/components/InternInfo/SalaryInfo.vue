@@ -1,9 +1,7 @@
 <template>
-  <div class="row mb-3">
     <LayoutMenu />
 
-    <div class="row mb-3">
-      <CardInternInfo :internId="internId">
+      <CardInternInfo class="mb-3" :internId="internId">
         <div class="row mb-2">
           <label for="" class="col-md-3 col-form-label text-gray">
             เบี้ยเลี้ยงปัจจุบัน (บาท)
@@ -19,9 +17,9 @@
           <label for="" class="col-md-3 col-form-label text-gray"> - </label>
         </div>
       </CardInternInfo>
-    </div>
 
-    <div class="row mb-4 mt-2">
+    <SectionSpace>
+      <div class="row mb-4 mt-2">
       <SideLabelInput v-model="searchData.sal_from_date" type="date" label="วันเริ่มต้น - สิ้นสุด" noPadding />
 
       <div class="col-md-2">
@@ -36,7 +34,7 @@
         </template>
       </DataTable>
     </div>
-  </div>
+  </SectionSpace>
 </template>
 
 <script setup>

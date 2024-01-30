@@ -155,6 +155,13 @@ export default class apiService {
                 return response.data
             })
     }
+ 
+    getAllCompany = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/companies`)
+            .then((response) => {
+                return response.data
+            })
+    }
 
     getLeaveInfoFile = async (id) => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/leavesinfo/file/${id}`)

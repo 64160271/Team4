@@ -1,5 +1,5 @@
 <template>
-    <div class="card px-4">
+    <div class="card px-4 border">
         <div class="card-body">
             <slot></slot>
         </div>
