@@ -1,7 +1,16 @@
 <template>
     <LayoutMenu />
 
-    <CardInternInfo class="mb-3" :internId="internId"> </CardInternInfo>
+    <CardInternInfo class="mb-3" :internId="internId">
+      <div class="row mb-2">
+          <label for="" class="col-md-3 col-form-label text-gray">
+            รายการเอกสาร
+          </label>
+          <label for="" class="col-md-3 col-form-label text-gray">
+            {{ documents.length }}
+          </label>
+        </div>
+     </CardInternInfo>
 
     <SectionSpace>
       <div class="row mb-3">
@@ -42,7 +51,7 @@
             fill="currentColor"
             class="bi bi-trash-fill cursor-p outline-hov-red"
             viewBox="0 0 16 16"
-            @click="deleteDocument(data.doc_id)"
+            @click="deleteDocument(data)"
           >
             <path
               d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"
@@ -61,16 +70,20 @@
   >
     <BaseInput class="mb-3" :value="today" disabled label="วันที่เพิ่มข้อมูล" />
 
-    <BaseInput
-      class="mb-3"
-      v-model="formData.doc_title"
-      label="ประเภทเอกสาร"
-      placeholder="บัตรประชาชน"
-    />
+    <div class="mb-3">
+      <BaseInput
+        v-model="formData.doc_title"
+        label="ประเภทเอกสาร"
+        placeholder="บัตรประชาชน"
+        :class="{ 'is-invalid': v$.doc_title.$error }"
+        required
+      />
+      <InvalidFeedback :errors="v$.doc_title.$errors" />
+    </div>
 
     <div class="row mb-3">
       <div class="col-auto my-auto">
-        <label>ไฟล์หลักฐานการลา</label>
+        <label>ไฟล์เอกสาร</label>
       </div>
 
       <BaseButton
@@ -117,6 +130,11 @@
           </div>
         </div>
       </div>
+
+      <div class="col-md-5 my-auto">
+        <span v-if="v$.doc_file.$error" :class="{ 'is-invalid': v$.doc_file.$error }"></span>
+        <InvalidFeedback :errors="v$.doc_file.$errors" />
+      </div>
     </div>
   </BaseModal>
 </template>
@@ -133,6 +151,9 @@ import BaseInput from "../Component/BaseInput.vue";
 import BaseModal from "../Component/BaseModal.vue";
 import { confirmation, successAlert } from "../../assets/js/func";
 import SearchBox from "../Component/SearchBox.vue";
+import InvalidFeedback from "../Component/InvalidFeedback.vue";
+import useVuelidate from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
 
 const router = useRouter();
 const internId = useRoute().params.id;
@@ -156,6 +177,12 @@ const formData = ref({
   doc_intern_id: "",
 });
 
+const rules = {
+  doc_title: { required },
+  doc_file: { required },
+}
+const v$ = useVuelidate(rules, formData.value)
+
 onMounted(async () => {
   documents.value = await apiCall.getDocumentByInternId(internId);
   /* modal.value = new bootstrap.Modal("#modal", {}); */
@@ -174,9 +201,13 @@ function showDocumentFile(path) {
 }
 
 async function formSubmit() {
-  formData.value.doc_intern_id = internId;
-  const res = await apiCall.createDocument(formData.value);
-  router.go();
+ const validate = await v$.value.$validate()
+
+ if (validate) {
+    formData.value.doc_intern_id = internId;
+    const res = await apiCall.createDocument(formData.value);
+    router.go();
+ }
 }
 
 function showFileName() {
@@ -187,12 +218,12 @@ function showFileName() {
   }
 }
 
-async function deleteDocument(id) {
-  const result = await confirmation("ยืนยันการลบข้อมูลหรือไม่");
+async function deleteDocument(data) {
+  const result = await confirmation(`ยืนยันการลบข้อมูลเอกสาร "${data.doc_title}" หรือไม่`);
 
   if (result) {
     await apiCall
-      .deleteDocument(id)
+      .deleteDocument(data.doc_id)
       .then(async (res) => {
         console.log(res);
         await successAlert("ลบข้อมูลเอกสารเรียบร้อยแล้ว");
