@@ -8,33 +8,30 @@
 <template>
     <form id="form" class="needs-validation" enctype="multipart/form-data" novalidate>
   
-      <div class="row mx-auto" style="width: 85%">
-        <div class="row border-bottom">
-          <div class="col-auto my-auto">
-            <div class="row">
-              <div class="col text-center">
+      <div class="row mx-auto" style="width: 90%">
+        <div class="row nopadding border-bottom">
+          <div class="col-md-3 my-auto text-center">
+                <div class="mb-4">
                 <img id="blah" :src="intern?.intn_image_path" alt="" class="img bg-grays-200" />
-              </div>
-            </div>
-  
-            <div class="row mt-3">
-              <div class="col">
+
+                </div>
+
                 <button
                   id="picture"
                   type="button"
-                  class="col-auto btn btn-sm outline-red position-relative px-4"
+                  class="btn btn-sm outline-red position-relative px-4"
                 >
                   <input id="img-upload" type="file" accept="image/*" @change="showImg" />
                   <CameraLogo />
                   อัปโหลดรูปภาพ
                 </button>
-              </div>
-            </div>
           </div>
   
           <!-- เริ่มต้นส่วนข้อมูลพนักงาน -->
-          <div class="col ms-5 align-self-center">
-            <span class="row h5 text-decoration-underline my-3">ข้อมูลพนักงาน</span>
+          <div class="col-md-9 align-self-center">
+            <div class="row my-2">
+              <span class="h5 text-decoration-underline">ข้อมูลพนักงาน</span>
+            </div>
   
             <div class="row gx-5 mb-3">
               <div class="col-md-6">
@@ -58,7 +55,7 @@
   
               <div class="col-md-6">
                 <BaseSelect
-                  label="สถานะพนักงาน"
+                  label="สถานะการฝึกงาน"
                   :options="statusList.list"
                   v-model="personalInfo.intn_work_status"
                   :class="{ 'is-invalid': v$.personal_info.intn_work_status.$error }"
@@ -165,7 +162,7 @@
   
         <!-- เริ่มต้นส่วนข้อมูลส่วนตัว -->
   
-        <div class="container border-bottom">
+        <div class="mt-3 container border-bottom">
           <div class="row my-2">
             <span class="h5 text-decoration-underline">ข้อมูลส่วนตัว</span>
           </div>
@@ -721,7 +718,8 @@
           </div>
         </div>
   
-        <div class="row my-4">
+        <div class="container">
+          <div class="row my-4">
           <button
             type="button"
             class="col-md-2 btn outline-gray"
@@ -729,16 +727,14 @@
           >
             ย้อนกลับ
           </button>
-          <button type="reset" class="col-md-2 ms-auto btn outline-red me-4" @click="reset">
-            รีเซ็ต
-          </button>
           <button
             type="button"
-            class="col-md-2 align-self-end btn outline-red"
+            class="col-md-2 ms-auto btn outline-red"
             @click="submitForm"
           >
             บันทึก
           </button>
+        </div>
         </div>
       </div>
     </form>
@@ -756,7 +752,7 @@
     useInternType,
     useBloodType,
   } from "../../stores/constData";
-  import { useInternFormData } from "../../stores/addInternFormData";
+  import { useInternFormData, addInternFormRules } from "../../stores/addInternFormData";
   import { getAge, confirmation, successAlert, errorAlert, getImageFromBuffer } from "../../assets/js/func";
   import apiService from "../../services/api";
   import useVuelidate from "@vuelidate/core"; // validate
@@ -771,7 +767,7 @@
   const workInfo = ref(formData.work_info);
   const collegeInfo = ref(formData.college_info);
   const address = ref(formData.address);
-  const rules = toRaw(formData.rules);
+  const rules = toRaw(addInternFormRules);
   const prop = defineProps({
     intern: Object,
   })
@@ -779,6 +775,7 @@
   const apiCall = new apiService();
   const roles = ref({});
   const sections = ref({});
+  const companies = ref([])
   const mentors = ref();
   const departments = ref();
   const teams = ref();
@@ -959,6 +956,7 @@
       (sections.value = await apiCall.getAllSectionWithRelated()),
       (universities.value = await apiCall.getAllUniversityWithRelated()),
       (roles.value = await apiCall.getAllRole()),
+      (companies.value = await apiCall.getAllCompany()),
       (formData.setData(prop.intern))
     ]);
 

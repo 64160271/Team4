@@ -1,14 +1,12 @@
 <template>
-  <div class="row mb-3">
     <LayoutMenu />
 
-    <div class="row mb-3">
-      <CardInternInfo :internId="internId"> </CardInternInfo>
-    </div>
+    <CardInternInfo class="mb-3" :internId="internId"> </CardInternInfo>
 
-    <div class="row mb-3">
+    <SectionSpace>
+      <div class="row mb-3">
       <div class="my-auto col-md-3 nopadding">
-        <SearchBox @search="fetchDocuments" placeholder="ชื่อเอกสาร" />
+        <SearchBox v-model="searchData" placeholder="ชื่อเอกสาร" />
       </div>
 
       <BaseButton
@@ -20,7 +18,7 @@
     </div>
 
     <div class="row">
-      <DataTable :total="documents.length" :heads="tableHead" :items="documents">
+      <DataTable striped :total="filterData.length" :heads="tableHead" :items="filterData">
         <template #open_file="{ data }">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +51,7 @@
         </template>
       </DataTable>
     </div>
-  </div>
+  </SectionSpace>
 
   <BaseModal
     v-if="openModal"
@@ -127,7 +125,7 @@
 import LayoutMenu from "./LayoutMenu.vue";
 import apiService from "../../services/api";
 import { useRoute, useRouter } from "vue-router";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import DataTable from "../Component/DataTable.vue";
 import CardInternInfo from "./CardInternInfo.vue";
 import BaseButton from "../Component/BaseButton.vue";
@@ -139,8 +137,7 @@ import SearchBox from "../Component/SearchBox.vue";
 const router = useRouter();
 const internId = useRoute().params.id;
 const documents = ref([]);
-let timer;
-const searchKey = ref();
+const searchData = ref('');
 const apiCall = new apiService();
 const openModal = ref(false);
 const today = ref(new Date());
@@ -159,24 +156,18 @@ const formData = ref({
   doc_intern_id: "",
 });
 
-async function fetchDocuments(value, delay = 500) {
-  if (timer) {
-    clearTimeout(timer);
-  }
-
-  const params = {
-    doc_title: value || "",
-  };
-
-  timer = setTimeout(async () => {
-    documents.value = await apiCall.getDocumentByInternId(internId, params);
-  }, delay);
-}
-
-onMounted(() => {
-  fetchDocuments("", 0);
+onMounted(async () => {
+  documents.value = await apiCall.getDocumentByInternId(internId);
   /* modal.value = new bootstrap.Modal("#modal", {}); */
 });
+
+const filterData = computed(() => {
+  return documents.value.filter((document) => {
+    return (
+      document.doc_title.indexOf(searchData.value.trim()) > -1
+    )
+  })
+})
 
 function showDocumentFile(path) {
   window.open(path);
