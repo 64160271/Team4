@@ -201,3 +201,11 @@
     width: 4rem !important;
     height: 4rem !important;
 }
+
+.hov-outline-red:hover path {
+    stroke: var(--main-color) !important;
+}
+
+.custom-icon path {
+    fill: var(--main-color) !important;
+}

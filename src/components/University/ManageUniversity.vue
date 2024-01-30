@@ -1,150 +1,257 @@
+import SectionSpace from '../Component/SectionSpace.vue';
 <template>
-    <LayoutMenuName page-name="จัดการข้อมูลมหาวิทยาลัย" />
+  <LayoutMenuName page-name="จัดการมหาวิทยาลัย" />
 
-    <div class="row">
-        <button class="col-2 btn outline-red ms-auto" @click="isOpen = true">เพิ่มมหาวิทยาลัย</button>
+  <SectionSpace>
+    <div class="row mb-4">
+      <div class="col-md-3 my-auto">
+        <SearchBox v-model="searchData" class="my-auto" />
+      </div>
+
+      <BaseButton label="เพิ่มมหาวิทยาลัย" class="col-md-2 ms-auto" @click="add()">
+        <template #before-text>
+          <ManageUniversityIcon class="custom-icon" />
+        </template>
+      </BaseButton>
     </div>
 
-    <BaseModal v-if="isOpen == true" 
-        title="เพิ่มข้อมูลมหาวิทยาลัย"
-        @close="isOpen = !isOpen">
-        <div class="col-md-12">
+    <BaseModal v-if="isOpen == true" @save="formSubmit" title="เพิ่มข้อมูลมหาวิทยาลัย" @close="isOpen = false">
+      <div class="col-md-12">
         <div class="text-center">
-            <img
-                id="blah"
-                src="#"
-                alt=""
-                class="img bg-grays-200">
+          <img id="blah" src="#" alt="" class="img-add bg-grays-200" />
+          <span v-if="v$.uni_file.$error" :class="{ 'is-invalid': v$.uni_file.$error }"></span>
+          <InvalidFeedback :errors="v$.uni_file.$errors" />
         </div>
 
         <div class="row mt-4">
-            <button id="picture" class="mx-auto col-sm-6 btn btn-sm outline-red position-relative">
-            <input 
-                id="img-upload"
-                type="file"
-                accept="image/*"
-                @change="showImg" />
-            <svg
-                width="35"
-                height="35"
-                viewBox="0 0 42 42"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-            <path d="M19.9474 36.5556H5.21053C4.09383 36.5556 3.02286 36.0873 2.23323 35.2538C1.44361 34.4203 1 33.2899 1 32.1111V12.1111C1 10.9324 1.44361 9.80191 2.23323 8.96841C3.02286 8.13492 4.09383 7.66667 5.21053 7.66667H7.31579C8.43249 7.66667 9.50345 7.19841 10.2931 6.36492C11.0827 5.53142 11.5263 4.40096 11.5263 3.22222C11.5263 2.63285 11.7481 2.06762 12.1429 1.65087C12.5377 1.23413 13.0732 1 13.6316 1H26.2632C26.8215 1 27.357 1.23413 27.7518 1.65087C28.1466 2.06762 28.3684 2.63285 28.3684 3.22222C28.3684 4.40096 28.812 5.53142 29.6017 6.36492C30.3913 7.19841 31.4622 7.66667 32.5789 7.66667H34.6842C35.8009 7.66667 36.8719 8.13492 37.6615 8.96841C38.4511 9.80191 38.8947 10.9324 38.8947 12.1111V19.8889"
-                stroke="var(--main-color)"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round" />
-            <path
-                class="stroke-white"
-                d="M34.6854 41.0026V27.6693M34.6854 27.6693L41.0012 34.3359M34.6854 27.6693L28.3697 34.3359M19.9486 27.6693C21.6237 27.6693 23.2301 26.9669 24.4145 25.7166C25.599 24.4664 26.2644 22.7707 26.2644 21.0026C26.2644 19.2345 25.599 17.5388 24.4145 16.2886C23.2301 15.0383 21.6237 14.3359 19.9486 14.3359C18.2736 14.3359 16.6671 15.0383 15.4827 16.2886C14.2982 17.5388 13.6328 19.2345 13.6328 21.0026C13.6328 22.7707 14.2982 24.4664 15.4827 25.7166C16.6671 26.9669 18.2736 27.6693 19.9486 27.6693Z"
-                stroke="var(--main-color)"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-               ตรามหาวิทยาลัย
-            </button>
-            <div class="col-md-12 mt-3" >
-                <BaseInput label="ชื่อมหาวิทยาลัย" v-model="formData.uni_name" placeholder="มหาวิทยาลัย"/>
-            </div>
+          <button id="picture" class="mx-auto outline-red col-sm-6 btn btn-sm position-relative">
+            <input id="img-upload" type="file" accept="image/*" @change="showImg" />
+            <CameraLogoVue />
+            ตรามหาวิทยาลัย
+          </button>
+          <div class="col-md-12 mt-3">
+            <BaseInput label="ชื่อมหาวิทยาลัย" v-model="formData.uni_name" :value="formData.uni_name"
+              placeholder="มหาวิทยาลัย" :class="{ 'is-invalid': v$.uni_name.$error }" required />
+            <InvalidFeedback :errors="v$.uni_name.$errors" />
+          </div>
         </div>
-        
-    </div>
-
+      </div>
     </BaseModal>
 
-
-    <div v-for="(university, index) in universities" class="row w-75 mx-auto mt-2">
-        <div class="card outline-black mb-3">
-            <div class="card-body">
-                <div class="row" @click="showDetail[index] = !showDetail[index]">
-                    <label class="col">{{ university.uni_name }}</label>
-                    <div class="col-auto dropdown-toggle"></div>
-                </div>
-                <Transition>
-                    <div v-if="showDetail[index]" class="row row-cols-3 mt-3">
-                        <div v-for="faculty in university.faculties" class="col mb-3">
-                            <div class="card">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item bg-red text-white">คณะ {{ faculty.fac_name }}</li>
-                                    <ol class="list-group-item list-group-numbered">
-                                        สาขา
-                                        <li v-for="major in faculty.majors" class="list-group-item border-0">
-                                            {{ major.maj_name }}
-                                        </li>
-                                    </ol>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col my-auto">
-                            <div class="card border-0">
-                                <div class="card-body text-center">
-                                    <button class="btn bg-custom">
-                                        เพิ่มคณะ
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </Transition>
-            </div>
-        </div>
+    <div class="row" v-if="filterData.length == 0">
+      <NotFound />
     </div>
 
-   
+    <div v-for="(university, index) in filterData" class="row mx-auto mt-2">
+      <div class="card mb-3" :class="{ 'border-danger': showDetail[index] }">
+        <div class="card-body">
+          <div class="row">
+            <label class="col">
+              <span class="me-2">
+                <img class="img" :src="university?.uni_image_path" height="35" width="35" />
+              </span>
+              {{ university.uni_name }}
+            </label>
+            <EditIcon @click="edit(universities[index])" class="hov-outline-red me-2 ms-auto col-auto my-auto cursor-p" />
+            <ArrowDownIcon @click="
+              (showDetail[index] = !showDetail[index]), console.log(showDetail[index])
+              " class="outline-hov-red ms-auto col-auto m-2 my-auto cursor-p" />
+          </div>
+          <Transition>
+            <div v-if="showDetail[index]" class="row row-cols-lg-3 mt-3">
+              <div v-for="faculty in university.faculties" class="col-lg-4 d-flex align-items-stretch mb-3">
+                <div class="card flex-fill">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-red text-white">
+                      คณะ {{ faculty.fac_name }}
+                    </li>
+                    <div v-if="faculty.majors.length == 0" class="row mt-3">
+                      <span class="text-center mt-auto">ไม่มีข้อมูลสาขา</span>
+                    </div>
+                    <ol v-else class="list-group-item list-group-numbered">
+                      สาขา
+                      <li v-for="major in faculty.majors" class="list-group-item border-0">
+                        {{ major.maj_name }}
+                      </li>
+                    </ol>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-lg-4 d-flex align-items-stretch mb-3">
+                <div class="card flex-fill p-4">
+                  <button class="btn col-md-6 outline-red m-auto">+ เพิ่มคณะ</button>
+                </div>
+              </div>
+            </div>
+          </Transition>
+        </div>
+      </div>
+    </div>
+  </SectionSpace>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
-import BaseButton from '../Component/BaseButton.vue';
-import BaseInput from '../Component/BaseInput.vue';
-import BaseModal from '../Component/BaseModal.vue';
+import { ref, onMounted, computed } from "vue";
+import axios from "axios";
+import BaseButton from "../Component/BaseButton.vue";
+import BaseInput from "../Component/BaseInput.vue";
+import BaseModal from "../Component/BaseModal.vue";
+import SearchBox from "../Component/SearchBox.vue";
+import ManageUniversityIcon from "../icons/ManageUniversityIcon.vue";
+import { useRouter } from "vue-router";
+import CameraLogoVue from "../icons/CameraLogo.vue";
+import EditIcon from "../icons/EditIcon.vue";
+import ArrowDownIcon from "../icons/ArrowDownIcon.vue";
+import NotFound from "../Component/NotFound.vue";
+import { required } from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core"
+import InvalidFeedback from "../Component/InvalidFeedback.vue";
+import { errorAlert } from "../../assets/js/func"
+import apiService from "../../services/api"
 
-const showDetail = ref([])
-const universities = ref({})
-const isOpen = ref(false) 
-const formData =ref({
-    uni_name:'',
-    uni_logo:''
-})
+let uni_id = 0;
+const api = new apiService()
+const searchData = ref("");
+const router = useRouter();
+const showDetail = ref([]);
+const universities = ref([]);
+const isOpen = ref(false);
+const modalMode = ref("");
+const formData = ref({
+  uni_name: "มหาวิทยาลัย",
+  uni_file: "",
+});
 
+const rules = {
+  uni_name: { required },
+  uni_file: { required }
+}
+const v$ = useVuelidate(rules, formData.value);
+
+const filterData = computed(() => {
+  return universities.value.filter((university) => {
+    return university.uni_name.indexOf(searchData.value.trim()) > -1;
+  });
+});
+
+/* ฟังก์ชันสำหรับ เรียก api ข้อมูลมหาวิทยาลัย */
 const getAllUniversity = async () => {
-    await axios.get(`${import.meta.env.VITE_API_HOST}/universities/related`)
-        .then((response) => {
-            universities.value = response.data
-        })
+  await axios
+    .get(`${import.meta.env.VITE_API_HOST}/universities/related`)
+    .then((response) => {
+      universities.value = response.data;
+    });
+};
+
+/* ฟังก์ชันเมื่อคลิกปุ่ม แก้ไขข้อมูล */
+async function edit(university) {
+  /* กำหนดค่าให้ formData */
+  uni_id = university.uni_id;
+  formData.value.uni_file = university.uni_image_path;
+  formData.value.uni_name = university.uni_name;
+  isOpen.value = true;
+
+  /* แสดงรูปภาพในแบบฟอร์ม */
+  let blah = document.getElementById("blah");
+  if (blah) {
+    blah.src = formData.value.uni_file;
+  }
+  modalMode.value = "edit";
+}
+
+/* ฟังก์ชันเมื่อกดปุ่ม เพื่มข้อมูล */
+function add() {
+  /* กำนหนดค่าให้แบบฟอร์มเป็นค่าว่าง */
+  formData.value.uni_name = ''
+  formData.value.uni_file = ''
+
+  isOpen.value = true
+  modalMode.value = "add"
 }
 
 function showImg() {
-    const imgUpload = document.getElementById("img-upload")
+  const imgUpload = document.getElementById("img-upload");
+  const blah = document.getElementById("blah");
+  console.log(formData.value);
 
-    if (imgUpload.files[0] != undefined) {
-        formData.value.uni_logo = imgUpload.files[0]
-    }
+  if (imgUpload.files[0] != undefined) {
+    formData.value.uni_file = imgUpload.files[0];
+  }
 
-    if (formData.value.uni_logo) {
-        blah.src = URL.createObjectURL(formData.value.uni_logo)
+  if (formData.value.uni_file) {
+    console.log(blah);
+    blah.src = URL.createObjectURL(formData.value.uni_file);
+  }
+}
+
+async function formSubmit() {
+  const validate = await v$.value.$validate();
+
+  if (validate) {
+
+    /* ถ้าหากเป็นแบบฟอร์มสำหรับเพิ่มข้อมูล ให้เรียก api เพิ่มข้อมูล */
+    if (modalMode.value == "add") {
+      await api.createUniversity(formData.value).then(() => {
+        router.go();
+      })
+        .catch((e) => {
+          errorAlert(e.response.data)
+        });
+
+    /* ถ้าหากเป็นแบบฟอร์มสำหรับแก้ไขข้อมูล */
+    } else if (modalMode.value == "edit") {
+      /* ลบ uni_file ทิ้งหากเป็นโลโก้เดิม ป้องกันการสร้างไฟล์ซ้ำซ้อน */
+      if (typeof formData.value.uni_file != "object") {
+        delete formData.value["uni_file"];
+      }
+      await api.editUniversity(formData.value, uni_id).then(() => {
+        router.go();
+      })
+        .catch((e) => {
+          formData.value.uni_file = uni_id
+          errorAlert(e.response.data)
+        })
     }
+  }
 }
 
 onMounted(() => {
-    getAllUniversity()
-})
-
+  getAllUniversity();
+});
 </script>
 
 <style scoped>
 .v-enter-active,
 .v-leave-active {
-    transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 
 .v-enter-from,
 .v-leave-to {
-    transform: translateY(-20px);
-    opacity: 0;
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+.img {
+  width: 80px;
+  height: 80px;
+  border: none;
+}
+
+.custom-col {
+  margin-bottom: -99999px !important;
+  padding-bottom: 999999px !important;
+}
+
+.custom-row {
+  overflow: hidden !important;
+}
+
+.img-add {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 1px solid var(--main-color);
 }
 </style>
