@@ -14,24 +14,56 @@
     </div>
 
     <div class="col-md-2 my-auto">
-      <BaseSelect placeholder="ทีม" all-select @change="getAllIntern" v-model="team_id" :options="teams" value="team_id" text="team_name" />
+      <BaseSelect
+        placeholder="ทีม"
+        all-select
+        @change="getAllIntern"
+        v-model="team_id"
+        :options="teams"
+        value="team_id"
+        text="team_name"
+      />
     </div>
 
-    <button class="col-auto btn ms-auto outline-red" @click="$router.push('/interns/key-data')">
+    <button
+      class="col-auto btn ms-auto outline-red"
+      @click="$router.push('/interns/key-data')"
+    >
       <FormIconVue />
       เพิ่มจากแบบฟอร์ม
     </button>
 
-    <button class="ms-4 col-auto btn outline-red" @click="$router.push('/interns/add-file')">
+    <button
+      class="ms-4 col-auto btn outline-red"
+      @click="$router.push('/interns/add-file')"
+    >
       <ExcelIcon />
       เพิ่มจากไฟล์ Excel
     </button>
   </div>
 
-  <DataTable :heads="tableHead" :items="interns" hovers clickable clickReturn="intn_id" @clicked="handleClick" paginate
-    :total="total" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
+  <DataTable
+    :heads="tableHead"
+    :items="interns"
+    hovers
+    clickable
+    clickReturn="intn_id"
+    @clicked="handleClick"
+    paginate
+    :total="total"
+    :active-page="page"
+    :items-per-page="pageSize"
+    @page-change="setCurrentPage"
+  >
     <template class="col-md-2" #intn_key="{ data }">
-      <img v-if="data.intn_image" class="img-custom" :src="data.intn_image_path" width="40" height="40" alt="" />
+      <img
+        v-if="data.intn_image"
+        class="img-custom"
+        :src="data.intn_image_path"
+        width="40"
+        height="40"
+        alt=""
+      />
       <img v-else src="../assets/images/person-nm.png" alt="" width="35" />
       <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
     </template>
@@ -57,7 +89,7 @@ const pageMax = ref(1);
 const pageSize = 10;
 const interns = ref([]);
 const teams = ref([]);
-const team_id = ref()
+const team_id = ref();
 const searchData = ref("");
 let timer;
 const tableHead = ref([
@@ -87,7 +119,7 @@ const getAllIntern = async () => {
   const params = {
     page: page.value,
     limit: pageSize,
-    team_id: team_id.value || null
+    team_id: team_id.value || null,
   };
 
   await axios
@@ -101,18 +133,18 @@ const getAllIntern = async () => {
 
 onMounted(async () => {
   setCurrentPage(page.value);
-  let service = new apiService()
+  let service = new apiService();
   teams.value = await service.getAllTeam();
 });
 
 function search(value) {
   if (timer) {
-    clearTimeout(timer)
+    clearTimeout(timer);
   }
 
   timer = setTimeout(() => {
-    console.log(value)
-  }, 1500)
+    console.log(value);
+  }, 1500);
 }
 
 /* 

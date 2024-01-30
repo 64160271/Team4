@@ -5,12 +5,19 @@
         <div class="col-md-3 my-auto">
             <SearchBox class="my-auto" />
         </div>
+<<<<<<< Updated upstream
 
         <BaseButton label="เพิ่มมหาวิทยาลัย" class="col-md-2 ms-auto" @click="isOpen = true">
             <template #before-text>
                 <ManageUniversityIcon class="fill-red" />
             </template>
         </BaseButton>
+=======
+      
+    <BaseButton label="เพิ่มมหาวิทยาลัย" class="col-md-2 ms-auto" @click="isOpen = true">
+        <template #before-text ><ManageUniversityIcon class="fill-red" /></template>
+    </BaseButton>
+>>>>>>> Stashed changes
     </div>
 
     <BaseModal v-if="isOpen == true" @save="formSubmit" title="เพิ่มข้อมูลมหาวิทยาลัย" @close="isOpen = false">
