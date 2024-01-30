@@ -95,11 +95,11 @@ export async function successAlert(str) {
     })
 }
 
-export async function errorAlert(message) {
+export async function errorAlert(message, noDelay=false) {
     await Swal.fire({
         icon: "error",
         text: message,
-        timer: 3000
+        timer: noDelay ? undefined : 3000
     })
 
     return
