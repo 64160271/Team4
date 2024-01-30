@@ -115,14 +115,14 @@ export default class apiService {
     }
 
     createIntern = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, data, { headers: {"Content-Type": "multipart/form-data"} })
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, data, { headers: { "Content-Type": "multipart/form-data" } })
             .then((response) => {
                 return response.data
             })
     }
 
     editInternData = async (data, id) => {
-        return await axios.put(`${import.meta.env.VITE_API_HOST}/interns/${id}`, data, { headers: {"Content-Type": "multipart/form-data"} })
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/interns/${id}`, data, { headers: { "Content-Type": "multipart/form-data" } })
             .then((response) => {
                 return response.data
             })
@@ -155,7 +155,31 @@ export default class apiService {
                 return response.data
             })
     }
- 
+
+    createUniversity = async (data) => {
+        return await axios.post(
+            `${import.meta.env.VITE_API_HOST}/universities`,
+            data,
+            {
+                headers: { "Content-Type": "multipart/form-data" },
+            }
+        ).then((response) => {
+            return response.data
+        })
+    }
+
+    editUniversity = async (data, id) => {
+        return await axios.put(
+            `${import.meta.env.VITE_API_HOST}/universities/${id}`,
+            data,
+            {
+                headers: { "Content-Type": "multipart/form-data" },
+            }
+        ).then((response) => {
+            return response.data
+        })
+    }
+
     getAllCompany = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/companies`)
             .then((response) => {
@@ -185,7 +209,7 @@ export default class apiService {
     }
 
     createDocument = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/documents`, data, { headers: {"Content-Type": "multipart/form-data"} })
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/documents`, data, { headers: { "Content-Type": "multipart/form-data" } })
             .then((response) => {
                 return response.data
             })

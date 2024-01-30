@@ -8,48 +8,39 @@ import SectionSpace from '../Component/SectionSpace.vue';
         <SearchBox v-model="searchData" class="my-auto" />
       </div>
 
-      <BaseButton
-        label="เพิ่มมหาวิทยาลัย"
-        class="col-md-2 ms-auto"
-        @click="(isOpen = true), (modalMode = 'add')"
-      >
+      <BaseButton label="เพิ่มมหาวิทยาลัย" class="col-md-2 ms-auto" @click="add()">
         <template #before-text>
-          <ManageUniversityIcon class="" />
+          <ManageUniversityIcon class="custom-icon" />
         </template>
       </BaseButton>
     </div>
 
-    <BaseModal
-      v-if="isOpen == true"
-      @save="formSubmit"
-      title="เพิ่มข้อมูลมหาวิทยาลัย"
-      @close="isOpen = false"
-    >
+    <BaseModal v-if="isOpen == true" @save="formSubmit" title="เพิ่มข้อมูลมหาวิทยาลัย" @close="isOpen = false">
       <div class="col-md-12">
         <div class="text-center">
           <img id="blah" src="#" alt="" class="img-add bg-grays-200" />
+          <span v-if="v$.uni_file.$error" :class="{ 'is-invalid': v$.uni_file.$error }"></span>
+          <InvalidFeedback :errors="v$.uni_file.$errors" />
         </div>
 
         <div class="row mt-4">
-          <button
-            id="picture"
-            class="mx-auto outline-red col-sm-6 btn btn-sm position-relative"
-          >
+          <button id="picture" class="mx-auto outline-red col-sm-6 btn btn-sm position-relative">
             <input id="img-upload" type="file" accept="image/*" @change="showImg" />
             <CameraLogoVue />
             ตรามหาวิทยาลัย
           </button>
           <div class="col-md-12 mt-3">
-            <BaseInput
-              label="ชื่อมหาวิทยาลัย"
-              v-model="formData.uni_name"
-              :value="formData.uni_name"
-              placeholder="มหาวิทยาลัย"
-            />
+            <BaseInput label="ชื่อมหาวิทยาลัย" v-model="formData.uni_name" :value="formData.uni_name"
+              placeholder="มหาวิทยาลัย" :class="{ 'is-invalid': v$.uni_name.$error }" required />
+            <InvalidFeedback :errors="v$.uni_name.$errors" />
           </div>
         </div>
       </div>
     </BaseModal>
+
+    <div class="row" v-if="filterData.length == 0">
+      <NotFound />
+    </div>
 
     <div v-for="(university, index) in filterData" class="row mx-auto mt-2">
       <div class="card mb-3" :class="{ 'border-danger': showDetail[index] }">
@@ -57,32 +48,18 @@ import SectionSpace from '../Component/SectionSpace.vue';
           <div class="row">
             <label class="col">
               <span class="me-2">
-                <img
-                  class="img"
-                  :src="university?.uni_image_path"
-                  height="35"
-                  width="35"
-                />
+                <img class="img" :src="university?.uni_image_path" height="35" width="35" />
               </span>
               {{ university.uni_name }}
             </label>
-            <EditIcon
-              @click="edit(universities[index])"
-              class="hov-outline-red me-2 ms-auto col-auto my-auto cursor-p"
-            />
-            <ArrowDownIcon
-              @click="
-                (showDetail[index] = !showDetail[index]), console.log(showDetail[index])
-              "
-              class="outline-hov-red ms-auto col-auto m-2 my-auto cursor-p"
-            />
+            <EditIcon @click="edit(universities[index])" class="hov-outline-red me-2 ms-auto col-auto my-auto cursor-p" />
+            <ArrowDownIcon @click="
+              (showDetail[index] = !showDetail[index]), console.log(showDetail[index])
+              " class="outline-hov-red ms-auto col-auto m-2 my-auto cursor-p" />
           </div>
           <Transition>
             <div v-if="showDetail[index]" class="row row-cols-lg-3 mt-3">
-              <div
-                v-for="faculty in university.faculties"
-                class="col-lg-4 d-flex align-items-stretch mb-3"
-              >
+              <div v-for="faculty in university.faculties" class="col-lg-4 d-flex align-items-stretch mb-3">
                 <div class="card flex-fill">
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item bg-red text-white">
@@ -93,10 +70,7 @@ import SectionSpace from '../Component/SectionSpace.vue';
                     </div>
                     <ol v-else class="list-group-item list-group-numbered">
                       สาขา
-                      <li
-                        v-for="major in faculty.majors"
-                        class="list-group-item border-0"
-                      >
+                      <li v-for="major in faculty.majors" class="list-group-item border-0">
                         {{ major.maj_name }}
                       </li>
                     </ol>
@@ -129,8 +103,15 @@ import { useRouter } from "vue-router";
 import CameraLogoVue from "../icons/CameraLogo.vue";
 import EditIcon from "../icons/EditIcon.vue";
 import ArrowDownIcon from "../icons/ArrowDownIcon.vue";
+import NotFound from "../Component/NotFound.vue";
+import { required } from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core"
+import InvalidFeedback from "../Component/InvalidFeedback.vue";
+import { errorAlert } from "../../assets/js/func"
+import apiService from "../../services/api"
 
 let uni_id = 0;
+const api = new apiService()
 const searchData = ref("");
 const router = useRouter();
 const showDetail = ref([]);
@@ -142,12 +123,19 @@ const formData = ref({
   uni_file: "",
 });
 
+const rules = {
+  uni_name: { required },
+  uni_file: { required }
+}
+const v$ = useVuelidate(rules, formData.value);
+
 const filterData = computed(() => {
   return universities.value.filter((university) => {
     return university.uni_name.indexOf(searchData.value.trim()) > -1;
   });
 });
 
+/* ฟังก์ชันสำหรับ เรียก api ข้อมูลมหาวิทยาลัย */
 const getAllUniversity = async () => {
   await axios
     .get(`${import.meta.env.VITE_API_HOST}/universities/related`)
@@ -156,15 +144,30 @@ const getAllUniversity = async () => {
     });
 };
 
+/* ฟังก์ชันเมื่อคลิกปุ่ม แก้ไขข้อมูล */
 async function edit(university) {
+  /* กำหนดค่าให้ formData */
   uni_id = university.uni_id;
   formData.value.uni_file = university.uni_image_path;
   formData.value.uni_name = university.uni_name;
   isOpen.value = true;
 
-  const blah = document.getElementById("blah");
-  blah.src = formData.value.uni_file;
+  /* แสดงรูปภาพในแบบฟอร์ม */
+  let blah = document.getElementById("blah");
+  if (blah) {
+    blah.src = formData.value.uni_file;
+  }
   modalMode.value = "edit";
+}
+
+/* ฟังก์ชันเมื่อกดปุ่ม เพื่มข้อมูล */
+function add() {
+  /* กำนหนดค่าให้แบบฟอร์มเป็นค่าว่าง */
+  formData.value.uni_name = ''
+  formData.value.uni_file = ''
+
+  isOpen.value = true
+  modalMode.value = "add"
 }
 
 function showImg() {
@@ -183,23 +186,34 @@ function showImg() {
 }
 
 async function formSubmit() {
-  if (modalMode.value == "add") {
-    await axios.post(`${import.meta.env.VITE_API_HOST}/universities`, formData.value, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-  } else if (modalMode.value == "edit") {
-    if (typeof formData.value.uni_file != "object") {
-      delete formData.value["uni_file"];
-    }
-    await axios.put(
-      `${import.meta.env.VITE_API_HOST}/universities/${uni_id}`,
-      formData.value,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
+  const validate = await v$.value.$validate();
+
+  if (validate) {
+
+    /* ถ้าหากเป็นแบบฟอร์มสำหรับเพิ่มข้อมูล ให้เรียก api เพิ่มข้อมูล */
+    if (modalMode.value == "add") {
+      await api.createUniversity(formData.value).then(() => {
+        router.go();
+      })
+        .catch((e) => {
+          errorAlert(e.response.data)
+        });
+
+    /* ถ้าหากเป็นแบบฟอร์มสำหรับแก้ไขข้อมูล */
+    } else if (modalMode.value == "edit") {
+      /* ลบ uni_file ทิ้งหากเป็นโลโก้เดิม ป้องกันการสร้างไฟล์ซ้ำซ้อน */
+      if (typeof formData.value.uni_file != "object") {
+        delete formData.value["uni_file"];
       }
-    );
+      await api.editUniversity(formData.value, uni_id).then(() => {
+        router.go();
+      })
+        .catch((e) => {
+          formData.value.uni_file = uni_id
+          errorAlert(e.response.data)
+        })
+    }
   }
-  router.go();
 }
 
 onMounted(() => {
