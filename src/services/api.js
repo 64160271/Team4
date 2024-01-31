@@ -142,4 +142,11 @@ export default class apiService {
             })
     }
 
+    updateCompany = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/companies/updateCompany`, data)
+            .then((response) => {
+                return response
+            })
+    }
+
 }
