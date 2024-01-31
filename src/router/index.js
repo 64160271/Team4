@@ -111,7 +111,8 @@ const router = createRouter({
         {
             path: '/certificates/previewCertificate',
             name: 'previewCertificate',
-            component: PreviewCertificate
+            component: PreviewCertificate,
+            props: true,
         }
     ]
 })

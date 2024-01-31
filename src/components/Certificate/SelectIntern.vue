@@ -19,12 +19,9 @@
     </div>
     <div>
         <form action="">
-            <DataTable :heads="tableHead" :items="interns" hovers clickable clickReturn="intn_id" @clicked="handleClick"
-                paginate :total="total" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
+            <DataTable :heads="tableHead" :items="interns" hovers :total="total">
                 <template class="col-md-2" #intn_key="{ data }">
-                    <img v-if="data.intn_image" class="img-custom" :src="data.intn_image_path" width="40" height="40"
-                        alt="" />
-                    <img v-else src="../assets/images/person-nm.png" alt="" width="35" />
+                    <input type="checkbox" :name="data?.intn_id" @click="select_intern(data?.intn_id)">
                     <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
                 </template>
             </DataTable>
@@ -50,7 +47,7 @@ import apiService from '../../services/api';
 const route = useRoute();
 
 const id = ref(route.params.companyId);
-const sign = ref(route.params.signId);
+// const sign = ref(route.params.signId);
 const signId = ref(route.query.signId);
 
 const total = ref();
@@ -58,10 +55,10 @@ const page = ref(1);
 const pageMax = ref(1);
 const pageSize = 10;
 const interns = ref([]);
-const teams = ref([]);
-const team_id = ref()
-const searchData = ref("");
-let timer;
+
+const index = 0;
+const selects = ref([]);
+
 
 const tableHead = ref([
     { key: "intn_key", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
@@ -73,12 +70,26 @@ const tableHead = ref([
     { key: "intn_end_date", title: "วันที่สิ้นสุดฝึกงาน" },
 ]);
 
-const props = defineProps({
-    sign: '',
+// const props = defineProps({
+//     sign: '',
+// })
 
-})
+function select_intern(select){
+    for(let i = 0; i < total.value; i++){
+        selects[i] = select;
+    }
+}
+function sentData(select){
+    console.log(sign)
+    router.push({
+        name: 'previewCertificate',
+        params: {
+            companyId: id.value,
+        },
+        query: {signId: sign},
 
-
+    })
+}
 
 function sentBack() {
     router.push({
@@ -99,12 +110,11 @@ const getAllIntern = async () => {
     const params = {
         page: page.value,
         limit: pageSize,
-        team_id: team_id.value || 0
     };
-const date = new Date();
+    const date = new Date();
 
     await axios
-        .get(`${import.meta.env.VITE_API_HOST}/interns?almost=${date}`, { params })
+        .get(`${import.meta.env.VITE_API_HOST}/interns?almost=${date}&noCertificate=true`, { params })
         .then((response) => {
             interns.value = response.data.rows;
             total.value = response.data.count;
@@ -114,21 +124,14 @@ const date = new Date();
 
 onMounted(async () => {
     setCurrentPage(page.value);
-
-    console.log(signId.value)
-    console.log(interns.value)
+    // console.log(signId.value)
+    // console.log(interns.value)
 });
 
 </script>
 
 <style scoped>
-.checkbox {
-    display: flex;
-    margin-right: 10px;
-    width: 25px;
-    height: 25px;
-    margin-bottom: 5px;
-}
+
 
 .back {
     display: flex;
@@ -137,9 +140,4 @@ onMounted(async () => {
 
 }
 
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    margin-left: 50px;
-}
 </style>
