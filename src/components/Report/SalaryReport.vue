@@ -2,88 +2,30 @@
 <template>
     <LayoutMenuName page-name="รายงานเบี้ยเลี้ยง" />
     
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="radiotest" id="year" value="year" @change="testswitch">
-            <label class="form-check-label" for="year">ปี</label>
+    <div class="row">        
+        <div class="col-md-2 my-auto">  
+            <BaseSelect v-model="selectOptionYear" :options="listYear" placeholder="ปี" />    
+        </div>
+        <div class="col-md-2 my-auto">  
+            <BaseSelect v-model="selectOptionTeam" :options="listTeam" placeholder="ทีม" />     
         </div>
 
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="radiotest" id="month" value="month" @change="testswitch">
-            <label class="form-check-label" for="month">เดือน</label>
+        <div class="row p-0 m-0 my-2">
+            <div class="form-check form-check-inline fw-bold">
+                รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี : <span>{{ selectOptionYear }}</span>
+             </div>     
         </div>
 
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="radiotest" id="customized" value="customized" @change="testswitch">
-            <label class="form-check-label" for="customized">กำหนดเอง</label>
-        </div>
-        </div>
-
-    
-
-
-        <div class="col" v-if="viewType == 1">
-            <div class="form-check form-check-inline">
-                <select v-model="selectedOption" id="dropdown">
-                    <option v-for="i in listYear" value="">{{ i }}</option>
-                </select>
-            </div>
-
-            <div class="form-check form-check-inline">
-                -
-            </div>
-
-            <div class="form-check form-check-inline">
-                <select v-model="selectedOption" id="dropdown">
-                    <option v-for="i in listYear" value="">{{ i }}</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="col" v-if="viewType == 2">
-            <div class="form-check form-check-inline">
-                <select v-model="selectedOption" id="dropdown">
-                    <option v-for="i in listYear" value="">{{ i }}</option>
-                </select>
-            </div>
-
-            <div class="form-check form-check-inline">
-                :
-            </div>
-
-            <div class="form-check form-check-inline">
-                <select v-model="selectedOption" id="dropdown">
-                    <option v-for="i in listMonth" value="">{{ i }}</option>
-                </select>
-            </div>
-
-            <div class="form-check form-check-inline">
-                -
-            </div>
-
-            <div class="form-check form-check-inline">
-                <select v-model="selectedOption" id="dropdown">
-                    <option v-for="i in listMonth" value="">{{ i }}</option>
-                </select>
-            </div>
-        </div>
-
-        
-        <div class="col" v-if="viewType == 3">
-            <div class="form-check form-check-inline">
-                <input type="date">
-            </div>
-
-            <div class="form-check form-check-inline">
-                -
-            </div>
-
-            <div class="form-check form-check-inline">
-                <input type="date">
-            </div>
+        <div class="row p-0 m-0 my-2">
+            <div class="form-check form-check-inline fw-bold">
+                ของทีม :  <span>{{ selectOptionTeam }}</span>
+             </div>  
         </div>
     </div>
+
+
+    <DataTable :heads="tableHeadYear"></DataTable>
+    <!-- <DataTable :heads="tableHeadYearAndTeam"></DataTable> -->
 
     <BaseTable :heads="tableHeads" v-if="viewType == 1" >
         <tr class="tb-hov tr-custom">
@@ -190,9 +132,31 @@
 <script setup>
 import { ref } from 'vue';
 import BaseTable from '@/components/Component/BaseTable.vue';
+import DataTable from "../Component/DataTable.vue";
+import BaseSelect from "../Component/BaseSelect.vue"
+import apiService from "../../services/api";
 
+
+const selectOptionYear = ref()
+const selectOptionTeam = ref()
 const viewType = ref(1)
-const tableHeads = ref(['เดือน', 'จำนวนวันทั้งหมด', 'จำนวนนักศึกษาทั้งหมด', 'จำนวนเบี้ยเลี้ยงทั้งหมด']);
+const tableHeadYear = ref([
+    { key: 'team', title: 'ทีม', align: 'center' },
+    { key: 'jobDate', title: 'จำนวนวันทำงาน', align: 'center' },
+    { key: 'stuNumber', title: 'จำนวนนักศึกษา' , align: 'center'},
+    { key: 'Allowance', title: 'เบี้ยเลี้ยงทั้งหมด' , align: 'center'},
+    { key: 'specialAllowance', title: 'เบี้ยเลี้ยงพิเศษทั้งหมด' , align: 'center'},
+    { key: 'total', title: 'ยอดรวม' }
+])
+
+const tableHeadYearAndTeam = ref([
+    { key: 'team', title: 'ทีม', align: 'center' },
+    { key: 'jobDate', title: 'จำนวนวันทำงาน', align: 'center' },
+    { key: 'stuNumber', title: 'จำนวนนักศึกษา' , align: 'center'},
+    { key: 'Allowance', title: 'เบี้ยเลี้ยงทั้งหมด' , align: 'center'},
+    { key: 'specialAllowance', title: 'เบี้ยเลี้ยงพิเศษทั้งหมด' , align: 'center'},
+    { key: 'total', title: 'ยอดรวม' }
+])
 
 function testswitch() {
     const selectedOption = document.querySelector('input[name="radiotest"]:checked').value;
@@ -210,10 +174,14 @@ function testswitch() {
     }
 }
 
-const listYear = ref([2566,2565,2564,2563,2562,2561,2560])
-const listMonth = ref(['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน'
-                        ,'กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'])
+const listYear = ref([2567,2566,2565,2564,2563,2562,2561,2560,2559,2558])
+const listTeam = ref(['Team1','Team2','Team3','Team4','Team5','Team6'
+                        ,'Team7','Team8','Team9','Team10','Team11','Team12'])
+const apiCall = new apiService();
 
+onMounted(async() => {
+    Te
+}),
 </script>
 
 <style scoped></style>
