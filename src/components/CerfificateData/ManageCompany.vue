@@ -80,7 +80,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary w-25" data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-outline-danger w-25" @click="confirmation">บันทึก</button>
+                        <button type="button" class="btn btn-outline-danger w-25" @click="submitForm">บันทึก</button>
                     </div>
                 </div>
             </div>
@@ -89,20 +89,23 @@
     </div>
 
     <div class="content_card" style="display: flex; flex-wrap: wrap; width: 100%;">
-        <BaseCard v-for="Company in companies" class="outline-card mt-5" style="width: 30%; margin-right: 3%; margin-bottom: 30px;"
-            :title=Company.com_name :sub=Company.com_address.addr_province>
-            <div class="text_content">
-                {{ Company.com_address.addr_house_number }}
-                {{ Company.com_address.addr_village_number }}
-                {{ Company.com_address.addr_subdistrict }}
-                {{ Company.com_address.addr_district }}
-                {{ Company.com_address.addr_province }}
-                {{ Company.com_address.addr_post_code }}
-            </div>
-            <button class="stroke_edit position-absolute top-0 end-0 m-1 p-1 w-25 h-25 border-0"
-                style="border-radius: 50px; background-color: white;" @click="openEditModal(Company)">
-                <EditIcon data-bs-toggle="modal" data-bs-target="#edit-company" />
-            </button>
+        <BaseCard v-for="Company in companies" class="outline-card mt-5"
+            style="width: 30%; margin-right: 3%; margin-bottom: 30px;" :title=Company.com_name
+            :sub=Company.com_address.addr_province>
+            <template #after-title>
+                <div class="text_content">
+                    {{ Company.com_address.addr_house_number }}
+                    {{ Company.com_address.addr_village_number }}
+                    {{ Company.com_address.addr_subdistrict }}
+                    {{ Company.com_address.addr_district }}
+                    {{ Company.com_address.addr_province }}
+                    {{ Company.com_address.addr_post_code }}
+                </div>
+                <button class="stroke_edit position-absolute top-0 end-0 m-1 p-1 w-25 h-25 border-0"
+                    style="border-radius: 50px; background-color: white;" @click="openEditModal(Company)">
+                    <EditIcon data-bs-toggle="modal" data-bs-target="#edit-company" />
+                </button>
+            </template>
         </BaseCard>
     </div>
 
@@ -115,134 +118,66 @@
                             <h1>
                                 <center><strong>แก้ไขข้อมูลบริษัท</strong></center>
                             </h1>
-                            <label 
-                                for="exampleInputEmail1" 
-                                class="form-label">ชื่อบริษัท
+                            <label for="exampleInputEmail1" class="form-label">ชื่อบริษัท
                             </label>
-                            <input
-                                v-model="editedCompany.com_name" 
-                                class="form-control" 
-                                type="text" 
-                                placeholder="ชื่อบริษัท"
-                                aria-label="default input example">
+                            <input v-model="editedCompany.com_name" class="form-control" type="text"
+                                placeholder="ชื่อบริษัท" aria-label="default input example">
 
-                            <div 
-                                class="box1" 
-                                style="display: flex; flex-wrap: wrap;">
-                                <label 
-                                    for="exampleInputEmail1" 
-                                    class="form-label">เลขที่
+                            <div class="box1" style="display: flex; flex-wrap: wrap;">
+                                <label for="exampleInputEmail1" class="form-label">เลขที่
                                 </label>
-                                <input 
-                                    v-model="editedCompany.com_address.addr_house_number"
-                                    class="form-control" 
-                                    type="text" 
-                                    placeholder="เลขที่" 
-                                    aria-label="default input example" >
+                                <input v-model="editedCompany.com_address.addr_house_number" class="form-control"
+                                    type="text" placeholder="เลขที่" aria-label="default input example">
 
-                                <label 
-                                    for="exampleInputEmail1" 
-                                    class="form-label">หมู่
+                                <label for="exampleInputEmail1" class="form-label">หมู่
                                 </label>
-                                <input 
-                                    v-model="editedCompany.com_address.addr_village_number"
-                                    class="form-control" 
-                                    type="text" 
-                                    placeholder="หมู่"
-                                    aria-label="default input example">
+                                <input v-model="editedCompany.com_address.addr_village_number" class="form-control"
+                                    type="text" placeholder="หมู่" aria-label="default input example">
                             </div>
 
-                            <div 
-                                class="box1" 
-                                style="display: flex; flex-wrap: wrap;">
-                                <label 
-                                    for="exampleInputEmail1" 
-                                    class="form-label">ตรอก
+                            <div class="box1" style="display: flex; flex-wrap: wrap;">
+                                <label for="exampleInputEmail1" class="form-label">ตรอก
                                 </label>
-                                <input 
-                                    v-model="editedCompany.com_address.addr_alley"
-                                    class="form-control" 
-                                    type="text" 
-                                    placeholder="ตรอก"
-                                    aria-label="default input example">
+                                <input v-model="editedCompany.com_address.addr_alley" class="form-control" type="text"
+                                    placeholder="ตรอก" aria-label="default input example">
 
-                                <label 
-                                    for="exampleInputEmail1" 
-                                    class="form-label">ถนน
+                                <label for="exampleInputEmail1" class="form-label">ถนน
                                 </label>
-                                <input 
-                                    v-model="editedCompany.com_address.addr_street"
-                                    class="form-control" 
-                                    type="text" 
-                                    placeholder="ถนน" 
-                                    aria-label="default input example">
+                                <input v-model="editedCompany.com_address.addr_street" class="form-control" type="text"
+                                    placeholder="ถนน" aria-label="default input example">
                             </div>
 
-                            <div 
-                                class="box1" 
-                                style="display: flex; flex-wrap: wrap;">
-                                <label 
-                                    for="exampleInputEmail1" 
-                                    class="form-label">ตำบล/แขวง
+                            <div class="box1" style="display: flex; flex-wrap: wrap;">
+                                <label for="exampleInputEmail1" class="form-label">ตำบล/แขวง
                                 </label>
-                                <input 
-                                    v-model="editedCompany.com_address.addr_subdistrict"
-                                    class="form-control" 
-                                    type="text" 
-                                    placeholder="ตำบล/แขวง"
-                                    aria-label="default input example">
+                                <input v-model="editedCompany.com_address.addr_subdistrict" class="form-control" type="text"
+                                    placeholder="ตำบล/แขวง" aria-label="default input example">
 
-                                <label
-                                    for="exampleInputEmail1" 
-                                    class="form-label">อำเภอ/เขต
+                                <label for="exampleInputEmail1" class="form-label">อำเภอ/เขต
                                 </label>
-                                <input 
-                                    v-model="editedCompany.com_address.addr_district"
-                                    class="form-control" 
-                                    type="text" 
-                                    placeholder="อำเภอ/เขต"
-                                    aria-label="default input example">
+                                <input v-model="editedCompany.com_address.addr_district" class="form-control" type="text"
+                                    placeholder="อำเภอ/เขต" aria-label="default input example">
                             </div>
 
-                            <div 
-                                class="box1" 
-                                style="display: flex; flex-wrap: wrap;">
-                                <label 
-                                    for="exampleInputEmail1" 
-                                    class="form-label">สาขา(ชื่อจังหวัด)
+                            <div class="box1" style="display: flex; flex-wrap: wrap;">
+                                <label for="exampleInputEmail1" class="form-label">สาขา(ชื่อจังหวัด)
                                 </label>
-                                <input 
-                                    v-model="editedCompany.com_address.addr_province"
-                                    class="form-control" 
-                                    type="text" 
-                                    placeholder="สาขา"
-                                    aria-label="default input example">
+                                <input v-model="editedCompany.com_address.addr_province" class="form-control" type="text"
+                                    placeholder="สาขา" aria-label="default input example">
 
-                                <label 
-                                    for="exampleInputEmail1" 
-                                    class="form-label">เลขไปรษณีย์
+                                <label for="exampleInputEmail1" class="form-label">เลขไปรษณีย์
                                 </label>
-                                <input 
-                                    v-model="editedCompany.com_address.addr_post_code"
-                                    class="form-control" 
-                                    type="text" 
-                                    placeholder="เลขไปรษณีย์"
-                                    aria-label="default input example">
+                                <input v-model="editedCompany.com_address.addr_post_code" class="form-control" type="text"
+                                    placeholder="เลขไปรษณีย์" aria-label="default input example">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button 
-                        type="button" 
-                        class="btn btn-outline-secondary w-25" 
-                        data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-outline-secondary w-25" data-bs-dismiss="modal">
                         ยกเลิก
                     </button>
-                    <button 
-                        type="button" 
-                        class="btn btn-outline-danger w-25" 
-                        @click="confirmationFormedit">
+                    <button type="button" class="btn btn-outline-danger w-25" @click="submitFormedit">
                         บันทึก
                     </button>
                 </div>
@@ -303,62 +238,18 @@ async function submitForm() {
         });
 }
 
-async function confirmation() {
-    const result = true
-
-    if (result) {
-        Swal.fire({
-            text: "คุณต้องการบันทึกข้อมูลหรือไม่",
-            icon: "warning",
-            showCancelButton: true,
-            showConfirmButton: true,
-            confirmButtonText: "ยืนยัน",
-            cancelButtonText: "ยกเลิก",
-            confirmButtonColor: "var(--main-color)",
-            reverseButtons: true,
-            focusConfirm: false,
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                submitForm()
-            }
-        });
-    }
-}
-
 async function submitFormedit() {
     await apiCall.updateCompany(editedCompany.value)
         .then(() => {
             Swal.fire({
                 icon: 'success',
-                text: 'บันทึกข้อมูลเสร็จสิ้น',
+                text: 'แก้ไขข้อมูลสำเร็จ',
                 showConfirmButton: false,
                 timer: 3000
             }).then(() => {
                 // router.push({ name: 'index' })
             })
         })
-}
-
-async function confirmationFormedit() {
-    const result = true
-
-    if (result) {
-        Swal.fire({
-            text: "คุณต้องการบันทึกข้อมูลหรือไม่",
-            icon: "warning",
-            showCancelButton: true,
-            showConfirmButton: true,
-            confirmButtonText: "ยืนยัน",
-            cancelButtonText: "ยกเลิก",
-            confirmButtonColor: "var(--main-color)",
-            reverseButtons: true,
-            focusConfirm: false,
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                submitFormedit()
-            }
-        });
-    }
 }
 
 // เพิ่ม ref สำหรับเก็บข้อมูลบริษัทที่จะแก้ไข
@@ -388,14 +279,14 @@ const openEditModal = (company) => {
 };
 
 onMounted(() => {
-  if (!editedCompany.value.com_address) {
-    editedCompany.value.com_address = { addr_province: '' };
-    editedCompany.value.com_address = { addr_house_number: '' };
-    editedCompany.value.com_address = { addr_village_number: '' };
-    editedCompany.value.com_address = { addr_subdistrict: '' };
-    editedCompany.value.com_address = { addr_district: '' };
-    editedCompany.value.com_address = { addr_post_code: '' };
-  }
+    if (!editedCompany.value.com_address) {
+        editedCompany.value.com_address = { addr_province: '' };
+        editedCompany.value.com_address = { addr_house_number: '' };
+        editedCompany.value.com_address = { addr_village_number: '' };
+        editedCompany.value.com_address = { addr_subdistrict: '' };
+        editedCompany.value.com_address = { addr_district: '' };
+        editedCompany.value.com_address = { addr_post_code: '' };
+    }
 });
 
 onMounted(async () => {
