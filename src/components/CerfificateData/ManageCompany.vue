@@ -35,12 +35,12 @@
                             </h1>
                             <label for="exampleInputEmail1" class="form-label">ชื่อบริษัท</label>
                             <input class="form-control" type="text" placeholder="ชื่อบริษัท"
-                                aria-label="default input example" v-model="companyData.com_name">
+                                aria-label="default input example" v-model="companyData.com_name" required>
 
                             <div class="box1" style="display: flex; flex-wrap: wrap;">
                                 <label for="exampleInputEmail1" class="form-label">เลขที่</label>
                                 <input v-model="companyData.addr_house_number" class="form-control" type="text"
-                                    placeholder="เลขที่" aria-label="default input example">
+                                    placeholder="เลขที่" aria-label="default input example" required>
 
                                 <label for="exampleInputEmail1" class="form-label">หมู่</label>
                                 <input class="form-control" type="text" placeholder="หมู่"
@@ -60,21 +60,21 @@
                             <div class="box1" style="display: flex; flex-wrap: wrap;">
                                 <label for="exampleInputEmail1" class="form-label">ตำบล/แขวง</label>
                                 <input class="form-control" type="text" placeholder="ตำบล/แขวง"
-                                    aria-label="default input example" v-model="companyData.addr_subdistrict">
+                                    aria-label="default input example" v-model="companyData.addr_subdistrict" required>
 
                                 <label for="exampleInputEmail1" class="form-label">อำเภอ/เขต</label>
                                 <input class="form-control" type="text" placeholder="อำเภอ/เขต"
-                                    aria-label="default input example" v-model="companyData.addr_district">
+                                    aria-label="default input example" v-model="companyData.addr_district" required>
                             </div>
 
                             <div class="box1" style="display: flex; flex-wrap: wrap;">
                                 <label for="exampleInputEmail1" class="form-label">สาขา(ชื่อจังหวัด)</label>
                                 <input class="form-control" type="text" placeholder="สาขา"
-                                    aria-label="default input example" v-model="companyData.addr_province">
+                                    aria-label="default input example" v-model="companyData.addr_province" required>
 
                                 <label for="exampleInputEmail1" class="form-label">เลขไปรษณีย์</label>
                                 <input class="form-control" type="text" placeholder="เลขไปรษณีย์"
-                                    aria-label="default input example" v-model="companyData.addr_post_code">
+                                    aria-label="default input example" v-model="companyData.addr_post_code" required>
                             </div>
                         </div>
                     </div>
@@ -286,6 +286,21 @@ async function submitForm() {
                 // router.push({ name: 'index' })
             })
         })
+        .catch(error => {
+            if (error.response && error.response.status === 400 && error.response.data === 'Company name already exists.') {
+                Swal.fire({
+                    icon: 'error',
+                    text: 'มีข้อมูลบริษัทนี้อยู่แล้ว',
+                    showConfirmButton: true,
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    text: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                    showConfirmButton: true,
+                });
+            }
+        });
 }
 
 async function confirmation() {
@@ -385,6 +400,7 @@ onMounted(() => {
 
 onMounted(async () => {
     companies.value = await apiCall.getCompanyWithAddress()
+    // console.log(companies.value);
 })
 
 onMounted(async () => {
