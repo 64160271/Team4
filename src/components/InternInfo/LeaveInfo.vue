@@ -1,13 +1,11 @@
 <template>
-  <div class="row mb-3">
     <LayoutMenu />
 
-    <div class="row mb-3">
-      <CardInternInfo :internId="internId"> </CardInternInfo>
-    </div>
+      <CardInternInfo class="mb-3" :internId="internId"> </CardInternInfo>
 
-    <div class="row mb-3">
-      <SideLabelInput no-padding input-size="3" label="วันที่ลา" type="date" />
+    <SectionSpace>
+      <div class="row mb-3">
+      <SideLabelInput v-model="searchData" no-padding input-size="3" label="วันที่ลา" type="date" />
 
       <BaseButton
         label="+ เพิ่มข้อมูลการลา"
@@ -18,7 +16,7 @@
     </div>
 
     <div class="row">
-      <DataTable :total="leavesInfo.length" :heads="tableHead" :items="leavesInfo">
+      <DataTable striped :total="filterData.length" :heads="tableHead" :items="filterData">
         <template #lvs_duration_fake="{ data }">
           {{ getDuration(data.lvs_duration) }}
         </template>
@@ -40,7 +38,7 @@
         </template>
       </DataTable>
     </div>
-  </div>
+    </SectionSpace>
 
   <BaseModal
     v-if="openModal"
@@ -60,14 +58,18 @@
       </div>
     </div>
 
-    <BaseSelect
-      :options="leavesType.list"
-      v-model="formData.lvs_type"
-      text="text"
-      value="value"
-      class="mb-3"
-      label="ประเภทการลา"
-    />
+    <div class="mb-3">
+      <BaseSelect
+        :options="leavesType.list"
+        v-model="formData.lvs_type"
+        text="text"
+        value="value"
+        label="ประเภทการลา"
+        :class="{ 'is-invalid': v$.lvs_type.$error }"
+        required
+      />
+      <InvalidFeedback :errors="v$.lvs_type.$errors" />
+    </div>
 
     <div class="mb-3">
       <label for="" class="form-label">หมายเหตุ</label>
@@ -92,6 +94,7 @@
         value="hr"
         type="radio"
         label="ชั่วโมง"
+        @change="formData.lvs_duration == 'F'"
         checked
       />
       <Radio
@@ -108,7 +111,14 @@
     <div v-if="lvs_time == 'hr'">
       <div class="row mb-3">
         <div class="col-md-4">
-          <BaseInput v-model="formData.lvs_from_date" type="date" label="วันที่ลา" />
+          <BaseInput 
+            required 
+            v-model="formData.lvs_from_date" 
+            type="date" 
+            label="วันที่ลา"
+            :class="{ 'is-invalid': v$.lvs_from_date.$error }"
+          />
+          <InvalidFeedback :errors="v$.lvs_from_date.$errors" />
         </div>
         <div class="col-auto mt-auto">
           <Radio
@@ -147,15 +157,19 @@
     <div v-if="lvs_time == 'day'">
       <div class="row mb-3">
         <div class="col-md-5">
-          <BaseInput v-model="formData.lvs_from_date" type="date" label="วันเริ่มต้น" />
+          <BaseInput required v-model="formData.lvs_from_date" type="date" label="วันเริ่มต้น" :class="{ 'is-invalid': v$.lvs_from_date.$error }" />
+          <InvalidFeedback :errors="v$.lvs_from_date.$errors" />
         </div>
         <div class="col-md-5">
           <BaseInput
+            required
             v-model="formData.lvs_to_date"
             :min="formData.lvs_from_date"
             type="date"
             label="วันสิ้นสุด"
+            :class="{ 'is-invalid': v$.lvs_to_date.$error }"
           />
+          <InvalidFeedback :errors="v$.lvs_to_date.$errors" />
         </div>
         <div class="col-md-2">
           <BaseInput
@@ -224,7 +238,7 @@
 import LayoutMenu from "./LayoutMenu.vue";
 import apiService from "../../services/api";
 import { useRoute, useRouter } from "vue-router";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseButton from "../Component/BaseButton.vue";
 import DataTable from "../Component/DataTable.vue";
@@ -234,9 +248,13 @@ import Radio from "../Component/Radio.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
 import { useLeavesType } from "../../stores/constData";
 import { useInternName } from "../../stores/constData";
-import { diffDate, diffTime } from "../../assets/js/func";
+import { diffDate, slashDtoDashY } from "../../assets/js/func";
 import SideLabelInput from "../Component/SideLabelInput.vue";
+import useVuelidate from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import InvalidFeedback from "../Component/InvalidFeedback.vue";
 
+const searchData = ref('')
 const router = useRouter();
 const internRole = ref();
 const internName = ref();
@@ -254,8 +272,16 @@ const formData = ref({
   lvs_to_date: "",
   lvs_file: "",
   lvs_intern_id: "",
-  lvs_duration: "",
+  lvs_duration: "F",
 });
+
+const rules = {
+  lvs_type: { required },
+  lvs_from_date: { required },
+  lvs_to_date: { required },
+}
+const v$ = useVuelidate(rules, formData.value)
+
 const tableHead = ref([
   { key: "lvs_id", title: "เลขที่ใบลา", align: "center" },
   { key: "lvs_from_date", title: "วันที่ลา", align: "center" },
@@ -273,15 +299,19 @@ onMounted(async () => {
 });
 
 async function formSubmit() {
-  if (lvs_time.value == "hr") {
-    formData.value.lvs_to_date = formData.value.lvs_from_date
-  }
+  if (lvs_time.value == "hr") formData.value.lvs_to_date = formData.value.lvs_from_date
+  else if (lvs_time.value == "day") formData.value.lvs_duration = "M"
 
-  formData.value.lvs_intern_id = internId;
-  try {
-    await apiCall.createLeaveInfo(data);
-  } catch (e) {
-    return e;
+  const validate = await v$.value.$validate()
+
+  if (validate) {
+    formData.value.lvs_intern_id = internId;
+    try {
+      await apiCall.createLeaveInfo(formData.value);
+      router.go()
+    } catch (e) {
+      return e;
+    }
   }
 }
 
@@ -302,8 +332,16 @@ function getDuration(duration) {
 
   if (isNumber) return `${duration} วัน`
   else return duration
-  
+
 }
+
+const filterData = computed(() => {
+  return leavesInfo.value.filter((leaveInfo) => {
+    return (
+      slashDtoDashY(leaveInfo.lvs_from_date) >= searchData.value.trim()
+    )
+  })
+})
 </script>
 
 <style scoped></style>
