@@ -25,7 +25,7 @@
     </div>
     <BaseModal v-if="openModal" @close="openModal = false" title="เพิ่มรายการข้อมูล">
         <div class="col mb-3">
-            <BaseInput v-model="listId" label="รหัสรายการ" input_type="text" required="required" placeholder="xx/xxxx" />
+            <BaseInput v-model="formData.rep_code" label="รหัสรายการ" input_type="text" required="required" placeholder="xx/xxxx" />
         </div>
         <div class="col mb-3">
             <BaseInput :value="new Date()" label="วันที่สร้างรายการ" input_type="text" readonly="readonly" />
@@ -37,6 +37,9 @@
     <DataTable :heads="dataHead" :items="reports">
         <template #rep_edit>
         <EditIcon />
+        </template>
+        <template #rep_remove>
+        <DeleteButton />
         </template>
     </DataTable>
 </template>
@@ -51,9 +54,9 @@ import BaseInput from '../Component/BaseInput.vue'
 import { onMounted } from 'vue';
 import axios from 'axios'
 import EditIcon from '../icons/EditIcon.vue'
+import DeleteButton from '../icons/DeleteButton.vue'
 
 const reports = ref([])
-const listId = ref('')
 
 const openModal = ref(false)
 
@@ -69,6 +72,12 @@ const dataHead = ref([
     { key: "rep_remove", title: "ลบ", align: "center" },
 ])
 
+const formData = ref([
+    rep_code = '',
+    rep_date = '',
+    rep_updated_by = ''
+])
+
 const getReport = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/reports`).
         then((response) => {
@@ -76,11 +85,9 @@ const getReport = async () => {
         })
 }
 
-const creatReport = async () => {
-    await axios.post(`${import.meta.env.VITE_API_HOST}/reports`).
-        then((response) => {
-
-        })
+async function formSubmit() {
+    await axios.post(`${import.meta.env.VITE_API_HOST}/reports`, formData.value,)
+    router.go()
 }
 
 let nameUser = "ปริญญา ก้อนจันทึก"
