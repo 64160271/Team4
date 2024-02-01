@@ -15,23 +15,40 @@ import SectionSpace from '../Component/SectionSpace.vue';
       </BaseButton>
     </div>
 
-    <BaseModal v-if="isOpen == true" @save="formSubmit" title="เพิ่มข้อมูลมหาวิทยาลัย" @close="isOpen = false">
+    <BaseModal
+      v-if="isOpen == true"
+      @save="formSubmit"
+      title="เพิ่มข้อมูลมหาวิทยาลัย"
+      @close="isOpen = false"
+    >
       <div class="col-md-12">
         <div class="text-center">
           <img id="blah" src="#" alt="" class="img-add bg-grays-200" />
-          <span v-if="v$.uni_file.$error" :class="{ 'is-invalid': v$.uni_file.$error }"></span>
+          <span
+            v-if="v$.uni_file.$error"
+            :class="{ 'is-invalid': v$.uni_file.$error }"
+          ></span>
           <InvalidFeedback :errors="v$.uni_file.$errors" />
         </div>
 
         <div class="row mt-4">
-          <button id="picture" class="mx-auto outline-red col-sm-6 btn btn-sm position-relative">
+          <button
+            id="picture"
+            class="mx-auto outline-red col-sm-6 btn btn-sm position-relative"
+          >
             <input id="img-upload" type="file" accept="image/*" @change="showImg" />
             <CameraLogoVue />
             ตรามหาวิทยาลัย
           </button>
           <div class="col-md-12 mt-3">
-            <BaseInput label="ชื่อมหาวิทยาลัย" v-model="formData.uni_name" :value="formData.uni_name"
-              placeholder="มหาวิทยาลัย" :class="{ 'is-invalid': v$.uni_name.$error }" required />
+            <BaseInput
+              label="ชื่อมหาวิทยาลัย"
+              v-model="formData.uni_name"
+              :value="formData.uni_name"
+              placeholder="มหาวิทยาลัย"
+              :class="{ 'is-invalid': v$.uni_name.$error }"
+              required
+            />
             <InvalidFeedback :errors="v$.uni_name.$errors" />
           </div>
         </div>
@@ -48,18 +65,45 @@ import SectionSpace from '../Component/SectionSpace.vue';
           <div class="row">
             <label class="col">
               <span class="me-2">
-                <img class="img" :src="university?.uni_image_path" height="35" width="35" />
+                <img
+                  class="img"
+                  :src="university?.uni_image_path"
+                  height="35"
+                  width="35"
+                />
               </span>
               {{ university.uni_name }}
             </label>
-            <EditIcon @click="edit(universities[index])" class="hov-outline-red me-2 ms-auto col-auto my-auto cursor-p" />
-            <ArrowDownIcon @click="
-              (showDetail[index] = !showDetail[index]), console.log(showDetail[index])
-              " class="outline-hov-red ms-auto col-auto m-2 my-auto cursor-p" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              fill="currentColor"
+              class="col-auto my-auto bi bi-trash-fill cursor-p outline-hov-red"
+              viewBox="0 0 16 16"
+              @click="deleteUniversity(university.uni_id)"
+            >
+              <path
+                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"
+              />
+            </svg>
+            <EditIcon
+              @click="edit(universities[index])"
+              class="hov-outline-red ms-auto col-auto my-auto cursor-p"
+            />
+            <ArrowDownIcon
+              @click="
+                (showDetail[index] = !showDetail[index]), console.log(showDetail[index])
+              "
+              class="outline-hov-red ms-auto col-auto m-2 my-auto cursor-p"
+            />
           </div>
           <Transition>
             <div v-if="showDetail[index]" class="row row-cols-lg-3 mt-3">
-              <div v-for="faculty in university.faculties" class="col-lg-4 d-flex align-items-stretch mb-3">
+              <div
+                v-for="faculty in university.faculties"
+                class="col-lg-4 d-flex align-items-stretch mb-3"
+              >
                 <div class="card flex-fill">
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item bg-red text-white">
@@ -70,7 +114,10 @@ import SectionSpace from '../Component/SectionSpace.vue';
                     </div>
                     <ol v-else class="list-group-item list-group-numbered">
                       สาขา
-                      <li v-for="major in faculty.majors" class="list-group-item border-0">
+                      <li
+                        v-for="major in faculty.majors"
+                        class="list-group-item border-0"
+                      >
                         {{ major.maj_name }}
                       </li>
                     </ol>
@@ -105,13 +152,13 @@ import EditIcon from "../icons/EditIcon.vue";
 import ArrowDownIcon from "../icons/ArrowDownIcon.vue";
 import NotFound from "../Component/NotFound.vue";
 import { required } from "@vuelidate/validators";
-import useVuelidate from "@vuelidate/core"
+import useVuelidate from "@vuelidate/core";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
-import { errorAlert } from "../../assets/js/func"
-import apiService from "../../services/api"
+import { errorAlert, confirmation, successAlert } from "../../assets/js/func";
+import apiService from "../../services/api";
 
 let uni_id = 0;
-const api = new apiService()
+const api = new apiService();
 const searchData = ref("");
 const router = useRouter();
 const showDetail = ref([]);
@@ -125,8 +172,8 @@ const formData = ref({
 
 const rules = {
   uni_name: { required },
-  uni_file: { required }
-}
+  uni_file: { required },
+};
 const v$ = useVuelidate(rules, formData.value);
 
 const filterData = computed(() => {
@@ -163,11 +210,11 @@ async function edit(university) {
 /* ฟังก์ชันเมื่อกดปุ่ม เพื่มข้อมูล */
 function add() {
   /* กำนหนดค่าให้แบบฟอร์มเป็นค่าว่าง */
-  formData.value.uni_name = ''
-  formData.value.uni_file = ''
+  formData.value.uni_name = "";
+  formData.value.uni_file = "";
 
-  isOpen.value = true
-  modalMode.value = "add"
+  isOpen.value = true;
+  modalMode.value = "add";
 }
 
 function showImg() {
@@ -189,30 +236,51 @@ async function formSubmit() {
   const validate = await v$.value.$validate();
 
   if (validate) {
-
     /* ถ้าหากเป็นแบบฟอร์มสำหรับเพิ่มข้อมูล ให้เรียก api เพิ่มข้อมูล */
     if (modalMode.value == "add") {
-      await api.createUniversity(formData.value).then(() => {
-        router.go();
-      })
+      await api
+        .createUniversity(formData.value)
+        .then(() => {
+          router.go();
+        })
         .catch((e) => {
-          errorAlert(e.response.data)
+          errorAlert(e.response.data);
         });
 
-    /* ถ้าหากเป็นแบบฟอร์มสำหรับแก้ไขข้อมูล */
+      /* ถ้าหากเป็นแบบฟอร์มสำหรับแก้ไขข้อมูล */
     } else if (modalMode.value == "edit") {
       /* ลบ uni_file ทิ้งหากเป็นโลโก้เดิม ป้องกันการสร้างไฟล์ซ้ำซ้อน */
       if (typeof formData.value.uni_file != "object") {
         delete formData.value["uni_file"];
       }
-      await api.editUniversity(formData.value, uni_id).then(() => {
+      await api
+        .editUniversity(formData.value, uni_id)
+        .then(() => {
+          router.go();
+        })
+        .catch((e) => {
+          formData.value.uni_file = uni_id;
+          errorAlert(e.response.data);
+        });
+    }
+  }
+}
+
+async function deleteUniversity(id) {
+  const result = await confirmation(
+    "ยืนยันการลบข้อมูลหรือไม่\nข้อมูลคณะและสาขาของมหาวิทยาลัยจะถูกลบไปด้วย"
+  );
+
+  if (result) {
+    await api
+      .deleteUniversity(id)
+      .then(async () => {
+        await successAlert("ลบข้อมูลมหาวิทยาลัยเรียบร้อยแล้ว");
         router.go();
       })
-        .catch((e) => {
-          formData.value.uni_file = uni_id
-          errorAlert(e.response.data)
-        })
-    }
+      .catch((e) => {
+        errorAlert(e, noDelay);
+      });
   }
 }
 
