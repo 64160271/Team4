@@ -14,8 +14,7 @@
             </div>
 
             <div class="form-check form-check-inline">
-                <BaseSelect 
-                />
+                <BaseSelect />
             </div>
         </div>
         <div class="col-auto ms-auto my-auto">
@@ -24,23 +23,21 @@
             </div>
         </div>
     </div>
-    <BaseModal v-if="openModal" @close="openModal = false"
-    title="เพิ่มรายการข้อมูล" >
+    <BaseModal v-if="openModal" @close="openModal = false" title="เพิ่มรายการข้อมูล">
         <div class="col mb-3">
-            <BaseInput v-model="listId" label="รหัสรายการ"  
-            input_type="text" required="required" placeholder="xx/xxxx"/>
+            <BaseInput v-model="listId" label="รหัสรายการ" input_type="text" required="required" placeholder="xx/xxxx" />
         </div>
         <div class="col mb-3">
-            <BaseInput :value="new Date()" label="วันที่สร้างรายการ"  
-            input_type="text" readonly="readonly" />
+            <BaseInput :value="new Date()" label="วันที่สร้างรายการ" input_type="text" readonly="readonly" />
         </div>
         <div class="col mb-3">
-            <BaseInput :value="nameUser" label="ผู้ทำการแก้ไขข้อมูล"  
-            input_type="text" readonly="readonly" />
+            <BaseInput :value="nameUser" label="ผู้ทำการแก้ไขข้อมูล" input_type="text" readonly="readonly" />
         </div>
     </BaseModal>
     <DataTable :heads="dataHead" :items="reports">
-
+        <template #rep_edit>
+        <EditIcon />
+        </template>
     </DataTable>
 </template>
 
@@ -53,6 +50,7 @@ import BaseModal from '../Component/BaseModal.vue'
 import BaseInput from '../Component/BaseInput.vue'
 import { onMounted } from 'vue';
 import axios from 'axios'
+import EditIcon from '../icons/EditIcon.vue'
 
 const reports = ref([])
 const listId = ref('')
@@ -67,26 +65,27 @@ const dataHead = ref([
     { key: "rep_created_user", title: "ผู้สร้างรายการ" },
     { key: "rep_update_user", title: "ผู้แก้ไขข้อมูลล่าสุด" },
     { key: "rep_status", title: "สถานะ", align: "center" },
-    { key: "rep_action", title: "แก้ไข / ลบ", align: "center" },
+    { key: "rep_edit", title: "แก้ไข", align: "center" },
+    { key: "rep_remove", title: "ลบ", align: "center" },
 ])
 
-const getReport = async() =>{
+const getReport = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/reports`).
-    then((response ) => {
-        reports.value = response.data
-    })
+        then((response) => {
+            reports.value = response.data
+        })
 }
 
-const creatReport = async() =>{
+const creatReport = async () => {
     await axios.post(`${import.meta.env.VITE_API_HOST}/reports`).
-    then((response) => {
-        
-    })
+        then((response) => {
+
+        })
 }
 
 let nameUser = "ปริญญา ก้อนจันทึก"
 
-onMounted (() => {
+onMounted(() => {
     getReport()
 })
 </script>
