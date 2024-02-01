@@ -1,7 +1,18 @@
+<!--
+ ฺBaseCard
+ Component สำหรับการ์ด
+ Props:
+    title: หัวข้อการ์ด
+    sub: หัวข้อย่อย
+    content: เนื้อหาของการ์ด
+-->
+
 <template>
     <div class="col-md-3">
         <div class="card h-100 content border shadow-sm text-center pt-5 rounded-5">
             <div class="card-body">
+                <slot name="before-title"></slot>
+
                 <h6 class="card-title py-2">{{ title }}</h6>
 
                 <div class="row py-2">
@@ -13,8 +24,9 @@
                 </div>
                 
                 <div class="row py-2">
-                    <slot></slot>
+                    <slot name="after-title"></slot>
                 </div>
+
             </div>
         </div>
     </div>
