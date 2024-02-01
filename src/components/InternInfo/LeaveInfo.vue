@@ -58,14 +58,18 @@
       </div>
     </div>
 
-    <BaseSelect
-      :options="leavesType.list"
-      v-model="formData.lvs_type"
-      text="text"
-      value="value"
-      class="mb-3"
-      label="ประเภทการลา"
-    />
+    <div class="mb-3">
+      <BaseSelect
+        :options="leavesType.list"
+        v-model="formData.lvs_type"
+        text="text"
+        value="value"
+        label="ประเภทการลา"
+        :class="{ 'is-invalid': v$.lvs_type.$error }"
+        required
+      />
+      <InvalidFeedback :errors="v$.lvs_type.$errors" />
+    </div>
 
     <div class="mb-3">
       <label for="" class="form-label">หมายเหตุ</label>
@@ -107,7 +111,14 @@
     <div v-if="lvs_time == 'hr'">
       <div class="row mb-3">
         <div class="col-md-4">
-          <BaseInput v-model="formData.lvs_from_date" type="date" label="วันที่ลา" />
+          <BaseInput 
+            required 
+            v-model="formData.lvs_from_date" 
+            type="date" 
+            label="วันที่ลา"
+            :class="{ 'is-invalid': v$.lvs_from_date.$error }"
+          />
+          <InvalidFeedback :errors="v$.lvs_from_date.$errors" />
         </div>
         <div class="col-auto mt-auto">
           <Radio
@@ -146,15 +157,19 @@
     <div v-if="lvs_time == 'day'">
       <div class="row mb-3">
         <div class="col-md-5">
-          <BaseInput v-model="formData.lvs_from_date" type="date" label="วันเริ่มต้น" />
+          <BaseInput required v-model="formData.lvs_from_date" type="date" label="วันเริ่มต้น" :class="{ 'is-invalid': v$.lvs_from_date.$error }" />
+          <InvalidFeedback :errors="v$.lvs_from_date.$errors" />
         </div>
         <div class="col-md-5">
           <BaseInput
+            required
             v-model="formData.lvs_to_date"
             :min="formData.lvs_from_date"
             type="date"
             label="วันสิ้นสุด"
+            :class="{ 'is-invalid': v$.lvs_to_date.$error }"
           />
+          <InvalidFeedback :errors="v$.lvs_to_date.$errors" />
         </div>
         <div class="col-md-2">
           <BaseInput
@@ -235,6 +250,9 @@ import { useLeavesType } from "../../stores/constData";
 import { useInternName } from "../../stores/constData";
 import { diffDate, slashDtoDashY } from "../../assets/js/func";
 import SideLabelInput from "../Component/SideLabelInput.vue";
+import useVuelidate from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import InvalidFeedback from "../Component/InvalidFeedback.vue";
 
 const searchData = ref('')
 const router = useRouter();
@@ -256,6 +274,14 @@ const formData = ref({
   lvs_intern_id: "",
   lvs_duration: "F",
 });
+
+const rules = {
+  lvs_type: { required },
+  lvs_from_date: { required },
+  lvs_to_date: { required },
+}
+const v$ = useVuelidate(rules, formData.value)
+
 const tableHead = ref([
   { key: "lvs_id", title: "เลขที่ใบลา", align: "center" },
   { key: "lvs_from_date", title: "วันที่ลา", align: "center" },
@@ -276,12 +302,16 @@ async function formSubmit() {
   if (lvs_time.value == "hr") formData.value.lvs_to_date = formData.value.lvs_from_date
   else if (lvs_time.value == "day") formData.value.lvs_duration = "M"
 
-  formData.value.lvs_intern_id = internId;
-  try {
-    await apiCall.createLeaveInfo(formData.value);
-    router.go()
-  } catch (e) {
-    return e;
+  const validate = await v$.value.$validate()
+
+  if (validate) {
+    formData.value.lvs_intern_id = internId;
+    try {
+      await apiCall.createLeaveInfo(formData.value);
+      router.go()
+    } catch (e) {
+      return e;
+    }
   }
 }
 
