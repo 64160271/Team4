@@ -23,23 +23,32 @@
             </div>
         </div>
     </div>
-    <BaseModal v-if="openModal" @close="openModal = false" title="เพิ่มรายการข้อมูล">
+    <BaseModal v-if="openModal" @save="formSubmit" @close="openModal = false" title="เพิ่มรายการข้อมูล">
         <div class="col mb-3">
-            <BaseInput v-model="formData.rep_code" label="รหัสรายการ" input_type="text" required="required" placeholder="xx/xxxx" />
+            <BaseInput v-model="formData.rep_code" label="รหัสรายการ" input_type="text" required="required"
+                placeholder="xx/xxxx" />
         </div>
         <div class="col mb-3">
-            <BaseInput :value="new Date()" label="วันที่สร้างรายการ" input_type="text" readonly="readonly" />
+            <BaseInput :value="chageDate(date)" label="วันที่สร้างรายการ" input_type="text" readonly="readonly" />
         </div>
         <div class="col mb-3">
             <BaseInput :value="nameUser" label="ผู้ทำการแก้ไขข้อมูล" input_type="text" readonly="readonly" />
         </div>
     </BaseModal>
-    <DataTable :heads="dataHead" :items="reports">
+    <DataTable :heads="dataHead"  :items="reports">
+    <template #rep_created_at_front = {data}>
+        {{ console.log(data.rep_created_at) }}
+            {{ chageDate(data.rep_created_at) }}
+        </template>
+    <template #rep_updated_at_front = {data}>
+        {{ chageDate(data.rep_updated_at) }}
+
+    </template>
         <template #rep_edit>
-        <EditIcon />
+            <EditIcon />
         </template>
         <template #rep_remove>
-        <DeleteButton />
+            <DeleteButton />
         </template>
     </DataTable>
 </template>
@@ -55,16 +64,17 @@ import { onMounted } from 'vue';
 import axios from 'axios'
 import EditIcon from '../icons/EditIcon.vue'
 import DeleteButton from '../icons/DeleteButton.vue'
+import router from "@/router";
 
 const reports = ref([])
-
+const date = new Date();
 const openModal = ref(false)
 
 const dataHead = ref([
-    { key: "rep_id", title: "รหัสรายการ", align: "center" },
+    { key: "rep_code", title: "รหัสรายการ", align: "center" },
     { key: "rep_count_name", title: "จำนวนรายชื่อ", align: "right" },
-    { key: "rep_created_at", title: "วันที่สร้างรายการ", align: "center" },
-    { key: "rep_updated_at", title: "วันที่แก้ไขรายการ", align: "center" },
+    { key: "rep_created_at_front", title: "วันที่สร้างรายการ", align: "center" },
+    { key: "rep_updated_at_front", title: "วันที่แก้ไขรายการ", align: "center" },
     { key: "rep_created_user", title: "ผู้สร้างรายการ" },
     { key: "rep_update_user", title: "ผู้แก้ไขข้อมูลล่าสุด" },
     { key: "rep_status", title: "สถานะ", align: "center" },
@@ -72,11 +82,10 @@ const dataHead = ref([
     { key: "rep_remove", title: "ลบ", align: "center" },
 ])
 
-const formData = ref([
-    rep_code = '',
-    rep_date = '',
-    rep_updated_by = ''
-])
+const formData = ref({
+    rep_code: "",
+    rep_updated_by: 1
+})
 
 const getReport = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/reports`).
@@ -88,6 +97,23 @@ const getReport = async () => {
 async function formSubmit() {
     await axios.post(`${import.meta.env.VITE_API_HOST}/reports`, formData.value,)
     router.go()
+}
+
+function chageDate(value) {
+    if (value) {
+        const date = new Date(value)
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        if (day < 10) {
+            day = `0${day}`
+        }
+        if (month < 10) {
+            month = `0${month}`
+        }
+        return `${day}-${month}-${year}`
+    }
+    return ''
 }
 
 let nameUser = "ปริญญา ก้อนจันทึก"
