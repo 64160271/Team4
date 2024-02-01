@@ -13,7 +13,9 @@
 }
 
 :root {
-    --main-color: #e1032b;
+    /* --main-color: #3f5a83; */
+    --main-color: #005fbc;
+    /* --main-color: #e1032b; */
 }
 
 .text-custom {
@@ -189,4 +191,9 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+}
+
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
 }

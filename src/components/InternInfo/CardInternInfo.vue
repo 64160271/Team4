@@ -1,5 +1,5 @@
 <template>
-  <div class="card shadow-sm border-0">
+  <div class="card shadow-sm border">
     <div class="card-body row">
       <div class="col-lg-3 text-center">
         <img id="blah" :src="internData.intn_image_path" alt="" class="img bg-grays-200" />
@@ -31,7 +31,6 @@
 import { onMounted, ref } from 'vue';
 import { useInternName } from '../../stores/constData';
 import axios from 'axios';
-import { getImageFromBuffer } from '../../assets/js/func';
 
 const internData = ref(useInternName())
 
@@ -52,4 +51,5 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>
