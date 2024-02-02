@@ -162,6 +162,13 @@ export default class apiService {
                 return response.data
             })
     }
+ 
+    getAllCompany = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/companies`)
+            .then((response) => {
+                return response.data
+            })
+    }
 
     getLeaveInfoFile = async (id) => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/leavesinfo/file/${id}`)
@@ -170,7 +177,7 @@ export default class apiService {
             })
     }
 
-    getDocumentByInternId = async (id, params = null) => {
+    getDocumentByInternId = async (id, params = '') => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/documents/intern/${id}`, { params: params })
             .then((response) => {
                 return response.data
