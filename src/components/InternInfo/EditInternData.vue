@@ -1013,5 +1013,22 @@
   .nm-color {
     border-color: var(--bs-border-color) !important;
   }
+
+  input:focus {
+    transition: 0s;
+    box-shadow: none;
+    border: 2px solid rgb(0, 119, 255);
+  }
+
+  select:focus {
+    transition: 0s;
+    box-shadow: none;
+    border: 2px solid rgb(0, 119, 255);
+  }
+
+  .is-invalid:focus {
+    transition: 0s;
+    box-shadow: none;
+  }
   </style>
   
