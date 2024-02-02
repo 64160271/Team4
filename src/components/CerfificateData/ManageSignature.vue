@@ -28,7 +28,7 @@
             @click="edit(signature)"
             class="position-absolute top-0 end-0 m-2 cursor-p hov-outline-red"
           />
-          <img width="150" height="110" :src="signature.sign_image_path" alt="" />
+          <img width="110" height="90" :src="signature.sign_image_path" alt="" />
         </template>
         <template #after-title>
           <span class="text-center">
