@@ -139,7 +139,7 @@ import SectionSpace from '../Component/SectionSpace.vue';
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
 import axios from "axios";
 import BaseButton from "../Component/BaseButton.vue";
 import BaseInput from "../Component/BaseInput.vue";
@@ -165,16 +165,17 @@ const showDetail = ref([]);
 const universities = ref([]);
 const isOpen = ref(false);
 const modalMode = ref("");
-const formData = ref({
+const inititalState = {
   uni_name: "มหาวิทยาลัย",
   uni_file: "",
-});
+};
+const formData = reactive({ ...inititalState });
 
 const rules = {
   uni_name: { required },
   uni_file: { required },
 };
-const v$ = useVuelidate(rules, formData.value);
+const v$ = useVuelidate(rules, formData);
 
 const filterData = computed(() => {
   return universities.value.filter((university) => {
@@ -194,24 +195,27 @@ const getAllUniversity = async () => {
 /* ฟังก์ชันเมื่อคลิกปุ่ม แก้ไขข้อมูล */
 async function edit(university) {
   /* กำหนดค่าให้ formData */
+  Object.assign(formData, {
+    uni_name: university?.uni_name,
+    uni_file: university?.uni_image_path,
+  });
+
   uni_id = university.uni_id;
-  formData.value.uni_file = university.uni_image_path;
-  formData.value.uni_name = university.uni_name;
   isOpen.value = true;
 
   /* แสดงรูปภาพในแบบฟอร์ม */
   let blah = document.getElementById("blah");
   if (blah) {
-    blah.src = formData.value.uni_file;
+    blah.src = formData.uni_file;
   }
   modalMode.value = "edit";
+  console.log(formData);
 }
 
 /* ฟังก์ชันเมื่อกดปุ่ม เพื่มข้อมูล */
 function add() {
   /* กำนหนดค่าให้แบบฟอร์มเป็นค่าว่าง */
-  formData.value.uni_name = "";
-  formData.value.uni_file = "";
+  Object.assign(formData, inititalState);
 
   isOpen.value = true;
   modalMode.value = "add";
@@ -220,15 +224,13 @@ function add() {
 function showImg() {
   const imgUpload = document.getElementById("img-upload");
   const blah = document.getElementById("blah");
-  console.log(formData.value);
 
   if (imgUpload.files[0] != undefined) {
-    formData.value.uni_file = imgUpload.files[0];
+    formData.uni_file = imgUpload.files[0];
   }
 
-  if (formData.value.uni_file) {
-    console.log(blah);
-    blah.src = URL.createObjectURL(formData.value.uni_file);
+  if (formData.uni_file) {
+    blah.src = URL.createObjectURL(formData.uni_file);
   }
 }
 
@@ -239,7 +241,7 @@ async function formSubmit() {
     /* ถ้าหากเป็นแบบฟอร์มสำหรับเพิ่มข้อมูล ให้เรียก api เพิ่มข้อมูล */
     if (modalMode.value == "add") {
       await api
-        .createUniversity(formData.value)
+        .createUniversity(formData)
         .then(() => {
           router.go();
         })
@@ -250,16 +252,16 @@ async function formSubmit() {
       /* ถ้าหากเป็นแบบฟอร์มสำหรับแก้ไขข้อมูล */
     } else if (modalMode.value == "edit") {
       /* ลบ uni_file ทิ้งหากเป็นโลโก้เดิม ป้องกันการสร้างไฟล์ซ้ำซ้อน */
-      if (typeof formData.value.uni_file != "object") {
-        delete formData.value["uni_file"];
+      if (typeof formData.uni_file != "object") {
+        delete formData["uni_file"];
       }
       await api
-        .editUniversity(formData.value, uni_id)
+        .editUniversity(formData, uni_id)
         .then(() => {
           router.go();
         })
         .catch((e) => {
-          formData.value.uni_file = uni_id;
+          formData.uni_file = uni_id;
           errorAlert(e.response.data);
         });
     }
@@ -279,7 +281,8 @@ async function deleteUniversity(id) {
         router.go();
       })
       .catch((e) => {
-        errorAlert(e, noDelay);
+        console.log(`ไม่สามารถลบข้อมูลได้: ${e}`);
+        errorAlert(e.response.data, true);
       });
   }
 }
