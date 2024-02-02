@@ -214,6 +214,7 @@ const initialState = {
   sign_image: "",
 };
 
+const loaded = ref(false);
 const formData = reactive({ ...initialState });
 const modalMode = ref("");
 const prefix = ref(["นาย", "นางสาว", "นาง"]);
