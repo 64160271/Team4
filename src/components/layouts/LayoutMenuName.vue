@@ -1,5 +1,5 @@
 <template>
-  <div class="row mb-3 pt-4 bg-white">
+  <div class="row mb-3 pt-4 bg-white position-fixed">
     <span class="col-auto" v-if="backButton">
       <svg @click="$router.go(-1)" class="cursor-p" xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 -960 960 960" width="24">
         <path d="m368-417 202 202-90 89-354-354 354-354 90 89-202 202h466v126H368Z" />
@@ -29,7 +29,9 @@ const prop = defineProps({
 div {
   margin-left: -48px !important;
   margin-right: -48px !important;
-  /*     z-index: 50;
-    width: 100%; */
+  z-index: 99;
+  overflow: hidden !important;
+  width: 100%;
+  top: 0;
 }
 </style>

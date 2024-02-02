@@ -23,7 +23,7 @@
             </a>
         </div>
 
-        <SectionSpace>
+        <SectionSpace noSpace>
             <InternDetail v-if="!isEdit" :intern="intern" class="mt-3" />
 
             <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" />

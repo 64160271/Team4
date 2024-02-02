@@ -1,19 +1,17 @@
 <template>
-    <LayoutMenu />
+  <LayoutMenu />
 
-    <CardInternInfo class="mb-3" :internId="internId">
-      <div class="row mb-2">
-          <label for="" class="col-md-3 col-form-label text-gray">
-            รายการเอกสาร
-          </label>
-          <label for="" class="col-md-3 col-form-label text-gray">
-            {{ documents.length }}
-          </label>
-        </div>
-     </CardInternInfo>
+  <CardInternInfo class="mb-3" :internId="internId">
+    <div class="row mb-2">
+      <label for="" class="col-md-3 col-form-label text-gray"> รายการเอกสาร </label>
+      <label for="" class="col-md-3 col-form-label text-gray">
+        {{ documents.length }}
+      </label>
+    </div>
+  </CardInternInfo>
 
-    <SectionSpace>
-      <div class="row mb-3">
+  <SectionSpace noSpace>
+    <div class="row mb-3">
       <div class="my-auto col-md-3 nopadding">
         <SearchBox v-model="searchData" placeholder="ชื่อเอกสาร" />
       </div>
@@ -27,7 +25,12 @@
     </div>
 
     <div class="row">
-      <DataTable striped :total="filterData.length" :heads="tableHead" :items="filterData">
+      <DataTable
+        striped
+        :total="filterData.length"
+        :heads="tableHead"
+        :items="filterData"
+      >
         <template #open_file="{ data }">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -115,6 +118,7 @@
             class="file-upload"
             type="file"
             name=""
+            accept="image/*,application/pdf"
           />
         </template>
       </BaseButton>
@@ -132,7 +136,10 @@
       </div>
 
       <div class="col-md-5 my-auto">
-        <span v-if="v$.doc_file.$error" :class="{ 'is-invalid': v$.doc_file.$error }"></span>
+        <span
+          v-if="v$.doc_file.$error"
+          :class="{ 'is-invalid': v$.doc_file.$error }"
+        ></span>
         <InvalidFeedback :errors="v$.doc_file.$errors" />
       </div>
     </div>
@@ -158,7 +165,7 @@ import { required } from "@vuelidate/validators";
 const router = useRouter();
 const internId = useRoute().params.id;
 const documents = ref([]);
-const searchData = ref('');
+const searchData = ref("");
 const apiCall = new apiService();
 const openModal = ref(false);
 const today = ref(new Date());
@@ -180,8 +187,8 @@ const formData = ref({
 const rules = {
   doc_title: { required },
   doc_file: { required },
-}
-const v$ = useVuelidate(rules, formData.value)
+};
+const v$ = useVuelidate(rules, formData.value);
 
 onMounted(async () => {
   documents.value = await apiCall.getDocumentByInternId(internId);
@@ -190,24 +197,22 @@ onMounted(async () => {
 
 const filterData = computed(() => {
   return documents.value.filter((document) => {
-    return (
-      document.doc_title.indexOf(searchData.value.trim()) > -1
-    )
-  })
-})
+    return document.doc_title.indexOf(searchData.value.trim()) > -1;
+  });
+});
 
 function showDocumentFile(path) {
   window.open(path);
 }
 
 async function formSubmit() {
- const validate = await v$.value.$validate()
+  const validate = await v$.value.$validate();
 
- if (validate) {
+  if (validate) {
     formData.value.doc_intern_id = internId;
     const res = await apiCall.createDocument(formData.value);
     router.go();
- }
+  }
 }
 
 function showFileName() {
@@ -219,7 +224,9 @@ function showFileName() {
 }
 
 async function deleteDocument(data) {
-  const result = await confirmation(`ยืนยันการลบข้อมูลเอกสาร "${data.doc_title}" หรือไม่`);
+  const result = await confirmation(
+    `ยืนยันการลบข้อมูลเอกสาร "${data.doc_title}" หรือไม่`
+  );
 
   if (result) {
     await apiCall
