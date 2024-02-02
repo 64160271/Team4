@@ -197,6 +197,7 @@ import SearchBox from "../Component/SearchBox.vue";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
+import { errorAlert } from "../../assets/js/func";
 
 const router = useRouter();
 const openModal = ref(false);
@@ -246,7 +247,7 @@ async function submitForm() {
           router.go();
         })
         .catch((e) => {
-          errorAlert(e.response.data);
+          errorAlert(e.response.data, true);
         });
     } else if (modalMode.value == "edit") {
       /* ลบ sign_img ทิ้งหากเป็น file เดิม ป้องกันการสร้างไฟล์ซ้ำซ้อน */
@@ -261,8 +262,9 @@ async function submitForm() {
           router.go();
         })
         .catch((e) => {
+          console.log(e);
           formData.sign_image = temp;
-          errorAlert(e.response.data);
+          errorAlert(e.response.data, true);
         });
     }
   }
