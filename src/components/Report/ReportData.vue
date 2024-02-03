@@ -24,38 +24,26 @@
             </div>
         </div>
     </div>
-    <BaseModal v-if="openModal" @save="formSubmit" @close="openModal = false" title="เพิ่มรายการข้อมูล">
-        <div class="col mb-3">
-            <BaseInput v-model="formData.rep_code" label="รหัสรายการ" input_type="text" required="required"
-                placeholder="xx/xxxx" />
-        </div>
-        <div class="col mb-3">
-            <BaseInput :value="chageDate(date)" label="วันที่สร้างรายการ" input_type="text" readonly="readonly" />
-        </div>
-        <div class="col mb-3">
-            <BaseInput :value="nameUser" label="ผู้ทำการแก้ไขข้อมูล" input_type="text" readonly="readonly" />
-        </div>
-    </BaseModal>
 
-    <DataTable :heads="dataHead" :items="reports" hovers clickable clickReturn="rep_id" @clicked="handleClick">
-        <template #rep_count_name="{ data }">
+    <DataTable :heads="dataHead" :items="reports" clickable @clicked="handleClick">
+        <!-- <template #rep_count_name="{ data }">
             {{ data.rep_salaries.length }}
         </template>
         <template #rep_created_at_front="{ data }">
             {{ console.log(data.rep_created_at) }}
             {{ chageDate(data.rep_created_at) }}
-        </template>
-        <template #rep_updated_at_front="{ data }">
+        </template> -->
+        <!-- <template #rep_updated_at_front="{ data }">
             {{ chageDate(data.rep_updated_at) }}
 
-        </template>
+        </template> -->
         <template #rep_edit>
             <EditIcon />
         </template>
         <template #rep_remove>
             <DeleteButton />
         </template>
-    </DataTable>
+    </DataTable> 
 </template>
 
 <script setup>
@@ -74,21 +62,21 @@ import router from "@/router";
 
 const reports = ref([])
 const date = new Date();
-const openModal = ref(false)
 
-const team = ref([])
-const team_id = ref([])
+
+
 
 const dataHead = ref([
-    { key: "rep_code", title: "รหัสรายการ", align: "center" },
-    { key: "rep_count_name", title: "จำนวนรายชื่อ", align: "end" },
-    { key: "rep_created_at_front", title: "วันที่สร้างรายการ", align: "center" },
-    { key: "rep_updated_at_front", title: "วันที่แก้ไขรายการ", align: "center" },
-    { key: "rep_created_user", title: "ผู้สร้างรายการ" },
-    { key: "rep_update_user", title: "ผู้แก้ไขข้อมูลล่าสุด" },
-    { key: "rep_status", title: "สถานะ", align: "center" },
+    { key: "rep_intn_id", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
+    { key: "rep_intn_name", title: "ชื่อ-นามสกุล"},
+    { key: "rep_from_date", title: "วันที่ได้รับ", align: "center" },
+    { key: "rep_end_date", title: "วันที่สิ้นสุด", align: "center" },
+    { key: "rep_count_date", title: "จำนวนวันทำงาน" },
+    { key: "rep_salaries", title: "จำนวนวันทั้งหมด", align: "center" },
+    { key: "rep_total", title: "ยอดรวม", align: "center" },
     { key: "rep_edit", title: "แก้ไข", align: "center" },
     { key: "rep_remove", title: "ลบ", align: "center" },
+    { key: "rep_history", title: "ประวัติ", align: "center" },
 ])
 
 const formData = ref({
@@ -103,12 +91,7 @@ const getReport = async () => {
         })
 }
 
-const getAllTeam = async () => {
-    await axios.get(`${import.meta.env.VITE_API_HOST}/teams`).
-        then((response) => {
-            team.value = response.data
-        })
-}
+
 
 async function formSubmit() {
     await axios.post(`${import.meta.env.VITE_API_HOST}/reports`, formData.value,)
@@ -116,7 +99,6 @@ async function formSubmit() {
 }
 
 function handleClick(rep_id) {
-    console.log(rep_id)
   router.push({ name: "reportData", params: { id: rep_id } });
 }
 
