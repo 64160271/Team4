@@ -266,8 +266,8 @@ export default class apiService {
             })
     }
 
-    updateCompany = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/companies/updateCompany`, data)
+    editCompany = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/companies/${id}`, data)
             .then((response) => {
                 return response
             })
