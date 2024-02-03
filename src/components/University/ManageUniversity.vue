@@ -4,8 +4,8 @@ import SectionSpace from '../Component/SectionSpace.vue';
 
   <SectionSpace>
     <div class="row mb-4">
-      <div class="col-md-3 my-auto">
-        <SearchBox v-model="searchData" class="my-auto" />
+      <div class="col-md-4 my-auto">
+        <SearchBox placeholder="ค้นหาชื่อมหาวิทยาลัย" v-model="searchData" class="my-auto" />
       </div>
 
       <BaseButton label="เพิ่มมหาวิทยาลัย" class="col-md-2 ms-auto" @click="add()">

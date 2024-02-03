@@ -53,7 +53,7 @@
       </button>
     </div>
 
-    <div class="row">
+    <div class="row" v-if="loaded">
       <DataTable
         striped
         :heads="tableHead"

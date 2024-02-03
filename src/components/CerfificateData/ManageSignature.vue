@@ -4,7 +4,7 @@
   <SectionSpace>
     <div class="row mb-4">
       <div class="col-md-4 my-auto">
-        <SearchBox v-model="searchData" />
+        <SearchBox placeholder="ชื่อเจ้าของลายเซ็น ตำแหน่ง" v-model="searchData" />
       </div>
 
       <BaseButton
@@ -12,6 +12,10 @@
         label="+ เพิ่มข้อมูล"
         @click="add()"
       />
+    </div>
+
+    <div class="row" v-if="filterData.length <= 0 && loaded">
+      <NotFound />
     </div>
 
     <div v-if="!loaded" class="d-flex justify-content-center">
@@ -202,6 +206,7 @@ import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import { errorAlert } from "../../assets/js/func";
+import NotFound from "../Component/NotFound.vue";
 
 const router = useRouter();
 const openModal = ref(false);
@@ -267,7 +272,6 @@ async function submitForm() {
           router.go();
         })
         .catch((e) => {
-          console.log(e);
           formData.sign_image = temp;
           errorAlert(e.response.data, true);
         });

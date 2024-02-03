@@ -13,9 +13,8 @@
                     <SearchBox placeholder="ค้นหาชื่อบริษัท" v-model="searchData" />
                 </div>
 
-                <div class="col-auto ms-auto">
-                    <BaseButton @click="openCreateModel = true" label="+ เพิ่มข้อมูล" />
-                </div>
+                <BaseButton class="col-md-2 ms-auto" @click="openCreateModel = true" label="+ เพิ่มข้อมูล" />
+
             </div>
 
             <BaseModal size="lg" v-if="openCreateModel" @save="submitForm" @close="openCreateModel = false"
@@ -85,6 +84,14 @@
             </BaseModal>
         </div>
 
+        <div class="row" v-if="filterData.length <= 0 && loaded">
+            <NotFound />
+        </div>
+
+        <div v-if="!loaded" class="d-flex justify-content-center">
+            <div class="spinner-border" role="status"></div>
+        </div>
+
         <div class="content_card row mb-2">
             <BaseCard hover v-for="Company in filterData" class="outline-card mt-4" :title=Company.com_name
                 :sub=Company.com_address.addr_province>
@@ -144,8 +151,9 @@
 
         <div class="row mb-3">
             <div class="col">
-                <BaseInput id="district" label="ตำบล/แขวง" input_type="text" :value="editedCompany.com_address.addr_subdistrict"
-                    v-model="editedCompany.com_address.addr_subdistrict" placeholder="ตำบล/แขวง" required="required"
+                <BaseInput id="district" label="ตำบล/แขวง" input_type="text"
+                    :value="editedCompany.com_address.addr_subdistrict" v-model="editedCompany.com_address.addr_subdistrict"
+                    placeholder="ตำบล/แขวง" required="required"
                     :class="{ 'is-invalid': vedit$.com_address.addr_subdistrict.$error }" />
                 <InvalidFeedback :errors="vedit$.com_address.addr_subdistrict.$errors" />
             </div>
@@ -160,15 +168,17 @@
 
         <div class="row mb-3">
             <div class="col">
-                <BaseInput id="province" label="สาขา(ชื่อจังหวัด)" input_type="text" :value="editedCompany.com_address.addr_province"
-                    v-model="editedCompany.com_address.addr_province" placeholder="สาขา(ชื่อจังหวัด)" required="required"
+                <BaseInput id="province" label="สาขา(ชื่อจังหวัด)" input_type="text"
+                    :value="editedCompany.com_address.addr_province" v-model="editedCompany.com_address.addr_province"
+                    placeholder="สาขา(ชื่อจังหวัด)" required="required"
                     :class="{ 'is-invalid': vedit$.com_address.addr_province.$error }" />
                 <InvalidFeedback :errors="vedit$.com_address.addr_province.$errors" />
             </div>
 
             <div class="col">
-                <BaseInput id="zipcode" label="เลขไปรษณีย์" input_type="text" :value="editedCompany.com_address.addr_post_code"
-                    v-model="editedCompany.com_address.addr_post_code" placeholder="เลขไปรษณีย์" required="required"
+                <BaseInput id="zipcode" label="เลขไปรษณีย์" input_type="text"
+                    :value="editedCompany.com_address.addr_post_code" v-model="editedCompany.com_address.addr_post_code"
+                    placeholder="เลขไปรษณีย์" required="required"
                     :class="{ 'is-invalid': vedit$.com_address.addr_post_code.$error }" />
                 <InvalidFeedback :errors="vedit$.com_address.addr_post_code.$errors" />
             </div>
@@ -191,11 +201,13 @@ import { required } from '@vuelidate/validators';
 import InvalidFeedback from '../Component/InvalidFeedback.vue';
 import { errorAlert } from '../../assets/js/func';
 import { useRouter } from "vue-router";
+import NotFound from '../Component/NotFound.vue';
 
 const searchData = ref('')
 const router = useRouter()
 const apiCall = new apiService();
 const companies = ref([])
+const loaded = ref(false)
 const openCreateModel = ref(false);
 const openEditModel = ref(false);
 let editCompanyId = 0;
@@ -309,19 +321,20 @@ const openEditModel2 = (company) => {
 
 onMounted(async () => {
     companies.value = await apiCall.getCompanyWithAddress()
+    loaded.value = true
 
     $.Thailand({
-      $district: $("#district"), // input ของตำบล
-      $amphoe: $("#amphoe"), // input ของอำเภอ
-      $province: $("#province"), // input ของจังหวัด
-      $zipcode: $("#zipcode"), // input ของรหัสไปรษณีย์
+        $district: $("#district"), // input ของตำบล
+        $amphoe: $("#amphoe"), // input ของอำเภอ
+        $province: $("#province"), // input ของจังหวัด
+        $zipcode: $("#zipcode"), // input ของรหัสไปรษณีย์
 
-      /* onDataFill: function (data) {
-        address.value.addr_subdistrict = data.district;
-        address.value.addr_district = data.amphoe;
-        address.value.addr_province = data.province;
-        address.value.addr_post_code = data.zipcode;
-      }, */
+        /* onDataFill: function (data) {
+          address.value.addr_subdistrict = data.district;
+          address.value.addr_district = data.amphoe;
+          address.value.addr_province = data.province;
+          address.value.addr_post_code = data.zipcode;
+        }, */
     });
 })
 
