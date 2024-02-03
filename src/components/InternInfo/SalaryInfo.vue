@@ -1,7 +1,7 @@
 <template>
   <LayoutMenu />
 
-  <CardInternInfo class="mb-3" :internId="internId">
+  <CardInternInfo class="my-3" :internId="internId">
     <div class="row mb-2">
       <label for="" class="col-md-3 col-form-label text-gray">
         เบี้ยเลี้ยงปัจจุบัน (บาท)

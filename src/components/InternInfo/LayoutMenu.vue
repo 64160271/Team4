@@ -6,9 +6,9 @@
 -->
 
 <template>
-    <div class="row mb-4 text-center bg-white pt-4">
+    <div class="row text-center bg-white pt-4 shadow-sm position-sticky">
         <router-link :to="{ name: 'internData', params: { id: internId } }"
-            class="text-decoration-none col h5 my-0 pb-3 border-bottom border-2" active-class="active">
+            class="text-decoration-none col h5 my-0 custom-menu border-bottom border-2" active-class="active">
             ข้อมูลส่วนตัว
         </router-link>
 
@@ -36,7 +36,6 @@
 
 <script setup>
 import { useRoute } from 'vue-router';
-import { onMounted, ref } from 'vue';
 
 const route = useRoute()
 const internId = route.params.id
@@ -61,5 +60,11 @@ button:active {
 div {
     margin-left: -48px !important;
     margin-right: -48px !important;
+    z-index: 99;
+    top: 0 !important;
+ }
+
+ .custom-menu {
+     padding-bottom: 12px;
  }
 </style>
