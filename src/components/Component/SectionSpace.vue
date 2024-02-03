@@ -16,7 +16,4 @@ const props = defineProps({
 </script>
 
 <style scoped>
-.sect {
-  margin-top: 75px !important;
-}
 </style>

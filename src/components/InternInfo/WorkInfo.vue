@@ -1,7 +1,7 @@
 <template>
   <LayoutMenu />
 
-  <CardInternInfo class="mb-3" :internId="internId"> </CardInternInfo>
+  <CardInternInfo class="my-3" :internId="internId"> </CardInternInfo>
 
   <SectionSpace noSpace>
     <div class="row mb-3">
