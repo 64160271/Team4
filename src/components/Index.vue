@@ -9,7 +9,7 @@
   <LayoutMenuName page-name="รายชื่อนักศึกษา" />
 
   <SectionSpace>
-    <div class="row mb-3 top-300">
+    <div class="row mb-3">
       <div class="col-md-3 my-auto nopadding">
         <SearchBox v-model="searchData" @search="search" />
       </div>
@@ -53,7 +53,7 @@
       </button>
     </div>
 
-    <div class="row" v-if="loaded">
+    <div class="row">
       <DataTable
         striped
         :heads="tableHead"
@@ -71,7 +71,7 @@
         <template class="col-md-2" #intn_key="{ data }">
           <img
             v-if="data.intn_image"
-            class="img-custom"
+            class="img-custom shadow"
             :src="data.intn_image_path"
             width="40"
             height="40"
@@ -181,9 +181,8 @@ function handleClick(intn_id) {
 <style scoped>
 .img-custom {
   border-radius: 50%;
-  border: 1px solid black;
-  width: 35px;
-  height: 35px;
+  width: 37px;
+  height: 37px;
 }
 
 .bg-grays-200 {

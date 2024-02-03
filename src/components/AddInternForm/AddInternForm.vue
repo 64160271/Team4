@@ -833,7 +833,7 @@ async function submitForm() {
           college_info: formData.college_info,
           intn_image: formData.intn_image,
         })
-        .then((response) => {
+        .then(() => {
           successAlert().then(() => {
             router.push({ name: "index" });
             formData.$reset(); /* ย้อนกลับหน้า index */
