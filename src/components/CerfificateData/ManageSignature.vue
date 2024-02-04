@@ -253,6 +253,13 @@ const filterData = computed(() => {
   });
 });
 
+/*
+ * submitForm
+ * จัดการเมื่อมีการกดปุ่มบันทึก
+ * param: -
+ * return: -
+ */
+
 async function submitForm() {
   const validate = await v$.value.$validate();
 
@@ -286,11 +293,25 @@ async function submitForm() {
   }
 }
 
+/*
+ * add
+ * เปิด Modal เมื่อทำการกดปุ่มเพิ้มข้อมูล
+ * param: -
+ * return: -
+ */
+
 async function add() {
   Object.assign(formData, initialState);
   openModal.value = true;
   modalMode.value = "add";
 }
+
+/*
+ * edit
+ * ทำการเปิด Modal เมื่อกดปุ่มแก้ไข
+ * param: signature
+ * return: -
+ */
 
 async function edit(signature) {
   Object.assign(formData, {
@@ -312,6 +333,13 @@ async function edit(signature) {
     } */
   modalMode.value = "edit";
 }
+
+/*
+ * showImg
+ * การนำรูปภาพมาแสดง
+ * param: -
+ * return: -
+ */
 
 function showImg() {
   const imgUpload = document.getElementById("img-upload");

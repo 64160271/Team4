@@ -208,9 +208,23 @@ const filterData = computed(() => {
   });
 });
 
+/*
+ * showDocumentFile
+ * โชว์รูปภาพเอกสารในหน้าต่างใหม่
+ * param: path ของรูปภาพ
+ * return: -
+ */
+
 function showDocumentFile(path) {
   window.open(path);
 }
+
+/*
+ * formSubmit
+ * จัดการเมื่อมีการกดปุ่มบันทึก
+ * param: -
+ * return: -
+ */
 
 async function formSubmit() {
   const validate = await v$.value.$validate();
@@ -222,6 +236,13 @@ async function formSubmit() {
   }
 }
 
+/*
+ * showFileName
+ * โชว์ชื่อของรูปภาพ
+ * param: --
+ * return: -
+ */
+
 function showFileName() {
   const imgUpload = document.getElementById("file-upload");
 
@@ -229,6 +250,13 @@ function showFileName() {
     formData.value.doc_file = imgUpload.files[0];
   }
 }
+
+/*
+ * deleteDocument
+ * การลบเอกสาร
+ * param: data
+ * return: -
+ */
 
 async function deleteDocument(data) {
   const result = await confirmation(

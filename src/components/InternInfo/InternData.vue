@@ -45,10 +45,24 @@ const id = route.params.id
 const isEdit = ref(false)
 const apiCall = new apiService()
 
+/*
+   * cancelEdit
+   * ยกเลิกการแก้ไข
+   * param: -
+   * return: -
+   */
+
 function cancelEdit() {
     isEdit.value = false
     editData()
 }
+
+/*
+   * editData
+   * แก้ไขข้อมูล
+   * param: -
+   * return: -
+   */
 
 function editData() {
     let editButton = document.getElementById("editButton")

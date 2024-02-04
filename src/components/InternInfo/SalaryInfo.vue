@@ -94,6 +94,13 @@ onMounted(async () => {
   salaries.value = await apiCall.getSalaryByInternId(internId);
 });
 
+/*
+   * calculateTotal
+   * คำนวณเบี้ยเลี้ยง
+   * param: data
+   * return: จำนวนเบี้ยเลี้ยงทั้งหมด
+*/
+
 function calculateTotal(data) {
   let total =
     Number(Number(data?.sal_salary) * Number(data?.sal_day)) + Number(data?.sal_extra);

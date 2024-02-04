@@ -323,6 +323,13 @@ onMounted(async () => {
   internRole.value = await useInternName().getRole;
 });
 
+/*
+   * reset
+   * จัดการเมื่อมีการกดบันทึก
+   * param: -
+   * return: -
+   */
+
 async function formSubmit() {
   if (lvs_time.value == "hr") formData.value.lvs_to_date = formData.value.lvs_from_date;
   else if (lvs_time.value == "day") formData.value.lvs_duration = "M";
@@ -340,9 +347,23 @@ async function formSubmit() {
   }
 }
 
+/*
+   * showLeaveFile
+   * แสดงหน้าต่างใหม่เมื่อทำการกด
+   * param: path
+   * return: -
+   */
+
 function showLeaveFile(path) {
   window.open(path);
 }
+
+/*
+   * showFileName
+   * โชว์ชื่อของไฟล์
+   * param: -
+   * return: -
+*/
 
 function showFileName() {
   const imgUpload = document.getElementById("file-upload");
@@ -351,6 +372,13 @@ function showFileName() {
     formData.value.lvs_file = imgUpload.files[0];
   }
 }
+
+/*
+   * getDuration
+   * แปลงระยะเวลา
+   * param: duration
+   * return: duration
+*/
 
 function getDuration(duration) {
   const isNumber = !isNaN(duration) && !isNaN(parseFloat(duration));

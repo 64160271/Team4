@@ -213,11 +213,14 @@ const openCreateModel = ref(false);
 const openEditModel = ref(false);
 let editCompanyId = 0;
 
+
 const filterData = computed(() => {
     return companies.value.filter((company) => {
         return company.com_name.indexOf(searchData.value.trim()) > -1
     })
 })
+
+
 
 const companyData = reactive({
     com_name: '',
@@ -233,6 +236,8 @@ const companyData = reactive({
     },
 })
 
+
+
 const rules = {
     com_name: { required },
     com_address: {
@@ -244,6 +249,13 @@ const rules = {
 }
 
 const v$ = useVuelidate(rules, companyData)
+
+/*
+ * submitForm
+ * จัดการเมื่อมีการกดปุ่มบันทึก
+ * param: -
+ * return: -
+ */
 
 async function submitForm() {
     const validate = await v$.value.$validate()
@@ -286,6 +298,13 @@ const editedCompany = reactive({
     },
 });
 const vedit$ = useVuelidate(rules, editedCompany)
+
+/*
+ * submitFormedit
+ * จัดการเมื่อมีการกดปุ่มบันทึกของการแก้ไขข้อมูล
+ * param: -
+ * return: -
+ */
 
 async function submitFormedit() {
     const validate = await vedit$.value.$validate()

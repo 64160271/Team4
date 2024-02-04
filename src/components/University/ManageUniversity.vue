@@ -205,6 +205,13 @@ const getAllUniversity = async () => {
     });
 };
 
+/*
+   * edit
+   * แก้ไขข้อมูลของมหาวิทยาลัย
+   * param: university
+   * return: -
+*/
+
 /* ฟังก์ชันเมื่อคลิกปุ่ม แก้ไขข้อมูล */
 async function edit(university) {
   /* กำหนดค่าให้ formData */
@@ -225,7 +232,14 @@ async function edit(university) {
   console.log(formData);
 }
 
-/* ฟังก์ชันเมื่อกดปุ่ม เพื่มข้อมูล */
+/*
+   * add
+   * เมื่อทำการกดปุ่มเพิ่มข้อมูล
+   * param: -
+   * return: -
+*/
+
+
 function add() {
   /* กำนหนดค่าให้แบบฟอร์มเป็นค่าว่าง */
   Object.assign(formData, inititalState);
@@ -233,6 +247,13 @@ function add() {
   isOpen.value = true;
   modalMode.value = "add";
 }
+
+/*
+   * showImg
+   * โชว์รูปภาพมหาวิทยาลัย
+   * param: -
+   * return: -
+*/
 
 function showImg() {
   const imgUpload = document.getElementById("img-upload");
@@ -246,6 +267,13 @@ function showImg() {
     blah.src = URL.createObjectURL(formData.uni_file);
   }
 }
+
+/*
+   * formSubmit
+   * จัดการเมื่อมีการกดบันทึก
+   * param: -
+   * return: -
+*/
 
 async function formSubmit() {
   const validate = await v$.value.$validate();
@@ -280,6 +308,13 @@ async function formSubmit() {
     }
   }
 }
+
+/*
+   * getDuration
+   * แปลงระยะเวลา
+   * param: duration
+   * return: duration
+*/
 
 async function deleteUniversity(id) {
   const result = await confirmation(
