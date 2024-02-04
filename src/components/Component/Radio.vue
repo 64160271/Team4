@@ -1,3 +1,10 @@
+<!--
+    Radio
+    เป็น component หลักของตัวเลือกหลายรายการแบบเลือกได้รายการเดียวของระบบ
+    Author : Team 4
+    Created date : 18-01-2567
+-->
+
 <template>
     <div class="form-check">
         <input class="form-check-input" 

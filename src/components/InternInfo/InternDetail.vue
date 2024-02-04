@@ -1,3 +1,10 @@
+<!--
+    InternDetail
+    หน้าจอแสดงรายละเอียดของนักศึกษา
+    Author : Rawich Piboonsin
+    Created date : 13-11-2566
+-->
+
 <template>
     <div class="mx-auto" style="width: 85%">
         <div class="row border-bottom">

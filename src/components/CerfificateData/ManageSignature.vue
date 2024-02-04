@@ -1,3 +1,10 @@
+<!--
+    ManageSignature
+    หน้าจอการจัดการเกี่ยวกับลายเซ็นของผู้อนุมัติให้ผ่านการฝึกงาน
+    Author : Phanida Thamwapee
+    Created date : 13-11-2566
+-->
+
 <template>
   <LayoutMenuName page-name="จัดการข้อมูลลายเซ็น" />
 

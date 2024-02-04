@@ -1,9 +1,10 @@
 <!--
-    AddInternForm
-    Parent of module add intern by form
-    Author : keetapong Rodjanavichai
-    Created date : 21-10-2566
+    ManageCompany
+    หน้าจอการจัดการเกี่ยวกับข้อมูลบริษัท
+    Author : Keetapong Rodjanavichai
+    Created date : 13-11-2566
 -->
+
 <template>
     <LayoutMenuName page-name="จัดการข้อมูลเอกสารรับรอง > บริษัท" />
     <SectionSpace>

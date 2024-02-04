@@ -1,9 +1,8 @@
 <!--
- ฺBaseInput
- Component สำหรับ Input
- Props:
-    label: ข้อความด้านบนกล่องข้อความ
-    modelValue: ตัวแปรที่ใช้สำหรับเก็บค่าจาก Input
+    SideLabelInput
+    เป็น component หลักของช่องกรอกข้อความแบบอยู่ด้านซ้าย
+    Author : Team 4
+    Created date : 18-01-2567
 -->
 
 <template>

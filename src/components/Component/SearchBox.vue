@@ -1,3 +1,10 @@
+<!--
+    SearchBox
+    เป็น component หลักของช่องค้นหาในระบบ
+    Author : Team 4
+    Created date : 18-01-2567
+-->
+
 <template>
     <div class="input-group">
         <span class="input-group-text" id="basic-addon1">

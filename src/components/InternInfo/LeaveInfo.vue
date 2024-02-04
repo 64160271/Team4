@@ -1,3 +1,10 @@
+<!--
+    LeaveInfo
+    หน้าจอเกี่ยวกับข้อมูลการลาของนักศึกษา
+    Author : Rawich Piboonsin
+    Created date : 13-11-2566
+-->
+
 <template>
   <LayoutMenu />
 

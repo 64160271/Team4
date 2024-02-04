@@ -1,4 +1,11 @@
-import SectionSpace from '../Component/SectionSpace.vue';
+<!--
+    ManageUniversity
+    หน้าจอการจัดการข้อมูลเกี่ยวกับมหาวิทยาลัย
+    Author : Wilairak Prathummat ,Kanyaporn Phetthong
+    Created date : 13-11-2566
+-->
+
+
 <template>
   <LayoutMenuName page-name="จัดการมหาวิทยาลัย" />
 

@@ -1,13 +1,15 @@
 <!--
- ฺBaseSelect
- Component สำหรับ Select Dropdown
- Props:
-    label: ข้อความด้านบนกล่องตัวเลือก
-    modelValue: ตัวแปรที่ใช้สำหรับเก็บค่าจาก Input
-    setDefault: กำหนดให้มีตัวเลือกเริ่มต้น
-    options: ชุดข้อมูลของตัวเลือก
-    text: ข้อความในตัวเลือก
-    value: ค่าของตัวเลือกแต่ละตัว
+    BaseSelect
+    เป็น component หลักของตัวเลือกหลายรายการในระบบ
+    Props:
+      label: ข้อความด้านบนกล่องตัวเลือก
+      modelValue: ตัวแปรที่ใช้สำหรับเก็บค่าจาก Input
+      setDefault: กำหนดให้มีตัวเลือกเริ่มต้น
+      options: ชุดข้อมูลของตัวเลือก
+      text: ข้อความในตัวเลือก
+      value: ค่าของตัวเลือกแต่ละตัว
+    Author : Team 4
+    Created date : 18-01-2567
 -->
 
 <template>

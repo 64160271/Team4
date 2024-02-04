@@ -1,3 +1,10 @@
+<!--
+    SalaryInfo
+    หน้าจอเกี่ยวกับเบี้ยเลี้ยงของนักศึกษา
+    Author : Rawich Piboonsin
+    Created date : 13-11-2566
+-->
+
 <template>
   <LayoutMenu />
 

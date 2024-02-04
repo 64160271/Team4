@@ -1,6 +1,11 @@
 <!--
- BaseButton
- Component สำหรับปุ่ม
+    BaseButton
+    เป็น component หลักของปุ่มในระบบ
+    Props:
+      label: ชื่อที่ให้แสดงของปุ่ม
+      back: เป็นการกำหนดค่าของปุ่ม
+    Author : Team 4
+    Created date : 14-11-2566
 -->
 
 <template>

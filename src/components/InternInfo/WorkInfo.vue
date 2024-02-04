@@ -1,3 +1,10 @@
+<!--
+    WorkInfo
+    หน้าจอเกี่ยวกับข้อมูลการทำงานของนักศึกษา
+    Author : Rawich Piboonsin
+    Created date : 13-11-2566
+-->
+
 <template>
   <LayoutMenu />
 

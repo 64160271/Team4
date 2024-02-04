@@ -1,9 +1,11 @@
 <!--
-BaseTable
- Component สำหรับตาราง
- Props:
-    heads: ข้อความที่ปรากฏบนหัวตาราง
-    align: การจัดเรียงข้อความของหัวตารางแต่ละตัว
+    BaseTable
+    เป็น component หลักของตารางในระบบ
+    Props:
+        heads: ข้อความที่ปรากฏบนหัวตาราง
+        align: การจัดเรียงข้อความของหัวตารางแต่ละตัว
+    Author : Team 4
+    Created date : 14-11-2566
 -->
 
 <template>

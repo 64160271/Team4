@@ -1,18 +1,17 @@
 <!--
- ฺBaseCard
- Component สำหรับการ์ด
- Props:
-    title: หัวข้อการ์ด
-    sub: หัวข้อย่อย
-    content: เนื้อหาของการ์ด
+    BaseCard
+    เป็น component หลักของการ์ดในระบบ
+    Props:
+      title: หัวข้อการ์ด
+      sub: หัวข้อย่อย
+      content: เนื้อหาของการ์ด
+    Author : Team 4
+    Created date : 14-11-2566
 -->
 
 <template>
   <div class="col-md-3">
-    <div
-      :class="{ 'card-hover': hover }"
-      class="card h-100 content border shadow-sm text-center"
-    >
+    <div :class="{ 'card-hover': hover }" class="card h-100 content border shadow-sm text-center">
       <div class="card-body">
         <slot name="before-title"></slot>
 

@@ -1,9 +1,11 @@
 <!--
- ฺBaseModal
- Component สำหรับ Modal
- Props:
-    open: Boolean สำหรับกำหนดการเปิด/ปิด Modal
-    title: หัวข้อ Modal
+    BaseModal
+    เป็น component หลักของ Modal ในระบบ
+    Props:
+      open: Boolean สำหรับกำหนดการเปิด/ปิด Modal
+      title: หัวข้อ Modal
+    Author : Team 4
+    Created date : 14-11-2566
 -->
 
 <template>

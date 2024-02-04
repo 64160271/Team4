@@ -1,3 +1,10 @@
+<!--
+    CardInternInfo
+    เป็น Layout ของการแสดงการ์ดนักศึกษา
+    Author : Rawich Piboonsin
+    Created date : 13-11-2566
+-->
+
 <template>
   <div class="card shadow-sm border">
     <div class="card-body row">

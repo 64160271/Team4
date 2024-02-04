@@ -1,3 +1,21 @@
+<!--
+    DataTable
+    เป็น component หลักของตารางในระบบ
+    Props:
+        heads: หัวข้อของตาราง,
+        items: เนื้อหาด้านในของตาราง,
+        hovers: เป็นการทำให้เห็นชัดเมื่อมีการชี้ไปที่ตาราง,
+        striped: ให้ตารางสลับสีขาวและสีดำ,
+        total: จำนวนทั้งหมด,
+        clickable: เป็นการใช้เมื่อผู้ใช้ต้องการกดเพื่อทำบางอย่าง,
+        clickReturn: เมื่อผู้ใช้คลิกที่แถวในตารางจะส่งค่าไปด้วย,
+        paginate: มีไว้สำหรับการแบ่งหน้าข้อมูลเมื่อมีข้อมูลมีเยอะ,
+        itemsPerPage: มีไว้กำหนดจำนวนรายการที่ต้องการให้แสดงในแต่ละหน้า,
+        activePage: เป็นการกำหนดค่าหน้าที่ผู้ใช้ต้องการ,
+    Author : Team 4
+    Created date : 18-01-2567
+-->
+
 <template>
   <table id="myTable" class="table" v-bind="$attrs" :class="{ 'table-striped-custom': striped }">
     <thead class="bg-red">

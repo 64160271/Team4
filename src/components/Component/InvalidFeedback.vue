@@ -1,8 +1,10 @@
 <!--
- InvalidFeedback
- Component สำหรับแจ้งเตือนข้อผิดพลาดในแบบฟอร์ม
- Props:
-    errors: ข้อมูล error จาก Vuelidate
+    InvalidFeedback
+    เป็น component หลักสำหรับแจ้งเตือนข้อผิดพลาดในแบบฟอร์ม
+    Props:
+        errors: ข้อมูล error จาก Vuelidate
+    Author : Team 4
+    Created date : 18-01-2567
 -->
 
 <template>
