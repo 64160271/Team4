@@ -16,6 +16,7 @@ import ManageUniversity from '../components/University/ManageUniversity.vue'
 import Cookies from "js-cookie";
 
 const router = createRouter({
+    /* history: createWebHashHistory(import.meta.env.VITE_BASE_URL) for deploy */
     history: createWebHistory(),
     routes: [
         {
