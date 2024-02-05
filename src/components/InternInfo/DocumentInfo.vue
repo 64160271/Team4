@@ -3,10 +3,14 @@
 
   <CardInternInfo class="my-3" :internId="internId">
     <div class="row mb-2">
-      <label for="" class="col-md-3 col-form-label text-gray"> รายการเอกสาร </label>
+      <label for="" class="col-md-3 col-form-label text-gray"> ฝ่าย</label>
       <label for="" class="col-md-3 col-form-label text-gray">
-        {{ documents.length }}
+        {{ section }}
       </label>
+
+      <label for="" class="col-md-3 col-form-label text-gray"> แผนก </label>
+
+      <label for="" class="col-md-3 col-form-label text-gray"> {{ dept }} </label>
     </div>
   </CardInternInfo>
 
@@ -161,6 +165,7 @@ import SearchBox from "../Component/SearchBox.vue";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
+import { useInternName } from "../../stores/constData";
 
 const router = useRouter();
 const internId = useRoute().params.id;
@@ -169,6 +174,8 @@ const searchData = ref("");
 const apiCall = new apiService();
 const openModal = ref(false);
 const today = ref(new Date());
+const section = ref("");
+const dept = ref("");
 const tableHead = ref([
   { key: "doc_title", title: "ชื่อเอกสาร" },
   { key: "doc_mimetype", title: "ประเภทไฟล์" },
@@ -192,6 +199,8 @@ const v$ = useVuelidate(rules, formData.value);
 
 onMounted(async () => {
   documents.value = await apiCall.getDocumentByInternId(internId);
+  dept.value = await useInternName().getDepartment;
+  section.value = await useInternName().getSection;
   /* modal.value = new bootstrap.Modal("#modal", {}); */
 });
 
