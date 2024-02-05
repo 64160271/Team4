@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, createWebHashHistory } from "vue-router";
 import Index from '../components/Index.vue'
 import Login from '../components/Login.vue'
 import InternData from '../components/InternInfo/InternData.vue'
