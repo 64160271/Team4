@@ -1,3 +1,11 @@
+<!--
+    InternListIcon
+    เป็น Icon ส่วนประกอบหลักของรายชื่อนักศึกษา
+    โดยใช้สำหรับโชว์ที่ Navbar
+    Author : Team 4
+    Created date : 14-11-2566
+-->
+
 <template>
     <svg class="bi me-3" width="25" height="25" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path

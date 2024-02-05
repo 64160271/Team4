@@ -1,3 +1,10 @@
+<!--
+    ClicknextLogo
+    เป็น Icon หลักของบริษัทคลิกเน็กซ์ 
+    Author : Team 4
+    Created date : 13-10-2566
+-->
+
 <template>
   <svg
     version="1.0"

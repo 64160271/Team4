@@ -1,3 +1,11 @@
+<!--
+    PictureLogo
+    เป็น Icon ส่วนประกอบหลักของรูปภาพ
+    โดยใช้สำหรับโชว์ในข้อมูลการลา
+    Author : Team 4
+    Created date : 14-11-2566
+-->
+
 <template>
   <svg
     width="28"

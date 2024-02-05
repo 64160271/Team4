@@ -1,3 +1,11 @@
+<!--
+    ManageUniversityIcon
+    เป็น Icon ส่วนประกอบหลักของการจัดการมหาวิทยาลัย
+    โดยใช้สำหรับโชว์ที่ Navbar
+    Author : Team 4
+    Created date : 13-11-2566
+-->
+
 <template>
     <svg class="bi me-3" width="25" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M25.5 13.8612H19.6941V12.939H24.2795L22.2953 7.89845H17.3086V6.97656H22.7902L25.5 13.8612Z"

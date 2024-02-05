@@ -1,3 +1,11 @@
+<!--
+    CameraLogo
+    เป็น Icon ส่วนประกอบหลักของกล้องถ่ายรูป
+    โดยใช้สำหรับแนบรูปภาพ
+    Author : Team 4
+    Created date : 18-01-2567
+-->
+
 <template>
   <svg
     class="me-1"

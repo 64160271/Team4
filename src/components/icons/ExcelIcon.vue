@@ -1,3 +1,11 @@
+<!--
+    ExcelIcon
+    เป็น Icon ส่วนประกอบหลักของการเพิ่มแบบ Excel
+    โดยใช้สำหรับเพิ่มแบบ Excel
+    Author : Team 4
+    Created date : 07-01-2567
+-->
+
 <template>
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd"

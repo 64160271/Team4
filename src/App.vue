@@ -1,3 +1,10 @@
+<!--
+    App
+    เป็น Layout หลักเมื่อทำการเปิดหน้า Website 
+    Author : Rawich Piboonsin
+    Created date : 19-08-2566
+-->
+
 <template>
   <div class="container-fluid vh-100 p-0">
     <Login v-if="['login'].includes($route.name)" />

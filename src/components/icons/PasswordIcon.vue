@@ -1,3 +1,11 @@
+<!--
+    PasswordIcon
+    เป็น Icon ส่วนประกอบหลักของรหัสผ่าน
+    โดยใช้สำหรับโชว์ตรงกรอก Password
+    Author : Team 4
+    Created date : 14-11-2566
+-->
+
 <template>
     <svg width="32" height="32" viewBox="0 0 40 50" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
