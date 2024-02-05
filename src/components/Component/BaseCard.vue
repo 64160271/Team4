@@ -1,12 +1,12 @@
 <!--
-    BaseCard
-    เป็น component หลักของการ์ดในระบบ
-    Props:
-      title: หัวข้อการ์ด
-      sub: หัวข้อย่อย
-      content: เนื้อหาของการ์ด
-    Author : Team 4
-    Created date : 14-11-2566
+  BaseCard
+  เป็น component หลักของการ์ดในระบบ
+  Props:
+    title: หัวข้อการ์ด
+    sub: หัวข้อย่อย
+    content: เนื้อหาของการ์ด
+  Author : Team 4
+  Created date : 14-11-2566
 -->
 
 <template>

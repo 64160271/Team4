@@ -1,15 +1,15 @@
 <!--
-    BaseSelect
-    เป็น component หลักของตัวเลือกหลายรายการในระบบ
-    Props:
-      label: ข้อความด้านบนกล่องตัวเลือก
-      modelValue: ตัวแปรที่ใช้สำหรับเก็บค่าจาก Input
-      setDefault: กำหนดให้มีตัวเลือกเริ่มต้น
-      options: ชุดข้อมูลของตัวเลือก
-      text: ข้อความในตัวเลือก
-      value: ค่าของตัวเลือกแต่ละตัว
-    Author : Team 4
-    Created date : 18-01-2567
+  BaseSelect
+  เป็น component หลักของตัวเลือกหลายรายการในระบบ
+  Props:
+    label: ข้อความด้านบนกล่องตัวเลือก
+    modelValue: ตัวแปรที่ใช้สำหรับเก็บค่าจาก Input
+    setDefault: กำหนดให้มีตัวเลือกเริ่มต้น
+    options: ชุดข้อมูลของตัวเลือก
+    text: ข้อความในตัวเลือก
+    value: ค่าของตัวเลือกแต่ละตัว
+  Author : Team 4
+  Created date : 18-01-2567
 -->
 
 <template>
@@ -85,12 +85,12 @@ const props = defineProps({
  * Update ค่า modelValue และส่งไปยัง Component ที่เรียกใช้
  * param: -
  * return: null
- */
+*/
 async function updatedValue() {
   emit('update:modelValue', event.target.value)
 }
 
-/* ตรวจสอบประเภทตัวแปรของตัวเลือก */
+// ตรวจสอบประเภทตัวแปรของตัวเลือก
 const firstOptionType = computed(() => {
   if (!props.options) {
     return null;

@@ -1,8 +1,8 @@
 <!--
-    ManageCompany
-    หน้าจอการจัดการเกี่ยวกับข้อมูลบริษัท
-    Author : Keetapong Rodjanavichai
-    Created date : 13-11-2566
+  ManageCompany
+  หน้าจอการจัดการเกี่ยวกับข้อมูลบริษัท
+  Author : Keetapong Rodjanavichai
+  Created date : 13-11-2566
 -->
 
 <template>
@@ -303,7 +303,7 @@
 </template>
 
 <script setup>
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import BaseCard from "../Component/BaseCard.vue";
 import BaseModal from "../Component/BaseModal.vue";
 import BaseInput from "../Component/BaseInput.vue";
@@ -321,7 +321,7 @@ import NotFound from "../Component/NotFound.vue";
 
 const searchData = ref("");
 const router = useRouter();
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const companies = ref([]);
 const loaded = ref(false);
 const openCreateModel = ref(false);

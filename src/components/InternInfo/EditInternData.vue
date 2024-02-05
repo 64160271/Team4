@@ -754,7 +754,7 @@
   } from "../../stores/constData";
   import { useInternFormData, addInternFormRules } from "../../stores/addInternFormData";
   import { getAge, confirmation, successAlert, errorAlert, getImageFromBuffer } from "../../assets/js/func";
-  import apiService from "../../services/api";
+  import ApiService from "../../services/ApiService";
   import useVuelidate from "@vuelidate/core"; // validate
   import BaseInput from "../Component/BaseInput.vue";
   import BaseSelect from "../Component/BaseSelect.vue";
@@ -772,7 +772,7 @@
     intern: Object,
   })
   
-  const apiCall = new apiService();
+  const apiCall = new ApiService();
   const roles = ref({});
   const sections = ref({});
   const companies = ref([])
@@ -800,7 +800,7 @@
    * จัดการเมื่อมีการกดปุ่มบันทึก
    * param: -
    * return: -
-   */
+  */
   async function submitForm() {
     const validate = await v$.value.$validate(); /* validate แบบฟอร์ม */
     console.log(formData)
@@ -842,7 +842,7 @@
    * รีเซ็ตค่าในแบบฟอร์ม
    * param: -
    * return: -
-   */
+  */
   function reset() {
     formData.$reset();
   
@@ -857,7 +857,7 @@
    * กำหนดข้อมูลคณะที่แสดงในตัวเลือก โดยให้แสดงเฉพาะคณะที่อยู่ในสถานศึกษาที่เลือก
    * param: -
    * return: -
-   */
+  */
   function setFaculty() {
     collegeInfo.value.col_university_id = universitiesForm.value.university.uni_id;
     faculties.value = universitiesForm.value.university.faculties;
@@ -873,7 +873,7 @@
    * กำหนดข้อมูลสาขาวิชาที่แสดงในตัวเลือก โดยให้แสดงเฉพาะสาขาที่อยู่ในคณะที่เลือก
    * param: -
    * return: -
-   */
+  */
   function setMajor() {
     collegeInfo.value.col_faculty_id = universitiesForm.value.faculty.fac_id;
     majors.value = universitiesForm.value.faculty.majors;
@@ -885,7 +885,7 @@
    * กำหนดข้อมูลที่สัมพันธ์กันกับฝ่ายที่แสดงในตัวเลือก เช่น ทีม แผนก พี่เลี้ยง โดยให้แสดงเฉพาะข้อมูลที่อยู่ในฝ่ายที่เลือกเท่านั้น
    * param: -
    * return: -
-   */
+  */
   function setRelatedData() {
     workInfo.value.work_section_id = sectionsForm.value.section.sec_id;
     teams.value = sectionsForm.value.section.teams;
@@ -904,7 +904,7 @@
    * จัดการกับความสัมพันธ์ของข้อมูลในตัวเลือกของ ฝ่าย และ มหาวิทยาลัย หากผู้ใช้มีการย้อนกลับไปที่หน้าจอ
    * param: -
    * return: -
-   */
+  */
   function setFilledData() {
     if (sectionsForm.value.section) {
       teams.value = sectionsForm.value.section.teams;
@@ -926,7 +926,7 @@
    * กำหนดคำนำหน้าของภาษาอังกฤษให้สัมพันธ์กับภาษาไทย (นาย -> Mr.)
    * param: คำนำหน้าภาษาไทย
    * return: -
-   */
+  */
   function changePrefix(prefix) {
     let splitted = prefix.split(",");
     personalInfo.value.intn_prefix_th = splitted[0];
@@ -938,7 +938,7 @@
    * แสดงรูปภาพเมื่อมีการอัปโหลดไฟล์รูปแบบ
    * param: -
    * return: -
-   */
+  */
   function showImg() {
     const imgUpload = document.getElementById("img-upload");
   

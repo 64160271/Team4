@@ -166,10 +166,10 @@ import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import { errorAlert, confirmation, successAlert } from "../../assets/js/func";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 
 let uni_id = 0;
-const api = new apiService();
+const api = new ApiService();
 const searchData = ref("");
 const router = useRouter();
 const showDetail = ref([]);
@@ -195,7 +195,12 @@ const filterData = computed(() => {
   });
 });
 
-/* ฟังก์ชันสำหรับ เรียก api ข้อมูลมหาวิทยาลัย */
+/*
+ * edit
+ * ฟังก์ชันสำหรับ เรียก api ข้อมูลมหาวิทยาลัย
+ * param: -
+ * return: -
+*/
 const getAllUniversity = async () => {
   await axios
     .get(`${import.meta.env.VITE_API_HOST}/universities/related`)
@@ -206,15 +211,13 @@ const getAllUniversity = async () => {
 };
 
 /*
-   * edit
-   * แก้ไขข้อมูลของมหาวิทยาลัย
-   * param: university
-   * return: -
+ * edit
+ * ฟังก์ชันเมื่อมีการกดปุ่มแก้ไข จะทำการกำหนดค่าในแบบฟอร์ม
+ * param: university ข้อมูลมหาวิทยาลัย
+ * return: -
 */
-
-/* ฟังก์ชันเมื่อคลิกปุ่ม แก้ไขข้อมูล */
 async function edit(university) {
-  /* กำหนดค่าให้ formData */
+  // กำหนดค่าให้ formData
   Object.assign(formData, {
     uni_name: university?.uni_name,
     uni_file: university?.uni_image_path,
@@ -223,7 +226,7 @@ async function edit(university) {
   uni_id = university.uni_id;
   isOpen.value = true;
 
-  /* แสดงรูปภาพในแบบฟอร์ม */
+  // แสดงรูปภาพในแบบฟอร์ม
   let blah = document.getElementById("blah");
   if (blah) {
     blah.src = formData.uni_file;
@@ -233,15 +236,13 @@ async function edit(university) {
 }
 
 /*
-   * add
-   * เมื่อทำการกดปุ่มเพิ่มข้อมูล
-   * param: -
-   * return: -
+ * add
+ * เมื่อทำการกดปุ่มเพิ่มข้อมูล
+ * param: -
+ * return: -
 */
-
-
 function add() {
-  /* กำนหนดค่าให้แบบฟอร์มเป็นค่าว่าง */
+  // กำนหนดค่าให้แบบฟอร์มเป็นค่าว่าง
   Object.assign(formData, inititalState);
 
   isOpen.value = true;
@@ -249,12 +250,11 @@ function add() {
 }
 
 /*
-   * showImg
-   * โชว์รูปภาพมหาวิทยาลัย
-   * param: -
-   * return: -
+ * showImg
+ * โชว์รูปภาพมหาวิทยาลัย
+ * param: -
+ * return: -
 */
-
 function showImg() {
   const imgUpload = document.getElementById("img-upload");
   const blah = document.getElementById("blah");
@@ -269,17 +269,16 @@ function showImg() {
 }
 
 /*
-   * formSubmit
-   * จัดการเมื่อมีการกดบันทึก
-   * param: -
-   * return: -
+ * formSubmit
+ * จัดการเมื่อมีการกดบันทึก
+ * param: -
+ * return: -
 */
-
 async function formSubmit() {
   const validate = await v$.value.$validate();
 
   if (validate) {
-    /* ถ้าหากเป็นแบบฟอร์มสำหรับเพิ่มข้อมูล ให้เรียก api เพิ่มข้อมูล */
+    // ถ้าหากเป็นแบบฟอร์มสำหรับเพิ่มข้อมูล ให้เรียก api เพิ่มข้อมูล
     if (modalMode.value == "add") {
       await api
         .createUniversity(formData)
@@ -290,9 +289,9 @@ async function formSubmit() {
           errorAlert(e.response.data);
         });
 
-      /* ถ้าหากเป็นแบบฟอร์มสำหรับแก้ไขข้อมูล */
+      // ถ้าหากเป็นแบบฟอร์มสำหรับแก้ไขข้อมูล
     } else if (modalMode.value == "edit") {
-      /* ลบ uni_file ทิ้งหากเป็นโลโก้เดิม ป้องกันการสร้างไฟล์ซ้ำซ้อน */
+      // ลบ uni_file ทิ้งหากเป็นโลโก้เดิม ป้องกันการสร้างไฟล์ซ้ำซ้อน
       if (typeof formData.uni_file != "object") {
         delete formData["uni_file"];
       }
@@ -310,12 +309,11 @@ async function formSubmit() {
 }
 
 /*
-   * getDuration
-   * แปลงระยะเวลา
-   * param: duration
-   * return: duration
+ * deleteUniversity
+ * ฟังก์ชันสำหรับลบ้ขอมูลมหาวิทยาลัย
+ * param: id ของมหาวิทยาลัย
+ * return: -
 */
-
 async function deleteUniversity(id) {
   const result = await confirmation(
     "ยืนยันการลบข้อมูลหรือไม่\nข้อมูลคณะและสาขาของมหาวิทยาลัยจะถูกลบไปด้วย"

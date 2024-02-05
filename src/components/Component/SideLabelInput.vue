@@ -1,8 +1,8 @@
 <!--
-    SideLabelInput
-    เป็น component หลักของช่องกรอกข้อความแบบอยู่ด้านซ้าย
-    Author : Team 4
-    Created date : 18-01-2567
+  SideLabelInput
+  เป็น component หลักของช่องกรอกข้อความแบบอยู่ด้านซ้าย
+  Author : Team 4
+  Created date : 18-01-2567
 -->
 
 <template>

@@ -122,6 +122,12 @@ const credentials = ref({
   password: "",
 });
 
+/*
+ * login
+ * ฟังก์ชันเรียก api สำหรับ Login เมื่อมีการคลิกปุ่ม Login
+ * param: -
+ * return: -
+*/
 const login = async () => {
   const result = await axios
     .post(`${import.meta.env.VITE_API_HOST}/users/login`, credentials.value)
@@ -144,6 +150,12 @@ const login = async () => {
   }
 };
 
+/*
+ * validateTokent
+ * ฟังก์ชันสำหรับเรียก api เพื่อตรวจสอบข้อมูลของผู้ใช้งาน
+ * param: token สำหรับตรวจนสอบ้ขอมูล
+ * return: ผลลัพธ์ในการตรวจสอบ
+*/
 const validateTokent = (async (token) => {
   return await axios.get(`${import.meta.env.VITE_API_HOST}/users/me`, { headers: { "Authorization": `Bearer ${token}` } })
     .then((res) => {

@@ -429,12 +429,11 @@
     })
 
     /*
-    * getImage
-    * แสดงรูปภาพของนิสิตออกมา
-    * param: img
-    * return: path ที่อยู่ของรูปภาพ
+     * getImage
+     * แสดงรูปภาพของนิสิตออกมา
+     * param: img
+     * return: path ที่อยู่ของรูปภาพ
     */
-
     function getImage(img) {
         if (img != null || img != '') {
             return `../src/assets/images/interns/${img}`

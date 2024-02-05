@@ -272,7 +272,7 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref, computed } from "vue";
 import BaseInput from "../Component/BaseInput.vue";
@@ -297,7 +297,7 @@ const internName = ref();
 const leavesType = ref(useLeavesType);
 const internId = useRoute().params.id;
 const leavesInfo = ref([]);
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const today = ref(new Date());
 const openModal = ref(false);
 const lvs_time = ref("hr");
@@ -335,11 +335,11 @@ onMounted(async () => {
 });
 
 /*
-   * reset
-   * จัดการเมื่อมีการกดบันทึก
-   * param: -
-   * return: -
-   */
+ * reset
+ * จัดการเมื่อมีการกดบันทึก
+ * param: -
+ * return: -
+*/
 
 async function formSubmit() {
   if (lvs_time.value == "hr") formData.value.lvs_to_date = formData.value.lvs_from_date;
@@ -359,21 +359,21 @@ async function formSubmit() {
 }
 
 /*
-   * showLeaveFile
-   * แสดงหน้าต่างใหม่เมื่อทำการกด
-   * param: path
-   * return: -
-   */
+ * showLeaveFile
+ * แสดงหน้าต่างใหม่เมื่อทำการกด
+ * param: path
+ * return: -
+*/
 
 function showLeaveFile(path) {
   window.open(path);
 }
 
 /*
-   * showFileName
-   * โชว์ชื่อของไฟล์
-   * param: -
-   * return: -
+ * showFileName
+ * โชว์ชื่อของไฟล์
+ * param: -
+ * return: -
 */
 
 function showFileName() {
@@ -385,10 +385,10 @@ function showFileName() {
 }
 
 /*
-   * getDuration
-   * แปลงระยะเวลา
-   * param: duration
-   * return: duration
+ * getDuration
+ * แปลงระยะเวลา
+ * param: duration
+ * return: duration
 */
 
 function getDuration(duration) {

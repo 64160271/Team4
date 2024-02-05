@@ -1,8 +1,8 @@
 <!--
-    SectionSpace
-    เป็น component หลักของการเว้นพื้นที่ว่างในระบบ
-    Author : Team 4
-    Created date : 01-02-2567
+  SectionSpace
+  เป็น component หลักของการเว้นพื้นที่ว่างในระบบสำหรับส่วนของเนื้อหา
+  Author : Team 4
+  Created date : 01-02-2567
 -->
 
 <template>

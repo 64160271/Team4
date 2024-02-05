@@ -138,13 +138,6 @@ const dropdownManageCertificate = ref(false);
 const dropdownSalary = ref(false);
 const user = ref(Cookies.get('user'))
 const router = useRouter()
-
-function changeActiveMenu(event) {
-  /* const active = document.querySelector(".active");
-  const element = event.target;
-  element.classList.add("active");
-  active.classList.remove("active"); */
-}
 </script>
 
 <style scoped>

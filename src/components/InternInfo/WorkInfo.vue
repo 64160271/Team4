@@ -38,13 +38,13 @@
 import { computed, onMounted, ref } from "vue";
 import LayoutMenu from "./LayoutMenu.vue";
 import { useRoute } from "vue-router";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import BaseButton from "../Component/BaseButton.vue";
 import CardInternInfo from "./CardInternInfo.vue";
 import DataTable from "../Component/DataTable.vue";
 
 const internId = useRoute().params.id;
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const workInfo = ref([]);
 const mentor = ref();
 const tableHead = ref([

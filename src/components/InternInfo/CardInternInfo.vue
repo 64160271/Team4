@@ -1,8 +1,8 @@
 <!--
-    CardInternInfo
-    เป็น Layout ของการแสดงการ์ดนักศึกษา
-    Author : Rawich Piboonsin
-    Created date : 13-11-2566
+  CardInternInfo
+  เป็น Layout ของการแสดงการ์ดนักศึกษา
+  Author : Rawich Piboonsin
+  Created date : 13-11-2566
 -->
 
 <template>

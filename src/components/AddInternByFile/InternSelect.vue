@@ -87,7 +87,7 @@ const props = defineProps({
  * แสดงข้อความของการแจ้งเตือนข้อมูลซ้ำ
  * param: -
  * return: -
- */
+*/
 function openTooltip() {
   let tooltipList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
   tooltipList.forEach((tooltipNode) => new Tooltip(tooltipNode));
@@ -98,7 +98,7 @@ function openTooltip() {
  * เลือกข้อมูลทั้งหมดภายในไฟล์
  * param: -
  * return: -
- */
+*/
 function checkAll() {
   let main = document.getElementById("main");
   let tbCheckBox = document.getElementsByName("tb-check");
@@ -113,12 +113,18 @@ function checkAll() {
  * ยกเลิกการเลือกทั้งหมด
  * param: -
  * return: -
- */
+*/
 function unSelectAll() {
   let main = document.getElementById("main");
   main.checked = false;
 }
 
+/*
+ * dateFormat
+ * แปลงข้อมูลวันที่เป็น dd/mm/yyyy
+ * param: วันที่ที่ต้องการแปลง
+ * return: วันที่แบบ dd/mm/yyyy
+*/
 function dateFormat(date) {
   if (!date) {
     return;
@@ -129,6 +135,12 @@ function dateFormat(date) {
   ).replace(/\//g, '/')
 }
 
+/*
+ * dateFormatToDB
+ * ฟังก์ชันแปลงวันที่เป็นแบบ ISO เพื่อบันทึกเข้าฐานข้อมูล
+ * param: วันที่ที่ต้องการแปลง
+ * return: วันที่แบบ ISO
+*/
 function dateFormatToDB(date) {
   if (!date) {
     return undefined;
@@ -144,13 +156,19 @@ function dateFormatToDB(date) {
  * เลือกข้อมูลในแถว
  * param: index (แถวของข้อมูล)
  * return: -
- */
+*/
 function checkRow(index) {
   let checkbox = document.getElementById("tb-check" + index);
 
   checkbox.click();
 }
 
+/*
+ * isSelected
+ * ฟังก์ชันสำหรับตรวจสอบว่ามีการเลือกข้อมูลแล้วหรือไม่
+ * param: -
+ * return: true (มีการเลือกแล้ว), false (ยังไม่มีการเลือก)
+*/
 function isSelected() {
   let tbCheckBox = document.getElementsByName("tb-check");
 
@@ -164,6 +182,12 @@ function isSelected() {
   return false;
 }
 
+/*
+ * confirmation
+ * ฟังก์ชันสำหรับแสดง popup ยืนยันการเพิ่มข้อมูล
+ * param: -
+ * return: -
+*/
 function confirmation() {
   if (isSelected()) {
     Swal.fire({

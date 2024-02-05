@@ -1,11 +1,11 @@
 <!--
-    BaseModal
-    เป็น component หลักของ Modal ในระบบ
-    Props:
-      open: Boolean สำหรับกำหนดการเปิด/ปิด Modal
-      title: หัวข้อ Modal
-    Author : Team 4
-    Created date : 14-11-2566
+  BaseModal
+  เป็น component หลักของ Modal ในระบบ
+  Props:
+    open: Boolean สำหรับกำหนดการเปิด/ปิด Modal
+    title: หัวข้อ Modal
+  Author : Team 4
+  Created date : 14-11-2566
 -->
 
 <template>
@@ -54,7 +54,7 @@ const modal = ref();
 const emit = defineEmits();
 
 onMounted(() => {
-  /* กำหนดให้ modal เป็น modal แบบ bootstrap */
+  // กำหนดให้ modal เป็น modal แบบ bootstrap
   modal.value = new Modal("#modal", {});
   modal.value.show();
 });

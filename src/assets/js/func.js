@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
  * คำนวนอายุจากวันที่
  * param: วันที่รูปแบบ yyyy-mm-dd
  * return: ตัวเลขวันเกิด
- */
+*/
 export function getAge(birthdate) {
     if (!birthdate) {
         return 0
@@ -24,7 +24,7 @@ export function getAge(birthdate) {
  * คำนวนอายุจากวันที่
  * param: วันที่รูปแบบ yyyy-mm-dd ที่เป็นปี พ.ศ.
  * return: ตัวเลขวันเกิด
- */
+*/
 export function getAgeBuddisht(birthdate) {
     if (!birthdate) return
 
@@ -43,7 +43,7 @@ export function getAgeBuddisht(birthdate) {
  * validate แบบฟอร์มทั้ง input text และ select
  * param: -
  * return: boolean (ผ่าน = true)
- */
+*/
 export function isRequire() {
     let form = $("#form")[0]
 
@@ -61,7 +61,7 @@ export function isRequire() {
  * แสดง Pop-up ยืนยันการเพิ่มข้อมูล
  * param: -
  * return: ผลลัพธ์ของปุ่มที่กด (หากกดยืนยันจะคืนค่า true)
- */
+*/
 export async function confirmation(str) {
     let result = await Swal.fire({
         text: str || "คุณต้องการบันทึกข้อมูลหรือไม่",
@@ -83,7 +83,7 @@ export async function confirmation(str) {
  * แสดง Pop-up บันทึกข้อมูลสำเร็จ
  * param: -
  * return: null
- */
+*/
 export async function successAlert(str) {
     await Swal.fire({
         icon: "success",
@@ -95,6 +95,12 @@ export async function successAlert(str) {
     })
 }
 
+/*
+ * errorAlert
+ * แสดง Pop-up แจ้งเตือน erorr
+ * param: message ข้อความที่ต้องการให้แสดง, noDelay กรณีหากต้องการให้หน้าต่างไม่ปิดไปเอง
+ * return: -
+*/
 export async function errorAlert(message, noDelay=false) {
     await Swal.fire({
         icon: "error",
@@ -105,6 +111,12 @@ export async function errorAlert(message, noDelay=false) {
     return
 }
 
+/*
+ * getImageFromBuffer
+ * แปลง Buffer เป็นรูปภาพ
+ * param: ชนิดของภาพ, Buffer
+ * return: ข้อมูลรุปภาพแบบ base64
+*/
 export function getImageFromBuffer(type, buffer) {
     let binary = ''
     let bytes = new Uint8Array(buffer)
@@ -116,6 +128,12 @@ export function getImageFromBuffer(type, buffer) {
     return `data:${type};base64,${binary}`
 }
 
+/*
+ * getImageFromBuffer2
+ * แปลง Buffer เป็นรูปภาพแบบใช้ reduce
+ * param: ชนิดของภาพ, Buffer
+ * return: ข้อมูลรุปภาพแบบ base64
+*/
 export function getImageFromBuffer2(type, buffer) {
     let b64encoded = btoa(buffer.reduce(function (data, byte) {
         return data + String.fromCharCode(byte);
@@ -123,6 +141,12 @@ export function getImageFromBuffer2(type, buffer) {
     return 'data:' + type + ';base64,' + b64encoded;
 }
 
+/*
+ * formatDate
+ * แปลงข้อมูลวันที่เป็น yyyy-mm-dd
+ * param: วันที่ที่ต้องการแปลง
+ * return: วันที่รูปแบบ yyyy-mm-dd
+*/
 export function formatDate(strdate) {
     if (!strdate || strdate == '-') {
         return null
@@ -143,6 +167,12 @@ export function formatDate(strdate) {
     return [year, month, day].join('-');
 }
 
+/*
+ * diffDate
+ * คำนวนหาจำนวนวันที่ต่างกัน
+ * param: วันเริ่มต้น, วันสิ้นสุด
+ * return: ตัวเลขจำนวนวัน
+*/
 export function diffDate(from, to) {
     let date1 = new Date(from);
     let date2 = new Date(to);
@@ -154,6 +184,12 @@ export function diffDate(from, to) {
     return Math.round(Difference_In_Time / (1000 * 3600 * 24));
 }
 
+/*
+ * diffTime
+ * คำนวณหาเวลาที่ต่างกัน
+ * param: เวลาเริ่มต้น, เวลาสิ้นสุด
+ * return: เวลาที่ต่างกัน
+*/
 export function diffTime(from, to) {
     if (!from || !to) return 0
 
@@ -172,6 +208,12 @@ export function diffTime(from, to) {
     return toDate - fromDate;
 }
 
+/*
+ * parseTime
+ * ฟังก์ชันสำหรับแปลงเวลาเป็น millisec
+ * param: เวลาที่ต้องการแปลง
+ * return: เวลาแบบ millisec
+*/
 export function parseTime(s) {
     var part = s.match(/(\d+):(\d+)(?: )?(am|pm)?/i);
     var hh = parseInt(part[1], 10);
@@ -189,6 +231,12 @@ export function parseTime(s) {
     return hh
 }   
 
+/*
+ * slashDtoDashY
+ * ฟังก์ชันแปลงเวลาจาก mm-dd-yyyy เป็น dd/mm/yyyy
+ * param: วันที่ที่ต้องการแปลง
+ * return: วันที่ที่ถูกแปลง
+*/
 export function slashDtoDashY(strDate) {
     if (!strDate) return null
 

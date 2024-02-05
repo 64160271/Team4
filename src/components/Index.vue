@@ -19,7 +19,7 @@
           placeholder="ทีม"
           all-select
           @change="setCurrentPage(1)"
-          v-model="team_id"
+          v-model="teamId"
           :options="teams"
           value="team_id"
           text="team_name"
@@ -98,7 +98,7 @@ import ExcelIcon from "./icons/ExcelIcon.vue";
 import DataTable from "./Component/DataTable.vue";
 import router from "@/router";
 import SearchBox from "./Component/SearchBox.vue";
-import apiService from "../services/api";
+import ApiService from "../services/ApiService";
 import BaseSelect from "./Component/BaseSelect.vue";
 import BaseInput from "./Component/BaseInput.vue";
 
@@ -109,7 +109,7 @@ const pageMax = ref(1);
 const pageSize = 10;
 const interns = ref([]);
 const teams = ref([]);
-const team_id = ref();
+const teamId = ref();
 const startDate = ref("");
 const searchData = ref("");
 let timer;
@@ -128,7 +128,7 @@ const tableHead = ref([
  * เรียกดูข้อมูลเมื่อผู้ใช้ทำการเปลี่ยนหน้าของ Paginate
  * param: เลขหน้า
  * return: -
- */
+*/
 async function setCurrentPage(pageNumber) {
   if (pageNumber > 0 && pageNumber <= pageMax.value) {
     page.value = pageNumber;
@@ -137,12 +137,18 @@ async function setCurrentPage(pageNumber) {
   await getAllIntern();
 }
 
+/*
+ * getAllIntern
+ * ฟังก์ชันสำหรับเรียก api ข้อมูลนักศึกษาฝึกงาน
+ * param: -
+ * return: -
+*/
 const getAllIntern = async () => {
   loaded.value = false
   const params = {
     page: page.value,
     limit: pageSize,
-    team_id: team_id.value || undefined,
+    team_id: teamId.value || undefined,
     filter: searchData.value || undefined,
     intn_start_date: startDate.value || undefined,
   };
@@ -159,10 +165,16 @@ const getAllIntern = async () => {
 
 onMounted(async () => {
   setCurrentPage(page.value);
-  let service = new apiService();
+  let service = new ApiService();
   teams.value = await service.getAllTeam();
 });
 
+/*
+ * search
+ * ฟังก์ชันสำหรับจัดการการค้นหา
+ * param: -
+ * return: -
+*/
 function search() {
   if (timer) {
     clearTimeout(timer);
@@ -173,6 +185,12 @@ function search() {
   }, 500);
 }
 
+/*
+ * handleClick
+ * ฟังก์ชันเมื่อมีการคลิกที่รายชื่อของนักศึกษาฝึกงาน
+ * param: รหัสนักศึกษาฝึกงาน
+ * return: -
+*/
 function handleClick(intn_id) {
   router.push({ name: "internData", params: { id: intn_id } });
 }

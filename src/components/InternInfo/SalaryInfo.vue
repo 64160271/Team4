@@ -56,7 +56,7 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute } from "vue-router";
 import { onMounted, ref, computed, isProxy, toRaw } from "vue";
 import { useAddSalaryForm } from "../../stores/addSalaryFormdata";
@@ -68,7 +68,7 @@ import { slashDtoDashY } from "../../assets/js/func";
 
 const internId = useRoute().params.id;
 const salaries = ref([]);
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const formData = ref(useAddSalaryForm());
 const modal = ref();
 const tableHead = ref([
@@ -95,10 +95,10 @@ onMounted(async () => {
 });
 
 /*
-   * calculateTotal
-   * คำนวณเบี้ยเลี้ยง
-   * param: data
-   * return: จำนวนเบี้ยเลี้ยงทั้งหมด
+ * calculateTotal
+ * คำนวณเบี้ยเลี้ยง
+ * param: data (ข้อมูลของเบี้ยเลี้ยง)
+ * return: จำนวนเบี้ยเลี้ยงทั้งหมด
 */
 
 function calculateTotal(data) {

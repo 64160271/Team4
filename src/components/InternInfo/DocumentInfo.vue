@@ -1,8 +1,8 @@
 <!--
-    DocumentInfo
-    หน้าจอแสดงเอกสารต่าง ๆ ของนักศึกษา
-    Author : Rawich Piboonsin
-    Created date : 13-11-2566
+  DocumentInfo
+  หน้าจอแสดงเอกสารต่าง ๆ ของนักศึกษา
+  Author : Rawich Piboonsin
+  Created date : 13-11-2566
 -->
 
 <template>
@@ -159,7 +159,7 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref, computed } from "vue";
 import DataTable from "../Component/DataTable.vue";
@@ -178,7 +178,7 @@ const router = useRouter();
 const internId = useRoute().params.id;
 const documents = ref([]);
 const searchData = ref("");
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const openModal = ref(false);
 const today = ref(new Date());
 const section = ref("");
@@ -187,7 +187,7 @@ const tableHead = ref([
   { key: "doc_title", title: "ชื่อเอกสาร" },
   { key: "doc_mimetype", title: "ประเภทไฟล์" },
   { key: "doc_created_at", title: "วันที่อัปโหลดไฟล์", align: "center" },
-  /* { key: "lvs_day", title: "ผู้ทำการแก้ไข" }, */
+  // { key: "lvs_day", title: "ผู้ทำการแก้ไข" },
   { key: "open_file", title: "เปิดไฟล์", align: "center" },
   { key: "delete_file", title: "ลบไฟล์", align: "center" },
 ]);
@@ -208,7 +208,7 @@ onMounted(async () => {
   documents.value = await apiCall.getDocumentByInternId(internId);
   dept.value = await useInternName().getDepartment;
   section.value = await useInternName().getSection;
-  /* modal.value = new bootstrap.Modal("#modal", {}); */
+  // modal.value = new bootstrap.Modal("#modal", {});
 });
 
 const filterData = computed(() => {
@@ -222,8 +222,7 @@ const filterData = computed(() => {
  * โชว์รูปภาพเอกสารในหน้าต่างใหม่
  * param: path ของรูปภาพ
  * return: -
- */
-
+*/
 function showDocumentFile(path) {
   window.open(path);
 }
@@ -233,8 +232,7 @@ function showDocumentFile(path) {
  * จัดการเมื่อมีการกดปุ่มบันทึก
  * param: -
  * return: -
- */
-
+*/
 async function formSubmit() {
   const validate = await v$.value.$validate();
 
@@ -250,8 +248,7 @@ async function formSubmit() {
  * โชว์ชื่อของรูปภาพ
  * param: --
  * return: -
- */
-
+*/
 function showFileName() {
   const imgUpload = document.getElementById("file-upload");
 
@@ -265,8 +262,7 @@ function showFileName() {
  * การลบเอกสาร
  * param: data
  * return: -
- */
-
+*/
 async function deleteDocument(data) {
   const result = await confirmation(
     `ยืนยันการลบข้อมูลเอกสาร "${data.doc_title}" หรือไม่`

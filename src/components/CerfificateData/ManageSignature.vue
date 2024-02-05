@@ -1,8 +1,8 @@
 <!--
-    ManageSignature
-    หน้าจอการจัดการเกี่ยวกับลายเซ็นของผู้อนุมัติให้ผ่านการฝึกงาน
-    Author : Phanida Thamwapee
-    Created date : 13-11-2566
+  ManageSignature
+  หน้าจอการจัดการเกี่ยวกับลายเซ็นของผู้อนุมัติให้ผ่านการฝึกงาน
+  Author : Phanida Thamwapee
+  Created date : 13-11-2566
 -->
 
 <template>
@@ -205,7 +205,7 @@ import BaseModal from "../Component/BaseModal.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
 import { ref } from "vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { onMounted, reactive, computed } from "vue";
 import { useRouter } from "vue-router";
 import SearchBox from "../Component/SearchBox.vue";
@@ -230,7 +230,7 @@ const loaded = ref(false);
 const formData = reactive({ ...initialState });
 const modalMode = ref("");
 const prefix = ref(["นาย", "นางสาว", "นาง"]);
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const signatures = ref([]);
 const companies = ref([]);
 const searchData = ref("");

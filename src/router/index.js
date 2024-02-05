@@ -92,6 +92,12 @@ const router = createRouter({
     ]
 })
 
+/*
+   * beforeEach
+   * ฟังก์ชันใช้ตรวจสอบว่ามี token ของผู้ใช้หรือไม่ ถ้าหากไม่มีจะเด้งไปหน้า Login
+   * param: to (path ที่จะไป), from (path เดิม), next (คำสั่งถัดไป)
+   * return: -
+*/
 router.beforeEach((to, from, next) => {
     const token = Cookies.get('token')
 

@@ -1,11 +1,11 @@
 <!--
-    BaseInput
-    เป็น component หลักของช่องกรอกข้อความในระบบ
-    Props:
-      label: ข้อความด้านบนกล่องข้อความ
-      modelValue: ตัวแปรที่ใช้สำหรับเก็บค่าจาก Input
-    Author : Team 4
-    Created date : 14-11-2566
+  BaseInput
+  เป็น component หลักของช่องกรอกข้อความในระบบ
+  Props:
+    label: ข้อความด้านบนกล่องข้อความ
+    modelValue: ตัวแปรที่ใช้สำหรับเก็บค่าจาก Input
+  Author : Team 4
+  Created date : 14-11-2566
 -->
 
 <template>

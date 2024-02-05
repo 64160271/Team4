@@ -86,7 +86,7 @@ let isUploaded = ref(false);
  * แสดงชื่อและขนาดของไฟล์ที่อัปโหลด
  * param: callback function
  * return: -
- */
+*/
 function showFileName(callback) {
   let file = document.getElementById("file");
   let display = document.getElementById("filename");
@@ -103,7 +103,7 @@ function showFileName(callback) {
  * ดาวน์โหลดไฟล์ที่เป็นตัวอย่างในการ Import
  * param: -
  * return: -
- */
+*/
 async function downloadExample() {
   /* let link = document.createElement("a");
   link.href = examplePathFile;
@@ -118,7 +118,7 @@ async function downloadExample() {
  * อ่านข้อมูลในไฟล์ Excel ทั้งหมด
  * param: ไฟล์ Excel
  * return: -
- */
+*/
 function readDataInFile(file) {
   readXlsxFile(file).then((rows) => {
     excelData.value = rows;
@@ -131,7 +131,7 @@ function readDataInFile(file) {
  * ตรวจสอบว่ามีการอัปโหลดไฟล์แล้วหรือไม่
  * param: -
  * return: -
- */
+*/
 function uploaded() {
   let file = document.getElementById("file");
   if (file.files[0]) {
