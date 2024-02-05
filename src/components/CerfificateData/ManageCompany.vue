@@ -328,6 +328,12 @@ const openCreateModel = ref(false);
 const openEditModel = ref(false);
 let editCompanyId = 0;
 
+/*
+ * filterData
+ * ฟังก์ชันสำหรับ filter ข้อมูล
+ * param: -
+ * return: ข้อมูลที่ถูกกรองตามเงื่อนไข
+*/
 const filterData = computed(() => {
   return companies.value.filter((company) => {
     return (
@@ -368,8 +374,7 @@ const v$ = useVuelidate(rules, companyData);
  * จัดการเมื่อมีการกดปุ่มบันทึก
  * param: -
  * return: -
- */
-
+*/
 async function submitForm() {
   const validate = await v$.value.$validate();
 
@@ -418,8 +423,7 @@ const vedit$ = useVuelidate(rules, editedCompany);
  * จัดการเมื่อมีการกดปุ่มบันทึกของการแก้ไขข้อมูล
  * param: -
  * return: -
- */
-
+*/
 async function submitFormedit() {
   const validate = await vedit$.value.$validate();
 
@@ -435,7 +439,12 @@ async function submitFormedit() {
   }
 }
 
-// ฟังก์ชันที่เรียกเมื่อปุ่ม Edit ถูกคลิก
+/*
+ * openEditModel2
+ * ฟังก์ชันสำหรับกำหนดค่าในแบบฟอร์มกรณีกดปุ่มแก้ไข
+ * param: company ข้อมูลบริษัท
+ * return: -
+*/
 const openEditModel2 = (company) => {
   Object.assign(editedCompany, {
     com_name: company?.com_name,

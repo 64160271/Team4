@@ -114,6 +114,12 @@
 import _ from "lodash";
 import { onMounted, ref, computed } from "vue";
 
+/*
+ * pageMax
+ * ฟังก์ชันสำหรับ filter ข้อมูล
+ * param: -
+ * return: ข้อมูลที่ถูกกรองตามเงื่อนไข
+*/
 const pageMax = computed(() => {
   return Math.ceil(props.total / props.itemsPerPage);
 });
