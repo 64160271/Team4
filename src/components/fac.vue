@@ -99,6 +99,12 @@ const formData = ref({
     }]
 })
 
+/*
+ * getAllUniversity
+ * ฟังก์ชันเรียก API ดูข้อมูลมหาวิทยาลัยทั้งหมด
+ * param: -
+ * return: ข้อมูลมหาวิทยาลัย
+*/
 const getAllUniversity = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/universities`)
         .then((response) => {

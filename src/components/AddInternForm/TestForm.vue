@@ -98,11 +98,6 @@ const opt = ref([
 
 const v$ = useVuelidate(rules, formData);
 const image = ref("");
-
-async function validate() {
-  const result = await v$.value.$validate();
-}
-
 onMounted(async () => {
   sections.value = await apiCall.getSectionWithMentor();
 });
