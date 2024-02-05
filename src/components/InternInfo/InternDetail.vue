@@ -388,6 +388,12 @@
         intern: Object
     })
 
+    /*
+     * getCollegeInfo
+     * สำหรับแสดงข้อมูลมหาวิทยาลัย
+     * param: img
+     * return: path ที่อยู่ของรูปภาพ
+    */
     const getCollegeInfo = computed(() => {
         if (internProp.intern.intn_major) {
             return internProp.intern.intn_major
@@ -396,6 +402,12 @@
         return '-'
     })
 
+    /*
+     * getWorkRole
+     * สำหรับแสดงข้อมูลตำแหน่ง
+     * param: img
+     * return: ข้อมูลตำแหน่ง
+    */
     const getWorkRole = computed(() => {
         if (internProp.intern.work_infos) {
             return internProp.intern.work_infos[0]?.work_role.role_name
@@ -404,6 +416,12 @@
         return '-'
     })
 
+    /*
+     * getSection
+     * สำหรับแสดงข้อมูลฝ่าย
+     * param: img
+     * return: ข้อมูลฝ่าย
+    */
     const getSection = computed(() => {
         if (internProp.intern.work_infos) {
             return internProp.intern.work_infos[0]?.work_section.sec_name
@@ -412,6 +430,12 @@
         return '-'
     })
 
+    /*
+     * getDepartment
+     * สำหรับแสดงข้อมูลแผนก
+     * param: img
+     * return: ข้อมูลแผนก
+    */
     const getDepartment = computed(() => {
         if (internProp.intern.work_infos) {
             return internProp.intern.work_infos[0]?.work_department?.dept_name
@@ -420,6 +444,12 @@
         return '-'
     })
 
+    /*
+     * getImage
+     * แสดงรูปภาพของนิสิตออกมา
+     * param: img
+     * return: ข้อมูลทีม
+    */
     const getTeam = computed(() => {
         if (internProp.intern.work_infos) {
             return internProp.intern.work_infos[0]?.work_team.team_name

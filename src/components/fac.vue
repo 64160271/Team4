@@ -1,3 +1,10 @@
+<!--
+    Fac
+    หน้าจอสำหรับจัดการในส่วนคณะและสาขา
+    Author : Wilailak Prathummat
+    Created date : 24-08-2566
+-->
+
 <template>
     <LayoutMenuName page-name="จัดการข้อมูลมหาวิทยาลัย" />
 

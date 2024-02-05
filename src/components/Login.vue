@@ -6,7 +6,8 @@
 -->
 
 <template>
-  <!-- <div class="back container">
+  <!-- 
+    <div class="back container">
     <div class="box">
       <div class="group_box">
         <div class="box_clicknext">
@@ -46,7 +47,8 @@
         <img src="../assets/images/login_img.png" width="400" alt="" />
       </div>
     </div>
-  </div> -->
+  </div> 
+-->
 
   <div class="background">
     <div class="card content w-75 rounded-5 border-0 shadow py-3">

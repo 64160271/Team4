@@ -216,7 +216,7 @@ function confirmation() {
  * เรียกดูข้อมูลของนักศึกษาทั้งหมด และตรวจสอบข้อมูลซ้ำ
  * param: -
  * return: -
- */
+*/
 const getAllIntern = async () => {
   await axios.get(`${import.meta.env.VITE_API_HOST}/interns`).then((response) => {
     const interns = response.data;
@@ -248,7 +248,7 @@ const getAllIntern = async () => {
  * สร้างข้อมูลนักศึกษาโดยมีการนำข้อมูลไปทำเป็น object ก่อน
  * param: -
  * return: -
- */
+*/
 async function createInterns() {
   let checked = $('[name="tb-check"]');
 
