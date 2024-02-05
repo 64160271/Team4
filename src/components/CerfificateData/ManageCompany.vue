@@ -10,7 +10,7 @@
     <div class="header me-1">
       <div class="bx_nav row">
         <div class="col-md-4 my-auto">
-          <SearchBox placeholder="ค้นหาชื่อบริษัท" v-model="searchData" />
+          <SearchBox placeholder="ชื่อบริษัท สาขา" v-model="searchData" />
         </div>
 
         <div class="col-auto ms-auto">
@@ -317,7 +317,10 @@ let editCompanyId = 0;
 
 const filterData = computed(() => {
   return companies.value.filter((company) => {
-    return company.com_name.indexOf(searchData.value.trim()) > -1;
+    return (
+      company.com_name.indexOf(searchData.value.trim()) > -1 ||
+      company.com_role.indexOf(searchData.value.trim()) > -1
+    );
   });
 });
 

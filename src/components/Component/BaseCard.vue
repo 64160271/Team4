@@ -16,7 +16,7 @@
       <div class="card-body">
         <slot name="before-title"></slot>
 
-        <h6 class="card-title py-2">{{ title }}</h6>
+        <h6 class="card-title py-2 fw-bold">{{ title }}</h6>
 
         <div class="row py-2">
           <label>{{ sub }}</label>
