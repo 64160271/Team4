@@ -8,7 +8,18 @@
 <template>
   <LayoutMenu />
 
-  <CardInternInfo class="my-3" :internId="internId"> </CardInternInfo>
+  <CardInternInfo class="my-3" :internId="internId">
+    <div class="row mb-2">
+      <label for="" class="col-md-3 col-form-label text-gray"> วันที่ลาทั้งหมด </label>
+      <label for="" class="col-md-3 col-form-label text-gray">
+        {{ leavesInfo.length }}
+      </label>
+
+      <label for="" class="col-md-3 col-form-label text-gray"> วันที่ลาได้้ </label>
+
+      <label for="" class="col-md-3 col-form-label text-gray"> - </label>
+    </div>
+  </CardInternInfo>
 
   <SectionSpace noSpace>
     <div class="row mb-3">
