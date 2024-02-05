@@ -232,7 +232,6 @@ export default class apiService {
             return response.data
         })
     }
-    
     editSignature = async (data, id) => {
         return await axios.put(`${import.meta.env.VITE_API_HOST}/signatures/${id}`, data, { headers: {"Content-Type": "multipart/form-data"} })
             .then((response) => {
@@ -246,7 +245,6 @@ export default class apiService {
             return response.data
         })
     }
-    
     getAllSignature = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/signatures`)
             .then((response) => {
@@ -268,8 +266,8 @@ export default class apiService {
             })
     }
 
-    updateCompany = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/companies/updateCompany`, data)
+    editCompany = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/companies/${id}`, data)
             .then((response) => {
                 return response
             })
