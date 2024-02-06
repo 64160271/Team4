@@ -103,7 +103,7 @@ const router = createRouter({
             props: true,
         },
         {
-            path: '/certificates/selectIntern/:companyId',
+            path: '/certificates/selectIntern/:companyId/:signId',
             name: 'selectIntern',
             component: SelectIntern,
             props: true,

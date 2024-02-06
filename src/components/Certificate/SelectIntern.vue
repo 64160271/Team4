@@ -1,35 +1,24 @@
 <template>
-    <div class="input-group">
-        <div class="col-0">
-            <button class="btn back" @click="sentBack()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="20" viewBox="0 0 19 20" fill="none">
-                    <path
-                        d="M11.4008 1.70312L3.10078 10.0031L11.4008 18.3031L10.0008 19.7031L0.300781 10.0031L10.0008 0.303123L11.4008 1.70312Z"
-                        fill="black" />
-                    <path d="M1.69922 11L1.69922 9L18.6992 9V11L1.69922 11Z" fill="black" />
-                </svg>
-
-            </button>
+    <LayoutMenuName backButton page-name="เอกสารรับรอง > เลือกรายชื่อนักศึกษาฝึกงาน" />
+    <div class="row mb-3 me-1">
+        <div class="col-md-5 my-auto">
+            <Search />
         </div>
-
-        <div class="col">
-            <LayoutMenuName page-name="เอกสารรับรอง > เลือกรายชื่อนักศึกษาฝึกงาน" />
-        </div>
-
     </div>
     <div>
-        <form action="">
-            <DataTable :heads="tableHead" :items="interns" hovers :total="total">
-                <template class="col-md-2" #intn_key="{ data }">
-                    <input type="checkbox" :name="data?.intn_id" @click="select_intern(data?.intn_id)">
-                    <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
-                </template>
-            </DataTable>
-        </form>
+
+        <DataTable clickable click-return="intn_id" @clicked="checkRow" :heads="tableHead" :items="interns" hovers
+            :total="total">
+            <template class="col-md-2" #intn_key="{ data }">
+                <input type="checkbox" :id="data?.intn_id" :name="data?.intn_id"
+                    @click="select_intern(data?.intn_id) && checkRow(data?.intn_id)">
+                <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
+            </template>
+        </DataTable>
+
 
         <div class="row mb-3 mt-4 me-1">
-            <BaseButton class="col-auto ms-auto " label="ยืนยัน"
-                @click="$router.push('/certificates/previewCertificate')" />
+            <BaseButton class="col-auto ms-auto " label="ยืนยัน" @click="sendToCreateCertificate() && router.push('/certificates/previewCertificate')" />
         </div>
 
     </div>
@@ -43,12 +32,12 @@ import DataTable from "../Component/DataTable.vue";
 import { useRoute } from 'vue-router';
 import router from "@/router";
 import apiService from '../../services/api';
+import Search from '../Component/SearchBox.vue';
 
 const route = useRoute();
 
-const id = ref(route.params.companyId);
-// const sign = ref(route.params.signId);
-const signId = ref(route.query.signId);
+const companyId = ref(route.params.companyId);
+const signId = ref(route.params.signId);
 
 const total = ref();
 const page = ref(1);
@@ -56,8 +45,9 @@ const pageMax = ref(1);
 const pageSize = 10;
 const interns = ref([]);
 
-const index = 0;
-const selects = ref([]);
+// const index = 0;
+const selected = [];
+
 
 
 const tableHead = ref([
@@ -74,30 +64,41 @@ const tableHead = ref([
 //     sign: '',
 // })
 
-function select_intern(select){
-    for(let i = 0; i < total.value; i++){
-        selects[i] = select;
+function checkRow(index) {
+    let checkbox = document.getElementById(index);
+
+    checkbox.click();
+}
+
+
+function select_intern(id) {
+    if (selected.indexOf(id) != -1) {
+        selected.splice([selected.indexOf(id)], 1)
+    } else {
+        selected.push(id)
     }
-}
-function sentData(select){
-    console.log(sign)
-    router.push({
-        name: 'previewCertificate',
-        params: {
-            companyId: id.value,
-        },
-        query: {signId: sign},
 
-    })
+    console.log(selected)
+
 }
 
-function sentBack() {
-    router.push({
-        name: 'selectSignature',
-        params: {
-            companyId: id.value
-        }
-    })
+async function sendToCreateCertificate() {
+    const data_id = {
+        intn_id: selected,
+        sign_id: signId.value,
+        com_id: companyId.value
+    }
+    const response = await axios.post(
+        `${import.meta.env.VITE_API_HOST}/certificates`, 
+        data_id
+
+    );
+    console.log(data_id);
+    console.log(response.data);
+
+    // router.push({
+    //     path: '/certificates/previewCertificate'
+    // })
 }
 
 async function setCurrentPage(pageNumber) {
@@ -124,20 +125,18 @@ const getAllIntern = async () => {
 
 onMounted(async () => {
     setCurrentPage(page.value);
-    // console.log(signId.value)
-    // console.log(interns.value)
+    console.log(signId.value)
+    console.log(companyId.value)
+    console.log(interns.value)
 });
 
 </script>
 
 <style scoped>
-
-
 .back {
     display: flex;
     margin-right: 10px;
     margin-bottom: 20px;
 
 }
-
 </style>
