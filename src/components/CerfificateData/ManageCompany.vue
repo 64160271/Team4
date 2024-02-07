@@ -123,10 +123,10 @@
           </div>
           <div class="col">
             <BaseInput
-              label="เลขไปรษณีย์"
+              label="รหัสไปรษณีย์"
               input_type="text"
               v-model="companyData.com_address.addr_post_code"
-              placeholder="เลขไปรษณีย์"
+              placeholder="รหัสไปรษณีย์"
               required="required"
               :class="{ 'is-invalid': v$.com_address.addr_post_code.$error }"
             />
