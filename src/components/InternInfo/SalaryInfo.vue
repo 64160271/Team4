@@ -99,7 +99,7 @@ onMounted(async () => {
  * คำนวณเบี้ยเลี้ยง
  * param: data (ข้อมูลของเบี้ยเลี้ยง)
  * return: จำนวนเบี้ยเลี้ยงทั้งหมด
-*/
+ */
 
 function calculateTotal(data) {
   let total =
@@ -108,12 +108,24 @@ function calculateTotal(data) {
 }
 
 const filterData = computed(() => {
-  return salaries.value.filter((salary) => {
-    return (
-      slashDtoDashY(salary.sal_from_date) >= searchData.value.sal_from_date.trim() ||
-      slashDtoDashY(salary.sal_to_date) <= searchData.value.sal_to_date.trim()
-    );
-  });
+  if (searchData.value.sal_from_date && searchData.value.sal_to_date) {
+    return salaries.value.filter((salary) => {
+      return (
+        slashDtoDashY(salary.sal_from_date) >= searchData.value.sal_from_date.trim() &&
+        slashDtoDashY(salary.sal_to_date) <= searchData.value.sal_to_date.trim()
+      );
+    });
+  } else if (searchData.value.sal_from_date) {
+    return salaries.value.filter((salary) => {
+      return slashDtoDashY(salary.sal_from_date) == searchData.value.sal_from_date.trim();
+    });
+  } else if (searchData.value.sal_to_date) {
+    return salaries.value.filter((salary) => {
+      return slashDtoDashY(salary.sal_to_date) == searchData.value.sal_to_date.trim();
+    });
+  } else {
+    return salaries.value;
+  }
 });
 </script>
 

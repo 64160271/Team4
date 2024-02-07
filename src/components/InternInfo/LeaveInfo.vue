@@ -339,7 +339,7 @@ onMounted(async () => {
  * จัดการเมื่อมีการกดบันทึก
  * param: -
  * return: -
-*/
+ */
 
 async function formSubmit() {
   if (lvs_time.value == "hr") formData.value.lvs_to_date = formData.value.lvs_from_date;
@@ -363,7 +363,7 @@ async function formSubmit() {
  * แสดงหน้าต่างใหม่เมื่อทำการกด
  * param: path
  * return: -
-*/
+ */
 
 function showLeaveFile(path) {
   window.open(path);
@@ -374,7 +374,7 @@ function showLeaveFile(path) {
  * โชว์ชื่อของไฟล์
  * param: -
  * return: -
-*/
+ */
 
 function showFileName() {
   const imgUpload = document.getElementById("file-upload");
@@ -389,7 +389,7 @@ function showFileName() {
  * แปลงระยะเวลา
  * param: duration
  * return: duration
-*/
+ */
 
 function getDuration(duration) {
   const isNumber = !isNaN(duration) && !isNaN(parseFloat(duration));
@@ -399,9 +399,13 @@ function getDuration(duration) {
 }
 
 const filterData = computed(() => {
-  return leavesInfo.value.filter((leaveInfo) => {
-    return slashDtoDashY(leaveInfo.lvs_from_date) >= searchData.value.trim();
-  });
+  if (searchData.value != "") {
+    return leavesInfo.value.filter((leaveInfo) => {
+      return slashDtoDashY(leaveInfo.lvs_from_date) == searchData.value.trim();
+    });
+  } else {
+    return leavesInfo.value;
+  }
 });
 </script>
 
