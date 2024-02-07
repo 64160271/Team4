@@ -328,17 +328,37 @@ const openCreateModel = ref(false);
 const openEditModel = ref(false);
 let editCompanyId = 0;
 
+
+onMounted(async () => {
+  companies.value = await apiCall.getCompanyWithAddress();
+  loaded.value = true;
+
+  $.Thailand({
+    $district: $("#district"), // input ของตำบล
+    $amphoe: $("#amphoe"), // input ของอำเภอ
+    $province: $("#province"), // input ของจังหวัด
+    $zipcode: $("#zipcode"), // input ของรหัสไปรษณีย์
+
+    /* onDataFill: function (data) {
+          address.value.addr_subdistrict = data.district;
+          address.value.addr_district = data.amphoe;
+          address.value.addr_province = data.province;
+          address.value.addr_post_code = data.zipcode;
+        }, */
+  });
+});
+
 /*
  * filterData
  * ฟังก์ชันสำหรับ filter ข้อมูล
  * param: -
  * return: ข้อมูลที่ถูกกรองตามเงื่อนไข
-*/
+ */
 const filterData = computed(() => {
   return companies.value.filter((company) => {
     return (
       company.com_name.indexOf(searchData.value.trim()) > -1 ||
-      company.com_role.indexOf(searchData.value.trim()) > -1
+      company.com_address?.addr_province?.indexOf(searchData.value.trim()) > -1
     );
   });
 });
@@ -374,7 +394,7 @@ const v$ = useVuelidate(rules, companyData);
  * จัดการเมื่อมีการกดปุ่มบันทึก
  * param: -
  * return: -
-*/
+ */
 async function submitForm() {
   const validate = await v$.value.$validate();
 
@@ -423,7 +443,7 @@ const vedit$ = useVuelidate(rules, editedCompany);
  * จัดการเมื่อมีการกดปุ่มบันทึกของการแก้ไขข้อมูล
  * param: -
  * return: -
-*/
+ */
 async function submitFormedit() {
   const validate = await vedit$.value.$validate();
 
@@ -444,7 +464,7 @@ async function submitFormedit() {
  * ฟังก์ชันสำหรับกำหนดค่าในแบบฟอร์มกรณีกดปุ่มแก้ไข
  * param: company ข้อมูลบริษัท
  * return: -
-*/
+ */
 const openEditModel2 = (company) => {
   Object.assign(editedCompany, {
     com_name: company?.com_name,
@@ -462,23 +482,4 @@ const openEditModel2 = (company) => {
   editCompanyId = company.com_id;
   openEditModel.value = true;
 };
-
-onMounted(async () => {
-  companies.value = await apiCall.getCompanyWithAddress();
-  loaded.value = true;
-
-  $.Thailand({
-    $district: $("#district"), // input ของตำบล
-    $amphoe: $("#amphoe"), // input ของอำเภอ
-    $province: $("#province"), // input ของจังหวัด
-    $zipcode: $("#zipcode"), // input ของรหัสไปรษณีย์
-
-    /* onDataFill: function (data) {
-          address.value.addr_subdistrict = data.district;
-          address.value.addr_district = data.amphoe;
-          address.value.addr_province = data.province;
-          address.value.addr_post_code = data.zipcode;
-        }, */
-  });
-});
 </script>
