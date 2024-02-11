@@ -4,7 +4,7 @@
       <div class="col-lg-3 text-center">
         <img
           id="blah"
-          :src="internData.intn_image_path"
+          :src="internData.intn_image_path  || '../../src/assets/images/person-nm.png'"
           alt=""
           class="img bg-grays-200"
         />
