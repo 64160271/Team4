@@ -25,22 +25,15 @@
         </div>
     </div>
 
-    <DataTable :heads="dataHead" :items="reports" clickable @clicked="handleClick">
-        <!-- <template #rep_count_name="{ data }">
-            {{ data.rep_salaries.length }}
+    <DataTable :heads="dataHead" :items="salarys" clickable @clicked="handleClick">
+        <template #sal_total = "{ data }">
+            {{ calculateSalary(data.sal_salary, data.sal_extra) }}
         </template>
-        <template #rep_created_at_front="{ data }">
-            {{ console.log(data.rep_created_at) }}
-            {{ chageDate(data.rep_created_at) }}
-        </template> -->
-        <!-- <template #rep_updated_at_front="{ data }">
-            {{ chageDate(data.rep_updated_at) }}
-
-        </template> -->
-        <template #rep_edit>
+        
+        <template #sal_edit>
             <EditIcon />
         </template>
-        <template #rep_remove>
+        <template #sal_remove>
             <DeleteButton />
         </template>
     </DataTable> 
@@ -57,38 +50,45 @@ import { onMounted } from 'vue';
 import axios from 'axios'
 import EditIcon from '../icons/EditIcon.vue'
 import DeleteButton from '../icons/DeleteButton.vue'
-import router from "@/router";
+import { useRoute } from "vue-router"
 
-
-const reports = ref([])
+const route = useRoute()
+const salarys = ref([])
 const date = new Date();
-
-
-
+const id = route.params.id
+let salary_total = 0.0
 
 const dataHead = ref([
-    { key: "rep_intn_id", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
-    { key: "rep_intn_name", title: "ชื่อ-นามสกุล"},
-    { key: "rep_from_date", title: "วันที่ได้รับ", align: "center" },
-    { key: "rep_end_date", title: "วันที่สิ้นสุด", align: "center" },
-    { key: "rep_count_date", title: "จำนวนวันทำงาน" },
-    { key: "rep_salaries", title: "จำนวนวันทั้งหมด", align: "center" },
-    { key: "rep_total", title: "ยอดรวม", align: "center" },
-    { key: "rep_edit", title: "แก้ไข", align: "center" },
-    { key: "rep_remove", title: "ลบ", align: "center" },
-    { key: "rep_history", title: "ประวัติ", align: "center" },
+    { key: "sal_intern.intn_code", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
+    { key: "sal_intern.intn_name_th", title: "ชื่อ-นามสกุล"},
+    { key: "sal_from_date", title: "วันที่ได้รับ", align: "center" },
+    { key: "sal_to_date", title: "วันที่สิ้นสุด", align: "center" },
+    { key: "sal_day", title: "จำนวนวันทำงาน" , align: "right"},
+    { key: "sal_salary", title: "เบี้ยเลี้ยงทั้งหมด", align: "center" },
+    { key: "sal_total", title: "ยอดรวม", align: "center" },
+    { key: "sal_edit", title: "แก้ไข", align: "center" },
+    { key: "sal_remove", title: "ลบ", align: "center" },
+    { key: "sal_intn_history", title: "ประวัติ", align: "center" },
 ])
 
-const formData = ref({
-    rep_code: "",
-    rep_updated_by: 1
-})
 
-const getReport = async () => {
-    await axios.get(`${import.meta.env.VITE_API_HOST}/reports`).
+
+const getSalaryByReportId = async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/salaries/reports/${id}`).
         then((response) => {
-            reports.value = response.data
+            salarys.value = response.data
+            
         })
+        console.log(salarys.value)
+}
+function calculateSalary(salary, extra) {
+    // แปลงค่าเป็นตัวเลขก่อนการบวก
+    salary = parseFloat(salary);
+    extra = parseFloat(extra);
+
+    let result = salary + extra;
+
+    return result;
 }
 
 
@@ -122,8 +122,11 @@ function chageDate(value) {
 let nameUser = "ปริญญา ก้อนจันทึก"
 
 onMounted(() => {
-    getReport(),
-    getAllTeam()
+    // getReport(),
+    // getAllTeam(),
+    console.log(id)
+    // getReportById(),
+    getSalaryByReportId()
 })
 </script>
 
