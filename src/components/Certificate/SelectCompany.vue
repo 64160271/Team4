@@ -9,11 +9,11 @@
 
 
     <!-- Card -->
-    <div class="row mt-3 ">
-        <BaseCard v-for="company in companies" :title="company?.com_name" :sub="company.com_address?.addr_province"
+    <div class="row mt-3">
+        <BaseCard class="mb-4" v-for="company in companies" :title="company?.com_name" :sub="company.com_address?.addr_province"
             :content="getAddress(company?.com_address)">
             <template #after-title>
-                <div style="text-align: center;">
+                <div class="text-center">
                     <!-- <button class="col-auto btn btn_choose" @click="sentCompanyId(company.com_id)">เลือก</button> -->
                     <BaseButton label="เลือก" @click="sentCompanyId(company.com_id)"/>
                 </div>
@@ -56,10 +56,10 @@ function sentCompanyId(id) {
 
 
 function getAddress(address) {
-    let result = `${address?.addr_house_number} 
-    ${address?.addr_village_number}
-    ${address?.addr_alley}
-    ${address?.addr_street} ${address?.addr_subdistrict}
+    let result = `${address?.addr_house_number || ''} 
+    ${address?.addr_village_number  || ''}
+    ${address?.addr_alley  || ''}
+    ${address?.addr_street  || ''} ${address?.addr_subdistrict}
     ${address?.addr_district} ${address?.addr_province} ${address?.addr_post_code}`
     return result
 }

@@ -10,7 +10,7 @@
     <div class="row mt-3">
         <BaseCard v-for="signature in signatures" :title="signature?.sign_image" :sub="getName(signature)" content="">
             <template #after-title>
-                <div style="text-align: center;">
+                <div class="text-center">
                     <!-- <button class="col-auto btn btn_choose" @click="sentCompanyId(signature.sign_id)">เลือก</button> -->
                     <BaseButton label="เลือก" @click="sentCompanyId(signature.sign_id)"/>
                 </div>

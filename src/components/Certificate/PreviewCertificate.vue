@@ -34,12 +34,12 @@ import Delete from '../icons/DeleteButton.vue';
 
 const tableHead = ref([
     { key: "cer_filename", title: "ชื่อไฟล์", align: "center" },
-    { key: "intn_name_th", title: "ชื่อ-นามสกุล" },
-    { key: "intn_id.work_infos[0].work_role.role_name", title: "ตำแหน่ง" },
-    { key: "sign_name", title: "ผู้รับรอง" },
-    { key: "open_file", title: "เปิดไฟล์" },
-    { key: "download", title: "ดาวน์โหลด" },
-    { key: "delete", title: "ลบ" }
+    { key: "intn_name_th", title: "ชื่อ-นามสกุล", align: "center" },
+    { key: "intn_id.work_infos[0].work_role.role_name", title: "ตำแหน่ง", align: "center" },
+    { key: "sign_name", title: "ผู้รับรอง", align: "center" },
+    { key: "open_file", title: "เปิดไฟล์", align: "center" },
+    { key: "download", title: "ดาวน์โหลด", align: "center" },
+    { key: "delete", title: "ลบ", align: "center" }
 ]);
 const interns = ref([]);
 const total = ref();
