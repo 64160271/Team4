@@ -17,7 +17,7 @@
 
       <label for="" class="col-md-3 col-form-label text-gray"> แผนก </label>
 
-      <label for="" class="col-md-3 col-form-label text-gray"> {{ dept }} </label>
+      <label for="" class="col-md-3 col-form-label text-gray"> {{ dept || "-" }} </label>
     </div>
   </CardInternInfo>
 
@@ -41,6 +41,7 @@
         :total="filterData.length"
         :heads="tableHead"
         :items="filterData"
+        hover-background
       >
         <template #open_file="{ data }">
           <svg

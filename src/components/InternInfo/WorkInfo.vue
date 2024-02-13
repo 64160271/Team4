@@ -29,7 +29,8 @@
     </div>
 
     <div class="row">
-      <DataTable striped :heads="tableHead" :items="workInfo"> </DataTable>
+      <DataTable hover-background striped :heads="tableHead" :items="workInfo">
+      </DataTable>
     </div>
   </SectionSpace>
 </template>

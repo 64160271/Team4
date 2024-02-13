@@ -251,7 +251,7 @@ const v$ = useVuelidate(rules, formData);
  * ฟังก์ชันสำหรับ filter ข้อมูล
  * param: -
  * return: ข้อมูลที่ถูกกรองตามเงื่อนไข
-*/
+ */
 const filterData = computed(() => {
   let key = searchData.value.trim();
   return signatures.value.filter((signature) => {
@@ -264,7 +264,7 @@ const filterData = computed(() => {
  * จัดการเมื่อมีการกดปุ่มบันทึก
  * param: -
  * return: -
-*/
+ */
 async function submitForm() {
   const validate = await v$.value.$validate();
 

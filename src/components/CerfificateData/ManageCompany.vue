@@ -328,7 +328,6 @@ const openCreateModel = ref(false);
 const openEditModel = ref(false);
 let editCompanyId = 0;
 
-
 onMounted(async () => {
   companies.value = await apiCall.getCompanyWithAddress();
   loaded.value = true;
@@ -483,3 +482,5 @@ const openEditModel2 = (company) => {
   openEditModel.value = true;
 };
 </script>
+
+<style scoped></style>

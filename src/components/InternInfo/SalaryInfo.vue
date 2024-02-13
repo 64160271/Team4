@@ -43,6 +43,7 @@
       <DataTable
         :total="filterData.length"
         striped
+        hover-background
         :heads="tableHead"
         :items="filterData"
       >

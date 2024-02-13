@@ -17,7 +17,12 @@
 -->
 
 <template>
-  <table id="myTable" class="table" v-bind="$attrs" :class="{ 'table-striped-custom': striped }">
+  <table
+    id="myTable"
+    class="table"
+    v-bind="$attrs"
+    :class="{ 'table-striped-custom': striped }"
+  >
     <thead class="bg-red">
       <tr class="tr-custom">
         <th
@@ -39,7 +44,11 @@
       <tr
         v-for="(item, index) in items"
         class="tr-custom border"
-        :class="{ 'tb-hov': hovers }"
+        :class="{
+          'tb-hov': hovers,
+          'hover-background': hoverBackground,
+          'cursor-p': clickable,
+        }"
         @click="clickable && clickReturn && handleRowClick(_.get(item, clickReturn))"
       >
         <td v-for="head in heads" :class="{ ['text-' + head.align]: head.align }">
@@ -104,7 +113,13 @@
 
   <div class="row" v-if="items.length < 1">
     <div class="col-auto mx-auto mt-5">
-      <img class="text-center" src="../../assets/images/notfound.png" width="180" height="180" alt="">
+      <img
+        class="text-center"
+        src="../../assets/images/notfound.png"
+        width="180"
+        height="180"
+        alt=""
+      />
     </div>
     <span class="text-center h5 mt-4">ขออภัย เราไม่พบผลลัพธ์ใด ๆ</span>
   </div>
@@ -137,6 +152,7 @@ const props = defineProps({
   paginate: [Boolean],
   itemsPerPage: [Number, String, Boolean],
   activePage: [Number, String, Boolean],
+  hoverBackground: [Boolean],
 });
 
 /*
@@ -191,6 +207,10 @@ onMounted(async () => {});
 }
 
 .table-striped-custom > tbody > tr:nth-child(odd) > td {
-  background-color: #f5f6f8 !important;
+  background-color: #f5f6f8;
+}
+
+.hover-background:hover > td {
+  background-color: #ffcbcb60 !important;
 }
 </style>

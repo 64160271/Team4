@@ -5,14 +5,17 @@
     Created date : 13-11-2566
 -->
 
-
 <template>
   <LayoutMenuName page-name="จัดการมหาวิทยาลัย" />
 
   <SectionSpace>
     <div class="row mb-4">
       <div class="col-md-4 my-auto">
-        <SearchBox placeholder="ค้นหาชื่อมหาวิทยาลัย" v-model="searchData" class="my-auto" />
+        <SearchBox
+          placeholder="ค้นหาชื่อมหาวิทยาลัย"
+          v-model="searchData"
+          class="my-auto"
+        />
       </div>
 
       <BaseButton label="เพิ่มมหาวิทยาลัย" class="col-md-2 ms-auto" @click="add()">
@@ -176,7 +179,7 @@ const showDetail = ref([]);
 const universities = ref([]);
 const isOpen = ref(false);
 const modalMode = ref("");
-const loaded = ref(false)
+const loaded = ref(false);
 const inititalState = {
   uni_name: "มหาวิทยาลัย",
   uni_file: "",
@@ -200,13 +203,13 @@ const filterData = computed(() => {
  * ฟังก์ชันสำหรับ เรียก api ข้อมูลมหาวิทยาลัย
  * param: -
  * return: -
-*/
+ */
 const getAllUniversity = async () => {
   await axios
     .get(`${import.meta.env.VITE_API_HOST}/universities/related`)
     .then((response) => {
       universities.value = response.data;
-      loaded.value = true
+      loaded.value = true;
     });
 };
 
@@ -215,7 +218,7 @@ const getAllUniversity = async () => {
  * ฟังก์ชันเมื่อมีการกดปุ่มแก้ไข จะทำการกำหนดค่าในแบบฟอร์ม
  * param: university ข้อมูลมหาวิทยาลัย
  * return: -
-*/
+ */
 async function edit(university) {
   // กำหนดค่าให้ formData
   Object.assign(formData, {
@@ -240,7 +243,7 @@ async function edit(university) {
  * เมื่อทำการกดปุ่มเพิ่มข้อมูล
  * param: -
  * return: -
-*/
+ */
 function add() {
   // กำนหนดค่าให้แบบฟอร์มเป็นค่าว่าง
   Object.assign(formData, inititalState);
@@ -254,7 +257,7 @@ function add() {
  * โชว์รูปภาพมหาวิทยาลัย
  * param: -
  * return: -
-*/
+ */
 function showImg() {
   const imgUpload = document.getElementById("img-upload");
   const blah = document.getElementById("blah");
@@ -273,7 +276,7 @@ function showImg() {
  * จัดการเมื่อมีการกดบันทึก
  * param: -
  * return: -
-*/
+ */
 async function formSubmit() {
   const validate = await v$.value.$validate();
 
@@ -313,7 +316,7 @@ async function formSubmit() {
  * ฟังก์ชันสำหรับลบ้ขอมูลมหาวิทยาลัย
  * param: id ของมหาวิทยาลัย
  * return: -
-*/
+ */
 async function deleteUniversity(id) {
   const result = await confirmation(
     "ยืนยันการลบข้อมูลหรือไม่\nข้อมูลคณะและสาขาของมหาวิทยาลัยจะถูกลบไปด้วย"

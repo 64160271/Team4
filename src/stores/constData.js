@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getImageFromBuffer } from "../assets/js/func";
+import { slashDtoDashY } from "../assets/js/func";
 
 export const useBloodType = defineStore('blood_type', {
     state: () => {
@@ -98,7 +98,8 @@ export const useInternName = defineStore('internName', {
             intn_id: '',
             intn_role: '',
             intn_section: '',
-            intn_department: ''
+            intn_department: '',
+            intn_start_date: ''
         }
     },
 
@@ -111,10 +112,15 @@ export const useInternName = defineStore('internName', {
             this.intn_role = data.work_infos[0]?.work_role.role_name
             this.intn_section = data.work_infos[0]?.work_section.sec_name
             this.intn_department = data.work_infos[0]?.work_department?.dept_name
+            this.intn_start_date = data.intn_start_date
         }
     },
 
     getters: {
+        getId() {
+            return this.intn_id
+        },
+
         getName() {
             return this.intn_name
         },
@@ -129,6 +135,10 @@ export const useInternName = defineStore('internName', {
 
         getDepartment() {
             return this.intn_department
+        },
+
+        getStartDate() {
+            return slashDtoDashY(this.intn_start_date)
         }
     }
 })
