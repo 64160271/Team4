@@ -35,6 +35,7 @@
     <div class="row">
       <DataTable
         striped
+        hover-background
         :total="filterData.length"
         :heads="tableHead"
         :items="filterData"
@@ -280,7 +281,7 @@ import { useInternName } from "../../stores/constData";
 import { diffDate, slashDtoDashY } from "../../assets/js/func";
 import SideLabelInput from "../Component/SideLabelInput.vue";
 import useVuelidate from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { helpers, required } from "@vuelidate/validators";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 
 const searchData = ref("");
@@ -304,10 +305,27 @@ const formData = ref({
   lvs_duration: "F",
 });
 
+const dateAfterStart = (v) => {
+  if (v) {
+    console.log(v);
+    let date = useInternName().getStartDate;
+    console.log(date);
+    return v > date;
+  }
+  return true;
+};
+const afterStartFeedback = "ไม่สามารถเลือกก่อนวันเริ่มต้นฝึกงานได้";
+
 const rules = {
   lvs_type: { required },
-  lvs_from_date: { required },
-  lvs_to_date: { required },
+  lvs_from_date: {
+    required,
+    dateAfterStart: helpers.withMessage(afterStartFeedback, dateAfterStart),
+  },
+  lvs_to_date: {
+    required,
+    dateAfterStart: helpers.withMessage(afterStartFeedback, dateAfterStart),
+  },
 };
 const v$ = useVuelidate(rules, formData.value);
 

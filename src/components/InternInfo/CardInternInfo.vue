@@ -4,7 +4,7 @@
       <div class="col-lg-3 text-center">
         <img
           id="blah"
-          :src="internData.intn_image_path  || '../../src/assets/images/person-nm.png'"
+          :src="internData?.intn_image_path || '../../src/assets/images/person-nm.png'"
           alt=""
           class="img bg-grays-200"
         />
@@ -16,12 +16,12 @@
             รหัสนักศึกษาฝึกงาน
           </label>
           <label for="" class="col-md-3 col-form-label text-gray">
-            {{ internData.intn_code }}
+            {{ internData?.intn_code }}
           </label>
 
           <label for="" class="col-md-3 col-form-label text-gray"> ชื่อ-นามสกุล </label>
           <label for="" class="col-md-3 col-form-label text-gray">
-            {{ internData.intn_name }}
+            {{ internData?.intn_name }}
           </label>
         </div>
         <slot></slot>
@@ -35,20 +35,22 @@ import { onMounted, ref } from "vue";
 import { useInternName } from "../../stores/constData";
 import axios from "axios";
 
-const internData = ref(useInternName());
+const internData = ref();
 
 const props = defineProps({
   internId: [Number, String, Boolean],
 });
 
 onMounted(async () => {
-  if (internData.value.intn_id == props.internId) {
+  if (useInternName().getId == props.internId) {
+    internData.value = useInternName();
     return;
   }
 
   await axios
     .get(`${import.meta.env.VITE_API_HOST}/interns/personal/${props.internId}`)
     .then((response) => {
+      internData.value = useInternName();
       internData.value.setData(response.data);
     });
 });
