@@ -1,35 +1,45 @@
 <template>
     <LayoutMenuName page-name="รายงานเบี้ยเลี้ยง" />
     <div class="row mb-3">
-        <div class="col-auto my-auto">
-            <!-- ส่วนของ radio buttons -->
-            <div class="form-check form-check-inline">
-                <input v-model="searchData" type="text" id="search-bar" class="bg-grays-200 form-control"
-                    placeholder="Search" aria-label="" aria-describedby="basic-addon1" />
+        
+            <div class="col-auto ms-auto"> 
+            <BaseButton label="+ เพิ่มข้อมูล" @click="openModal = true"  />
             </div>
-
-            <div class="form-check form-check-inline">
-
-
+            <div class="col-auto ">
+            <BaseButton label="เพิ่มจากไฟล์ Excel"  >
+                <template>
+                    <ExcelIcon />
+                </template>
+            </BaseButton>
             </div>
-
-            <div class="form-check form-check-inline">
-                <BaseSelect  v-model="team_id" :options="team" value="team_id"
-                    text="team_name" />
-            </div>
-        </div>
-        <div class="col-auto ms-auto my-auto">
-            <div>
-                <BaseButton label="เพิ่มข้อมูล" @click="openModal = true" />
-            </div>
-        </div>
+        
     </div>
+    <BaseModal v-if="openModal" @save="formSubmit" @close="openModal = false" title="เพิ่มข้อมูล">
+        <div class="col mb-3">
+            <BaseInput v-model="formData.data_code" label="รหัสรายการ" input_type="text" required="required"
+                placeholder="xx/xxxx" />
+        </div>
+        <div class="col mb-3">
+            <BaseInput  label="วันที่สร้างรายการ" input_type="text" readonly="readonly" />
+        </div>
+        <div class="col mb-3">
+            <BaseInput  label="วันที่สร้างรายการ" input_type="text" readonly="readonly" />
+        </div>
+        <div class="col mb-3">
+            <BaseInput v-model="formData.sal_input_from_date" label="ผู้ทำการแก้ไขข้อมูล" input_type="text" readonly="readonly" />
+        </div>
+    </BaseModal>
 
     <DataTable :heads="dataHead" :items="salarys" clickable @clicked="handleClick">
         <template #sal_total = "{ data }">
-            {{ calculateSalary(data.sal_salary, data.sal_extra) }}
+            {{ calculateSalary(data.sal_day,data.sal_salary, data.sal_extra) }}
         </template>
-        
+        <template #sal_from_date_front = "{ data }">
+            {{ formatDate(data.sal_from_date) }}
+        </template>
+        <template #sal_to_date_front = "{ data }">
+            {{ formatDate(data.sal_to_date) }}
+        </template>
         <template #sal_edit>
             <EditIcon />
         </template>
@@ -43,7 +53,6 @@
 import { ref } from 'vue';
 import BaseButton from '../Component/BaseButton.vue'
 import DataTable from '../Component/DataTable.vue'
-import BaseSelect from '../Component/BaseSelect.vue'
 import BaseModal from '../Component/BaseModal.vue'
 import BaseInput from '../Component/BaseInput.vue'
 import { onMounted } from 'vue';
@@ -51,18 +60,35 @@ import axios from 'axios'
 import EditIcon from '../icons/EditIcon.vue'
 import DeleteButton from '../icons/DeleteButton.vue'
 import { useRoute } from "vue-router"
+import ExcelIcon from '../icons/ExcelIcon.vue'
+import SideLabelInput from '../Component/SideLabelInput.vue'
 
 const route = useRoute()
+const openModal = ref(false)
 const salarys = ref([])
 const date = new Date();
 const id = route.params.id
-let salary_total = 0.0
+
+
+const formData = ref({
+    rep_code: "",
+    rep_updated_by: 1,
+    sal_intn_code: "",
+    sal_intn_name: "",
+    sal_input_from_date: "",
+    sal_input_to_date: "",
+    sal_number_day: Number(0),
+    sal_salaries: Number(0),
+    sal_salary_extra: Number(0),
+    sal_total_salary: Number(0),
+    sal_note: ""
+})
 
 const dataHead = ref([
     { key: "sal_intern.intn_code", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
     { key: "sal_intern.intn_name_th", title: "ชื่อ-นามสกุล"},
-    { key: "sal_from_date", title: "วันที่ได้รับ", align: "center" },
-    { key: "sal_to_date", title: "วันที่สิ้นสุด", align: "center" },
+    { key: "sal_from_date_front", title: "วันที่ได้รับ", align: "center" },
+    { key: "sal_to_date_front", title: "วันที่สิ้นสุด", align: "center" },
     { key: "sal_day", title: "จำนวนวันทำงาน" , align: "right"},
     { key: "sal_salary", title: "เบี้ยเลี้ยงทั้งหมด", align: "center" },
     { key: "sal_total", title: "ยอดรวม", align: "center" },
@@ -81,12 +107,13 @@ const getSalaryByReportId = async () => {
         })
         console.log(salarys.value)
 }
-function calculateSalary(salary, extra) {
+function calculateSalary(day,salary, extra) {
     // แปลงค่าเป็นตัวเลขก่อนการบวก
     salary = parseFloat(salary);
     extra = parseFloat(extra);
+    day = parseFloat(day)
 
-    let result = salary + extra;
+    let result = day * salary + extra;
 
     return result;
 }
@@ -102,21 +129,13 @@ function handleClick(rep_id) {
   router.push({ name: "reportData", params: { id: rep_id } });
 }
 
-function chageDate(value) {
-    if (value) {
-        const date = new Date(value)
-        let day = date.getDate();
-        let month = date.getMonth() + 1;
-        let year = date.getFullYear();
-        if (day < 10) {
-            day = `0${day}`
-        }
-        if (month < 10) {
-            month = `0${month}`
-        }
-        return `${day}/${month}/${year}`
-    }
-    return ''
+function formatDate(date){
+    let split = date.split("-")
+    let year = parseInt(split[0]) + 543
+    let month = split[1]
+    let day = split[2]
+    console.log(day)
+    return `${day}-${month}-${year}`
 }
 
 let nameUser = "ปริญญา ก้อนจันทึก"
