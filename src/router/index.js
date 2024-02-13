@@ -14,6 +14,10 @@ import ManageCompany from '../components/CerfificateData/ManageCompany.vue'
 import ManageSignature from '../components/CerfificateData/ManageSignature.vue'
 import ManageUniversity from '../components/University/ManageUniversity.vue'
 import Cookies from "js-cookie";
+import SelectCompany from '../components/Certificate/SelectCompany.vue'
+import SelectSignature from '../components/Certificate/SelectSignature.vue'
+import SelectIntern from '../components/Certificate/SelectIntern.vue'
+import PreviewCertificate from '../components/Certificate/PreviewCertificate.vue'
 
 const router = createRouter({
     /* history: createWebHashHistory(import.meta.env.VITE_BASE_URL) for deploy */
@@ -89,6 +93,29 @@ const router = createRouter({
             name: 'manageCompany',
             component: ManageCompany
         },
+        {
+            path: '/certificates/selectCompany',
+            name: 'selectCompany',
+            component: SelectCompany
+        },
+        {
+            path: '/certificates/selectSignature/:companyId',
+            name: 'selectSignature',
+            component: SelectSignature,
+            props: true,
+        },
+        {
+            path: '/certificates/selectIntern/:companyId/:signId',
+            name: 'selectIntern',
+            component: SelectIntern,
+            props: true,
+        },
+        {
+            path: '/certificates/previewCertificate',
+            name: 'previewCertificate',
+            component: PreviewCertificate,
+            props: true,
+        }
     ]
 })
 

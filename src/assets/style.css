@@ -17,6 +17,9 @@
     /* --main-color: #005fbc; */
     --main-color: #e1032b;
 }
+.custom-icon path {
+    fill: var(--main-color) !important;
+}
 
 .text-custom {
     color: var(--main-color) !important;
