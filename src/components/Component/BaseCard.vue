@@ -11,8 +11,6 @@
     <div class="col-md-3">
         <div class="card h-100 content border shadow-sm text-center">
             <div class="card-body">
-                <slot name="before-title"></slot>
-
                 <h6 class="card-title py-2">{{ title }}</h6>
 
                 <div class="row py-2">
@@ -24,9 +22,8 @@
                 </div>
                 
                 <div class="row py-2">
-                    <slot name="after-title"></slot>
+                    <slot></slot>
                 </div>
-
             </div>
         </div>
     </div>
