@@ -18,7 +18,7 @@
 
 
         <div class="row mb-3 mt-4 me-1">
-            <BaseButton class="col-auto ms-auto " label="ยืนยัน" @click="sendToCreateCertificate() && router.push('/certificates/previewCertificate')" />
+            <BaseButton class="col-auto ms-auto " label="ยืนยัน" @click="sendToCreateCertificate()" />
         </div>
 
     </div>
@@ -33,6 +33,7 @@ import { useRoute } from 'vue-router';
 import router from "@/router";
 import apiService from '../../services/api';
 import Search from '../Component/SearchBox.vue';
+import { getAge, confirmation, successAlert, errorAlert } from "../../assets/js/func";
 
 const route = useRoute();
 
@@ -64,6 +65,8 @@ const tableHead = ref([
 //     sign: '',
 // })
 
+
+
 function checkRow(index) {
     let checkbox = document.getElementById(index);
 
@@ -83,7 +86,9 @@ function select_intern(id) {
 }
 
 async function sendToCreateCertificate() {
-    const data_id = {
+    const result = await confirmation();
+    if(result){
+        const data_id = {
         intn_id: selected,
         sign_id: signId.value,
         com_id: companyId.value
@@ -92,9 +97,19 @@ async function sendToCreateCertificate() {
         `${import.meta.env.VITE_API_HOST}/certificates`, 
         data_id
 
-    );
+    ).then((response) => {
+            successAlert().then(() => {
+              router.push({ path: "/certificates" });
+            });
+          })
+          .catch((err) => {
+            errorAlert(err);
+          });
     console.log(data_id);
     console.log(response.data);
+    
+    }
+    
 
     // router.push({
     //     path: '/certificates/previewCertificate'

@@ -123,6 +123,24 @@ export function getImageFromBuffer2(type, buffer) {
     return 'data:' + type + ';base64,' + b64encoded;
 }
 
+
+export function changeTimestampToDate(value) {
+    if (value) {
+        const date = new Date(value)
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        if (day < 10) {
+            day = 0 + `${day}`
+        }
+        if (month < 10) {
+            month = 0 + `${month}`
+        }
+        return `${day}/${month}/${year + 543}`
+    }
+    return ''
+}
+
 export function formatDate(strdate) {
     if (!strdate || strdate == '-') {
         return null
