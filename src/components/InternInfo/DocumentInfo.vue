@@ -155,7 +155,7 @@
 import LayoutMenu from "./LayoutMenu.vue";
 import apiService from "../../services/api";
 import { useRoute, useRouter } from "vue-router";
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref, computed, getCurrentInstance } from "vue";
 import DataTable from "../Component/DataTable.vue";
 import CardInternInfo from "./CardInternInfo.vue";
 import BaseButton from "../Component/BaseButton.vue";
@@ -200,8 +200,12 @@ const v$ = useVuelidate(rules, formData.value);
 
 onMounted(async () => {
   documents.value = await apiCall.getDocumentByInternId(internId);
-  dept.value = await useInternName().getDepartment;
-  section.value = await useInternName().getSection;
+  dept.value = useInternName().getDepartment;
+  section.value = useInternName().getSection;
+  if (!section.value) {
+    const instance = getCurrentInstance();
+    instance?.proxy?.$forceUpdate();
+  }
   /* modal.value = new bootstrap.Modal("#modal", {}); */
 });
 
