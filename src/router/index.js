@@ -89,10 +89,6 @@ const router = createRouter({
             name: 'manageCompany',
             component: ManageCompany
         },
-        {
-            path: '/test',
-            component: TestForm
-        }
     ]
 })
 
