@@ -158,6 +158,7 @@ const dateAfterStart = (v) => {
     }
     return true
 }
+
 const citizenLength = (v) => v ? (v.length == 13 || v.length == 7 || v.length == 8 || v.length == 9) : true
 const engAndNumber = helpers.regex(/^[a-zA-Z0-9]*$/) 
 const requiredThai = helpers.regex(/^[ก-์]+$/)

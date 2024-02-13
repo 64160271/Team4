@@ -39,7 +39,9 @@
       </div>
     </div>
 
-    <div class="row">
+    <Loading v-if="!loaded" />
+
+    <div v-if="loaded" class="row">
       <DataTable
         :total="filterData.length"
         striped
@@ -60,7 +62,6 @@ import LayoutMenu from "./LayoutMenu.vue";
 import ApiService from "../../services/ApiService";
 import { useRoute } from "vue-router";
 import { onMounted, ref, computed, isProxy, toRaw } from "vue";
-import { useAddSalaryForm } from "../../stores/addSalaryFormdata";
 import DataTable from "../Component/DataTable.vue";
 import CardInternInfo from "./CardInternInfo.vue";
 import BaseInput from "../Component/BaseInput.vue";
@@ -70,8 +71,7 @@ import { slashDtoDashY } from "../../assets/js/func";
 const internId = useRoute().params.id;
 const salaries = ref([]);
 const apiCall = new ApiService();
-const formData = ref(useAddSalaryForm());
-const modal = ref();
+const loaded = ref(false);
 const tableHead = ref([
   { key: "sal_report.rep_code", title: "รหัสรายการ", align: "left" },
   { key: "sal_from_date", title: "วันเริ่มต้น", align: "center" },
@@ -93,6 +93,7 @@ const lastSalary = computed(() => {
 
 onMounted(async () => {
   salaries.value = await apiCall.getSalaryByInternId(internId);
+  loaded.value = true;
 });
 
 /*

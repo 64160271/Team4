@@ -39,7 +39,9 @@
       </BaseButton>
     </div>
 
-    <div class="row">
+    <Loading v-if="!loaded" />
+
+    <div v-if="loaded" class="row">
       <DataTable
         striped
         hover-background
@@ -302,6 +304,7 @@ const apiCall = new ApiService();
 const today = ref(new Date());
 const openModal = ref(false);
 const lvs_time = ref("hr");
+const loaded = ref(false);
 const formData = ref({
   lvs_type: "",
   lvs_reason: "",
@@ -350,6 +353,7 @@ onMounted(async () => {
   leavesInfo.value = await apiCall.getLeaveInfoByInternId(internId);
   internName.value = await useInternName().getName;
   internRole.value = await useInternName().getRole;
+  loaded.value = true;
 });
 
 /*

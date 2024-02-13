@@ -35,7 +35,9 @@
       </BaseButton>
     </div>
 
-    <div class="row">
+    <Loading v-if="!loaded" />
+
+    <div v-if="loaded" class="row">
       <DataTable
         striped
         :total="filterData.length"
@@ -184,6 +186,7 @@ const openModal = ref(false);
 const today = ref(new Date());
 const section = ref("");
 const dept = ref("");
+const loaded = ref(false);
 const tableHead = ref([
   { key: "doc_title", title: "ชื่อเอกสาร" },
   { key: "doc_mimetype", title: "ประเภทไฟล์" },
@@ -209,6 +212,7 @@ onMounted(async () => {
   documents.value = await apiCall.getDocumentByInternId(internId);
   dept.value = await useInternName().getDepartment;
   section.value = await useInternName().getSection;
+  loaded.value = true;
   // modal.value = new bootstrap.Modal("#modal", {});
 });
 
@@ -223,7 +227,7 @@ const filterData = computed(() => {
  * โชว์รูปภาพเอกสารในหน้าต่างใหม่
  * param: path ของรูปภาพ
  * return: -
-*/
+ */
 function showDocumentFile(path) {
   window.open(path);
 }
@@ -233,7 +237,7 @@ function showDocumentFile(path) {
  * จัดการเมื่อมีการกดปุ่มบันทึก
  * param: -
  * return: -
-*/
+ */
 async function formSubmit() {
   const validate = await v$.value.$validate();
 
@@ -249,7 +253,7 @@ async function formSubmit() {
  * โชว์ชื่อของรูปภาพ
  * param: --
  * return: -
-*/
+ */
 function showFileName() {
   const imgUpload = document.getElementById("file-upload");
 
@@ -263,7 +267,7 @@ function showFileName() {
  * การลบเอกสาร
  * param: data
  * return: -
-*/
+ */
 async function deleteDocument(data) {
   const result = await confirmation(
     `ยืนยันการลบข้อมูลเอกสาร "${data.doc_title}" หรือไม่`
