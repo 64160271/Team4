@@ -55,6 +55,7 @@
 
     <div class="row" v-if="loaded">
       <DataTable
+        hover-background
         striped
         :heads="tableHead"
         :items="interns"
