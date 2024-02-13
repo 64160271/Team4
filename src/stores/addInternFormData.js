@@ -11,6 +11,7 @@ const ageFeedback = 'อายุขั้นต่ำ 18 ปี'
 
 const requiredThai = helpers.regex(/^[ก-์]+$/)
 const requiredEng = helpers.regex(/^[a-zA-Z]*$/)
+
 const startWithZero = (value) => value[0] == '0'
 const checkAge = (value) => {
     if (value) {
