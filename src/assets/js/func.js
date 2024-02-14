@@ -265,6 +265,17 @@ export function slashDtoDashY(strDate) {
     return result
 }
 
+export function getCurrentThaiDate() {
+    const date = new Date();
+    const formatedDate = date.toLocaleDateString("th-TH", {
+        year: "numeric",
+        month: "long",
+        day: "2-digit",
+    });
+
+    return formatedDate
+}
+
 /* function convertToArrayBuffer(data) {
     let reader = new FileReader()
     let contentType = 'image/*'
