@@ -143,7 +143,7 @@
 import LayoutMenu from "./LayoutMenu.vue";
 import apiService from "../../services/api";
 import { useRoute, useRouter } from "vue-router";
-import { onMounted, ref, computed, getCurrentInstance } from "vue";
+import { onMounted, ref, computed } from "vue";
 import DataTable from "../Component/DataTable.vue";
 import CardInternInfo from "./CardInternInfo.vue";
 import BaseButton from "../Component/BaseButton.vue";
