@@ -46,7 +46,7 @@
     </tbody>
   </table>
 
-  <div class="row mt-2" :class="{ 'mb-2': !paginate }" v-if="total">
+  <div class="row mt-2 nopadding" :class="{ 'mb-2': !paginate }" v-if="total">
     <span class="col-md-5 nopadding">รายการทั้งหมด {{ total || 0 }} รายการ</span>
 
     <div class="col" v-if="paginate">
@@ -92,9 +92,7 @@
       </nav>
     </div>
 
-    <div class="col ms-auto">
       <slot name="bottom-right"></slot>
-    </div>
   </div>
 
   <div class="row" v-if="items.length < 1">

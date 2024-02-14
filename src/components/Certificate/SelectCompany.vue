@@ -15,7 +15,7 @@
             <template #after-title>
                 <div class="text-center">
                     <!-- <button class="col-auto btn btn_choose" @click="sentCompanyId(company.com_id)">เลือก</button> -->
-                    <BaseButton label="เลือก" @click="sentCompanyId(company.com_id)"/>
+                    <BaseButton class="col-md-6 mx-auto" label="เลือก" @click="sentCompanyId(company.com_id)"/>
                 </div>
             </template>
 
