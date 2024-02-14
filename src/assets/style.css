@@ -14,8 +14,8 @@
 
 :root {
     /* --main-color: #3f5a83; */
-    --main-color: #005fbc;
-    /* --main-color: #e1032b; */
+    /* --main-color: #005fbc; */
+    --main-color: #e1032b;
 }
 .custom-icon path {
     fill: var(--main-color) !important;
