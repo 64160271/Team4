@@ -1,89 +1,92 @@
 <template>
-    <LayoutMenuName backButton page-name="เอกสารรับรอง > บริษัท" />
+  <LayoutMenuName backButton page-name="เอกสารรับรอง > บริษัท" />
 
+  <SectionSpace>
     <div class="row mb-3 me-1">
-        <div class="col-md-5 my-auto">
-            <Search />
-        </div>
+      <div class="col-md-5 my-auto">
+        <Search />
+      </div>
     </div>
-
 
     <!-- Card -->
     <div class="row mt-3">
-        <BaseCard class="mb-4" v-for="company in companies" :title="company?.com_name" :sub="company.com_address?.addr_province"
-            :content="getAddress(company?.com_address)">
-            <template #after-title>
-                <div class="text-center">
-                    <!-- <button class="col-auto btn btn_choose" @click="sentCompanyId(company.com_id)">เลือก</button> -->
-                    <BaseButton label="เลือก" @click="sentCompanyId(company.com_id)"/>
-                </div>
-            </template>
-
-
-        </BaseCard>
+      <BaseCard
+        class="mb-4"
+        v-for="company in companies"
+        :title="company?.com_name"
+        :sub="company.com_address?.addr_province"
+        :content="getAddress(company?.com_address)"
+      >
+        <template #after-title>
+          <div class="text-center">
+            <!-- <button class="col-auto btn btn_choose" @click="sentCompanyId(company.com_id)">เลือก</button> -->
+            <BaseButton label="เลือก" @click="sentCompanyId(company.com_id)" />
+          </div>
+        </template>
+      </BaseCard>
     </div>
+  </SectionSpace>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import BaseCard from '../Component/BaseCard.vue';
-import BaseButton from '../Component/BaseButton.vue';
+import { ref, onMounted } from "vue";
+import axios from "axios";
+import BaseCard from "../Component/BaseCard.vue";
+import BaseButton from "../Component/BaseButton.vue";
 import router from "@/router";
-import Search from '../Component/SearchBox.vue';
+import Search from "../Component/SearchBox.vue";
 
-const companies = ref([])
+const companies = ref([]);
 
 const getCompany = async () => {
-    await axios.get(`${import.meta.env.VITE_API_HOST}/companies/address`)
-        .then((response) => {
-            companies.value = response.data
-        })
-}
+  await axios
+    .get(`${import.meta.env.VITE_API_HOST}/companies/address`)
+    .then((response) => {
+      companies.value = response.data;
+    });
+};
 
 onMounted(() => {
-    getCompany()
-})
+  getCompany();
+});
 
 function sentCompanyId(id) {
-    router.push({
-        name: 'selectSignature',
-        params: {
-            companyId: id
-        }
-    })
+  router.push({
+    name: "selectSignature",
+    params: {
+      companyId: id,
+    },
+  });
 }
 
-
 function getAddress(address) {
-    let result = `${address?.addr_house_number || ''} 
-    ${address?.addr_village_number  || ''}
-    ${address?.addr_alley  || ''}
-    ${address?.addr_street  || ''} ${address?.addr_subdistrict}
-    ${address?.addr_district} ${address?.addr_province} ${address?.addr_post_code}`
-    return result
+  let result = `${address?.addr_house_number || ""} 
+    ${address?.addr_village_number || ""}
+    ${address?.addr_alley || ""}
+    ${address?.addr_street || ""} ${address?.addr_subdistrict}
+    ${address?.addr_district} ${address?.addr_province} ${address?.addr_post_code}`;
+  return result;
 }
 </script>
 
 <style scoped>
 .back {
-    display: flex;
-    margin-right: 10px;
-    margin-bottom: 20px;
+  display: flex;
+  margin-right: 10px;
+  margin-bottom: 20px;
 }
 
 .search {
-    background-color: #8d969b30 !important;
+  background-color: #8d969b30 !important;
 }
 
 .btn_choose {
-    border: 1px solid black;
-    color: black;
-
+  border: 1px solid black;
+  color: black;
 }
 
 .btn_choose:hover {
-    border: 1px solid var(--main-color);
-    /* color: var(--main-color); */
+  border: 1px solid var(--main-color);
+  /* color: var(--main-color); */
 }
 </style>
