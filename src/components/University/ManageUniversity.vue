@@ -3,7 +3,7 @@ import SectionSpace from '../Component/SectionSpace.vue';
   <LayoutMenuName page-name="จัดการมหาวิทยาลัย" />
 
   <SectionSpace>
-    <div class="row mb-4">
+    <div class="row mb-4 nopadding">
       <div class="col-md-3 my-auto">
         <SearchBox v-model="searchData" class="my-auto" />
       </div>
