@@ -3,6 +3,22 @@ import { required, minValue, email, integer, helpers } from "@vuelidate/validato
 import { getAge, formatDate } from "../assets/js/func";
 import { slashDtoDashY } from "../assets/js/func";
 
+const thaiFeedback = 'ข้อมูลต้องเป็นภาษาไทยเท่านั้น'
+const numberFeedback = 'ข้อมูลต้องเป็นตัวเลขเท่านั้น'
+const engFeedback = 'ข้อมูลต้องเป็นภาษาอังกฤษเท่านั้น'
+const emailFeedback = 'ข้อมูลต้องอยู่ในรูปแบบอีเมล'
+const ageFeedback = 'อายุขั้นต่ำ 18 ปี'
+
+const requiredThai = helpers.regex(/^[ก-์]+$/)
+const requiredEng = helpers.regex(/^[a-zA-Z]*$/)
+const startWithZero = (value) => value[0] == '0'
+const checkAge = (value) => {
+    if (value) {
+        return (getAge(value) > 18)
+    }
+    return true
+}
+
 export const useInternFormData = defineStore("internFormData", {
     state: () => {
         return {
@@ -133,42 +149,7 @@ export const useInternFormData = defineStore("internFormData", {
             Object.assign(this, defaultState);
         }
     },
-
-    getters: {
-        getStartDate() {
-            return this.personal_info.intn_start_date
-        },
-    }
 });
-
-
-const thaiFeedback = 'ข้อมูลต้องเป็นภาษาไทยเท่านั้น'
-const numberFeedback = 'ข้อมูลต้องเป็นตัวเลขเท่านั้น'
-const engFeedback = 'ข้อมูลต้องเป็นภาษาอังกฤษเท่านั้น'
-const emailFeedback = 'ข้อมูลต้องอยู่ในรูปแบบอีเมล'
-const ageFeedback = 'อายุขั้นต่ำ 18 ปี'
-const citizenFeedback = ['ข้อมูลควรเป็นตัวเลขหรือตัวอักษรเท่านั้น', 'ข้อมูลควรมีความยาว 7-9 หรือ 13 ตัวอักษร']
-const afterStartFeedback = 'ไม่สามารถเลือกก่อนวันเริ่มต้นฝึกงานได้'
-
-const dateAfterStart = (v) => {
-    if (v) {
-        let date = useInternFormData().getStartDate
-        console.log(date)
-        return (v > date)
-    }
-    return true
-}
-const citizenLength = (v) => v ? (v.length == 13 || v.length == 7 || v.length == 8 || v.length == 9) : true
-const engAndNumber = helpers.regex(/^[a-zA-Z0-9]*$/) 
-const requiredThai = helpers.regex(/^[ก-์]+$/)
-const requiredEng = helpers.regex(/^[a-zA-Z]*$/)
-const startWithZero = (value) => value[0] == '0'
-const checkAge = (value) => {
-    if (value) {
-        return (getAge(value) > 18)
-    }
-    return true
-}
 
 export const addInternFormRules =  {
     personal_info: {
@@ -213,21 +194,8 @@ export const addInternFormRules =  {
         intn_birth_date: {
             checkAge: helpers.withMessage(ageFeedback, checkAge)
         },
-        intn_citizen_id: {
-            engAndNumber: helpers.withMessage(citizenFeedback[0], engAndNumber),
-            citizenLength: helpers.withMessage(citizenFeedback[1], citizenLength)
-        },
         intn_start_date: { required },
-        intn_last_work_date: {
-            dateAfterStart: helpers.withMessage(afterStartFeedback, dateAfterStart)
-        },
-        intn_end_date: {
-            dateAfterStart: helpers.withMessage(afterStartFeedback, dateAfterStart)
-        },
-        intn_contract_end_date: { 
-            required,
-            dateAfterStart: helpers.withMessage(afterStartFeedback, dateAfterStart)
-        },
+        intn_contract_end_date: { required },
         intn_intern_type: { required },
         intn_major_id: { required },
     },

@@ -12,7 +12,7 @@
         <div class="row nopadding border-bottom">
           <div class="col-md-3 my-auto text-center">
                 <div class="mb-4">
-                  <img id="blah" :src="intern?.intn_image_path || '../../src/assets/images/person-nm.png'" alt="" class="img bg-grays-200" />
+                <img id="blah" :src="intern?.intn_image_path" alt="" class="img bg-grays-200" />
 
                 </div>
 
@@ -531,11 +531,9 @@
                 v-model="personalInfo.intn_end_date"
                 type="date"
                 class="form-control"
-                :class="{ 'is-invalid': v$.personal_info.intn_end_date.$error }"
               />
-              <InvalidFeedback :errors="v$.personal_info.intn_end_date.$errors" />
             </div>
-
+  
             <div class="col">
               <label for="" class="form-label text-gray">วันสุดท้ายที่มาทำงาน</label>
               <input
@@ -543,22 +541,16 @@
                 v-model="personalInfo.intn_last_work_date"
                 type="date"
                 class="form-control"
-                :class="{ 'is-invalid': v$.personal_info.intn_last_work_date.$error }"
               />
-              <InvalidFeedback :errors="v$.personal_info.intn_last_work_date.$errors" />
             </div>
   
             <div class="col">
-              <BaseInput
-                label="วันที่สิ้นสุดสัญญา"
+              <label for="" class="form-label text-gray">วันที่สิ้นสุดสัญญา</label>
+              <input
                 id="contractend"
                 v-model="personalInfo.intn_contract_end_date"
                 type="date"
-                :class="{ 'is-invalid': v$.personal_info.intn_contract_end_date.$error }"
-                required
-              />
-              <InvalidFeedback
-                :errors="v$.personal_info.intn_contract_end_date.$errors"
+                class="form-control"
               />
             </div>
           </div>
@@ -1005,18 +997,6 @@
   .bg-grays-200 {
     background-color: #8d969b30 !important;
   }
-
-  input:focus {
-  transition: 0s;
-  box-shadow: none;
-  border: 2px solid rgb(0, 119, 255);
-}
-
-select:focus {
-  transition: 0s;
-  box-shadow: none;
-  border: 2px solid rgb(0, 119, 255);
-}
   
   .img {
     height: 150px;
