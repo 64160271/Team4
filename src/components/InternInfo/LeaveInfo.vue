@@ -278,7 +278,7 @@ import Radio from "../Component/Radio.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
 import { useLeavesType } from "../../stores/constData";
 import { useInternName } from "../../stores/constData";
-import { diffDate, slashDtoDashY } from "../../assets/js/func";
+import { diffDate, slashDtoDashY, getCurrentThaiDate } from "../../assets/js/func";
 import SideLabelInput from "../Component/SideLabelInput.vue";
 import useVuelidate from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
@@ -292,7 +292,7 @@ const leavesType = ref(useLeavesType);
 const internId = useRoute().params.id;
 const leavesInfo = ref([]);
 const apiCall = new apiService();
-const today = ref(new Date());
+const today = ref(getCurrentThaiDate());
 const openModal = ref(false);
 const lvs_time = ref("hr");
 const formData = ref({
