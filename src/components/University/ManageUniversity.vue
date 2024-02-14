@@ -10,7 +10,7 @@
 
   <SectionSpace>
     <div class="row mb-4 nopadding">
-      <div class="col-md-3 my-auto">
+      <div class="nopadding col-md-3 my-auto">
         <SearchBox placeholder="ค้นหาชื่อมหาวิทยาลัย" v-model="searchData" class="my-auto" />
       </div>
 

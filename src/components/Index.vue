@@ -59,6 +59,7 @@
         :heads="tableHead"
         :items="interns"
         hovers
+        hover-background
         clickable
         clickReturn="intn_id"
         @clicked="handleClick"

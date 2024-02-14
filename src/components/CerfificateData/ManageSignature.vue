@@ -10,7 +10,7 @@
 
   <SectionSpace>
     <div class="row mb-4 nopadding">
-      <div class="col-md-4 my-auto">
+      <div class="nopadding col-md-4 my-auto">
         <SearchBox placeholder="ชื่อเจ้าของลายเซ็น ตำแหน่ง" v-model="searchData" />
       </div>
 
