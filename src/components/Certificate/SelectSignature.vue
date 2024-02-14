@@ -13,25 +13,22 @@
 
     <!-- Modal -->
     <div class="row mt-3">
-      <BaseCard
-        class="mb-4"
-        v-for="signature in signatures"
-        :title="getName(signature)"
-        :sub="signature?.sign_role"
-        content=""
-      >
-        <template #before-title>
-          <div class="text-center mb-4">
-            <img width="100" height="100" :src="signature?.sign_image_path" />
-          </div>
-        </template>
-        <template #after-title>
-          <div class="text-center">
-            <!-- <button class="col-auto btn btn_choose" @click="sentCompanyId(signature.sign_id)">เลือก</button> -->
-            <BaseButton label="เลือก" @click="sentCompanyId(signature.sign_id)" />
-          </div>
-        </template>
-      </BaseCard>
+        <BaseCard class="mb-4" v-for="signature in signatures" :title="getName(signature)" :sub="signature?.sign_role" content="">
+            <template #before-title>
+                <div class="text-center mb-4">
+                    <img width="100" height="100" :src="signature?.sign_image_path" />
+                </div>
+            </template>
+            <template #after-title>
+                <div class="text-center">
+                    <!-- <button class="col-auto btn btn_choose" @click="sentCompanyId(signature.sign_id)">เลือก</button> -->
+                    <BaseButton class="col-md-6 mx-auto" label="เลือก" @click="sentCompanyId(signature.sign_id)"/>
+                </div>
+            </template>
+
+        </BaseCard>
+
+
     </div>
   </SectionSpace>
 </template>

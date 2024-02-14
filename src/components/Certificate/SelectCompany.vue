@@ -10,20 +10,17 @@
 
     <!-- Card -->
     <div class="row mt-3">
-      <BaseCard
-        class="mb-4"
-        v-for="company in companies"
-        :title="company?.com_name"
-        :sub="company.com_address?.addr_province"
-        :content="getAddress(company?.com_address)"
-      >
-        <template #after-title>
-          <div class="text-center">
-            <!-- <button class="col-auto btn btn_choose" @click="sentCompanyId(company.com_id)">เลือก</button> -->
-            <BaseButton label="เลือก" @click="sentCompanyId(company.com_id)" />
-          </div>
-        </template>
-      </BaseCard>
+        <BaseCard class="mb-4" v-for="company in companies" :title="company?.com_name" :sub="company.com_address?.addr_province"
+            :content="getAddress(company?.com_address)">
+            <template #after-title>
+                <div class="text-center">
+                    <!-- <button class="col-auto btn btn_choose" @click="sentCompanyId(company.com_id)">เลือก</button> -->
+                    <BaseButton class="col-md-6 mx-auto" label="เลือก" @click="sentCompanyId(company.com_id)"/>
+                </div>
+            </template>
+
+
+        </BaseCard>
     </div>
   </SectionSpace>
 </template>

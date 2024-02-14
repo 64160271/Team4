@@ -1,11 +1,9 @@
 <template>
-  <LayoutMenuName page-name="เอกสารรับรองการฝึกงาน" />
-
-  <SectionSpace>
-    <div class="row mb-3 me-1">
-      <div class="col-md-3 my-auto nopadding">
-        <SearchBox v-model="searchData" @search="search" />
-      </div>
+    <LayoutMenuName page-name="เอกสารรับรองการฝึกงาน" />
+    <div class="row mb-3">
+        <div class="col-md-3 my-auto nopadding">
+            <SearchBox v-model="searchData" @search="search" />
+        </div>
 
       <div class="col-md-2 my-auto">
         <BaseSelect
@@ -52,9 +50,12 @@
         {{ changeTimestampToDate(data?.cer_created_at) }}
       </template>
 
-      <template #open_file="{ data }">
-        <Picture @click="openPDF(data?.cer_created_at, data?.cer_filename)"></Picture>
-      </template>
+    <div class="row">
+        <DataTable striped :heads="tableHead" :items="certificates" hover-background clickReturn="cer_id" @clicked="" paginate
+        :total="total" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
+        <template #created_at="{ data }">
+            {{ changeTimestampToDate(data?.cer_created_at) }}
+        </template>
 
       <!-- <template class="col-md-2" #download="{ data }">
             <Download @click="downloadPDF(data?.cer_created_at, data?.cer_filename)" />
@@ -63,8 +64,8 @@
       <!-- <template class="col-md-2" #delete>
             <Delete />
         </template> -->
-    </DataTable></SectionSpace
-  >
+    </DataTable>
+    </div>
 </template>
 
 <script setup>

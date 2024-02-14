@@ -1,41 +1,29 @@
 <template>
-  <LayoutMenuName backButton page-name="เอกสารรับรอง > เลือกรายชื่อนักศึกษาฝึกงาน" />
-
-  <SectionSpace>
-    <div class="row mb-3 me-1">
-      <div class="col-md-5 my-auto">
-        <Search />
-      </div>
+    <LayoutMenuName backButton page-name="เอกสารรับรอง > เลือกรายชื่อนักศึกษาฝึกงาน" />
+    <div class="row mb-3">
+        <div class="col-md-5 my-auto nopadding">
+            <Search />
+        </div>
     </div>
-    <div>
-      <DataTable
-        clickable
-        click-return="intn_id"
-        @clicked="checkRow"
-        :heads="tableHead"
-        :items="interns"
-        hovers
-        :total="total"
-      >
-        <template class="col-md-2" #intn_key="{ data }">
-          <input
-            type="checkbox"
-            :id="data?.intn_id"
-            :name="data?.intn_id"
-            @click="select_intern(data?.intn_id) && checkRow(data?.intn_id)"
-          />
-          <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
-        </template>
-      </DataTable>
 
-      <div class="row mb-3 mt-4 me-1">
-        <BaseButton
-          class="col-auto ms-auto"
-          label="ยืนยัน"
-          @click="sendToCreateCertificate()"
-        />
-      </div></div
-  ></SectionSpace>
+    <div class="row">
+
+        <DataTable striped clickable click-return="intn_id" @clicked="checkRow" :heads="tableHead" :items="interns"
+            hover-background :total="total">
+            <template #intn_key="{ data }">
+                <input :name="data?.intn_id" :id="data?.intn_id" type="checkbox"
+                    @click="select_intern(data?.intn_id) && checkRow(data?.intn_id)" class="form-check-input mt-2 p-2" />
+                <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
+            </template>
+
+            <template #bottom-right>
+                <div class="col-md-5 ms-auto text-end nopadding">
+                    <BaseButton class="" label="ยืนยันการออกเอกสารรับรอง" @click="sendToCreateCertificate()" />
+                </div>
+            </template>
+        </DataTable>
+
+    </div>
 </template>
 
 <script setup>
@@ -57,7 +45,7 @@ const signId = ref(route.params.signId);
 const total = ref();
 const page = ref(1);
 const pageMax = ref(1);
-const pageSize = 10;
+const pageSize = 10000;
 const interns = ref([]);
 
 // const index = 0;
@@ -94,26 +82,30 @@ function select_intern(id) {
 }
 
 async function sendToCreateCertificate() {
-  const result = await confirmation();
-  if (result) {
-    const data_id = {
-      intn_id: selected,
-      sign_id: signId.value,
-      com_id: companyId.value,
-    };
-    const response = await axios
-      .post(`${import.meta.env.VITE_API_HOST}/certificates`, data_id)
-      .then((response) => {
-        successAlert().then(() => {
-          router.push({ path: "/certificates" });
-        });
-      })
-      .catch((err) => {
-        errorAlert(err);
-      });
-    console.log(data_id);
-    console.log(response.data);
-  }
+    const result = await confirmation();
+    if (result) {
+        const data_id = {
+            intn_id: selected,
+            sign_id: signId.value,
+            com_id: companyId.value
+        }
+        const response = await axios.post(
+            `${import.meta.env.VITE_API_HOST}/certificates`,
+            data_id
+
+        ).then((response) => {
+            successAlert().then(() => {
+                router.push({ path: "/certificates" });
+            });
+        })
+            .catch((err) => {
+                errorAlert(err);
+            });
+        console.log(data_id);
+        console.log(response.data);
+
+    }
+
 
   // router.push({
   //     path: '/certificates/previewCertificate'
@@ -157,5 +149,10 @@ onMounted(async () => {
   display: flex;
   margin-right: 10px;
   margin-bottom: 20px;
+}
+
+input[type="checkbox"]:checked {
+  border: 1px solid green;
+  background-color: green;
 }
 </style>
