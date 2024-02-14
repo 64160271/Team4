@@ -1,6 +1,7 @@
 <template>
     <LayoutMenuName page-name="เอกสารรับรองการฝึกงาน" />
-    <div class="row mb-3">
+    <SectionSpace>
+        <div class="row mb-3">
         <div class="col-md-3 my-auto nopadding">
             <SearchBox v-model="searchData" @search="search" />
         </div>
@@ -33,39 +34,30 @@
       />
     </div>
 
-    <DataTable
-      :heads="tableHead"
-      :items="certificates"
-      hovers
-      clickable
-      clickReturn="cer_id"
-      @clicked=""
-      paginate
-      :total="total"
-      :active-page="page"
-      :items-per-page="pageSize"
-      @page-change="setCurrentPage"
-    >
-      <template #created_at="{ data }">
-        {{ changeTimestampToDate(data?.cer_created_at) }}
-      </template>
+    <Loading v-if="!loaded" />
 
-    <div class="row">
-        <DataTable striped :heads="tableHead" :items="certificates" hover-background clickReturn="cer_id" @clicked="" paginate
-        :total="total" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
-        <template #created_at="{ data }">
-            {{ changeTimestampToDate(data?.cer_created_at) }}
-        </template>
+    <div class="row" v-if="loaded">
+        <DataTable striped :heads="tableHead" :items="certificates" hover-background clickReturn="cer_id" @clicked=""
+            :total="certificates.length" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
+            <template #created_at="{ data }">
+                {{ changeTimestampToDate(data?.cer_created_at) }}
+            </template>
 
-      <!-- <template class="col-md-2" #download="{ data }">
-            <Download @click="downloadPDF(data?.cer_created_at, data?.cer_filename)" />
-        </template> -->
+            <template #open_file="{ data }">
+                <Picture @click="openPDF(data?.cer_created_at, data?.cer_filename)"></Picture>
+            </template>
 
-      <!-- <template class="col-md-2" #delete>
-            <Delete />
-        </template> -->
-    </DataTable>
+
+        <!-- <template class="col-md-2" #download="{ data }">
+                <Download @click="downloadPDF(data?.cer_created_at, data?.cer_filename)" />
+            </template> -->
+
+        <!-- <template class="col-md-2" #delete>
+                <Delete />
+            </template> -->
+        </DataTable>
     </div>
+    </SectionSpace>
 </template>
 
 <script setup>
@@ -73,22 +65,19 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import BaseButton from "../Component/BaseButton.vue";
 import DataTable from "../Component/DataTable.vue";
-import Download from "../icons/DownloadButton.vue";
 import SearchBox from "../Component/SearchBox.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import Picture from "../icons/PictureLogo.vue";
-import Delete from "../icons/DeleteButton.vue";
 import { changeTimestampToDate } from "../../assets/js/func";
 
 const tableHead = ref([
   { key: "cer_intern.intn_code", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
   { key: "cer_code", title: "ชื่อไฟล์", align: "center" },
-  { key: "cer_intern.work_infos[0].work_team.team_name", title: "ทีม", align: "center" },
+  { key: "cer_intern.work_infos[0].work_team.team_name", title: "ทีม" },
   {
     key: "cer_intern.intn_major.maj_faculty.fac_university.uni_name",
     title: "มหาวิทยาลัย",
-    align: "center",
   },
   { key: "created_at", title: "วันที่ออกเอกสาร", align: "center" },
   { key: "open_file", title: "เปิดไฟล์", align: "center" },
@@ -96,11 +85,13 @@ const tableHead = ref([
   // { key: "delete", title: "ลบ" },
 ]);
 const certificates = ref([]);
+const loaded = ref(false);
 
 const getAllCertificate = async () => {
   try {
     const response = await axios.get(`${import.meta.env.VITE_API_HOST}/certificates`);
     certificates.value = response.data;
+    loaded.value = true;
   } catch (error) {
     console.error("Error fetching certificates:", error);
   }

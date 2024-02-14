@@ -11,6 +11,8 @@
       </div>
     </div>
 
+    <Loading v-if="!loaded" />
+
     <!-- Modal -->
     <div class="row mt-3">
         <BaseCard class="mb-4" v-for="signature in signatures" :title="getName(signature)" :sub="signature?.sign_role" content="">
@@ -25,9 +27,9 @@
                     <BaseButton class="col-md-6 mx-auto" label="เลือก" @click="sentCompanyId(signature.sign_id)"/>
                 </div>
             </template>
-
         </BaseCard>
 
+        <NotFound v-if="signatures.length == 0 && loaded" />
 
     </div>
   </SectionSpace>
@@ -38,12 +40,13 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import BaseCard from "../Component/BaseCard.vue";
 import Search from "../Component/SearchBox.vue";
-import BaseButton from "../component/BaseButton.vue";
+import BaseButton from "../Component/BaseButton.vue";
 import { useRoute } from "vue-router";
 import router from "@/router";
 const route = useRoute();
 
 const signatures = ref([]);
+const loaded = ref(false)
 const id = ref(route.params.companyId);
 
 const getSignature = async () => {
@@ -52,6 +55,7 @@ const getSignature = async () => {
       `${import.meta.env.VITE_API_HOST}/signatures/company/${id.value}`
     );
     signatures.value = response.data;
+    loaded.value = true
   } catch (error) {
     console.error("Error fetching signatures:", error);
   }
@@ -83,9 +87,7 @@ onMounted(() => {
 });
 
 function getName(signature) {
-  let name = `${signature.sign_prefix}
-    ${signature.sign_fname}
-    ${signature.sign_lname}`;
+  let name = `${signature.sign_prefix}${signature.sign_fname} ${signature.sign_lname}`;
   return name;
 }
 </script>

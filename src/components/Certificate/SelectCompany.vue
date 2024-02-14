@@ -8,6 +8,8 @@
       </div>
     </div>
 
+    <Loading v-if="!loaded" />
+
     <!-- Card -->
     <div class="row mt-3">
         <BaseCard class="mb-4" v-for="company in companies" :title="company?.com_name" :sub="company.com_address?.addr_province"
@@ -34,12 +36,14 @@ import router from "@/router";
 import Search from "../Component/SearchBox.vue";
 
 const companies = ref([]);
+const loaded = ref(false)
 
 const getCompany = async () => {
   await axios
     .get(`${import.meta.env.VITE_API_HOST}/companies/address`)
     .then((response) => {
       companies.value = response.data;
+      loaded.value = true
     });
 };
 

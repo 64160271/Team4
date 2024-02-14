@@ -1,29 +1,34 @@
 <template>
     <LayoutMenuName backButton page-name="เอกสารรับรอง > เลือกรายชื่อนักศึกษาฝึกงาน" />
-    <div class="row mb-3">
-        <div class="col-md-5 my-auto nopadding">
-            <Search />
+    <SectionSpace>
+        <div class="row mb-3">
+            <div class="col-md-5 my-auto nopadding">
+                <Search />
+            </div>
         </div>
-    </div>
 
-    <div class="row">
+        <Loading v-if="!loaded" />
 
-        <DataTable striped clickable click-return="intn_id" @clicked="checkRow" :heads="tableHead" :items="interns"
-            hover-background :total="total">
-            <template #intn_key="{ data }">
-                <input :name="data?.intn_id" :id="data?.intn_id" type="checkbox"
-                    @click="select_intern(data?.intn_id) && checkRow(data?.intn_id)" class="form-check-input mt-2 p-2" />
-                <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
-            </template>
+        <div class="row" v-if="loaded">
 
-            <template #bottom-right>
-                <div class="col-md-5 ms-auto text-end nopadding">
-                    <BaseButton class="" label="ยืนยันการออกเอกสารรับรอง" @click="sendToCreateCertificate()" />
-                </div>
-            </template>
-        </DataTable>
+            <DataTable striped clickable click-return="intn_id" @clicked="checkRow" :heads="tableHead" :items="interns"
+                hover-background :total="total">
+                <template #intn_key="{ data }">
+                    <input :name="data?.intn_id" :id="data?.intn_id" type="checkbox"
+                        @click="select_intern(data?.intn_id) && checkRow(data?.intn_id)"
+                        class="form-check-input mt-2 p-2" />
+                    <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
+                </template>
 
-    </div>
+                <template #bottom-right>
+                    <div class="col-md-5 ms-auto text-end nopadding">
+                        <BaseButton class="" label="ยืนยันการออกเอกสารรับรอง" @click="sendToCreateCertificate()" />
+                    </div>
+                </template>
+            </DataTable>
+
+        </div>
+    </SectionSpace>
 </template>
 
 <script setup>
@@ -47,18 +52,19 @@ const page = ref(1);
 const pageMax = ref(1);
 const pageSize = 10000;
 const interns = ref([]);
+const loaded = ref(false)
 
 // const index = 0;
 const selected = [];
 
 const tableHead = ref([
-  { key: "intn_key", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
-  { key: "intn_name_th", title: "ชื่อ-นามสกุล" },
-  { key: "intn_nickname_th", title: "ชื่อเล่น" },
-  { key: "work_infos[0].work_role.role_name", title: "ตำแหน่ง" },
-  { key: "work_infos[0].work_team.team_name", title: "ทีม" },
-  { key: "intn_start_date", title: "วันที่เริ่มฝึกงาน" },
-  { key: "intn_end_date", title: "วันที่สิ้นสุดฝึกงาน" },
+    { key: "intn_key", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
+    { key: "intn_name_th", title: "ชื่อ-นามสกุล" },
+    { key: "intn_nickname_th", title: "ชื่อเล่น" },
+    { key: "work_infos[0].work_role.role_name", title: "ตำแหน่ง" },
+    { key: "work_infos[0].work_team.team_name", title: "ทีม" },
+    { key: "intn_start_date", title: "วันที่เริ่มฝึกงาน" },
+    { key: "intn_end_date", title: "วันที่สิ้นสุดฝึกงาน" },
 ]);
 
 // const props = defineProps({
@@ -66,19 +72,19 @@ const tableHead = ref([
 // })
 
 function checkRow(index) {
-  let checkbox = document.getElementById(index);
+    let checkbox = document.getElementById(index);
 
-  checkbox.click();
+    checkbox.click();
 }
 
 function select_intern(id) {
-  if (selected.indexOf(id) != -1) {
-    selected.splice([selected.indexOf(id)], 1);
-  } else {
-    selected.push(id);
-  }
+    if (selected.indexOf(id) != -1) {
+        selected.splice([selected.indexOf(id)], 1);
+    } else {
+        selected.push(id);
+    }
 
-  console.log(selected);
+    console.log(selected);
 }
 
 async function sendToCreateCertificate() {
@@ -107,52 +113,53 @@ async function sendToCreateCertificate() {
     }
 
 
-  // router.push({
-  //     path: '/certificates/previewCertificate'
-  // })
+    // router.push({
+    //     path: '/certificates/previewCertificate'
+    // })
 }
 
 async function setCurrentPage(pageNumber) {
-  if (pageNumber > 0 && pageNumber <= pageMax.value) {
-    page.value = pageNumber;
-    await getAllIntern();
-  }
+    if (pageNumber > 0 && pageNumber <= pageMax.value) {
+        page.value = pageNumber;
+        await getAllIntern();
+    }
 }
 const getAllIntern = async () => {
-  const params = {
-    page: page.value,
-    limit: pageSize,
-  };
-  const date = new Date();
+    const params = {
+        page: page.value,
+        limit: pageSize,
+    };
+    const date = new Date();
 
-  await axios
-    .get(`${import.meta.env.VITE_API_HOST}/interns?almost=${date}&noCertificate=true`, {
-      params,
-    })
-    .then((response) => {
-      interns.value = response.data.rows;
-      total.value = response.data.count;
-      pageMax.value = Math.ceil(total.value / pageSize);
-    });
+    await axios
+        .get(`${import.meta.env.VITE_API_HOST}/interns?almost=${date}&noCertificate=true`, {
+            params,
+        })
+        .then((response) => {
+            interns.value = response.data.rows;
+            total.value = response.data.count;
+            pageMax.value = Math.ceil(total.value / pageSize);
+            loaded.value = true
+        });
 };
 
 onMounted(async () => {
-  setCurrentPage(page.value);
-  console.log(signId.value);
-  console.log(companyId.value);
-  console.log(interns.value);
+    setCurrentPage(page.value);
+    console.log(signId.value);
+    console.log(companyId.value);
+    console.log(interns.value);
 });
 </script>
 
 <style scoped>
 .back {
-  display: flex;
-  margin-right: 10px;
-  margin-bottom: 20px;
+    display: flex;
+    margin-right: 10px;
+    margin-bottom: 20px;
 }
 
 input[type="checkbox"]:checked {
-  border: 1px solid green;
-  background-color: green;
+    border: 1px solid green;
+    background-color: green;
 }
 </style>

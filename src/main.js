@@ -14,6 +14,7 @@ import { LoadingPlugin } from 'vue-loading-overlay'
 import "vue-loading-overlay/dist/css/index.css"
 import SectionSpace from "./components/Component/SectionSpace.vue"
 import Loading from "./components/Component/Loading.vue"
+import NotFound from "./components/Component/NotFound.vue"
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedState)
@@ -28,4 +29,5 @@ createApp(App)
 .component('LayoutMenuName', LayoutMenuName)
 .component('SectionSpace', SectionSpace)
 .component('Loading', Loading)
+.component('NotFound', NotFound)
 .mount('#app')
