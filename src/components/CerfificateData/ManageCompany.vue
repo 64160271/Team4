@@ -7,15 +7,13 @@
 <template>
   <LayoutMenuName page-name="จัดการข้อมูลเอกสารรับรอง > บริษัท" />
   <SectionSpace>
-    <div class="header me-1">
-      <div class="bx_nav row">
+    <div class="header">
+      <div class="bx_nav row nopadding">
         <div class="col-md-4 my-auto">
           <SearchBox placeholder="ชื่อบริษัท สาขา" v-model="searchData" />
         </div>
 
-        <div class="col-auto ms-auto">
-          <BaseButton @click="openCreateModel = true" label="+ เพิ่มข้อมูล" />
-        </div>
+          <BaseButton class="col-md-2 ms-auto" @click="openCreateModel = true" label="+ เพิ่มข้อมูล" />
       </div>
 
       <BaseModal size="lg" v-if="openCreateModel" @save="submitForm" @close="openCreateModel = false"

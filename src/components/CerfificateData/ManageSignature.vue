@@ -2,7 +2,7 @@
   <LayoutMenuName page-name="จัดการข้อมูลลายเซ็น" />
 
   <SectionSpace>
-    <div class="row mb-4">
+    <div class="row mb-4 nopadding">
       <div class="col-md-4 my-auto">
         <SearchBox v-model="searchData" />
       </div>
