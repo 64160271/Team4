@@ -1,6 +1,6 @@
 <template>
     <LayoutMenuName page-name="เอกสารรับรองการฝึกงาน" />
-    <div class="row mb-3 me-1">
+    <div class="row mb-3">
         <div class="col-md-3 my-auto nopadding">
             <SearchBox v-model="searchData" @search="search" />
         </div>
@@ -18,7 +18,8 @@
     </div>
 
 
-    <DataTable :heads="tableHead" :items="certificates" hovers clickable clickReturn="cer_id" @clicked="" paginate
+    <div class="row">
+        <DataTable striped :heads="tableHead" :items="certificates" hover-background clickReturn="cer_id" @clicked="" paginate
         :total="total" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
         <template #created_at="{ data }">
             {{ changeTimestampToDate(data?.cer_created_at) }}
@@ -36,6 +37,7 @@
             <Delete />
         </template> -->
     </DataTable>
+    </div>
 </template>
 
 <script setup>

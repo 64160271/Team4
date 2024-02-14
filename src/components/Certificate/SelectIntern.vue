@@ -1,11 +1,12 @@
 <template>
     <LayoutMenuName backButton page-name="เอกสารรับรอง > เลือกรายชื่อนักศึกษาฝึกงาน" />
-    <div class="row mb-3 me-1">
-        <div class="col-md-5 my-auto">
+    <div class="row mb-3">
+        <div class="col-md-5 my-auto nopadding">
             <Search />
         </div>
     </div>
-    <div>
+
+    <div class="row">
 
         <DataTable clickable click-return="intn_id" @clicked="checkRow" :heads="tableHead" :items="interns" hovers
             :total="total">
