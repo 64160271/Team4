@@ -14,19 +14,34 @@
             </div>
         
     </div>
-    <BaseModal v-if="openModal" @save="formSubmit" @close="openModal = false" title="เพิ่มข้อมูล">
+    <BaseModal size="lg" v-if="openModal" @save="formSubmit" @close="openModal = false" title="เพิ่มข้อมูล">
         <div class="col mb-3">
-            <BaseInput v-model="formData.data_code" label="รหัสรายการ" input_type="text" required="required"
+            <BaseInput v-model="formData.rep_code" label="รหัสนักศึกษาฝึกงาน" input_type="text" required="required"
                 placeholder="xx/xxxx" />
         </div>
         <div class="col mb-3">
-            <BaseInput  label="วันที่สร้างรายการ" input_type="text" readonly="readonly" />
+            <BaseInput  label="ชื่อ-นามสกุล" input_type="text" readonly="readonly" />
         </div>
         <div class="col mb-3">
-            <BaseInput  label="วันที่สร้างรายการ" input_type="text" readonly="readonly" />
+            <BaseInput v-model="formData.sal_input_from_date" label="วันที่เริ่มต้น" input_type="date"  />
         </div>
         <div class="col mb-3">
-            <BaseInput v-model="formData.sal_input_from_date" label="ผู้ทำการแก้ไขข้อมูล" input_type="text" readonly="readonly" />
+            <BaseInput v-model="formData.sal_input_to_date" label="วันที่สิ้นสุด" input_type="date"  />
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col mb-3">
+                <BaseInput v-model="formData.sal_number_day" label="จำนวนวันทำงาน" input_type="number" required="required" />
+            </div>
+            <div class="col mb-3">
+                <BaseInput v-model="formData.sal_salaries" label="เบี้ยเลี้ยง :วัน" input_type="number" required="required" />
+            </div>
+            <div class="col mb-3">
+                <BaseInput v-model="formData.sal_salary_extra" label="เบี้ยเลี้ยงพิเศษ" input_type="number" required="required" />
+            </div>
+            <div class="col mb-3">
+                <BaseInput v-model="formData.sal_input_from_date" label="รวมเบี้ยเลี้ยง" input_type="text" readonly="readonly" />
+            </div>
         </div>
     </BaseModal>
 
@@ -62,6 +77,7 @@ import DeleteButton from '../icons/DeleteButton.vue'
 import { useRoute } from "vue-router"
 import ExcelIcon from '../icons/ExcelIcon.vue'
 import SideLabelInput from '../Component/SideLabelInput.vue'
+import router from "@/router";
 
 const route = useRoute()
 const openModal = ref(false)
@@ -71,6 +87,7 @@ const id = route.params.id
 
 
 const formData = ref({
+    sal_intn: "",
     rep_code: "",
     rep_updated_by: 1,
     sal_intn_code: "",
@@ -81,7 +98,6 @@ const formData = ref({
     sal_salaries: Number(0),
     sal_salary_extra: Number(0),
     sal_total_salary: Number(0),
-    sal_note: ""
 })
 
 const dataHead = ref([
@@ -121,7 +137,8 @@ function calculateSalary(day,salary, extra) {
 
 
 async function formSubmit() {
-    await axios.post(`${import.meta.env.VITE_API_HOST}/reports`, formData.value,)
+    await axios.post(`${import.meta.env.VITE_API_HOST}/salaries/createSalary`, formData.value,)
+    console.log(formData.value)
     router.go()
 }
 
