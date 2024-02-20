@@ -16,31 +16,31 @@
     </div>
     <BaseModal size="lg" v-if="openModal" @save="formSubmit" @close="openModal = false" title="เพิ่มข้อมูล">
         <div class="col mb-3">
-            <BaseInput v-model="formData.rep_code" label="รหัสนักศึกษาฝึกงาน" input_type="text" required="required"
+            <BaseInput v-model="formData.rep_intn_code" label="รหัสนักศึกษาฝึกงาน" input_type="text" required="required"
                 placeholder="xx/xxxx" />
         </div>
         <div class="col mb-3">
             <BaseInput  label="ชื่อ-นามสกุล" input_type="text" readonly="readonly" />
         </div>
         <div class="col mb-3">
-            <BaseInput v-model="formData.sal_input_from_date" label="วันที่เริ่มต้น" input_type="date"  />
+            <BaseInput v-model="formData.sal_from_date" label="วันที่เริ่มต้น" input_type="date"  />
         </div>
         <div class="col mb-3">
-            <BaseInput v-model="formData.sal_input_to_date" label="วันที่สิ้นสุด" input_type="date"  />
+            <BaseInput v-model="formData.sal_to_date" label="วันที่สิ้นสุด" input_type="date"  />
         </div>
         <hr>
         <div class="row">
             <div class="col mb-3">
-                <BaseInput v-model="formData.sal_number_day" label="จำนวนวันทำงาน" input_type="number" required="required" />
+                <BaseInput v-model="formData.sal_day" label="จำนวนวันทำงาน" input_type="number" required="required" />
             </div>
             <div class="col mb-3">
-                <BaseInput v-model="formData.sal_salaries" label="เบี้ยเลี้ยง :วัน" input_type="number" required="required" />
+                <BaseInput v-model="formData.sal_salary" label="เบี้ยเลี้ยง :วัน" input_type="number" required="required" />
             </div>
             <div class="col mb-3">
-                <BaseInput v-model="formData.sal_salary_extra" label="เบี้ยเลี้ยงพิเศษ" input_type="number" required="required" />
+                <BaseInput v-model="formData.sal_extra" label="เบี้ยเลี้ยงพิเศษ" input_type="number" required="required" />
             </div>
             <div class="col mb-3">
-                <BaseInput v-model="formData.sal_input_from_date" label="รวมเบี้ยเลี้ยง" input_type="text" readonly="readonly" />
+                <BaseInput v-model="formData.sal_total_salary" label="รวมเบี้ยเลี้ยง" input_type="text" readonly="readonly" />
             </div>
         </div>
     </BaseModal>
@@ -88,15 +88,16 @@ const id = route.params.id
 
 const formData = ref({
     sal_intn: "",
-    rep_code: "",
-    rep_updated_by: 1,
+    rep_intn_code: "",
+    sal_updated_by: 1,
+    sal_report_id: id,
     sal_intn_code: "",
     sal_intn_name: "",
-    sal_input_from_date: "",
-    sal_input_to_date: "",
-    sal_number_day: Number(0),
-    sal_salaries: Number(0),
-    sal_salary_extra: Number(0),
+    sal_from_date: "",
+    sal_to_date: "",
+    sal_day: Number(0),
+    sal_salary: Number(0),
+    sal_extra: Number(0),
     sal_total_salary: Number(0),
 })
 
@@ -139,6 +140,7 @@ function calculateSalary(day,salary, extra) {
 async function formSubmit() {
     await axios.post(`${import.meta.env.VITE_API_HOST}/salaries/createSalary`, formData.value,)
     console.log(formData.value)
+    console.log(124)
     router.go()
 }
 
@@ -151,7 +153,7 @@ function formatDate(date){
     let year = parseInt(split[0]) + 543
     let month = split[1]
     let day = split[2]
-    console.log(day)
+    
     return `${day}-${month}-${year}`
 }
 
