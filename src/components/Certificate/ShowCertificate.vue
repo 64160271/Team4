@@ -2,7 +2,7 @@
     <LayoutMenuName page-name="เอกสารรับรองการฝึกงาน" />
     <div class="row mb-3">
         <div class="col-md-5 my-auto nopadding">
-            <Search />
+            <Search v-model="searchData" @search="search" />
         </div>
 
         <div class="col-md-2 my-auto">
@@ -11,7 +11,7 @@
         </div>
 
         <div class="col-md-2 my-auto nopadding">
-            <BaseInput placeholder="วันที่เริ่มต้นฝึกงาน" @change="setCurrentPage(1)" v-model="startDate"
+            <BaseInput placeholder="วันออกเอกสารรับรอง" @change="setCurrentPage(1)" v-model="cerCreate"
                 onfocus="(this.type='date')" onblur="(this.type='text')" />
         </div>
         <BaseButton class="col-auto ms-auto" @click="$router.push('/certificates/selectCompany')" label="ออกเอกสารรับรอง" />
@@ -20,7 +20,8 @@
 
     <div class="row">
         <DataTable striped clickable clickReturn="cer_id" @clicked="checkRow" :heads="tableHead" :items="certificates"
-            hover-background>
+            hover-background :total="certificates.length" paginate :active-page="page" :items-per-page="pageSize"
+            @page-change="setCurrentPage">
 
             <template #cer_key="{ data }">
                 <input :name="data?.cer_id" :id="data?.cer_id" type="checkbox"
@@ -33,12 +34,12 @@
             </template>
 
             <template #open_file="{ data }">
-                <Picture @click="openPDF(data?.cer_created_at, data?.cer_filename)"></Picture>
+                <Picture @click="downloadPDF(data?.cer_created_at, data?.cer_filename)"></Picture>
             </template>
 
             <template #bottom-right>
                 <div class="col-md-5 ms-auto text-end nopadding">
-                    <BaseButton class="" label="ดาวน์โหลดเอกสาร" @click="sendToDownload()" />
+                    <BaseButton class="" label="ดาวน์โหลดเอกสารที่เลือก" @click="sendToDownload()" />
                 </div>
             </template>
 
@@ -59,6 +60,7 @@ import BaseInput from "../Component/BaseInput.vue";
 import Picture from "../icons/PictureLogo.vue";
 import Delete from '../icons/DeleteButton.vue';
 import { useRoute } from 'vue-router';
+import apiService from "../../services/api";
 import router from "@/router";
 import { confirmation, successAlert, errorAlert, changeTimestampToDate } from "../../assets/js/func";
 
@@ -82,7 +84,14 @@ const pageMax = ref(1);
 const pageSize = 10000;
 const certificates = ref([])
 const selected = [];
-
+let validate = ref(false);
+const sentYear = [];
+const sentName = [];
+const team_id = ref();
+const cerCreate = ref("");
+const searchData = ref("");
+const teams = ref([]);
+let timer;
 
 function checkRow(index) {
     let checkbox = document.getElementById(index);
@@ -90,6 +99,15 @@ function checkRow(index) {
     checkbox.click();
 }
 
+function search() {
+  if (timer) {
+    clearTimeout(timer);
+  }
+
+  timer = setTimeout(() => {
+    setCurrentPage(1);
+  }, 500);
+}
 
 function select_certificate(id) {
     if (selected.indexOf(id) != -1) {
@@ -104,28 +122,34 @@ function select_certificate(id) {
 }
 
 async function sendToDownload() {
-    const result = await confirmation();
-    if (result) {
-        const data_id = {
-            cer_id: selected,
-
-        }
-        const response = await axios.post(
-            `${import.meta.env.VITE_API_HOST}/certificates`,
-            data_id
-
-        ).then((response) => {
-            successAlert().then(() => {
-                // router.push({ path: "/certificates" });
-            });
-        })
-            .catch((err) => {
-                errorAlert(err);
-            });
-        console.log(data_id);
-        console.log(response.data);
-
+    if (selected.length == 0) {
+        validate.value = false
+        errorAlert("กรุณาเลือกอย่างน้อย 1 ข้อมูล")
+        return
     }
+    const result = await confirmation();
+
+    // if (result) {
+    //     const data_id = {
+    //         cer_id: selected,
+
+    //     }
+    //     const response = await axios.post(
+    //         `${import.meta.env.VITE_API_HOST}/certificates/download`,
+    //         data_id
+
+    //     ).then((response) => {
+    //         successAlert().then(() => {
+    //             // router.push({ path: "/certificates" });
+    //         });
+    //     })
+    //         .catch((err) => {
+    //             errorAlert(err);
+    //         });
+    //     console.log(data_id);
+    //     console.log(response.data);
+
+    // }
 
 }
 
@@ -147,28 +171,36 @@ const getAllCertificate = async () => {
     const params = {
         page: page.value,
         limit: pageSize,
+        team_id: team_id.value || undefined,
+        filter: searchData.value || undefined,
+        cer_created_at: cerCreate.value || undefined,
     };
     // const date = new Date();
 
     await axios
         .get(`${import.meta.env.VITE_API_HOST}/certificates`, { params })
         .then((response) => {
-            certificates.value = response.data;
+            certificates.value = response.data.rows;
             total.value = response.data.count;
             pageMax.value = Math.ceil(total.value / pageSize);
         });
 };
 
 async function setCurrentPage(pageNumber) {
+
     if (pageNumber > 0 && pageNumber <= pageMax.value) {
         page.value = pageNumber;
-        await getAllCertificate();
     }
+
+    await getAllCertificate();
+
 }
 
 async function downloadPDF(year, cerFilename) {
-    window.open(`${import.meta.env.VITE_API_HOST}/certificates/${changeTimestampToYear(year)}/${cerFilename}`)
+    const pdfURL = `${import.meta.env.VITE_API_HOST}/certificates/${changeTimestampToYear(year)}/${cerFilename}`;
+    window.open(pdfURL, '_blank');
 }
+
 
 async function openPDF(year, cerFilename) {
     window.open(`${import.meta.env.VITE_API_HOST}/certificates/${changeTimestampToYear(year)}/${cerFilename}`)
@@ -192,8 +224,9 @@ function changeTimestampToYear(value) {
 }
 
 onMounted(async () => {
-    getAllCertificate();
-    // setCurrentPage(page.value);
+    setCurrentPage(page.value);
+  let service = new apiService();
+  teams.value = await service.getAllTeam();
 })
 
 

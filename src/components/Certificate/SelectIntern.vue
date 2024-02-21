@@ -50,7 +50,7 @@ const interns = ref([]);
 
 // const index = 0;
 const selected = [];
-
+let validate = ref(false);
 
 
 const tableHead = ref([
@@ -88,6 +88,12 @@ function select_intern(id) {
 }
 
 async function sendToCreateCertificate() {
+    console.log(selected)
+    if(selected.length == 0){
+        validate.value = false
+        errorAlert("กรุณาเลือกอย่างน้อย 1 ข้อมูล")
+        return
+    }
     const result = await confirmation();
     if (result) {
         const data_id = {
