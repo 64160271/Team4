@@ -31,16 +31,16 @@
         <hr>
         <div class="row">
             <div class="col mb-3">
-                <BaseInput v-model="formData.sal_day" label="จำนวนวันทำงาน" input_type="number" required="required" />
+                <BaseInput v-model="formData.sal_day" label="จำนวนวันทำงาน" @input="calculateSalary(formData.sal_day,formData.sal_salary,formData.sal_extra)" input_type="number" required="required" />
             </div>
             <div class="col mb-3">
-                <BaseInput v-model="formData.sal_salary" label="เบี้ยเลี้ยง :วัน" input_type="number" required="required" />
+                <BaseInput v-model="formData.sal_salary" label="เบี้ยเลี้ยง :วัน" @input="calculateSalary(formData.sal_day,formData.sal_salary,formData.sal_extra)" input_type="number" required="required" />
             </div>
             <div class="col mb-3">
-                <BaseInput v-model="formData.sal_extra" label="เบี้ยเลี้ยงพิเศษ" input_type="number" required="required" />
+                <BaseInput v-model="formData.sal_extra" label="เบี้ยเลี้ยงพิเศษ" @input="calculateSalary(formData.sal_day,formData.sal_salary,formData.sal_extra)" input_type="number" required="required" />
             </div>
             <div class="col mb-3">
-                <BaseInput v-model="formData.sal_total_salary" label="รวมเบี้ยเลี้ยง" input_type="text" readonly="readonly" />
+                <BaseInput :value="formData.sal_total_salary" @input="calculateSalary(formData.sal_day,formData.sal_salary,formData.sal_extra)" label="รวมเบี้ยเลี้ยง" input_type="text" readonly="readonly" />
             </div>
         </div>
     </BaseModal>
@@ -132,7 +132,7 @@ function calculateSalary(day,salary, extra) {
 
     let result = day * salary + extra;
 
-    return result;
+    return formData.value.sal_total_salary = result;
 }
 
 
