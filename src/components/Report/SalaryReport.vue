@@ -135,7 +135,7 @@ import BaseTable from '@/components/Component/BaseTable.vue';
 import DataTable from "../Component/DataTable.vue";
 import BaseSelect from "../Component/BaseSelect.vue"
 import apiService from "../../services/api";
-
+import { Bar } from 'vue-chartjs';
 
 const selectOptionYear = ref()
 const selectOptionTeam = ref()
