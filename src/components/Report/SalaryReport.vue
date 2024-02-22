@@ -24,8 +24,8 @@
     </div>
 
 
-    <DataTable :heads="tableHeadYear"></DataTable>
-    <!-- <DataTable :heads="tableHeadYearAndTeam"></DataTable> -->
+    <!-- <DataTable :heads="tableHeadYear"></DataTable>
+    
 
     <BaseTable :heads="tableHeads" v-if="viewType == 1" >
         <tr class="tb-hov tr-custom">
@@ -124,7 +124,7 @@
             <td class="text-center">2</td>
             <td class="text-center">3,000</td>
         </tr>
-    </BaseTable>
+    </BaseTable> -->
 
     
 </template>
@@ -140,23 +140,6 @@ import apiService from "../../services/api";
 const selectOptionYear = ref()
 const selectOptionTeam = ref()
 const viewType = ref(1)
-const tableHeadYear = ref([
-    { key: 'team', title: 'ทีม', align: 'center' },
-    { key: 'jobDate', title: 'จำนวนวันทำงาน', align: 'center' },
-    { key: 'stuNumber', title: 'จำนวนนักศึกษา' , align: 'center'},
-    { key: 'Allowance', title: 'เบี้ยเลี้ยงทั้งหมด' , align: 'center'},
-    { key: 'specialAllowance', title: 'เบี้ยเลี้ยงพิเศษทั้งหมด' , align: 'center'},
-    { key: 'total', title: 'ยอดรวม' }
-])
-
-const tableHeadYearAndTeam = ref([
-    { key: 'team', title: 'ทีม', align: 'center' },
-    { key: 'jobDate', title: 'จำนวนวันทำงาน', align: 'center' },
-    { key: 'stuNumber', title: 'จำนวนนักศึกษา' , align: 'center'},
-    { key: 'Allowance', title: 'เบี้ยเลี้ยงทั้งหมด' , align: 'center'},
-    { key: 'specialAllowance', title: 'เบี้ยเลี้ยงพิเศษทั้งหมด' , align: 'center'},
-    { key: 'total', title: 'ยอดรวม' }
-])
 
 function testswitch() {
     const selectedOption = document.querySelector('input[name="radiotest"]:checked').value;
@@ -179,9 +162,7 @@ const listTeam = ref(['Team1','Team2','Team3','Team4','Team5','Team6'
                         ,'Team7','Team8','Team9','Team10','Team11','Team12'])
 const apiCall = new apiService();
 
-onMounted(async() => {
-    Te
-}),
+
 </script>
 
 <style scoped></style>
