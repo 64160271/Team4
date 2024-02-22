@@ -2,7 +2,7 @@
     <div class="mx-auto" style="width: 85%">
         <div class="row border-bottom">
             <div class="col-auto">
-                <img id="blah" :src="intern?.intn_image_path" alt="" class="img bg-grays-200" />
+                <img id="blah" :src="intern.intn_image_path || '../../src/assets/images/person-nm.png'" alt="" class="img bg-grays-200" />
             </div>
 
             <div class="col align-self-center ms-5 mb-2">
@@ -17,7 +17,7 @@
                             readonly required />
                     </div>
 
-                    <label for="" class="col-md-2 col-form-label text-gray"> สถานะพนักงาน </label>
+                    <label for="" class="col-md-2 col-form-label text-gray"> สถานะการฝึกงาน </label>
                     <div class="col">
                         <input v-model="intern.intn_work_status" placeholder="-" type="text"
                             class="form-control-plaintext" readonly required />
@@ -438,5 +438,9 @@
     .border-bottom {
         border-color: var(--main-color) !important;
         margin-bottom: 12px;
+    }
+
+    label {
+        font-weight: bold !important;
     }
 </style>

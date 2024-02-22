@@ -22,6 +22,7 @@
     v-bind="$attrs"
    >
     <option disabled selected v-if="setDefault && firstOptionType != null" value="">{{ placeholder }}</option>
+    <option v-if="allSelect" value="">ทั้งหมด</option>
     <option 
      v-if="firstOptionType == 'object'"
      v-for="option in options" 
@@ -71,6 +72,10 @@ const props = defineProps({
     type: String,
     default: "เลือก",
   },
+  allSelect: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 /*
@@ -93,4 +98,20 @@ const firstOptionType = computed(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+select:focus {
+  transition: 0s;
+  box-shadow: none !important;
+  border: 2px solid rgb(0, 119, 255) !important;
+}
+
+.is-invalid:focus {
+  transition: 0s;
+  box-shadow: none;
+  border: 2px solid red !important;
+}
+
+/* select {
+  border: 1px solid rgba(0, 0, 0, 0.575)
+} */
+</style>

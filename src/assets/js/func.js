@@ -95,11 +95,11 @@ export async function successAlert(str) {
     })
 }
 
-export async function errorAlert(message) {
+export async function errorAlert(message, noDelay=false) {
     await Swal.fire({
         icon: "error",
         text: message,
-        timer: 3000
+        timer: noDelay ? undefined : 3000
     })
 
     return
@@ -155,17 +155,21 @@ export function diffDate(from, to) {
 }
 
 export function diffTime(from, to) {
-    var from = new Date(2000, 0, 1, 9, 0); // 9:00 AM
-    var to = new Date(2000, 0, 1, 17, 0); // 5:00 PM
+    if (!from || !to) return 0
+
+    var fromDate = new Date(`2000-01-01T${from}Z`); // 9:00 AM
+    var toDate = new Date(`2000-01-01T${to}Z`); // 5:00 PM
 
     // the following is to handle cases where the times are on the opposite side of
     // midnight e.g. when you want to get the difference between 9:00 PM and 5:00 AM
 
-    if (to < from) {
-        to.setDate(to.getDate() + 1);
+    if (toDate < fromDate) {
+        toDate.setDate(toDate.getDate() + 1);
     }
 
-    return to - from;
+    console.log(fromDate)
+    
+    return toDate - fromDate;
 }
 
 export function parseTime(s) {
@@ -183,6 +187,16 @@ export function parseTime(s) {
         }
     }
     return hh
+}   
+
+export function slashDtoDashY(strDate) {
+    if (!strDate) return null
+
+    let format = strDate.replaceAll('/', '-')
+    let splitted = format.split('-')
+
+    let result = `${splitted[2]-543}-${splitted[1]}-${splitted[0]}`
+    return result
 }
 
 /* function convertToArrayBuffer(data) {

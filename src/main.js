@@ -12,6 +12,7 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedState from "pinia-plugin-persistedstate"
 import { LoadingPlugin } from 'vue-loading-overlay'
 import "vue-loading-overlay/dist/css/index.css"
+import SectionSpace from "./components/Component/SectionSpace.vue"
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedState)
@@ -24,4 +25,5 @@ createApp(App)
 .use(router)
 .use(pinia)
 .component('LayoutMenuName', LayoutMenuName)
+.component('SectionSpace', SectionSpace)
 .mount('#app')
