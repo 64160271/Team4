@@ -91,6 +91,10 @@
         </ul>
       </nav>
     </div>
+
+    <div class="col ms-auto">
+      <slot name="bottom-right"></slot>
+    </div>
   </div>
 
   <div class="row" v-if="items.length < 1">
