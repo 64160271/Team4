@@ -3,7 +3,7 @@
     <div class="row mb-2">
         
             <div class="col-auto ms-auto"> 
-            <BaseButton label="+ เพิ่มข้อมูล" @click="openModal = true"  />
+            <BaseButton label="+ เพิ่มข้อมูล" @click="checkModal(openModal)"  />
             </div>
             <div class="col-auto ">
             <BaseButton label="เพิ่มจากไฟล์ Excel" @click="router.push('/reports/manageSalary/:id/addReport-file')" >
@@ -15,7 +15,7 @@
         
     </div>
 
-    <BaseModal size="lg" v-if="openModal" @save="formSubmit" @close="openModal = false" title="เพิ่มข้อมูล">
+    <BaseModal size="lg" v-if="openModal" @save="formSubmit" @close="openModal = false"  title="เพิ่มข้อมูล">
         <div class="col mb-3">
             <BaseInput v-model="formData.rep_intn_code" label="รหัสนักศึกษาฝึกงาน" input_type="text" required="required"
                 placeholder="xx/xxxx" />
@@ -84,7 +84,7 @@ import SideLabelInput from '../Component/SideLabelInput.vue'
 import router from "@/router";
 
 const route = useRoute()
-const openModal = ref(false)
+let openModal = ref(false)
 const salarys = ref([])
 const date = new Date();
 const id = route.params.id
@@ -129,6 +129,15 @@ const getSalaryByReportId = async () => {
         console.log(salarys.value)
         
 }
+
+function checkModal (checkModd){
+    if (checkModd == false){
+        openModal.value = true
+    }
+    formData.sal_total_salary = 0
+    
+}
+
 function calculateSalary(day,salary, extra) {
     // แปลงค่าเป็นตัวเลขก่อนการบวก
     salary = parseFloat(salary);

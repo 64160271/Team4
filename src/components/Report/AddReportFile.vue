@@ -95,7 +95,7 @@
    */
   
   </script>
-  <style>
+  <style scoped>
 .upload-box {
   position: relative;
   text-align: center;
