@@ -1,12 +1,12 @@
 <template>
     <LayoutMenuName page-name="รายงานเบี้ยเลี้ยง" />
-    <div class="row mb-3">
+    <div class="row mb-2">
         
             <div class="col-auto ms-auto"> 
             <BaseButton label="+ เพิ่มข้อมูล" @click="openModal = true"  />
             </div>
             <div class="col-auto ">
-            <BaseButton label="เพิ่มจากไฟล์ Excel"  >
+            <BaseButton label="เพิ่มจากไฟล์ Excel" @click="router.push('/reports/manageSalary/:id/addReport-file')" >
                 <template>
                     <ExcelIcon />
                 </template>
@@ -14,13 +14,14 @@
             </div>
         
     </div>
+
     <BaseModal size="lg" v-if="openModal" @save="formSubmit" @close="openModal = false" title="เพิ่มข้อมูล">
         <div class="col mb-3">
             <BaseInput v-model="formData.rep_intn_code" label="รหัสนักศึกษาฝึกงาน" input_type="text" required="required"
                 placeholder="xx/xxxx" />
         </div>
         <div class="col mb-3">
-            <BaseInput  label="ชื่อ-นามสกุล" input_type="text" readonly="readonly" />
+            <BaseInput :value="formData.sal_intn_name" label="ชื่อ-นามสกุล" input_type="text" readonly="readonly" />
         </div>
         <div class="col mb-3">
             <BaseInput v-model="formData.sal_from_date" label="วันที่เริ่มต้น" input_type="date"  />
@@ -51,6 +52,9 @@
         </template>
         <template #sal_from_date_front = "{ data }">
             {{ formatDate(data.sal_from_date) }}
+        </template>
+        <template #sal_salary_and_extra = "{ data }">
+            {{ data.sal_salary }} / {{ data.sal_extra }}
         </template>
         <template #sal_to_date_front = "{ data }">
             {{ formatDate(data.sal_to_date) }}
@@ -107,7 +111,7 @@ const dataHead = ref([
     { key: "sal_from_date_front", title: "วันที่ได้รับ", align: "center" },
     { key: "sal_to_date_front", title: "วันที่สิ้นสุด", align: "center" },
     { key: "sal_day", title: "จำนวนวันทำงาน" , align: "right"},
-    { key: "sal_salary", title: "เบี้ยเลี้ยงทั้งหมด", align: "center" },
+    { key: "sal_salary_and_extra", title: "เบี้ยเลี้ยงทั้งหมด", align: "center" },
     { key: "sal_total", title: "ยอดรวม", align: "center" },
     { key: "sal_edit", title: "แก้ไข", align: "center" },
     { key: "sal_remove", title: "ลบ", align: "center" },
@@ -123,6 +127,7 @@ const getSalaryByReportId = async () => {
             
         })
         console.log(salarys.value)
+        
 }
 function calculateSalary(day,salary, extra) {
     // แปลงค่าเป็นตัวเลขก่อนการบวก
