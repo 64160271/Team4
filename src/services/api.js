@@ -44,6 +44,13 @@ export default class apiService {
             })
     }
 
+    getAllMentor = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/mentors`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
     getMentorBySectionId = async (id) => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/mentors/section/${id}`)
             .then((response) => {
@@ -214,6 +221,13 @@ export default class apiService {
 
     createAddress = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/addresses`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getAllProject = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/projects`)
             .then((response) => {
                 return response.data
             })
