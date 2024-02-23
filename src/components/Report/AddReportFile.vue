@@ -4,7 +4,7 @@
   
       <SectionSpace>
         <div id="upload-box" class="d-flex justify-content-center align-items-center mt-3 upload-box upload">
-          <input id="file" accept=".xlsx" type="file" name="" @change="showFileName(readDataInFile)" />
+          <input id="file" accept=".xlsx" type="file" name="" @change="showFileName(readFIle)" />
   
           <div class="">
             <svg width="200" height="200" viewBox="0 0 250 251" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,8 +25,6 @@
             ย้อนกลับ
           </button>
   
-          <BaseButton @click="downloadExample()" class="ms-auto me-3" label="ดาวน์โหลดไฟล์ตัวอย่าง" />
-  
           <button type="button" class="outline-red btn" @click="uploaded()">Import</button>
         </div>
   
@@ -43,6 +41,7 @@
   import BaseButton from "../Component/BaseButton.vue";
   import axios from "axios";
   import SectionSpace from "../Component/SectionSpace.vue";
+  import { onMounted } from 'vue';
   
   const excelData = ref({});
   const examplePathFile = "../../src/assets/example_file.xlsx";
@@ -60,32 +59,17 @@
   }
   
   /*
-   * downloadExample
-   * ดาวน์โหลดไฟล์ที่เป็นตัวอย่างในการ Import
-   * param: -
-   * return: -
-   */
-  async function downloadExample() {
-    /* let link = document.createElement("a");
-    link.href = examplePathFile;
-    link.download = "example_file";
-    link.click(); */
-  
-    window.open(`${import.meta.env.VITE_API_HOST}/interns/file/example`)
-  }
-  
-  /*
    * readDataInFile
    * อ่านข้อมูลในไฟล์ Excel ทั้งหมด
    * param: ไฟล์ Excel
    * return: -
    */
-  function readDataInFile(file) {
-    readXlsxFile(file).then((rows) => {
-      excelData.value = rows;
-      excelData.value.splice(0, 1);
-    });
-  }
+  // function readDataInFile(file) {
+  //   readXlsxFile(file).then((rows) => {
+  //     excelData.value = rows;
+  //     excelData.value.splice(0, 1);
+  //   });
+  // }
   
   /*
    * uploaded
@@ -93,6 +77,10 @@
    * param: -
    * return: -
    */
+
+   onMounted(() => {
+    readFIle()
+})
   
   </script>
   <style scoped>
