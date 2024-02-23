@@ -4,10 +4,7 @@
 
     <LayoutSidebar v-if="!['login'].includes($route.name)" />
 
-    <main
-      v-if="!['login'].includes($route.name)"
-      class="px-5 main-style"
-    >
+    <main v-if="!['login'].includes($route.name)" class="px-5 main-style">
       <div class="mb-3">
         <router-view />
       </div>

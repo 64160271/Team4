@@ -10,8 +10,8 @@
   
       <div class="row mx-auto" style="width: 90%">
         <div class="row nopadding border-bottom">
-          <div class="col-md-3 my-auto text-center">
-                <div class="mb-4">
+          <div class="col-auto my-auto">
+                <div class="mb-4 text-center">
                   <img id="blah" :src="intern?.intn_image_path || '../../src/assets/images/person-nm.png'" alt="" class="img bg-grays-200" />
 
                 </div>
@@ -28,7 +28,7 @@
           </div>
   
           <!-- เริ่มต้นส่วนข้อมูลพนักงาน -->
-          <div class="col-md-9 align-self-center">
+          <div class="col-md-9 ms-auto">
             <div class="row my-2">
               <span class="h5 text-decoration-underline">ข้อมูลพนักงาน</span>
             </div>

@@ -197,3 +197,15 @@
     padding: 0 !important;
     margin: 0 !important;
 }
+
+.footer {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    padding-top: 1em !important;
+    padding-bottom: 1em !important;
+    margin-left: -1em !important;
+    margin-right: -1em !important;
+    z-index: 99;
+}

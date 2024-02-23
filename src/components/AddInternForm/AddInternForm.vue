@@ -12,9 +12,14 @@
     <SectionSpace>
       <div class="row mx-auto" style="width: 90%">
         <div class="row nopadding border-bottom">
-          <div class="col-md-3 my-auto text-center">
-            <div class="text-center mb-4">
-              <img id="blah" src="@/assets/images/person-nm.png" alt="" class="img bg-grays-200" />
+          <div class="col-auto my-auto">
+            <div class="mb-4 text-center">
+              <img
+                id="blah"
+                src="@/assets/images/person-nm.png"
+                alt=""
+                class="img bg-grays-200"
+              />
             </div>
 
             <button
@@ -29,7 +34,7 @@
           </div>
 
           <!-- เริ่มต้นส่วนข้อมูลพนักงาน -->
-          <div class="col-md-9 align-self-center">
+          <div class="col-md-9 ms-auto">
             <div class="row my-2">
               <span class="h5 text-decoration-underline">ข้อมูลพนักงาน</span>
             </div>
@@ -732,35 +737,35 @@
             <textarea id="" name="" class="form-control mb-2 col" rows="2"></textarea>
           </div>
         </div>
-
-        <div class="container">
-          <div class="row my-4">
-            <button
-              type="button"
-              class="col-md-2 btn outline-gray"
-              @click="$router.push({ name: 'index' })"
-            >
-              ย้อนกลับ
-            </button>
-            <button type="" class="col-md-2 ms-auto btn outline-red me-4" @click="reset">
-              รีเซ็ต
-            </button>
-            <button
-              type="button"
-              class="col-md-2 align-self-end btn outline-red"
-              @click="submitForm"
-            >
-              บันทึก
-            </button>
-          </div>
-        </div>
       </div>
     </SectionSpace>
+
+    <footer class="footer shadow">
+      <div class="row">
+        <button
+          type="button"
+          class="col-md-2 btn outline-gray"
+          @click="$router.push({ name: 'index' })"
+        >
+          ย้อนกลับ
+        </button>
+        <button type="" class="col-md-2 ms-auto btn outline-red me-4" @click="reset">
+          รีเซ็ต
+        </button>
+        <button
+          type="button"
+          class="col-md-2 align-self-end btn outline-red"
+          @click="submitForm"
+        >
+          บันทึก
+        </button>
+      </div>
+    </footer>
   </form>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { onMounted, toRaw } from "vue";
 import {
   usePrefixData,
