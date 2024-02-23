@@ -21,7 +21,6 @@ import Login from "./components/Login.vue";
 .main-style {
   margin-left: 280px;
   background-color: #f5f6f8;
-  height: 100%;
-  overflow-y: scroll;
+  min-height: 100vh;
 }
 </style>

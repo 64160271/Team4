@@ -740,8 +740,8 @@
       </div>
     </SectionSpace>
 
-    <footer class="footer shadow">
-      <div class="row">
+    <footer class="mt-3 footer shadow-top">
+      <div class="row mx-4 nopadding">
         <button
           type="button"
           class="col-md-2 btn outline-gray"
@@ -749,7 +749,7 @@
         >
           ย้อนกลับ
         </button>
-        <button type="" class="col-md-2 ms-auto btn outline-red me-4" @click="reset">
+        <button type="button" class="col-md-2 ms-auto btn outline-red me-4" @click="$router.go()">
           รีเซ็ต
         </button>
         <button
@@ -861,21 +861,6 @@ async function submitForm() {
 
 function formatTel() {
   $("#tel").inputmask("999-999-9999");
-}
-
-/*
- * reset
- * รีเซ็ตค่าในแบบฟอร์ม
- * param: -
- * return: -
- */
-function reset() {
-  formData.reset();
-
-  /* personalInfo.value = formData.personal_info;
-    workInfo.value = formData.work_info;
-    collegeInfo.value = formData.college_info;
-    address.value = formData.address; */
 }
 
 /*
