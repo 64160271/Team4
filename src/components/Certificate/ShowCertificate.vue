@@ -5,15 +5,16 @@
             <Search v-model="searchData" @search="search" />
         </div>
 
+        <div class="col-md-2 my-auto nopadding">
+            <BaseInput placeholder="ปี" @change="setCurrentPage(1)" v-model="cerCreate"
+                onfocus="(this.type='date')" onblur="(this.type='text')" />
+        </div>
+
         <div class="col-md-2 my-auto">
             <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="team_id" :options="teams"
                 value="team_id" text="team_name" />
         </div>
 
-        <div class="col-md-2 my-auto nopadding">
-            <BaseInput placeholder="วันออกเอกสารรับรอง" @change="setCurrentPage(1)" v-model="cerCreate"
-                onfocus="(this.type='date')" onblur="(this.type='text')" />
-        </div>
         <BaseButton class="col-auto ms-auto" @click="$router.push('/certificates/selectCompany')" label="ออกเอกสารรับรอง" />
     </div>
 
@@ -64,6 +65,7 @@ import apiService from "../../services/api";
 import router from "@/router";
 import { confirmation, successAlert, errorAlert, changeTimestampToDate } from "../../assets/js/func";
 
+
 const route = useRoute();
 
 const tableHead = ref([
@@ -85,8 +87,6 @@ const pageSize = 10000;
 const certificates = ref([])
 const selected = [];
 let validate = ref(false);
-const sentYear = [];
-const sentName = [];
 const team_id = ref();
 const cerCreate = ref("");
 const searchData = ref("");
@@ -100,13 +100,13 @@ function checkRow(index) {
 }
 
 function search() {
-  if (timer) {
-    clearTimeout(timer);
-  }
+    if (timer) {
+        clearTimeout(timer);
+    }
 
-  timer = setTimeout(() => {
-    setCurrentPage(1);
-  }, 500);
+    timer = setTimeout(() => {
+        setCurrentPage(1);
+    }, 500);
 }
 
 function select_certificate(id) {
@@ -225,8 +225,8 @@ function changeTimestampToYear(value) {
 
 onMounted(async () => {
     setCurrentPage(page.value);
-  let service = new apiService();
-  teams.value = await service.getAllTeam();
+    let service = new apiService();
+    teams.value = await service.getAllTeam();
 })
 
 

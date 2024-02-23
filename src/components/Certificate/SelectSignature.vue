@@ -1,14 +1,15 @@
 <template>
     <LayoutMenuName backButton page-name="เอกสารรับรอง > ลายเซ็นผู้มีสิทธ์ออกเอกสารรับรอง" />
     <div class="row mb-3 me-1">
-        <div class="col-md-5 my-auto">
-            <Search />
+        <div class="col-md-5 my-auto nopadding">
+            <Search placeholder="ชื่อ" v-model="searchData" />
         </div>
     </div>
 
     <!-- Modal -->
     <div class="row mt-3">
-        <BaseCard class="mb-4" v-for="signature in signatures" :title="getName(signature)" :sub="signature?.sign_role" content="">
+        <BaseCard class="mb-4" v-for="signature in filterData()" :title="getName(signature)" :sub="signature?.sign_role"
+            content="">
             <template #before-title>
                 <div class="text-center mb-4">
                     <img width="100" height="100" :src="signature?.sign_image_path" />
@@ -17,7 +18,7 @@
             <template #after-title>
                 <div class="text-center">
                     <!-- <button class="col-auto btn btn_choose" @click="sentCompanyId(signature.sign_id)">เลือก</button> -->
-                    <BaseButton class="col-md-6 mx-auto" label="เลือก" @click="sentCompanyId(signature.sign_id)"/>
+                    <BaseButton class="col-md-6 mx-auto" label="เลือก" @click="sentCompanyId(signature.sign_id)" />
                 </div>
             </template>
 
@@ -39,17 +40,27 @@ const route = useRoute();
 
 
 const signatures = ref([]);
+const searchData = ref("");
 const id = ref(route.params.companyId);
 
 
 const getSignature = async () => {
-    try {
-        const response = await axios.get(`${import.meta.env.VITE_API_HOST}/signatures/company/${id.value}`);
-        signatures.value = response.data;
-    } catch (error) {
-        console.error('Error fetching signatures:', error);
-    }
+    const response = await axios.get(`${import.meta.env.VITE_API_HOST}/signatures/company/${id.value}`);
+    signatures.value = response.data;
+
 }
+const filterData = () => {
+    return signatures.value.filter((signature) => {
+        return (
+            signature?.sign_prefix?.indexOf(searchData.value.trim()) > -1 ||
+            signature?.sign_name?.indexOf(searchData.value.trim()) > -1 ||
+            signature?.sign_fname?.indexOf(searchData.value.trim()) > -1 ||
+            signature?.sign_lname?.indexOf(searchData.value.trim()) > -1 ||
+            signature?.sign_role?.indexOf(searchData.value.trim()) > -1
+        );
+    });
+}
+
 
 function sentCompanyId(sign) {
     console.log(sign)
@@ -59,23 +70,16 @@ function sentCompanyId(sign) {
             companyId: id.value,
             signId: sign
         },
-        // query: { signId: sign }
     })
 
 }
 
-// function sentBack() {
-//     router.push({
-//         name: 'selectCompany',
-//         params: {
-//             companyId: id
-//         }
-//     })
-// }
 
 onMounted(() => {
     getSignature()
 })
+
+
 
 function getName(signature) {
     let name = `${signature.sign_prefix}

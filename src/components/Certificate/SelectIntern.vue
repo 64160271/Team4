@@ -1,15 +1,26 @@
 <template>
     <LayoutMenuName backButton page-name="เอกสารรับรอง > เลือกรายชื่อนักศึกษาฝึกงาน" />
-    <div class="row mb-3">
+        <div class="row mb-3">
         <div class="col-md-5 my-auto nopadding">
-            <Search />
+            <Search v-model="searchData" @search="search" />
+        </div>
+
+        <div class="col-md-2 my-auto nopadding">
+            <BaseInput placeholder="ปี" @change="setCurrentPage(1)" v-model="endDate"
+                onfocus="(this.type='date')" onblur="(this.type='text')" />
+        </div>
+
+        <div class="col-md-2 my-auto">
+            <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="team_id" :options="teams"
+                value="team_id" text="team_name" />
         </div>
     </div>
 
     <div class="row">
 
         <DataTable striped clickable click-return="intn_id" @clicked="checkRow" :heads="tableHead" :items="interns"
-            hover-background :total="total">
+            hover-background :total="total"
+            @page-change="setCurrentPage">
             <template #intn_key="{ data }">
                 <input :name="data?.intn_id" :id="data?.intn_id" type="checkbox"
                     @click="select_intern(data?.intn_id) && checkRow(data?.intn_id)" class="form-check-input mt-2 p-2" />
@@ -31,6 +42,8 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import BaseButton from '../Component/BaseButton.vue';
 import DataTable from "../Component/DataTable.vue";
+import BaseSelect from "../Component/BaseSelect.vue";
+import BaseInput from "../Component/BaseInput.vue";
 import { useRoute } from 'vue-router';
 import router from "@/router";
 import apiService from '../../services/api';
@@ -51,7 +64,11 @@ const interns = ref([]);
 // const index = 0;
 const selected = [];
 let validate = ref(false);
-
+const team_id = ref();
+const endDate = ref("");
+const searchData = ref("");
+const teams = ref([]);
+let timer;
 
 const tableHead = ref([
     { key: "intn_key", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
@@ -85,6 +102,16 @@ function select_intern(id) {
 
     console.log(selected)
 
+}
+
+function search() {
+    if (timer) {
+        clearTimeout(timer);
+    }
+
+    timer = setTimeout(() => {
+        setCurrentPage(1);
+    }, 500);
 }
 
 async function sendToCreateCertificate() {
@@ -127,18 +154,24 @@ async function sendToCreateCertificate() {
 async function setCurrentPage(pageNumber) {
     if (pageNumber > 0 && pageNumber <= pageMax.value) {
         page.value = pageNumber;
-        await getAllIntern();
+        
     }
+    await getAllIntern();
 }
 const getAllIntern = async () => {
     const params = {
         page: page.value,
         limit: pageSize,
+        team_id: team_id.value || undefined,
+        filter: searchData.value || undefined,
+        intn_contract_end_date: endDate.value || undefined,
+        almost: true,
+        noCertificate: true,
     };
     const date = new Date();
 
     await axios
-        .get(`${import.meta.env.VITE_API_HOST}/interns?almost=${date}&noCertificate=true`, { params })
+        .get(`${import.meta.env.VITE_API_HOST}/interns`, { params })
         .then((response) => {
             interns.value = response.data.rows;
             total.value = response.data.count;
@@ -148,9 +181,8 @@ const getAllIntern = async () => {
 
 onMounted(async () => {
     setCurrentPage(page.value);
-    console.log(signId.value)
-    console.log(companyId.value)
-    console.log(interns.value)
+    let service = new apiService();
+    teams.value = await service.getAllTeam();
 });
 
 </script>
