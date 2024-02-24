@@ -6,12 +6,13 @@
         <div class="col-md-2 my-auto">  
             <BaseSelect 
             placeholder="ปี" 
-            @chang=""
-            v-model="selectOptionYear" :options="listYear" />    
+            @change="fetchReport()"
+            v-model="yearSelect" :options="listYear" />    
         </div>
 
         <div class="col-md-2 my-auto">  
-            <BaseSelect 
+            <BaseSelect
+            @change="fetchTeamReport()"
             placeholder="ทีม"
             v-model="team_id" 
             :options="teams" 
@@ -21,25 +22,27 @@
 
         <div class="row p-0 m-0 my-2">
             <div class="form-check form-check-inline fw-bold">
-                รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี : <span>{{ selectOptionYear }}</span>
+                รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี : <span>{{ yearSelect }}</span>
              </div>     
         </div>
 
         <div class="row p-0 m-0 my-2">
             <div class="form-check form-check-inline fw-bold">
-                ของทีม :  <span>{{ team_name }}</span>
+                ของทีม :  <span>{{ team_id }}</span>
              </div>  
         </div>
  
     </div>
 
-    <div class="row ">
+    <div class="row" v-if="view == 'T'">
         <div class="border col-md-3 my-auto">
-            เบี้ยเลี้ยง
+            เบี้ยเลี้ยง 
+            <span> {{ sum_salary }}</span>
         </div>
         
         <div class="border col-md-3 my-auto">
             เบี้ยเลี้ยงพิเศษ
+            <span> {{ sum_ex }}</span>
         </div>
         
         <div class="border col-md-3 my-auto">
@@ -48,66 +51,177 @@
     </div>
 
     <div class="container">
-            <Bar v-if="loaded" :data="chartData" />
+            <Bar v-if="loaded && view == 'A'"  :options="optionsYear" :data="chartData" />
+            <Bar v-if="loaded && view == 'T'"  :options="optionsTeam" :data="chartData" />
         </div>
+
+    
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import BaseTable from '@/components/Component/BaseTable.vue';
-import DataTable from "../Component/DataTable.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
 import apiService from "../../services/api";
 import { Bar } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale  } from 'chart.js'
 import axios from 'axios';
 
-
-const selectOptionYear = ref()
-const selectOptionTeam = ref()
-const viewType = ref(1)
+const currentYear = new Date().getFullYear() + 543
+const view = ref('A')
 const name = ref('BarChart')
 const loaded = ref(false)
+const yearSelect = ref(currentYear)
+const optionsYear = ref({
+    indexAxis: 'y', 
+    scales: {
+        
+        x: {
+            title: {
+                display: true,
+                text: 'Salary',
+                
+            }
+        },
+        y: {
+            title: {
+                display: true,
+                text: 'Teams'
+            },
+        },
+    },
+    responsive: true,
+    plugins: {
+        title: {
+            display: true,
+            text: 'Horizontal Bar Chart - Salary and Extra'
+        }
+    },
+})
+
+const optionsTeam = ref({
+    scales: {
+        x: {
+            title: {
+                display: true,
+                text: 'Month',
+                
+            }
+        },
+        y: {
+            title: {
+                display: true,
+                text: 'Salary'
+            },
+        },
+    },
+    responsive: true,
+    plugins: {
+        title: {
+            display: true,
+            text: 'Horizontal Bar Chart - Salary and Extra'
+        }
+    },
+    
+})
+
+
+
+
 const chartData = ref({
     labels: [],
-    datasets: [],
+    datasets: [
+        {
+            label:'salary', data :[],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            barThickness: 20,
+            
+            
+        },
+        {
+            label:'extra', data :[],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            barThickness: 20,
+            
+        },
+    ],
 })
+
+
 const teams = ref([]);
 const team_id = ref();
-
-
-const listYear = ref([2567,2566,2565,2564,2563,2562,2561,2560,2559,2558])
-const listTeam = ref(['Team1','Team2','Team3','Team4','Team5','Team6'
-                        ,'Team7','Team8','Team9','Team10','Team11','Team12'])
-
+const listYear = ref([])
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
-
-
-
-onMounted(async () => {
-    let services = new apiService();
-    teams.value = await services.getAllTeam();
-
+const fetchAllReport = (async () => {
+    view.value = 'T'
+    const params = {
+        year: yearSelect.value - 543,
+    }
 
     loaded.value = false
-    try{
-        const data = await axios.get(`${import.meta.env.VITE_API_HOST}/salaries/teams`)
-            .then((response) => {
-                return response.data
-            })
-        
-        const teamName = data.map((d) => { return d.team_name })
-        const sum = data.map((d) => { return d.sum_salary }) 
 
-        chartData.value.labels = teamName
-        chartData.value.datasets = [ { data : sum} ]
-        loaded.value = true
+    const data = await axios.get(`${import.meta.env.VITE_API_HOST}/salaries/teams`, { params })
+        .then((response) => {
+            return response.data
+        })
+        
+    const teamName = data.map((d) => { return d.team_name })
+    const extra = data.map((d) => {return d.sum_extra})
+    const salary = data.map((d) => { return d.sum_salary }) 
+        
+    chartData.value.labels = teamName;
+    chartData.value.datasets[0].data = salary;
+    chartData.value.datasets[1].data = extra ;
+    loaded.value = true
+})
+
+
+
+
+const fetchTeamReport = (async () => {
+    view.value = 'T'
+    console.log(yearSelect.value)
+    const params = {
+        year: yearSelect.value - 543,
+    }
+
+    loaded.value = false
+
+    const data = await axios.get(`${import.meta.env.VITE_API_HOST}/salaries/teams/${team_id.value}`, { params })
+        .then((response) => {
+            return response.data
+        })
+        
+    const month = data.map((d) => { return d.month })
+    const extra = data.map((d) => {return d.sum_extra})
+    const salary = data.map((d) => { return d.sum_salary }) 
+        
+    chartData.value.labels = month;
+    chartData.value.datasets[0].data = salary;
+    chartData.value.datasets[1].data = extra ;
+    loaded.value = true
+})
+onMounted(async () => {
+    const services = new apiService();
+    teams.value = await services.getAllTeam();
+
+    try{
+        await fetchAllReport()
+
+        for (let i = currentYear ; i > 2550 ; i--) {
+            listYear.value.push(i)
+        }
+        
     }catch(e) {
         console.error(e)
     }
+
+    
 })
+
 
 
 </script>
