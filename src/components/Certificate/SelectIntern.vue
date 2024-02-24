@@ -104,6 +104,8 @@ function select_intern(id) {
 
 }
 
+
+
 function search() {
     if (timer) {
         clearTimeout(timer);
@@ -144,11 +146,6 @@ async function sendToCreateCertificate() {
         console.log(response.data);
 
     }
-
-
-    // router.push({
-    //     path: '/certificates/previewCertificate'
-    // })
 }
 
 async function setCurrentPage(pageNumber) {

@@ -5,7 +5,7 @@
             <Search v-model="searchData" @search="search" />
         </div>
 
-        <div class="col-md-2 my-auto nopadding">
+        <div class="col-md-2 ms-2 my-auto nopadding">
             <BaseInput placeholder="ปี" @change="setCurrentPage(1)" v-model="cerCreate"
                 onfocus="(this.type='date')" onblur="(this.type='text')" />
         </div>
@@ -129,27 +129,25 @@ async function sendToDownload() {
     }
     const result = await confirmation();
 
-    // if (result) {
-    //     const data_id = {
-    //         cer_id: selected,
+    if (result) {
+        const data_id = {
+            cer_id: selected,
+        }
+        const response = await axios.post(
+            `${import.meta.env.VITE_API_HOST}/certificates/download`,
+            data_id
+        ).then((response) => {
+            successAlert().then(() => {
+                router.push({ path: "/certificates/download" });
+            });
+        })
+            .catch((err) => {
+                errorAlert(err);
+            });
+        console.log(data_id);
+        console.log(response.data);
 
-    //     }
-    //     const response = await axios.post(
-    //         `${import.meta.env.VITE_API_HOST}/certificates/download`,
-    //         data_id
-
-    //     ).then((response) => {
-    //         successAlert().then(() => {
-    //             // router.push({ path: "/certificates" });
-    //         });
-    //     })
-    //         .catch((err) => {
-    //             errorAlert(err);
-    //         });
-    //     console.log(data_id);
-    //     console.log(response.data);
-
-    // }
+    }
 
 }
 
@@ -166,6 +164,10 @@ async function sendToDownload() {
 //         console.error('Error fetching certificates:', error);
 //     }
 // };
+
+async function sentToDownload() {
+
+}
 
 const getAllCertificate = async () => {
     const params = {
