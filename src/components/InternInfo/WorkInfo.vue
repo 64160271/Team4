@@ -12,17 +12,10 @@
         label="วันที่ลา"
         type="date"
       />
-
-      <BaseButton
-        label="+ เพิ่มข้อมูลการลา"
-        @click="openModal = true"
-        class="col-md-2 ms-auto"
-      >
-      </BaseButton>
     </div>
 
     <div class="row">
-      <DataTable hover-background striped :heads="tableHead" :items="workInfo">
+      <DataTable hover-background striped :heads="tableHead" :items="projectInfo">
       </DataTable>
     </div>
   </SectionSpace>
@@ -38,20 +31,19 @@ import CardInternInfo from "./CardInternInfo.vue";
 import DataTable from "../Component/DataTable.vue";
 
 const internId = useRoute().params.id;
-const apiCall = new apiService();
-const workInfo = ref([]);
+const service = new apiService();
+const projectInfo = ref([]);
 const mentor = ref();
 const tableHead = ref([
-  { key: "lvs_id", title: "เลขที่ใบลา", align: "center" },
-  { key: "lvs_from_date", title: "วันที่ลา", align: "center" },
-  { key: "lvs_to_date", title: "ถึงวันที่", align: "center" },
-  { key: "lvs_type_name", title: "ประเภทการลา" },
-  { key: "lvs_duration_fake", title: "ระยะเวลา" },
-  { key: "lvs_updated_by_user.user_name", title: "ผู้ทำการแก้ไข" },
-  { key: "open_file", title: "หลักฐาน", align: "center" },
+  { key: "pint_teams.team_name", title: "เลขที่ใบลา", align: "center" },
+  { key: "pinf_start_date", title: "วันที่เริ่ม", align: "center" },
+  { key: "pinf_end_date", title: "วันที่สิ้นสุด", align: "center" },
+  { key: "pinf_projects.proj_name", title: "ชื่อโปรเจกต์" },
+  { key: "pinf_projects.proj_mentor.ment_name", title: "พี่เลี้ยงโปรเจกต์" },
+  { key: "pint_status_custom", title: "สถานะ" },
 ]);
 
-const sectionName = computed(() => {
+/* const sectionName = computed(() => {
   return workInfo.value[0]?.work_sec?.sec_name || "-";
 });
 
@@ -61,12 +53,10 @@ const departmentName = computed(() => {
 
 const roleName = computed(() => {
   return workInfo.value[0]?.work_role?.role_name || "-";
-});
+}); */
 
 onMounted(async () => {
-  /* workInfo.value = await apiCall.getWorkInfoByInternId(internId);
-  mentor.value = await apiCall.getMentorByInternId(internId);
-  console.log(workInfo.value); */
+  projectInfo.value = await service.getProejctInfoByInternId(internId);
 });
 </script>
 

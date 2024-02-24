@@ -7,8 +7,9 @@
 
 <template>
     <form id="form" class="needs-validation" enctype="multipart/form-data" novalidate>
-  
-      <div class="row mx-auto" style="width: 90%">
+      <SectionSpace noSpace>
+      
+      <div class="row mx-auto" style="width: 95%">
         <div class="row nopadding border-bottom">
           <div class="col-auto my-auto">
                 <div class="mb-4 text-center">
@@ -725,9 +726,12 @@
             <textarea id="" name="" class="form-control mb-2 col" rows="2"></textarea>
           </div>
         </div>
-  
-        <div class="container">
-          <div class="row my-4">
+      </div>
+    </SectionSpace>
+
+
+      <footer class="mt-3 footer shadow-top">
+        <div class="row mx-4 nopadding">
           <button
             type="button"
             class="col-md-2 btn outline-gray"
@@ -743,8 +747,7 @@
             บันทึก
           </button>
         </div>
-        </div>
-      </div>
+      </footer>
     </form>
   </template>
   

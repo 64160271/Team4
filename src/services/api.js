@@ -232,4 +232,11 @@ export default class apiService {
                 return response.data
             })
     }
+
+    getProejctInfoByInternId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/projects/interns/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
 }

@@ -10,7 +10,7 @@
     <LayoutMenuName backButton page-name="เพิ่มนักศึกษาฝึกงาน > กรอกแบบฟอร์ม" />
 
     <SectionSpace>
-      <div class="row mx-auto" style="width: 90%">
+      <div class="row mx-auto" style="width: 95%">
         <div class="row nopadding border-bottom">
           <div class="col-auto my-auto">
             <div class="mb-4 text-center">
@@ -749,7 +749,11 @@
         >
           ย้อนกลับ
         </button>
-        <button type="button" class="col-md-2 ms-auto btn outline-red me-4" @click="$router.go()">
+        <button
+          type="button"
+          class="col-md-2 ms-auto btn outline-red me-4"
+          @click="$router.go()"
+        >
           รีเซ็ต
         </button>
         <button
