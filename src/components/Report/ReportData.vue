@@ -6,7 +6,7 @@
             <BaseButton label="+ เพิ่มข้อมูล" @click="checkModal(openModal)"  />
             </div>
             <div class="col-auto ">
-            <BaseButton label="เพิ่มจากไฟล์ Excel" @click="router.push('/reports/manageSalary/:id/addReport-file')" >
+            <BaseButton label="เพิ่มจากไฟล์ Excel" @click="router.push({name:'addReport-File' , params: { id: id }} )" >
                 <template>
                     <ExcelIcon />
                 </template>
@@ -127,7 +127,6 @@ const getSalaryByReportId = async () => {
             
         })
         console.log(salarys.value)
-        
 }
 
 function checkModal (checkModd){
@@ -152,7 +151,7 @@ function calculateSalary(day,salary, extra) {
 
 
 async function formSubmit() {
-    await axios.post(`${import.meta.env.VITE_API_HOST}/salaries/createSalary`, formData.value,)
+    await axios.post(`${import.meta.env.VITE_API_HOST}/salaries/create-salary`, formData.value,)
     console.log(formData.value)
     console.log(124)
     router.go()
