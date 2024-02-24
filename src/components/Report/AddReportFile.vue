@@ -21,7 +21,7 @@
       </div>
 
       <div id="import-btn" class="d-flex mt-5">
-        <button type="button" class="outline-gray btn" @click="$router.push({name:'reportData'})">
+        <button type="button" class="outline-gray btn" @click="$router.push({ name: 'reportData' })">
           ย้อนกลับ
         </button>
 
@@ -44,26 +44,22 @@ import SectionSpace from "../Component/SectionSpace.vue";
 import { onMounted } from 'vue';
 import { useRoute } from "vue-router"
 import router from "@/router";
+import { confirmation, successAlert, errorAlert } from "../../assets/js/func";
 
 const route = useRoute()
+let fileData;
 const excelData = ref({});
 const examplePathFile = "../../src/assets/example_file.xlsx";
 let isUploaded = ref(false);
 const id = route.params.id
-const salarys = ref([]) ;
-
-const importData = ref({
-  rep_intn_code: "",
-  sal_intn: "",
-  sal_updated_by: 1,
-  sal_report_id: id
-})
+const salarys = ref([]);
 
 
 function showFileName(callback) {
   let file = document.getElementById("file");
   let display = document.getElementById("filename");
   let filename = file.files[0];
+  fileData = file.files[0]
 
   display.innerText = `ไฟล์ที่เลือก : ${filename.name}
               ขนาด : ${(filename.size / 1024 / 1024).toFixed(2)} MB`;
@@ -72,11 +68,42 @@ function showFileName(callback) {
 }
 
 const readFIle = async () => {
-  axios.post(`${import.meta.env.VITE_API_HOST}/salaries/read-file`,file)
+  axios.post(`${import.meta.env.VITE_API_HOST}/salaries/read-file`,
+    { salaries_file: fileData },
+    { headers: { "Content-Type": "multipart/form-data" }}
+  ).then((response) => {
+    salarys.value = response.data
+  })
+  console.log(salarys.value)
 }
 
-function importExcel (){
+function importExcel() {
 
+}
+async function sendToCreateCertificate() {
+  const result = await confirmation();
+  if (result) {
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_HOST}/salaries/create-salary-by-file`,
+      salarys.value
+
+    ).then((response) => {
+      successAlert().then(() => {
+        router.push({ name: 'reportData' });
+      });
+    })
+      .catch((err) => {
+        errorAlert(err);
+      });
+    console.log(salarys.value);
+
+
+  }
+
+
+  // router.push({
+  //     path: '/certificates/previewCertificate'
+  // })
 }
 
 /*
@@ -106,6 +133,7 @@ function uploaded() {
     uploadBox.classList.add("d-none");
     uploadButton.classList.add("d-none");
     isUploaded.value = true;
+    sendToCreateCertificate()
   }
 }
 

@@ -91,11 +91,9 @@ const id = route.params.id
 
 
 const formData = ref({
-    sal_intn: "",
     rep_intn_code: "",
     sal_updated_by: 1,
     sal_report_id: id,
-    sal_intn_code: "",
     sal_intn_name: "",
     sal_from_date: "",
     sal_to_date: "",
