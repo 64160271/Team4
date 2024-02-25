@@ -63,6 +63,8 @@
                 <BaseSelect
                   label="สถานะการฝึกงาน"
                   :options="statusList.list"
+                  text="text"
+                  value="value"
                   v-model="personalInfo.intn_work_status"
                   :class="{ 'is-invalid': v$.personal_info.intn_work_status.$error }"
                   required
@@ -833,11 +835,13 @@ async function submitForm() {
   if (validate) {
     const result = await confirmation();
     if (result) {
-      workInfo.value.work_from_date = personalInfo.value.intn_start_date;
-      personalInfo.value.intn_code = new String("INT-").concat(
-        personalInfo.value.intn_code
-      );
-      personalInfo.value.intn_intern_email.concat("@clicknext.com");
+      await Promise.all([
+          workInfo.value.work_from_date = personalInfo.value.intn_start_date,
+          personalInfo.value.intn_code = new String("INT-").concat(
+            personalInfo.value.intn_code
+          ),
+          personalInfo.value.intn_intern_email += "@clicknext.com"
+        ])
 
       /* สร้างข้อมูลนักศึกษาผ่าน API */
       await apiCall
@@ -854,8 +858,8 @@ async function submitForm() {
             formData.$reset(); /* ย้อนกลับหน้า index */
           });
         })
-        .catch((err) => {
-          errorAlert("เกิดข้อผิดพลาด: ข้อมูลซ้ำ");
+        .catch((e) => {
+          errorAlert(e.response.data);
         });
 
       personalInfo.value.intn_code = personalInfo.value.intn_code.replace("INT-", "");

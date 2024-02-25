@@ -28,8 +28,8 @@ export const useStatusData = defineStore('status', {
     state: () => {
         return {
             list: [
-                'กำลังทำงาน',
-                'พ้นสภาพ'
+                { value: 1, text: "กำลังทำงาน" },
+                { value: 0, text: "พ้นสภาพ" }
             ]
         }
     }
