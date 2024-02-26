@@ -20,6 +20,10 @@
             text="team_name" />     
         </div>
 
+        <button class="col-2 btn ms-auto btn-sm outline-red" @click="">    
+            ดาวน์โหลด  
+        </button>
+
         <div class="row p-0 m-0 my-2">
             <div class="form-check form-check-inline fw-bold">
                 รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี : <span>{{ yearSelect }}</span>
@@ -124,9 +128,6 @@ const optionsTeam = ref({
     
 })
 
-
-
-
 const chartData = ref({
     labels: [],
     datasets: [
@@ -147,7 +148,6 @@ const chartData = ref({
         },
     ],
 })
-
 
 const teams = ref([]);
 const team_id = ref();
@@ -178,9 +178,6 @@ const fetchAllReport = (async () => {
     loaded.value = true
 })
 
-
-
-
 const fetchTeamReport = (async () => {
     view.value = 'T'
     console.log(yearSelect.value)
@@ -195,15 +192,18 @@ const fetchTeamReport = (async () => {
             return response.data
         })
         
-    const month = data.map((d) => { return d.month })
-    const extra = data.map((d) => {return d.sum_extra})
-    const salary = data.map((d) => { return d.sum_salary }) 
+    const month = data.reports.map((d) => { return d.month })
+    const extra = data.reportsmap((d) => {return d.sum_extra})
+    const salary = data.reports.map((d) => { return d.sum_salary }) 
         
     chartData.value.labels = month;
     chartData.value.datasets[0].data = salary;
     chartData.value.datasets[1].data = extra ;
     loaded.value = true
+
+    
 })
+
 onMounted(async () => {
     const services = new apiService();
     teams.value = await services.getAllTeam();
@@ -222,7 +222,19 @@ onMounted(async () => {
     
 })
 
+const fetchReport = () => {
+    if(view.value === "A"){
+        fetchAllReport()
+    }else if (view.value == "T"){
+        fetchTeamReport()
+    }
+}
+    
+async function downloadExcelFile(){
 
+    window.open(`${import.meta.env.VITE_API_HOST}`)
+
+}
 
 </script>
 
