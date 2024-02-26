@@ -1,25 +1,30 @@
 <template>
   <LayoutMenu />
 
-  <CardInternInfo class="mb-3" :internId="internId"> </CardInternInfo>
+  <CardInternInfo class="my-3" :internId="internId"> </CardInternInfo>
 
-  <SectionSpace>
-  <div class="row mb-3">
-  <SideLabelInput v-model="searchData" no-padding input-size="3" label="วันที่ลา" type="date" />
+  <SectionSpace noSpace>
+    <div class="row mb-3">
+      <SideLabelInput
+        v-model="searchData"
+        no-padding
+        input-size="3"
+        label="วันที่ลา"
+        type="date"
+      />
 
-  <BaseButton
-    label="+ เพิ่มข้อมูลการลา"
-    @click="openModal = true"
-    class="col-md-2 ms-auto"
-  >
-  </BaseButton>
-  </div>
+      <BaseButton
+        label="+ เพิ่มข้อมูลการลา"
+        @click="openModal = true"
+        class="col-md-2 ms-auto"
+      >
+      </BaseButton>
+    </div>
 
-  <div class="row">
-  <DataTable striped :heads="tableHead" :items="workInfo">
-    
-  </DataTable>
-  </div>
+    <div class="row">
+      <DataTable hover-background striped :heads="tableHead" :items="workInfo">
+      </DataTable>
+    </div>
   </SectionSpace>
 </template>
 

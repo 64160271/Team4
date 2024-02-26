@@ -2,7 +2,7 @@
     <div class="mx-auto" style="width: 85%">
         <div class="row border-bottom">
             <div class="col-auto">
-                <img id="blah" :src="intern?.intn_image_path" alt="" class="img bg-grays-200" />
+                <img id="blah" :src="intern.intn_image_path || '../../src/assets/images/person-nm.png'" alt="" class="img bg-grays-200" />
             </div>
 
             <div class="col align-self-center ms-5 mb-2">

@@ -1,19 +1,21 @@
 <template>
-    <LayoutMenu />
+  <LayoutMenu />
 
-    <CardInternInfo class="mb-3" :internId="internId">
-      <div class="row mb-2">
-          <label for="" class="col-md-3 col-form-label text-gray">
-            รายการเอกสาร
-          </label>
-          <label for="" class="col-md-3 col-form-label text-gray">
-            {{ documents.length }}
-          </label>
-        </div>
-     </CardInternInfo>
+  <CardInternInfo class="my-3" :internId="internId">
+    <div class="row mb-2">
+      <label for="" class="col-md-3 col-form-label text-gray"> ฝ่าย</label>
+      <label for="" class="col-md-3 col-form-label text-gray">
+        {{ section }}
+      </label>
 
-    <SectionSpace>
-      <div class="row mb-3">
+      <label for="" class="col-md-3 col-form-label text-gray"> แผนก </label>
+
+      <label for="" class="col-md-3 col-form-label text-gray"> {{ dept || "-" }} </label>
+    </div>
+  </CardInternInfo>
+
+  <SectionSpace noSpace>
+    <div class="row mb-3">
       <div class="my-auto col-md-3 nopadding">
         <SearchBox v-model="searchData" placeholder="ชื่อเอกสาร" />
       </div>
@@ -27,7 +29,13 @@
     </div>
 
     <div class="row">
-      <DataTable striped :total="filterData.length" :heads="tableHead" :items="filterData">
+      <DataTable
+        striped
+        :total="filterData.length"
+        :heads="tableHead"
+        :items="filterData"
+        hover-background
+      >
         <template #open_file="{ data }">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -115,6 +123,7 @@
             class="file-upload"
             type="file"
             name=""
+            accept="image/*,application/pdf"
           />
         </template>
       </BaseButton>
@@ -132,7 +141,10 @@
       </div>
 
       <div class="col-md-5 my-auto">
-        <span v-if="v$.doc_file.$error" :class="{ 'is-invalid': v$.doc_file.$error }"></span>
+        <span
+          v-if="v$.doc_file.$error"
+          :class="{ 'is-invalid': v$.doc_file.$error }"
+        ></span>
         <InvalidFeedback :errors="v$.doc_file.$errors" />
       </div>
     </div>
@@ -143,7 +155,7 @@
 import LayoutMenu from "./LayoutMenu.vue";
 import apiService from "../../services/api";
 import { useRoute, useRouter } from "vue-router";
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref, computed, getCurrentInstance } from "vue";
 import DataTable from "../Component/DataTable.vue";
 import CardInternInfo from "./CardInternInfo.vue";
 import BaseButton from "../Component/BaseButton.vue";
@@ -154,14 +166,17 @@ import SearchBox from "../Component/SearchBox.vue";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
+import { useInternName } from "../../stores/constData";
 
 const router = useRouter();
 const internId = useRoute().params.id;
 const documents = ref([]);
-const searchData = ref('');
+const searchData = ref("");
 const apiCall = new apiService();
 const openModal = ref(false);
 const today = ref(new Date());
+const section = ref("");
+const dept = ref("");
 const tableHead = ref([
   { key: "doc_title", title: "ชื่อเอกสาร" },
   { key: "doc_mimetype", title: "ประเภทไฟล์" },
@@ -180,34 +195,38 @@ const formData = ref({
 const rules = {
   doc_title: { required },
   doc_file: { required },
-}
-const v$ = useVuelidate(rules, formData.value)
+};
+const v$ = useVuelidate(rules, formData.value);
 
 onMounted(async () => {
   documents.value = await apiCall.getDocumentByInternId(internId);
+  dept.value = useInternName().getDepartment;
+  section.value = useInternName().getSection;
+  if (!section.value) {
+    const instance = getCurrentInstance();
+    instance?.proxy?.$forceUpdate();
+  }
   /* modal.value = new bootstrap.Modal("#modal", {}); */
 });
 
 const filterData = computed(() => {
   return documents.value.filter((document) => {
-    return (
-      document.doc_title.indexOf(searchData.value.trim()) > -1
-    )
-  })
-})
+    return document.doc_title.indexOf(searchData.value.trim()) > -1;
+  });
+});
 
 function showDocumentFile(path) {
   window.open(path);
 }
 
 async function formSubmit() {
- const validate = await v$.value.$validate()
+  const validate = await v$.value.$validate();
 
- if (validate) {
+  if (validate) {
     formData.value.doc_intern_id = internId;
     const res = await apiCall.createDocument(formData.value);
     router.go();
- }
+  }
 }
 
 function showFileName() {
@@ -219,7 +238,9 @@ function showFileName() {
 }
 
 async function deleteDocument(data) {
-  const result = await confirmation(`ยืนยันการลบข้อมูลเอกสาร "${data.doc_title}" หรือไม่`);
+  const result = await confirmation(
+    `ยืนยันการลบข้อมูลเอกสาร "${data.doc_title}" หรือไม่`
+  );
 
   if (result) {
     await apiCall

@@ -8,10 +8,10 @@
 -->
 
 <template>
-  <div class="col-md-3">
-    <div class="card h-100 content border shadow-sm text-center">
-      <div class="card-body">
-        <slot name="before-title"></slot>
+    <div class="col-md-3">
+        <div :class="{ 'card-hover': hover }" class="card h-100 content border shadow-sm text-center">
+            <div class="card-body">
+                <slot name="before-title"></slot>
 
         <h6 class="card-title py-2">{{ title }}</h6>
 
@@ -33,16 +33,17 @@
 
 <script setup>
 defineProps({
-  title: [Boolean, String],
-  image: [Boolean, String],
-  sub: String,
-  content: String,
-});
+    title: [Boolean, String],
+    image: [Boolean, String],
+    sub: String,
+    content: String,
+    hover: [Boolean, String],
+})
 </script>
 
 <style scoped>
-.card:hover {
-  border-color: var(--main-color) !important;
-  color: var(--main-color) !important;
+.card-hover:hover {
+    border-color: var(--main-color) !important;
+    color: var(--main-color) !important
 }
 </style>

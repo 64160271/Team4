@@ -14,7 +14,7 @@
         <div class="row nopadding border-bottom">
           <div class="col-md-3 my-auto text-center">
             <div class="text-center mb-4">
-              <img id="blah" src="" alt="" class="img bg-grays-200" />
+              <img id="blah" src="@/assets/images/person-nm.png" alt="" class="img bg-grays-200" />
             </div>
 
             <button
@@ -301,6 +301,9 @@
                 type="text"
                 class="form-control"
               />
+                :class="{ 'is-invalid': v$.personal_info.intn_citizen_id.$error }"
+              />
+              <InvalidFeedback :errors="v$.personal_info.intn_citizen_id.$errors" />
             </div>
 
             <div class="col-md-4">
@@ -532,7 +535,9 @@
                 v-model="personalInfo.intn_end_date"
                 type="date"
                 class="form-control"
+                :class="{ 'is-invalid': v$.personal_info.intn_end_date.$error }"
               />
+              <InvalidFeedback :errors="v$.personal_info.intn_end_date.$errors" />
             </div>
 
             <div class="col">
@@ -543,6 +548,9 @@
                 type="date"
                 class="form-control"
               />
+                :class="{ 'is-invalid': v$.personal_info.intn_last_work_date.$error }"
+              />
+              <InvalidFeedback :errors="v$.personal_info.intn_last_work_date.$errors" />
             </div>
 
             <div class="col">
@@ -655,7 +663,7 @@
                 id="tel"
                 v-model="personalInfo.intn_tel"
                 placeholder="xxx-xxx-xxxx"
-                maxlength="10"
+                maxlength="12"
                 type="text"
                 class="form-control"
                 :class="{ 'is-invalid': v$.personal_info.intn_tel.$error }"
@@ -833,7 +841,7 @@ async function submitForm() {
           college_info: formData.college_info,
           intn_image: formData.intn_image,
         })
-        .then((response) => {
+        .then(() => {
           successAlert().then(() => {
             router.push({ name: "index" });
             formData.$reset(); /* ย้อนกลับหน้า index */
@@ -846,6 +854,10 @@ async function submitForm() {
       personalInfo.value.intn_code = personalInfo.value.intn_code.replace("INT-", "");
     }
   }
+}
+
+function formatTel() {
+  $("#tel").inputmask("999-999-9999");
 }
 
 /*
