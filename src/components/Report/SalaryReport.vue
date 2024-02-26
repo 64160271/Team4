@@ -7,7 +7,8 @@
             <BaseSelect 
             placeholder="ปี" 
             @change="fetchReport()"
-            v-model="yearSelect" :options="listYear" />    
+            v-model="yearSelect" 
+            :options="listYear" />    
         </div>
 
         <div class="col-md-2 my-auto">  
@@ -38,19 +39,32 @@
  
     </div>
 
-    <div class="row" v-if="view == 'T'">
-        <div class="border col-md-3 my-auto">
-            เบี้ยเลี้ยง 
-            <span> {{ sum_salary }}</span>
+    <div class="row" v-if="view == 'T'" >
+        <div class="border col-md-3 my-auto mx-4">
+            <div class="text mt-3">
+                เบี้ยเลี้ยง 
+            </div>
+            <div class="money">
+                <span> {{ sum_salary }}</span>
+            </div>
         </div>
         
-        <div class="border col-md-3 my-auto">
-            เบี้ยเลี้ยงพิเศษ
-            <span> {{ sum_ex }}</span>
+        <div class="border col-md-3 my-auto mx-4">
+            <div class="text mt-3">
+                เบี้ยเลี้ยงพิเศษ
+            </div>
+            <div class="money">
+                <span> {{ sum_ex }}</span>
+            </div>
         </div>
         
-        <div class="border col-md-3 my-auto">
-            เบี้ยเลี้ยงรวม
+        <div class="border col-md-3 my-auto mx-4">
+            <div class="text mt-3">
+                เบี้ยเลี้ยงทั้งหมด
+            </div>
+            <div class="money">
+                <span> {{ sum_ex }}</span>
+            </div>
         </div>
     </div>
 
@@ -59,7 +73,6 @@
             <Bar v-if="loaded && view == 'T'"  :options="optionsTeam" :data="chartData" />
         </div>
 
-    
 </template>
 
 <script setup>
@@ -137,7 +150,6 @@ const chartData = ref({
             borderColor: 'rgba(75, 192, 192, 1)',
             barThickness: 20,
             
-            
         },
         {
             label:'extra', data :[],
@@ -156,7 +168,7 @@ const listYear = ref([])
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const fetchAllReport = (async () => {
-    view.value = 'T'
+    view.value = 'A'
     const params = {
         year: yearSelect.value - 543,
     }
@@ -193,7 +205,7 @@ const fetchTeamReport = (async () => {
         })
         
     const month = data.reports.map((d) => { return d.month })
-    const extra = data.reportsmap((d) => {return d.sum_extra})
+    const extra = data.reports.map((d) => {return d.sum_extra})
     const salary = data.reports.map((d) => { return d.sum_salary }) 
         
     chartData.value.labels = month;
@@ -201,7 +213,7 @@ const fetchTeamReport = (async () => {
     chartData.value.datasets[1].data = extra ;
     loaded.value = true
 
-    
+
 })
 
 onMounted(async () => {
@@ -225,7 +237,7 @@ onMounted(async () => {
 const fetchReport = () => {
     if(view.value === "A"){
         fetchAllReport()
-    }else if (view.value == "T"){
+    }else if (view.value === "T"){
         fetchTeamReport()
     }
 }
