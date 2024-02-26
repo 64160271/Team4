@@ -21,7 +21,7 @@
             text="team_name" />     
         </div>
 
-        <button class="col-auto btn ms-auto btn-sm outline-red">  
+        <button class="col-2 btn ms-auto me-3 btn-sm outline-red">  
             ดาวน์โหลด    
         </button>
 
