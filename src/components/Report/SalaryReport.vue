@@ -21,8 +21,8 @@
             text="team_name" />     
         </div>
 
-        <button class="col-2 btn ms-auto btn-sm outline-red" @click="">    
-            ดาวน์โหลด  
+        <button class="col-auto btn ms-auto btn-sm outline-red">  
+            ดาวน์โหลด    
         </button>
 
         <div class="row p-0 m-0 my-2">
@@ -39,31 +39,29 @@
  
     </div>
 
-    <div class="row" v-if="view == 'T'" >
-        <div class="border col-md-3 my-auto mx-4">
+    <div class="row mb-4" v-if="view == 'T' " >
+        <div class="border col-md-3 my-auto mx-5">
             <div class="text mt-3">
                 เบี้ยเลี้ยง 
             </div>
             <div class="money">
-               00000 <span> {{ sum_salary }}</span>
+                <span> {{ totalSalary.toFixed(2) || 0 }}</span>
             </div>
         </div>
-        
-        <div class="border col-md-3 my-auto mx-4">
+        <div class="border col-md-3 my-auto mx-5">
             <div class="text mt-3">
                 เบี้ยเลี้ยงพิเศษ
             </div>
             <div class="money">
-               00000 <span> {{ sum_ex }}</span>
+                <span> {{ totalExtra.toFixed(2) || 0 }}</span>
             </div>
         </div>
-        
-        <div class="border col-md-3 my-auto mx-4">
+        <div class="border col-md-3 my-auto mx-5">
             <div class="text mt-3">
                 เบี้ยเลี้ยงทั้งหมด
             </div>
             <div class="money">
-               000000 <span> {{ sum_ex }}</span>
+                <span> {{ totalAll.toFixed(2) }}</span>
             </div>
         </div>
     </div>
@@ -85,13 +83,15 @@ import axios from 'axios';
 
 const currentYear = new Date().getFullYear() + 543
 const view = ref('A')
+const totalSalary = ref(0)
+const totalExtra = ref(0)
+const totalAll = ref(0)
 const name = ref('BarChart')
 const loaded = ref(false)
 const yearSelect = ref(currentYear)
 const optionsYear = ref({
     indexAxis: 'y', 
     scales: {
-        
         x: {
             title: {
                 display: true,
@@ -188,6 +188,8 @@ const fetchAllReport = (async () => {
     chartData.value.datasets[0].data = salary;
     chartData.value.datasets[1].data = extra ;
     loaded.value = true
+
+    
 })
 
 const fetchTeamReport = (async () => {
@@ -203,17 +205,21 @@ const fetchTeamReport = (async () => {
         .then((response) => {
             return response.data
         })
-        
-    const month = data.reports.map((d) => { return d.month })
+       
+    const month = data.reports.map((d) => { return d.month})
     const extra = data.reports.map((d) => {return d.sum_extra})
-    const salary = data.reports.map((d) => { return d.sum_salary }) 
+    const salary = data.reports.map((d) => { return d.sum_salary}) 
         
     chartData.value.labels = month;
     chartData.value.datasets[0].data = salary;
-    chartData.value.datasets[1].data = extra ;
+    chartData.value.datasets[1].data = extra;
     loaded.value = true
 
-
+    console.log(data)
+    totalSalary.value = data.reports.reduce((a, b) => Number(a.sum_salary) + Number(b.sum_salary))
+    console.log(totalSalary.value)
+    totalExtra.value = data.reports.reduce((a, b) => Number(a.sum_extra) + Number(b.sum_extra))
+    totalAll.value = totalSalary.value + totalExtra.value
 })
 
 onMounted(async () => {
@@ -231,7 +237,6 @@ onMounted(async () => {
         console.error(e)
     }
 
-    
 })
 
 const fetchReport = () => {
@@ -254,8 +259,17 @@ async function downloadExcelFile(){
 
 .border{
     border: 1px solid rgb(52, 51, 51);
-    border-radius: 5px;
     height: 100px;
+    border-radius: 10px;
+    align-items: center;
+
+}
+.text{
+    height: 30px;
+    text-align: center;
+}
+.money{
+    height: 30px;
     text-align: center;
 }
 .text{
@@ -266,5 +280,7 @@ async function downloadExcelFile(){
     height: 30px;
     font-size: 16px;
 }
+
+
 
 </style>
