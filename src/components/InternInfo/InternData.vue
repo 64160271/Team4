@@ -6,12 +6,10 @@
 -->
 
 <template>
-    <div class="row mb-3">
-
         <LayoutMenu class="mb-3" :name="intern.intn_name_th" />
-
-        <div class="row position-relative">
-            <a id="editButton" class="btn btn-sm rounded-circle col-auto top-0 end-0 position-absolute"
+        
+        <div class="position-relative">
+            <a id="editButton" class="prio mt-3 me-4 btn btn-sm rounded-circle col-auto top-0 end-0 position-absolute"
                 @click="isEdit = !isEdit, editData()">
                 <svg class="" width="27" height="32" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -23,12 +21,13 @@
                 </svg>
             </a>
         </div>
+        <SectionSpace noSpace>
 
-        <InternDetail v-if="!isEdit" :intern="intern" class="mt-3" />
+            <InternDetail v-if="!isEdit" :intern="intern" class="mt-3" />
 
-        <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" class="mt-3" />
+            <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" />
+        </SectionSpace>
 
-    </div>
 </template>
 
 <script setup>
@@ -37,7 +36,6 @@ import { useRoute } from 'vue-router'
 import router from '@/router'
 import LayoutMenu from './LayoutMenu.vue'
 import apiService from '../../services/api'
-import { formatDate, getAgeBuddisht } from '../../assets/js/func'
 import EditInternData from './EditInternData.vue'
 import InternDetail from './InternDetail.vue'
 
@@ -77,5 +75,9 @@ hr {
     border: none;
     height: 1px;
     background-color: var(--main-color);
+}
+
+.prio {
+    z-index: 5;
 }
 </style>

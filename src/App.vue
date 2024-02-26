@@ -6,20 +6,25 @@
 
     <main
       v-if="!['login'].includes($route.name)"
-      class="px-5 pt-4 col"
-      style="margin-left: 280px"
+      class="px-5 main-style"
     >
-      <router-view />
+      <div class="mb-3">
+        <router-view />
+      </div>
     </main>
   </div>
 </template>
 
 <script setup>
 import LayoutSidebar from "./components/layouts/LayoutSidebar.vue";
-import LayoutNavbar from "./components/layouts/LayoutNavbar.vue";
 import Login from "./components/Login.vue";
-import { ref, onMounted } from "vue";
-import axios from "axios";
 </script>
 
-<style scoped></style>
+<style scoped>
+.main-style {
+  margin-left: 280px;
+  background-color: #f5f6f8;
+  height: 100%;
+  overflow-y: scroll;
+}
+</style>
