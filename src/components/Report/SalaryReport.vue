@@ -45,7 +45,7 @@
                 เบี้ยเลี้ยง 
             </div>
             <div class="money">
-                <span> {{ sum_salary }}</span>
+               00000 <span> {{ sum_salary }}</span>
             </div>
         </div>
         
@@ -54,7 +54,7 @@
                 เบี้ยเลี้ยงพิเศษ
             </div>
             <div class="money">
-                <span> {{ sum_ex }}</span>
+               00000 <span> {{ sum_ex }}</span>
             </div>
         </div>
         
@@ -63,7 +63,7 @@
                 เบี้ยเลี้ยงทั้งหมด
             </div>
             <div class="money">
-                <span> {{ sum_ex }}</span>
+               000000 <span> {{ sum_ex }}</span>
             </div>
         </div>
     </div>
@@ -255,8 +255,16 @@ async function downloadExcelFile(){
 .border{
     border: 1px solid rgb(52, 51, 51);
     border-radius: 5px;
-    height: 50px;
+    height: 100px;
     text-align: center;
+}
+.text{
+    height: 30px;
+    font-size: 20px;
+}
+.money{
+    height: 30px;
+    font-size: 16px;
 }
 
 </style>
