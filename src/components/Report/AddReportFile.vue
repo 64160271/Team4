@@ -67,15 +67,45 @@ function showFileName(callback) {
   callback(filename);
 }
 
+// const readFIle = async () => {
+//   axios.post(`${import.meta.env.VITE_API_HOST}/salaries/read-file`,
+//     { salaries_file: fileData },
+//     { headers: { "Content-Type": "multipart/form-data" }}
+//   ).then((response) => {
+    
+//     salarys.value = response.data
+//     salarys.value.sal_report_id = id
+//   })
+//   console.log(salarys.value)
+//   console.log(salarys.value.sal_report_id)
+//   console.log(id)
+
+// }
+
 const readFIle = async () => {
   axios.post(`${import.meta.env.VITE_API_HOST}/salaries/read-file`,
     { salaries_file: fileData },
-    { headers: { "Content-Type": "multipart/form-data" }}
+    { headers: { "Content-Type": "multipart/form-data" }},
+  
   ).then((response) => {
-    salarys.value = response.data
-  })
-  console.log(salarys.value)
+    salarys.value = response.data;
+    
+    const salaries = salarys.value;
+     // Assuming you have a function to get the id
+     
+    
+    // Map sal_report_id to each salary object
+    const salariesWithIds = salaries.map((salary) => {
+      return { ...salary, sal_report_id: id };
+    });
+    // Now, salariesWithIds contains all salaries with sal_report_id mapped
+    console.log(salariesWithIds);
+  }).catch((error) => {
+    console.error("Error:", error);
+  });
 }
+
+
 
 function importExcel() {
 
@@ -83,18 +113,20 @@ function importExcel() {
 async function sendToCreateCertificate() {
   const result = await confirmation();
   if (result) {
-    const response = await axios.post(
+    await axios.post(
       `${import.meta.env.VITE_API_HOST}/salaries/create-salary-by-file`,
       salarys.value
 
-    ).then((response) => {
+    ).then((_res) => {
       successAlert().then(() => {
         router.push({ name: 'reportData' });
+        console.log('Success')
       });
     })
       .catch((err) => {
         errorAlert(err);
       });
+      
     console.log(salarys.value);
 
 
