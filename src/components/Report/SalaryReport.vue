@@ -15,6 +15,7 @@
             <BaseSelect
             @change="fetchTeamReport()"
             placeholder="ทีม"
+            all-select
             v-model="team_id" 
             :options="teams" 
             value="team_id"
@@ -33,7 +34,7 @@
 
         <div class="row p-0 m-0 my-2">
             <div class="form-check form-check-inline fw-bold">
-                ของทีม : comments() <span>{{ selectedTeamName }}</span>
+                ของทีม : <span>{{ teamName }}</span>
              </div>  
         </div>
  
@@ -67,8 +68,8 @@
     </div>
 
     <div class="container">
-            <Bar v-if="loaded && view == 'A'"  :options="optionsYear" :data="chartData" />
-            <Bar v-if="loaded && view == 'T'"  :options="optionsTeam" :data="chartData" />
+            <Bar v-if="loaded && view == 'A'"  :options="optionsYear" :data="chartAllData" />
+            <Bar v-if="loaded && view == 'T'"  :options="optionsTeam" :data="chartTeamData" />
         </div>
 
 </template>
@@ -77,8 +78,8 @@
 import { ref, onMounted } from 'vue';
 import BaseSelect from "../Component/BaseSelect.vue";
 import apiService from "../../services/api";
-import { Bar } from 'vue-chartjs';
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale  } from 'chart.js'
+import { Bar, Line } from 'vue-chartjs';
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, LineElement, PointElement, CategoryScale, LinearScale  } from 'chart.js'
 import axios from 'axios';
 
 
@@ -90,22 +91,10 @@ const totalAll = ref(0)
 const name = ref('BarChart')
 const loaded = ref(false)
 const yearSelect = ref(currentYear)
+const teamName = ref("")
 
-const comments = ref({
-    data() {
-        return {
-            team_id: null,
-            teams: [],
-        }
-    },
-    comments: {
-        selectedTeamName(id){
-            const selectedTeam = this.teams.find(team => team.team_id === id);
-            return selectedTeam ? selectedTeam.team_name : '';
-        }
-    },
-})
 const optionsYear = ref({
+    type: 'bar',
     indexAxis: 'y', 
     scales: {
         x: {
@@ -120,8 +109,9 @@ const optionsYear = ref({
                 display: true,
                 text: 'Teams'
             },
-            barThickness: 20,
         },
+        
+        
     },
     responsive: true,
     plugins: {
@@ -155,35 +145,54 @@ const optionsTeam = ref({
             text: 'Horizontal Bar Chart - Salary and Extra'
         }
     },
-    
 })
 
-const chartData = ref({
+const chartAllData = ref({
     labels: [],
     datasets: [
         {
             label:'salary', data :[],
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderColor: 'rgba(75, 192, 192, 1)',
-            barThickness: 20,
-            
         },
         {
             label:'extra', data :[],
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 1)',
-            barThickness: 20,
-            
         },
     ],
 })
 
+const chartTeamData = ref({
+    labels: [],
+    datasets: [
+        {
+            label:'salary', data :[],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+        },
+        {
+            label:'salary', data :[],
+            backgroundColor: 'rgba(0, 191, 255, 0.1)',
+            borderColor: 'rgba(0, 191, 255, 0.8 )',
+        },
+        {
+            label:'extra', data :[],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+        },
+        {
+            label:'extra', data :[],
+            backgroundColor: 'rgba(255, 105, 180, 0.1)',
+            borderColor: 'rgba(255, 105, 180, 1)',
+        },
+    ],
+})
 const teams = ref([]);
 const team_id = ref();
 const listYear = ref([])
-const excelFile = ref([]);
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, BarElement, CategoryScale, LinearScale)
 
 const fetchAllReport = (async () => {
     view.value = 'A'
@@ -202,19 +211,25 @@ const fetchAllReport = (async () => {
     const extra = data.map((d) => {return d.sum_extra})
     const salary = data.map((d) => { return d.sum_salary }) 
         
-    chartData.value.labels = teamName;
-    chartData.value.datasets[0].data = salary;
-    chartData.value.datasets[1].data = extra ;
+    chartAllData.value.labels = teamName;
+    chartAllData.value.datasets[0].data = salary;
+    chartAllData.value.datasets[1].data = extra ;
     loaded.value = true
 
     
 })
 
 const fetchTeamReport = (async () => {
+    if (!team_id.value) {
+        view.value = 'A'
+        fetchAllReport()
+        return
+    }
+
     view.value = 'T'
     console.log(yearSelect.value)
     const params = {
-        year: yearSelect.value - 543,
+        // year: yearSelect.value - 543,
     }
 
     loaded.value = false
@@ -223,20 +238,25 @@ const fetchTeamReport = (async () => {
         .then((response) => {
             return response.data
         })
-       
+    
+    teamName.value = data.name
     const month = data.reports.map((d) => { return d.month})
     const extra = data.reports.map((d) => {return d.sum_extra})
     const salary = data.reports.map((d) => { return d.sum_salary}) 
         
-    chartData.value.labels = month;
-    chartData.value.datasets[0].data = salary;
-    chartData.value.datasets[1].data = extra;
+    chartTeamData.value.labels = month;
+    chartTeamData.value.datasets[0].data = salary;
+    chartTeamData.value.datasets[1].data = salary;
+    chartTeamData.value.datasets[1].type = 'line';
+    chartTeamData.value.datasets[2].data = extra;
+    chartTeamData.value.datasets[3].data = extra;
+    chartTeamData.value.datasets[3].type = 'line';
     loaded.value = true
 
     console.log(data)
-    totalSalary.value = data.reports.reduce((a, b) => Number(a.sum_salary) + Number(b.sum_salary))
+    totalSalary.value = salary.reduce((a, b) => Number(a) + Number(b))
     console.log(totalSalary.value)
-    totalExtra.value = data.reports.reduce((a, b) => Number(a.sum_extra) + Number(b.sum_extra))
+    totalExtra.value = extra.reduce((a, b) => Number(a) + Number(b))
     totalAll.value = totalSalary.value + totalExtra.value
 })
 
@@ -258,43 +278,14 @@ onMounted(async () => {
 })
 
 const fetchReport = () => {
-    if(view.value === "A"){
+    if(view.value === "A" || team_id.value == ""){
         fetchAllReport()
     }else if (view.value === "T"){
         fetchTeamReport()
     }
 }
     
-// downloadExcelFile(async() => {
-//     try{
-//         const response = await axios.get('your_api_endpoint');
-//         const apiData = response.data;
 
-//         const transformedData = apiData.map(item.field1, item.field2);
-
-//         const ws = XLSX.utils.aoa_to_sheet([
-//             [
-
-//             ]
-//         ]);
-
-//         const wb = XLSX.utils.book_new();
-//         XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
-
-//         const blob = XLSX.write(wb, { bookType: 'xlsx', type: 'blob'});
-
-//         const link = document.createElement('a');
-//         link.href = URL.createObjectURL(blob);
-//         link.download = 'your_excel_file.xlsx';
-
-//         document.body.appendChild(link);
-//         link.click();
-
-//         document.body.removeChild(link);
-//     } catch (error){
-//         console.error('Error fetching data:', error);
-//     }
-// })
 
 </script>
 
