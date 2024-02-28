@@ -2,7 +2,7 @@
 <template>
     <LayoutMenuName page-name="รายงานเบี้ยเลี้ยง" />
     
-    <div class="row mb-3">        
+    <div class="row mb-3 top-300">        
         <div class="col-md-2 my-auto">  
             <BaseSelect 
             placeholder="ปี" 
@@ -21,7 +21,7 @@
             text="team_name" />     
         </div>
 
-        <button class="col-2 btn ms-auto me-3 btn-sm outline-red">  
+        <button class="col-2 btn ms-auto me-3 btn-sm outline-red" @click="downloadExcelFile">  
             ดาวน์โหลด    
         </button>
 
@@ -33,7 +33,7 @@
 
         <div class="row p-0 m-0 my-2">
             <div class="form-check form-check-inline fw-bold">
-                ของทีม :  <span>{{ team_id }}</span>
+                ของทีม : comments() <span>{{ selectedTeamName }}</span>
              </div>  
         </div>
  
@@ -81,6 +81,7 @@ import { Bar } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale  } from 'chart.js'
 import axios from 'axios';
 
+
 const currentYear = new Date().getFullYear() + 543
 const view = ref('A')
 const totalSalary = ref(0)
@@ -89,6 +90,21 @@ const totalAll = ref(0)
 const name = ref('BarChart')
 const loaded = ref(false)
 const yearSelect = ref(currentYear)
+
+const comments = ref({
+    data() {
+        return {
+            team_id: null,
+            teams: [],
+        }
+    },
+    comments: {
+        selectedTeamName(id){
+            const selectedTeam = this.teams.find(team => team.team_id === id);
+            return selectedTeam ? selectedTeam.team_name : '';
+        }
+    },
+})
 const optionsYear = ref({
     indexAxis: 'y', 
     scales: {
@@ -97,13 +113,14 @@ const optionsYear = ref({
                 display: true,
                 text: 'Salary',
                 
-            }
+            },
         },
         y: {
             title: {
                 display: true,
                 text: 'Teams'
             },
+            barThickness: 20,
         },
     },
     responsive: true,
@@ -122,7 +139,7 @@ const optionsTeam = ref({
                 display: true,
                 text: 'Month',
                 
-            }
+            },
         },
         y: {
             title: {
@@ -164,6 +181,7 @@ const chartData = ref({
 const teams = ref([]);
 const team_id = ref();
 const listYear = ref([])
+const excelFile = ref([]);
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -247,11 +265,36 @@ const fetchReport = () => {
     }
 }
     
-async function downloadExcelFile(){
+// downloadExcelFile(async() => {
+//     try{
+//         const response = await axios.get('your_api_endpoint');
+//         const apiData = response.data;
 
-    window.open(`${import.meta.env.VITE_API_HOST}`)
+//         const transformedData = apiData.map(item.field1, item.field2);
 
-}
+//         const ws = XLSX.utils.aoa_to_sheet([
+//             [
+
+//             ]
+//         ]);
+
+//         const wb = XLSX.utils.book_new();
+//         XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
+
+//         const blob = XLSX.write(wb, { bookType: 'xlsx', type: 'blob'});
+
+//         const link = document.createElement('a');
+//         link.href = URL.createObjectURL(blob);
+//         link.download = 'your_excel_file.xlsx';
+
+//         document.body.appendChild(link);
+//         link.click();
+
+//         document.body.removeChild(link);
+//     } catch (error){
+//         console.error('Error fetching data:', error);
+//     }
+// })
 
 </script>
 
