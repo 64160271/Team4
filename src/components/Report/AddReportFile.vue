@@ -35,10 +35,8 @@
 </template>
   
 <script setup>
-import readXlsxFile from "read-excel-file";
 
 import { ref } from "vue";
-import BaseButton from "../Component/BaseButton.vue";
 import axios from "axios";
 import SectionSpace from "../Component/SectionSpace.vue";
 import { onMounted } from 'vue';
@@ -72,7 +70,7 @@ function showFileName(callback) {
 //     { salaries_file: fileData },
 //     { headers: { "Content-Type": "multipart/form-data" }}
 //   ).then((response) => {
-    
+
 //     salarys.value = response.data
 //     salarys.value.sal_report_id = id
 //   })
@@ -85,21 +83,17 @@ function showFileName(callback) {
 const readFIle = async () => {
   axios.post(`${import.meta.env.VITE_API_HOST}/salaries/read-file`,
     { salaries_file: fileData },
-    { headers: { "Content-Type": "multipart/form-data" }},
-  
+    { headers: { "Content-Type": "multipart/form-data" } },
+
   ).then((response) => {
     salarys.value = response.data;
-    
-    const salaries = salarys.value;
-     // Assuming you have a function to get the id
-     
-    
-    // Map sal_report_id to each salary object
-    const salariesWithIds = salaries.map((salary) => {
-      return { ...salary, sal_report_id: id };
+
+    salarys.value.forEach(e => {
+      e.sal_report_id = id
     });
+
+    console.log(salarys.value)
     // Now, salariesWithIds contains all salaries with sal_report_id mapped
-    console.log(salariesWithIds);
   }).catch((error) => {
     console.error("Error:", error);
   });
@@ -110,7 +104,7 @@ const readFIle = async () => {
 function importExcel() {
 
 }
-async function sendToCreateCertificate() {
+async function sendToCreateReport() {
   const result = await confirmation();
   if (result) {
     await axios.post(
@@ -126,7 +120,7 @@ async function sendToCreateCertificate() {
       .catch((err) => {
         errorAlert(err);
       });
-      
+
     console.log(salarys.value);
 
 
@@ -165,7 +159,7 @@ function uploaded() {
     uploadBox.classList.add("d-none");
     uploadButton.classList.add("d-none");
     isUploaded.value = true;
-    sendToCreateCertificate()
+    sendToCreateReport()
   }
 }
 

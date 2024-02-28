@@ -1,5 +1,5 @@
 <template>
-    <LayoutMenuName page-name="รายงานเบี้ยเลี้ยง" />
+    <LayoutMenuName backButton page-name="รายงานเบี้ยเลี้ยง" />
     <div class="row mb-2">
         
             <div class="col-auto ms-auto"> 
