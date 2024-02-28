@@ -87,10 +87,12 @@ import SectionSpace from '../Component/SectionSpace.vue';
                 d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"
               />
             </svg>
+
             <EditIcon
               @click="edit(universities[index])"
               class="hov-outline-red ms-auto col-auto my-auto cursor-p"
             />
+
             <ArrowDownIcon
               @click="
                 (showDetail[index] = !showDetail[index]), console.log(showDetail[index])
@@ -108,7 +110,12 @@ import SectionSpace from '../Component/SectionSpace.vue';
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item bg-red text-white">
                       คณะ {{ faculty.fac_name }}
+                      <EditIcon
+                        @click="edit(universities[index])"
+                        class="hov-outline-red ms-auto col-auto m-auto my-auto cursor-p"
+                      />
                     </li>
+                   
                     <div v-if="faculty.majors.length == 0" class="row mt-3">
                       <span class="text-center mt-auto">ไม่มีข้อมูลสาขา</span>
                     </div>
@@ -127,15 +134,45 @@ import SectionSpace from '../Component/SectionSpace.vue';
 
               <div class="col-lg-4 d-flex align-items-stretch mb-3">
                 <div class="card flex-fill p-4">
-                  <button class="btn col-md-6 outline-red m-auto">+ เพิ่มคณะ</button>
+                  <button class="btn col-md-6 outline-red m-auto " @click="modalOpen = !open, uniName = university.uni_name">+ เพิ่มคณะ</button>
                 </div>
+                <BaseModal
+                  v-if="isOpen == true"
+                  @save="formSubmit"
+                  title="เพิ่มข้อมูลคณะ"
+                  @close="isOpenAddFaculty = false"
+                >
+                </BaseModal>
               </div>
+            
             </div>
           </Transition>
         </div>
       </div>
     </div>
   </SectionSpace>
+    <BaseModal :title="uniName" v-if="modalOpen" @close="modalOpen = false" @save="submitForm">
+        <div class="row g-3 align-items-center mx-4 mb-2">
+            <div class="col-2">
+                <label for="facultyName" class="col-form-label">คณะ</label>
+            </div>
+            <div class="col-9">
+                <input type="text" id="facName" class="form-control">
+            </div>
+        </div>
+        <div v-for="i in countRow" class="row g-3 align-items-center mx-4 mb-2">
+            <div class="col-2">
+                <label for="majorName" class="col-form-label">สาขา</label>
+            </div>
+            <div class="col-9">
+                <input type="text" id="majorName" class="form-control">                          
+            </div>
+            <button type="button" class="col-md-1 btn btn-outline-secondary rounded-circle" @click="$event.target.parentElement.remove()">-</button>
+        </div>       
+        <div class="row">
+            <button type="button" class="col-1 btn btn-outline-secondary mx-auto rounded-circle" @click="countRow++">+</button>
+        </div>
+    </BaseModal>
 </template>
 
 <script setup>
@@ -164,11 +201,21 @@ const router = useRouter();
 const showDetail = ref([]);
 const universities = ref([]);
 const isOpen = ref(false);
+const modalOpen = ref(false)
 const modalMode = ref("");
+const uniName = ref()
+const countRow = ref(1)
 const inititalState = {
   uni_name: "มหาวิทยาลัย",
   uni_file: "",
+  faculty:{
+        fac_name:''
+    },
+    major:[{
+        maj_name:''
+    }]
 };
+
 const formData = reactive({ ...inititalState });
 
 const rules = {
@@ -189,8 +236,13 @@ const getAllUniversity = async () => {
     .get(`${import.meta.env.VITE_API_HOST}/universities/related`)
     .then((response) => {
       universities.value = response.data;
+      console.log(universities.value)
     });
 };
+
+async function submitForm() {
+    const result = await confirmation()
+}
 
 /* ฟังก์ชันเมื่อคลิกปุ่ม แก้ไขข้อมูล */
 async function edit(university) {
@@ -216,10 +268,10 @@ async function edit(university) {
 function add() {
   /* กำนหนดค่าให้แบบฟอร์มเป็นค่าว่าง */
   Object.assign(formData, inititalState);
-
   isOpen.value = true;
   modalMode.value = "add";
 }
+
 
 function showImg() {
   const imgUpload = document.getElementById("img-upload");
