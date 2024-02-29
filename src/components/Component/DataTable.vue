@@ -15,7 +15,8 @@
             { 'border-left': index == 0 },
             { 'border-right': index == heads.length - 1 },
             { 'text-left': !head.align },
-            { ['text-' + head.align]: head.align }
+            { ['text-' + head.align]: head.align },
+            { ['col-md-' + head.size || 'auto']: head.size }
           "
         >
           {{ head.title }}
@@ -40,7 +41,7 @@
             :data="item"
             :name="head.key"
             v-if="!_.get(item, head.key)"
-          ></slot>
+          >-</slot>
         </td>
       </tr>
     </tbody>
@@ -139,7 +140,7 @@ function handleRowClick(value) {
   emit("clicked", value);
 }
 
-onMounted(async () => {});
+onMounted(() => {});
 </script>
 
 <style scoped>

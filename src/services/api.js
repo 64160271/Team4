@@ -239,4 +239,32 @@ export default class apiService {
                 return response.data
             })
     }
+    
+    getInternByProjectId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/interns/projects/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    createProject = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/projects`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    editProject = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/projects/${id}`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    createInternProject = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/projects/interns`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
 }

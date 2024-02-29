@@ -32,8 +32,7 @@ import DataTable from "../Component/DataTable.vue";
 
 const internId = useRoute().params.id;
 const service = new apiService();
-const projectInfo = ref([]);
-const mentor = ref();
+const projects = ref([]);
 const tableHead = ref([
   { key: "pint_teams.team_name", title: "เลขที่ใบลา", align: "center" },
   { key: "pinf_start_date", title: "วันที่เริ่ม", align: "center" },
@@ -56,7 +55,7 @@ const roleName = computed(() => {
 }); */
 
 onMounted(async () => {
-  projectInfo.value = await service.getProejctInfoByInternId(internId);
+  projects.value = await service.getProejctInfoByInternId(internId);
 });
 </script>
 
