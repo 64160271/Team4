@@ -65,7 +65,16 @@
         <template #sal_remove>
             <DeleteButton />
         </template>
-    </DataTable> 
+    </DataTable>
+    <div class="row">
+        <div class="col-auto ms-auto">
+            <BaseButton label="บันทึกร่าง" @click="changeSave(0)"  />
+        </div>
+        <div class="col-auto " >
+            <BaseButton label="บันทึก" @click="changeSave(1)"  />
+        </div>
+
+    </div>
 </template>
 
 <script setup>
@@ -88,6 +97,10 @@ let openModal = ref(false)
 const salarys = ref([])
 const date = new Date();
 const id = route.params.id
+const changeStatus = ref({
+    report_id: Number(0) ,
+    status_report: Number(0)
+})
 
 
 const formData = ref({
@@ -116,6 +129,25 @@ const dataHead = ref([
     { key: "sal_intn_history", title: "ประวัติ", align: "center" },
 ])
 
+async function changeSave (value){
+    console.log("status = " ,value)
+    console.log("report = ",id)
+    if (value == 0){
+        changeStatus.value.status_report = value ;
+        changeStatus.value.report_id = id ;
+        console.log(changeStatus.report_id)
+        console.log("aaaaa",changeStatus.value)
+        await axios.post(`${import.meta.env.VITE_API_HOST}/reports/update-status`, changeStatus.value,)
+        router.push({ name: 'manageSalary' })
+    }else if (value == 1){
+        changeStatus.value.status_report = value ;
+        changeStatus.value.report_id = id ;
+        console.log(changeStatus.report_id)
+        console.log("aaaaa",changeStatus.value)
+        await axios.post(`${import.meta.env.VITE_API_HOST}/reports/update-status`, changeStatus.value,)
+        router.push({ name: 'manageSalary' })
+    }
+}
 
 
 const getSalaryByReportId = async () => {
