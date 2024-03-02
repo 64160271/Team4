@@ -229,7 +229,7 @@ const fetchTeamReport = (async () => {
     view.value = 'T'
     console.log(yearSelect.value)
     const params = {
-        // year: yearSelect.value - 543,
+        year: yearSelect.value - 543,
     }
 
     loaded.value = false
@@ -284,7 +284,12 @@ const fetchReport = () => {
         fetchTeamReport()
     }
 }
-    
+
+
+const downloadExcelFile = (async () => {
+    window.open(`${import.meta.env.VITE_API_HOST}/salaries/excel`)
+}) 
+
 
 
 </script>
@@ -292,7 +297,7 @@ const fetchReport = () => {
 <style scoped>
 
 .border{
-    border: 1px solid rgb(52, 51, 51);
+    border: 1px solid rgb(34, 34, 34);
     height: 100px;
     border-radius: 10px;
     align-items: center;
