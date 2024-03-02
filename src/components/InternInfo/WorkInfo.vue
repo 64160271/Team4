@@ -15,7 +15,7 @@
     </div>
 
     <div class="row">
-      <DataTable hover-background striped :heads="tableHead" :items="projectInfo">
+      <DataTable hover-background striped :heads="tableHead" :items="projects">
       </DataTable>
     </div>
   </SectionSpace>
@@ -34,12 +34,15 @@ const internId = useRoute().params.id;
 const service = new apiService();
 const projects = ref([]);
 const tableHead = ref([
-  { key: "pint_teams.team_name", title: "เลขที่ใบลา", align: "center" },
-  { key: "pinf_start_date", title: "วันที่เริ่ม", align: "center" },
-  { key: "pinf_end_date", title: "วันที่สิ้นสุด", align: "center" },
-  { key: "pinf_projects.proj_name", title: "ชื่อโปรเจกต์" },
-  { key: "pinf_projects.proj_mentor.ment_name", title: "พี่เลี้ยงโปรเจกต์" },
-  { key: "pint_status_custom", title: "สถานะ" },
+  { key: "pint_teams.team_name", title: "วันที่เพิ่มข้อมูล", align: "center" },
+  { key: "pint_project.proj_name", title: "ชื่อโปรเจกต์", align: "left" },
+  { key: "pint_project.proj_start_date", title: "วันที่เริ่ม", align: "center" },
+  { key: "pint_project.proj_end_date", title: "วันที่สิ้นสุด", align: "center" },
+  {
+    key: "pint_project.proj_mentor.ment_name",
+    title: "พี่เลี้ยงโปรเจกต์",
+  },
+  { key: "pint_status_custom", title: "สถานะ", align: "center" },
 ]);
 
 /* const sectionName = computed(() => {

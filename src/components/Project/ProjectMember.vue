@@ -1,71 +1,72 @@
 <template>
-    <LayoutMenuName backButton page-name="โปรเจกต์" />
+  <LayoutMenuName backButton page-name="โปรเจกต์" />
 
-    <SectionSpace>
-        <div class="row mb-3">
-            <BaseButton @click="add" class="btn-sm col-md-2 ms-auto" label="+ เพิ่มข้อมูล" />
-        </div>
+  <SectionSpace>
+    <div class="row mb-3">
+      <BaseButton @click="add" class="btn-sm col-md-2 ms-auto" label="+ เพิ่มข้อมูล" />
+    </div>
 
-        <div class="row">
-            <DataTable
-                striped
-                :total="interns.length"
-                :heads="tableHeads"
-                :items="interns"
-                hover-background
-            >
-                <template #pint_edit="{ data }">
-                    <EditIcon class="cursor-p"/>
-                </template>
-            </DataTable>
-        </div>
-    </SectionSpace>
+    <div class="row">
+      <DataTable
+        striped
+        :total="interns.length"
+        :heads="tableHeads"
+        :items="interns"
+        hover-background
+      >
+        <template #pint_edit="{ data }">
+          <EditIcon @click="edit(data)" class="cursor-p" />
+        </template>
+      </DataTable>
+    </div>
+  </SectionSpace>
 
-    <BaseModal
-        @save="fornmSubmit"
-        @close="openModal = false"
-        v-if="openModal == true"
-        title="เพิ่มข้อมูลนักศึกษาในโปรเจกต์"
-    >
-        <div class="row mb-3">
-            <div class="col-md-12">
-                <AutoComplete 
-                    label="รหัสนักศึกษาฝึกงาน"
-                    v-model="formData.intn_code"
-                    :value="formData.intn_code"
-                    placeholder="INT-0000"
-                    required
-                    :items="internSearch"
-                    @search="fetchIntern"
-                    item-text="intn_name_th"
-                />
-
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-12">
-                <BaseInput
-                    label="ชื่อ - นามสกุล"
-                    v-model="formData.intn_name_th"
-                    :value="formData.intn_name_th"
-                    placeholder="ชื่อโปรเจกต์"
-                    required
-                />
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-12">
-                <BaseSelect
-                    label="ตำแหน่ง"
-                    v-model="formData.role_id"
-                    :options="roles"
-                    text="role_name"
-                    value="role_id"
-                    required
-                />
-            </div>
-        </div>
-    </BaseModal>
+  <BaseModal
+    @save="fornmSubmit"
+    @close="openModal = false"
+    v-if="openModal == true"
+    title="เพิ่มข้อมูลนักศึกษาในโปรเจกต์"
+  >
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <AutoComplete
+          label="รหัสนักศึกษาฝึกงาน"
+          v-model="formData.intn_code"
+          :value="formData.intn_code"
+          placeholder="INT-0000"
+          required
+          :items="internSearch"
+          @search="fetchIntern"
+          @return="handleReturn"
+          item-text="intn_name_th"
+        />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <BaseInput
+          label="ชื่อ - นามสกุล"
+          v-model="formData.intn_name_th"
+          :value="formData.intn_name_th"
+          placeholder="ค้นหาจากด้านบน"
+          required
+          disabled
+        />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <BaseSelect
+          label="ตำแหน่ง"
+          v-model="formData.role_id"
+          :options="roles"
+          text="role_name"
+          value="role_id"
+          required
+        />
+      </div>
+    </div>
+  </BaseModal>
 </template>
 
 <script setup>
@@ -75,97 +76,128 @@ import BaseInput from "../Component/BaseInput.vue";
 import BaseButton from "../Component/BaseButton.vue";
 import SearchBox from "../Component/SearchBox.vue";
 import { ref, onMounted, reactive } from "vue";
+import { errorAlert } from "../../assets/js/func";
 import EditIcon from "../icons/EditIcon.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
-import router from "@/router"
+import router from "@/router";
 import apiService from "../../services/api";
 import AutoComplete from "../Component/AutoComplete.vue";
 import axios from "axios";
+import { ipAddress } from "@vuelidate/validators";
 
-const interns = ref([])
-const service = new apiService()
-const projId = router.currentRoute.value.params.id
-const openModal = ref(false)
-const roles = ref([])
-const internSearch = ref([])
+const interns = ref([]);
+const service = new apiService();
+const projId = router.currentRoute.value.params.id;
+const openModal = ref(false);
+const roles = ref([]);
+const internSearch = ref([]);
 let modalType = "";
 
 const initialState = {
-    intn_id: null,
-    intn_name_th: null,
-    intn_code: null,
-    role_id: null,
-}
-const formData = reactive({... initialState})
+  proj_id: projId,
+  intn_id: null,
+  intn_name_th: null,
+  intn_code: null,
+  role_id: null,
+};
+const formData = reactive({ ...initialState });
 
 const tableHeads = ref([
-    { key: "pint_intern.intn_code", title: "รหัสนักศึกษาฝึกงาน", size: 2 },
-    { key: "pint_intern.intn_name_th", title: "ขื่อ - นามสกุล", size: 3 },
-    { key: "pint_role.role_name", title: "ตำแหน่ง" },
-    { key: "pint_edit", title: "แก้ไข", size: 1, align: 'center' },
-])
+  { key: "pint_intern.intn_code", title: "รหัสนักศึกษาฝึกงาน", size: 2 },
+  { key: "pint_intern.intn_name_th", title: "ขื่อ - นามสกุล", size: 3 },
+  { key: "pint_role.role_name", title: "ตำแหน่ง" },
+  { key: "pint_edit", title: "แก้ไข", size: 1, align: "center" },
+]);
 
 onMounted(async () => {
-    const res = await service.getInternByProjectId(projId)
-    interns.value = res
-})
+  const res = await service.getInternByProjectId(projId);
+  interns.value = res;
+});
 
 async function fornmSubmit() {
   if (modalType == "A") {
-    await service.createInternProject(formData)
+    await service
+      .createInternProject(formData)
       .then(() => {
-          router.go();
+        router.go();
       })
       .catch((e) => {
-          errorAlert(e.response.data);
+        errorAlert(e.response.data);
       });
   } else if (modalType == "E") {
-    await service.editProject(formData, editId)
+    await service
+      .editProject(formData, editId)
       .then(() => {
-          router.go();
+        router.go();
       })
       .catch((e) => {
-          errorAlert(e.response.data);
+        errorAlert(e.response.data);
       });
   }
 }
 
 let timer;
 async function fetchIntern() {
-    if (timer) {
-        clearTimeout(timer)
-    }
+  if (timer) {
+    clearTimeout(timer);
+  }
 
-    timer = setTimeout(async () => {
-        const params = {
-            filter: formData.intn_code || undefined,
-        };
+  timer = setTimeout(async () => {
+    const params = {
+      filter: formData.intn_code || undefined,
+    };
 
-        await axios
-            .get(`${import.meta.env.VITE_API_HOST}/interns`, { params })
-            .then((response) => {
-                internSearch.value = response.data.rows;
-        });
-    }, 500)
+    await axios
+      .get(`${import.meta.env.VITE_API_HOST}/interns`, { params })
+      .then((response) => {
+        internSearch.value = response.data.rows;
+      });
+  }, 500);
 }
 
 async function add() {
-    if (!internSearch.value[0]) {
-        fetchIntern()
-    }
+  if (!internSearch.value[0]) {
+    fetchIntern();
+  }
 
-    if (!roles.value[0]) {
-        roles.value = await service.getAllRole();
-    }
+  if (!roles.value[0]) {
+    roles.value = await service.getAllRole();
+  }
 
-    Object.assign(formData, initialState)
+  Object.assign(formData, initialState);
 
-    openModal.value = true;
-    modalType = "A"
+  openModal.value = true;
+  modalType = "A";
+}
 
+async function edit(data) {
+  if (!internSearch.value[0]) {
+    fetchIntern();
+  }
+
+  if (!roles.value[0]) {
+    roles.value = await service.getAllRole();
+  }
+
+  Object.assign(formData, {
+    intn_id: data.pint_intern.intn_id,
+    intn_code: data.pint_intern.intn_code,
+    intn_name_th: data.pint_intern.intn_name_th,
+    role_id: data.pint_role.role_id,
+  });
+
+  openModal.value = true;
+  modalType = "E";
+}
+
+function handleReturn(val) {
+  Object.assign(formData, {
+    intn_id: val.intn_id,
+    intn_code: val.intn_code,
+    intn_name_th: val.intn_name_th,
+    role_id: val.work_infos[0].work_role.role_id,
+  });
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

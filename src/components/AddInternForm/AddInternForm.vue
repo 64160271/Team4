@@ -836,12 +836,12 @@ async function submitForm() {
     const result = await confirmation();
     if (result) {
       await Promise.all([
-          workInfo.value.work_from_date = personalInfo.value.intn_start_date,
-          personalInfo.value.intn_code = new String("INT-").concat(
-            personalInfo.value.intn_code
-          ),
-          personalInfo.value.intn_intern_email += "@clicknext.com"
-        ])
+        (workInfo.value.work_from_date = personalInfo.value.intn_start_date),
+        (personalInfo.value.intn_code = new String("INT-").concat(
+          personalInfo.value.intn_code
+        )),
+        (personalInfo.value.intn_intern_email += "@clicknext.com"),
+      ]);
 
       /* สร้างข้อมูลนักศึกษาผ่าน API */
       await apiCall
@@ -1038,7 +1038,8 @@ input:focus {
 select:focus {
   transition: 0s;
   box-shadow: none;
-  border: 2px solid rgb(0, 119, 255);
+  outline: 2px solid rgb(0, 119, 255) !important;
+  border: 1px solid white !important;
 }
 
 .is-invalid:focus {

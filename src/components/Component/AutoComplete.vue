@@ -1,34 +1,37 @@
 <template>
-    <div class="auto">
-        <label for="" class="form-label text-gray" v-if="label">{{ label }}
-            <span class="text-danger" v-if="required">*</span>
-        </label>
-        
-            <input 
-                :modelValue="modelValue" 
-                :type="input_type" 
-                class="form-control" 
-                :required="required"
-                @input="handleChange"
-                @focus="open = true" 
-                @blur="handleBlur"
-                v-bind="$attrs" 
-                :placeholder="placeholder" 
-            />
-            <ul v-if="open" class="mt-1 results">
-                <li @click="handleBlur(item)" v-for="item in items" class="result ps-2 py-1">
-                    {{ _.get(item, itemText) || item }}
-                </li>
-            </ul>
+  <div class="auto">
+    <label for="" class="form-label text-gray" v-if="label"
+      >{{ label }}
+      <span class="text-danger" v-if="required">*</span>
+    </label>
+
+    <div ref="root">
+      <input
+        :modelValue="modelValue"
+        :type="input_type"
+        class="form-control"
+        :required="required"
+        @input="handleChange"
+        @focus="handleFocus"
+        v-bind="$attrs"
+        :placeholder="placeholder"
+      />
+      <ul v-if="open" class="mt-1 results">
+        <li @click="handleSelect(item)" v-for="item in items" class="result ps-2 py-1">
+          {{ _.get(item, itemText) || item }}
+        </li>
+      </ul>
     </div>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import _ from 'lodash'
+import { ref } from "vue";
+import _ from "lodash";
 
-const open = ref(false)
-const emit = defineEmits(['search', 'update:modelValue'])
+const root = ref(null);
+const open = ref(false);
+const emit = defineEmits(["search", "update:modelValue", "return"]);
 const props = defineProps({
   label: {
     type: [Boolean, String],
@@ -50,12 +53,12 @@ const props = defineProps({
   },
   items: {
     type: Array,
-    default: []
+    default: [],
   },
   itemText: {
     type: String,
-    default: ""
-  }
+    default: "",
+  },
 });
 
 /*
@@ -65,22 +68,31 @@ const props = defineProps({
  * return: null
  */
 function handleChange() {
-    if (props.items[0]) {
-        open.value = true
-    }
+  if (props.items[0]) {
+    open.value = true;
+  }
 
-    emit('update:modelValue', event.target.value)
-    emit('search')
+  emit("update:modelValue", event.target.value);
+  emit("search");
 }
 
-function handleBlur(item) {
-    console.log(item)
-    handleSelect(item)
-    open.value = false
+function handleFocus() {
+  document.addEventListener("click", handleClickOutside);
+  open.value = true;
 }
 
 function handleSelect(item) {
-    emit('update:modelValue', item || null)
+  open.value = false;
+  emit("update:modelValue", item || null);
+  emit("return", item || null);
+  document.removeEventListener("click", handleClickOutside);
+}
+
+function handleClickOutside() {
+  if (!root.value?.outerHTML.includes(event.target.outerHTML)) {
+    open.value = false;
+    document.removeEventListener("click", handleClickOutside);
+  }
 }
 </script>
 
@@ -91,32 +103,33 @@ input:focus {
   outline: 2px solid rgb(0, 119, 255) !important;
   border: 1px solid white !important;
 }
+
 .auto {
-    position: relative;
-  }
+  position: relative;
+}
 
-  .results {
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    padding: 0;
-    margin: 0;
-    border: 1px solid #f1f2f3;
-    background-color: white;
-    min-height: 1em;
-    max-height: 14em;    
-    overflow: auto;
-  }
+.results {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #f1f2f3;
+  background-color: white;
+  min-height: 1em;
+  max-height: 14em;
+  overflow: auto;
+}
 
-  .result {
-    list-style: none;
-    text-align: left;
-    cursor: pointer;
-  }
+.result {
+  list-style: none;
+  text-align: left;
+  cursor: pointer;
+}
 
-  .result:hover {
-    background-color: #563de6;
-    color: white;
-  }
+.result:hover {
+  background-color: #563de6;
+  color: white;
+}
 </style>

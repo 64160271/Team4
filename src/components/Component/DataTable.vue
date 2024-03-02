@@ -12,11 +12,11 @@
           v-for="(head, index) in heads"
           class="th-custom fw-bold col-auto"
           :class="
-            { 'border-left': index == 0 },
+            ({ 'border-left': index == 0 },
             { 'border-right': index == heads.length - 1 },
             { 'text-left': !head.align },
             { ['text-' + head.align]: head.align },
-            { ['col-md-' + head.size || 'auto']: head.size }
+            { ['col-md-' + head.size || 'auto']: head.size })
           "
         >
           {{ head.title }}
@@ -36,12 +36,9 @@
       >
         <td v-for="head in heads" :class="{ ['text-' + head.align]: head.align }">
           <span>{{ _.get(item, head.key) }}</span>
-          <slot
-            :index="index"
-            :data="item"
-            :name="head.key"
-            v-if="!_.get(item, head.key)"
-          >-</slot>
+          <slot :index="index" :data="item" :name="head.key" v-if="!_.get(item, head.key)"
+            >-</slot
+          >
         </td>
       </tr>
     </tbody>
@@ -65,7 +62,7 @@
             </a>
           </li>
 
-          <li v-for="(pageNum, index) in pageMax" class="page-item">
+          <li v-for="(pageNum, index) in 3" class="page-item">
             <router-link
               :id="'p' + index"
               aria-current="page"
@@ -75,6 +72,32 @@
               :class="{ 'active-page': index == activePage - 1 }"
             >
               {{ pageNum }}
+            </router-link>
+          </li>
+
+          <li v-if="pageMax > 5" class="page-item">
+            <span
+              :id="'p' + index"
+              aria-current="page"
+              to="#"
+              class="page-link border-0 text-dark mx-1"
+              @click="$emit('pageChange', pageNum)"
+              :class="{ 'active-page': index == activePage - 1 }"
+            >
+              ...
+            </span>
+          </li>
+
+          <li class="page-item">
+            <router-link
+              :id="'p' + index"
+              aria-current="page"
+              to="#"
+              class="page-link rounded-circle mx-1"
+              @click="$emit('pageChange', pageNum)"
+              :class="{ 'active-page': index == activePage - 1 }"
+            >
+              {{ pageMax }}
             </router-link>
           </li>
 

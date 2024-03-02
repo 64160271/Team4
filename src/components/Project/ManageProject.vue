@@ -23,9 +23,9 @@
         </template>
 
         <template #proj_edit="{ data }">
-          <EditIcon @click="edit(data)" class="cursor-p"/>
+          <EditIcon @click="edit(data)" class="cursor-p" />
         </template>
-        
+
         <template #proj_detail="{ data }">
           <EyeIcon @click="linkToMember(data.proj_id)" width="26" class="cursor-p" />
         </template>
@@ -103,7 +103,7 @@ import { ref, onMounted, reactive } from "vue";
 import EditIcon from "../icons/EditIcon.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
 import { errorAlert, slashDtoDashY } from "../../assets/js/func";
-import router from '@/router'
+import router from "@/router";
 import EyeIcon from "../icons/EyeIcon.vue";
 import ProjectMember from "./ProjectMember.vue";
 
@@ -112,7 +112,7 @@ const search = ref("");
 const openModal = ref(false);
 const service = new apiService();
 const mentors = ref([]);
-const modalType = ref("")
+const modalType = ref("");
 const initialState = {
   proj_name: "",
   proj_start_date: null,
@@ -133,10 +133,10 @@ const tableHead = ref([
   { key: "proj_mentor.ment_name", title: "ชื่อพี่เลี้ยง" },
   { key: "proj_status_custom", title: "สถานะ", align: "center" },
   { key: "proj_edit", title: "แก้ไข", align: "center" },
-  { key: "proj_detail", title: "รายละเอียด", align: "center" },
+  { key: "proj_detail", title: "รายละเอียด", align: "center", size: 1 },
 ]);
 
-let editId = 0
+let editId = 0;
 
 onMounted(async () => {
   projects.value = await service.getAllProject();
@@ -152,20 +152,22 @@ function getStatus(status) {
 
 async function fornmSubmit() {
   if (modalType.value == "A") {
-    await service.createProject(formData)
+    await service
+      .createProject(formData)
       .then(() => {
-          router.go();
+        router.go();
       })
       .catch((e) => {
-          errorAlert(e.response.data);
+        errorAlert(e.response.data);
       });
   } else if (modalType.value == "E") {
-    await service.editProject(formData, editId)
+    await service
+      .editProject(formData, editId)
       .then(() => {
-          router.go();
+        router.go();
       })
       .catch((e) => {
-          errorAlert(e.response.data);
+        errorAlert(e.response.data);
       });
   }
 }
@@ -175,10 +177,10 @@ async function add() {
     mentors.value = await service.getAllMentor();
   }
 
-  Object.assign(formData, initialState)
+  Object.assign(formData, initialState);
 
   openModal.value = true;
-  modalType.value = "E";
+  modalType.value = "A";
 }
 
 async function edit(project) {
@@ -186,7 +188,7 @@ async function edit(project) {
     mentors.value = await service.getAllMentor();
   }
 
-  editId = project.proj_id
+  editId = project.proj_id;
 
   Object.assign(formData, {
     proj_name: project.proj_name,
@@ -194,14 +196,14 @@ async function edit(project) {
     proj_end_date: slashDtoDashY(project.proj_end_date),
     proj_mentor_id: project.proj_mentor_id,
     proj_status: project.proj_status,
-  })
+  });
 
   openModal.value = true;
   modalType.value = "E";
 }
 
 function linkToMember(projId) {
-  router.push({ name: "projectMember", params: { id: projId } })
+  router.push({ name: "projectMember", params: { id: projId } });
 }
 </script>
 

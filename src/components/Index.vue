@@ -101,7 +101,7 @@ import BaseInput from "./Component/BaseInput.vue";
 const total = ref();
 const page = ref(1);
 const pageMax = ref(1);
-const pageSize = 10;
+const pageSize = 2;
 const interns = ref([]);
 const teams = ref([]);
 const team_id = ref();
