@@ -15,33 +15,33 @@
         
     </div>
 
-    <BaseModal size="lg" v-if="openModal" @save="formSubmit" @close="openModal = false"  title="เพิ่มข้อมูล">
+    <BaseModal size="lg" v-if="openModal == true" @save="formSubmit" @close="openModal = false"  title="เพิ่มข้อมูล">
         <div class="col mb-3">
-            <BaseInput v-model="formData.rep_intn_code" label="รหัสนักศึกษาฝึกงาน" input_type="text" required="required"
-                placeholder="xx/xxxx" />
+            <BaseInput v-model="formData.rep_intn_code" :value="formData.rep_intn_code"  label="รหัสนักศึกษาฝึกงาน" input_type="text" required="required"
+                placeholder="xx/xxxx" :disabled="modalMode == 'edit'" />
         </div>
         <div class="col mb-3">
             <BaseInput :value="formData.sal_intn_name" label="ชื่อ-นามสกุล" input_type="text" readonly="readonly" />
         </div>
         <div class="col mb-3">
-            <BaseInput v-model="formData.sal_from_date" label="วันที่เริ่มต้น" input_type="date"  />
+            <BaseInput v-model="formData.sal_from_date" :value="formData.sal_from_date" label="วันที่เริ่มต้น" input_type="date"  />
         </div>
         <div class="col mb-3">
-            <BaseInput v-model="formData.sal_to_date" label="วันที่สิ้นสุด" input_type="date"  />
+            <BaseInput v-model="formData.sal_to_date" :value="formData.sal_to_date" label="วันที่สิ้นสุด" input_type="date"  />
         </div>
         <hr>
         <div class="row">
             <div class="col mb-3">
-                <BaseInput v-model="formData.sal_day" label="จำนวนวันทำงาน" @input="calculateSalary(formData.sal_day,formData.sal_salary,formData.sal_extra)" input_type="number" required="required" />
+                <BaseInput v-model="formData.sal_day" :value="formData.sal_day" label="จำนวนวันทำงาน" @input="calculateSalary(formData.sal_day,formData.sal_salary,formData.sal_extra)" input_type="number" required="required" />
             </div>
             <div class="col mb-3">
-                <BaseInput v-model="formData.sal_salary" label="เบี้ยเลี้ยง :วัน" @input="calculateSalary(formData.sal_day,formData.sal_salary,formData.sal_extra)" input_type="number" required="required" />
+                <BaseInput v-model="formData.sal_salary" :value="formData.sal_salary" label="เบี้ยเลี้ยง :วัน" @input="calculateSalary(formData.sal_day,formData.sal_salary,formData.sal_extra)" input_type="number" required="required" />
             </div>
             <div class="col mb-3">
-                <BaseInput v-model="formData.sal_extra" label="เบี้ยเลี้ยงพิเศษ" @input="calculateSalary(formData.sal_day,formData.sal_salary,formData.sal_extra)" input_type="number" required="required" />
+                <BaseInput v-model="formData.sal_extra" :value="formData.sal_extra" label="เบี้ยเลี้ยงพิเศษ" @input="calculateSalary(formData.sal_day,formData.sal_salary,formData.sal_extra)" input_type="number" required="required" />
             </div>
             <div class="col mb-3">
-                <BaseInput :value="formData.sal_total_salary" @input="calculateSalary(formData.sal_day,formData.sal_salary,formData.sal_extra)" label="รวมเบี้ยเลี้ยง" input_type="text" readonly="readonly" />
+                <BaseInput :value="formData.sal_total_salary"  @input="calculateSalary(formData.sal_day,formData.sal_salary,formData.sal_extra)" label="รวมเบี้ยเลี้ยง" input_type="text" readonly="readonly" />
             </div>
         </div>
     </BaseModal>
@@ -59,13 +59,14 @@
         <template #sal_to_date_front = "{ data }">
             {{ formatDate(data.sal_to_date) }}
         </template>
-        <template #sal_edit>
-            <EditIcon />
+        <template #sal_edit="{ data }" >
+            <EditIcon @click="editSalary(data)"/>
         </template>
         <template #sal_remove>
             <DeleteButton />
         </template>
     </DataTable>
+
     <div class="row">
         <div class="col-auto ms-auto">
             <BaseButton label="บันทึกร่าง" @click="changeSave(0)"  />
@@ -95,6 +96,7 @@ import { errorAlert } from "../../assets/js/func"
 
 const route = useRoute()
 let openModal = ref(false)
+let openModal2 = ref(false)
 const salarys = ref([])
 const reports = ref([])
 const date = new Date();
@@ -103,6 +105,8 @@ const changeStatus = ref({
     report_id: Number(0) ,
     status_report: Number(0)
 })
+let salaryEditId = 0
+let modalMode = ref()
 
 
 const formData = ref({
@@ -177,8 +181,30 @@ function checkModal (checkModd){
     if (checkModd == false){
         openModal.value = true
     }
-    formData.sal_total_salary = 0
-    
+    formData.value.sal_total_salary = 0
+    modalMode.value = "add"
+}
+
+
+async function editSalary (salary){
+    Object.assign(formData.value, {
+    rep_intn_code: salary?.sal_intern.intn_code,   
+    sal_updated_by: salary?.sal_updated_by,
+    sal_report_id: salary?.sal_report_id,
+    sal_intn_name: salary?.sal_intern.intn_name_th,
+    sal_from_date: salary?.sal_from_date,
+    sal_to_date: salary?.sal_to_date,
+    sal_day: salary?.sal_day,
+    sal_salary: salary?.sal_salary,
+    sal_extra: salary?.sal_extra,
+    sal_total_salary: salary?.sal_total_salary,
+
+  });
+  console.log("aaaa =",salary.sal_id)
+  openModal.value = true
+  salaryEditId = salary.sal_id
+  console.log("bbbb =",salaryEditId)
+  modalMode.value = "edit"
 }
 
 function calculateSalary(day,salary, extra) {
@@ -194,8 +220,15 @@ function calculateSalary(day,salary, extra) {
 
 
 
+
 async function formSubmit() {
-    await axios.post(`${import.meta.env.VITE_API_HOST}/salaries/create-salary`, formData.value,)
+    
+    if(modalMode.value == "add"){
+    await axios.post(`${import.meta.env.VITE_API_HOST}/salaries/create-salary`, formData.value)
+    }else if(modalMode.value == "edit"){
+        await axios.put(`${import.meta.env.VITE_API_HOST}/salaries/edit-salary-intern/${salaryEditId}`, formData.value)
+    }
+    console.log("mode = ",modalMode.value)
     console.log(formData.value)
     console.log(124)
     router.go()
