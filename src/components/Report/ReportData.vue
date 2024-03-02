@@ -91,10 +91,12 @@ import { useRoute } from "vue-router"
 import ExcelIcon from '../icons/ExcelIcon.vue'
 import SideLabelInput from '../Component/SideLabelInput.vue'
 import router from "@/router";
+import { errorAlert } from "../../assets/js/func"
 
 const route = useRoute()
 let openModal = ref(false)
 const salarys = ref([])
+const reports = ref([])
 const date = new Date();
 const id = route.params.id
 const changeStatus = ref({
@@ -130,6 +132,11 @@ const dataHead = ref([
 ])
 
 async function changeSave (value){
+    if(reports.value.rep_status == 1){
+        errorAlert("สถานะของรายการนี้ได้กดบันทึกแล้ว");
+        return ;
+    }
+    console.log("statussss = ", reports.value.rep_status)
     console.log("status = " ,value)
     console.log("report = ",id)
     if (value == 0){
@@ -149,6 +156,13 @@ async function changeSave (value){
     }
 }
 
+const getReportById = async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/reports/${id}`).
+    then((response) => {
+        reports.value = response.data
+    })
+    console.log(reports.value)
+}
 
 const getSalaryByReportId = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/salaries/reports/${id}`).
@@ -207,7 +221,8 @@ onMounted(() => {
     // getAllTeam(),
     console.log(id)
     // getReportById(),
-    getSalaryByReportId()
+    getSalaryByReportId(),
+    getReportById()
 })
 </script>
 
