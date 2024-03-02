@@ -29,13 +29,17 @@
     >
         <div class="row mb-3">
             <div class="col-md-12">
-                <BaseInput
+                <AutoComplete 
                     label="รหัสนักศึกษาฝึกงาน"
                     v-model="formData.intn_code"
                     :value="formData.intn_code"
                     placeholder="INT-0000"
                     required
+                    :items="internSearch"
+                    @search="fetchIntern"
+                    item-text="intn_name_th"
                 />
+
             </div>
         </div>
         <div class="row mb-3">
@@ -75,12 +79,15 @@ import EditIcon from "../icons/EditIcon.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
 import router from "@/router"
 import apiService from "../../services/api";
+import AutoComplete from "../Component/AutoComplete.vue";
+import axios from "axios";
 
 const interns = ref([])
 const service = new apiService()
 const projId = router.currentRoute.value.params.id
 const openModal = ref(false)
 const roles = ref([])
+const internSearch = ref([])
 let modalType = "";
 
 const initialState = {
@@ -123,7 +130,30 @@ async function fornmSubmit() {
   }
 }
 
+let timer;
+async function fetchIntern() {
+    if (timer) {
+        clearTimeout(timer)
+    }
+
+    timer = setTimeout(async () => {
+        const params = {
+            filter: formData.intn_code || undefined,
+        };
+
+        await axios
+            .get(`${import.meta.env.VITE_API_HOST}/interns`, { params })
+            .then((response) => {
+                internSearch.value = response.data.rows;
+        });
+    }, 500)
+}
+
 async function add() {
+    if (!internSearch.value[0]) {
+        fetchIntern()
+    }
+
     if (!roles.value[0]) {
         roles.value = await service.getAllRole();
     }

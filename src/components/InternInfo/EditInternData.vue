@@ -1017,15 +1017,17 @@
   }
 
   input:focus {
-  transition: 0s;
+    transition: 0s;
   box-shadow: none;
-  border: 2px solid rgb(0, 119, 255);
+  outline: 2px solid rgb(0, 119, 255) !important;
+  border: 1px solid white !important;
 }
 
 select:focus {
   transition: 0s;
   box-shadow: none;
-  border: 2px solid rgb(0, 119, 255);
+  outline: 2px solid rgb(0, 119, 255) !important;
+  border: 1px solid white !important;
 }
   
   .img {

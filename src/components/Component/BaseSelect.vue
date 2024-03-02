@@ -101,8 +101,9 @@ const firstOptionType = computed(() => {
 <style scoped>
 select:focus {
   transition: 0s;
-  box-shadow: none !important;
-  border: 2px solid rgb(0, 119, 255) !important;
+  box-shadow: none;
+  outline: 2px solid rgb(0, 119, 255) !important;
+  border: 1px solid white !important;
 }
 
 .is-invalid:focus {
