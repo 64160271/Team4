@@ -6,8 +6,8 @@
         </div>
 
         <div class="col-md-2 ms-2 my-auto nopadding">
-            <BaseInput placeholder="ปี" @change="setCurrentPage(1)" v-model="cerCreate"
-                onfocus="(this.type='date')" onblur="(this.type='text')" />
+            <BaseSelect placeholder="ปี" @change="setCurrentPage(1)" v-model="cerCreate" :options="years"
+                value="cerCreate" text="cerCreate" />
         </div>
 
         <div class="col-md-2 my-auto">
@@ -91,6 +91,7 @@ const team_id = ref();
 const cerCreate = ref("");
 const searchData = ref("");
 const teams = ref([]);
+const years = ref([]);
 let timer;
 
 function checkRow(index) {
@@ -117,8 +118,6 @@ function select_certificate(id) {
     }
 
     console.log(selected)
-
-
 }
 
 async function sendToDownload() {
@@ -168,7 +167,6 @@ async function sendToDownload() {
 async function sentToDownload() {
 
 }
-
 const getAllCertificate = async () => {
     const params = {
         page: page.value,
@@ -188,6 +186,17 @@ const getAllCertificate = async () => {
         });
 };
 
+async function CerCreateSelect() {
+
+    const response = await axios.get(`${import.meta.env.VITE_API_HOST}/certificates`);
+    console.log(response)
+    const year = response.data.rows.map(entry => new Date(entry.cer_created_at).getFullYear() + 543);
+    years.value = [...new Set(year)];
+    console.log(years.value)
+
+
+}
+
 async function setCurrentPage(pageNumber) {
 
     if (pageNumber > 0 && pageNumber <= pageMax.value) {
@@ -195,7 +204,6 @@ async function setCurrentPage(pageNumber) {
     }
 
     await getAllCertificate();
-
 }
 
 async function downloadPDF(year, cerFilename) {
@@ -226,9 +234,10 @@ function changeTimestampToYear(value) {
 }
 
 onMounted(async () => {
-    setCurrentPage(page.value);
+    setCurrentPage(page.value, cerCreate.value);
     let service = new apiService();
     teams.value = await service.getAllTeam();
+    CerCreateSelect();
 })
 
 
