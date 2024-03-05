@@ -48,7 +48,9 @@
           :value="formData.proj_name"
           placeholder="ชื่อโปรเจกต์"
           required
+          :class="{ 'is-invalid': $v.proj_name.$error }"
         />
+        <InvalidFeedback :error="$v.proj_name.$errors" />
       </div>
     </div>
     <div class="row mb-3">
@@ -77,7 +79,10 @@
           :options="mentors"
           text="ment_name"
           value="ment_id"
+          required
+          :class="{ 'is-invalid': $v.proj_mentor_id.$error }"
         />
+        <InvalidFeedback :error="$v.proj_mentor_id.$errors" />
       </div>
       <div class="col-md-6">
         <BaseSelect
@@ -86,7 +91,10 @@
           :options="statusValue"
           text="text"
           value="value"
+          required
+          :class="{ 'is-invalid': $v.proj_status.$error }"
         />
+        <InvalidFeedback :error="$v.proj_status.$errors" />
       </div>
     </div>
   </BaseModal>
@@ -99,13 +107,15 @@ import BaseModal from "../Component/BaseModal.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseButton from "../Component/BaseButton.vue";
 import SearchBox from "../Component/SearchBox.vue";
+import InvalidFeedback from "../Component/InvalidFeedback.vue"
 import { ref, onMounted, reactive } from "vue";
 import EditIcon from "../icons/EditIcon.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
 import { errorAlert, slashDtoDashY } from "../../assets/js/func";
 import router from "@/router";
 import EyeIcon from "../icons/EyeIcon.vue";
-import ProjectMember from "./ProjectMember.vue";
+import useVuelidate from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
 
 const projects = ref([]);
 const search = ref("");
@@ -125,6 +135,13 @@ const statusValue = ref([
   { value: 1, text: "กำลังดำเนินการ" },
   { value: 0, text: "เสร็จสิ้น" },
 ]);
+
+const rules = {
+  proj_name: { required },
+  proj_status: { required },
+  proj_mentor_id: { required } 
+}
+const v$ = useVuelidate(rules, formData);
 
 const tableHead = ref([
   { key: "proj_name", title: "ชื่อโปรเจกต์" },
@@ -151,25 +168,29 @@ function getStatus(status) {
 }
 
 async function fornmSubmit() {
-  if (modalType.value == "A") {
-    await service
-      .createProject(formData)
-      .then(() => {
-        router.go();
-      })
-      .catch((e) => {
-        errorAlert(e.response.data);
-      });
-  } else if (modalType.value == "E") {
-    await service
-      .editProject(formData, editId)
-      .then(() => {
-        router.go();
-      })
-      .catch((e) => {
-        errorAlert(e.response.data);
-      });
-  }
+  const validate = await v$.value.$validate();
+
+  if (validate) {
+    if (modalType.value == "A") {
+      await service
+        .createProject(formData)
+        .then(() => {
+          router.go();
+        })
+        .catch((e) => {
+          errorAlert(e.response.data);
+        });
+    } else if (modalType.value == "E") {
+      await service
+        .editProject(formData, editId)
+        .then(() => {
+          router.go();
+        })
+        .catch((e) => {
+          errorAlert(e.response.data);
+        });
+    }
+    }
 }
 
 async function add() {

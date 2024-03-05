@@ -261,8 +261,15 @@ export default class apiService {
             })
     }
 
-    createInternProject = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/projects/interns`, data)
+    createInternProject = async (data, id) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/projects/interns/${id}`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    editInternProject = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/projects/interns/${id}`, data)
             .then((response) => {
                 return response.data
             })

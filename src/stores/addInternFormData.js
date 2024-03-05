@@ -158,7 +158,6 @@ const afterStartFeedback = 'ไม่สามารถเลือกก่อ�
 const dateAfterStart = (v) => {
     if (v) {
         let date = useInternFormData().getStartDate
-        console.log(date)
         return (v > date)
     }
     return true

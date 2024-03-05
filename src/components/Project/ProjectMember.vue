@@ -39,7 +39,9 @@
           @search="fetchIntern"
           @return="handleReturn"
           item-text="intn_name_th"
+          :class="{ 'is-invalid': $v.intn_code.$error }"
         />
+        <InvalidFeedback :error="$v.intn_code.$errors" />
       </div>
     </div>
     <div class="row mb-3">
@@ -51,7 +53,9 @@
           placeholder="ค้นหาจากด้านบน"
           required
           disabled
+          :class="{ 'is-invalid': $v.intn_name_th.$error }"
         />
+        <InvalidFeedback :error="$v.intn_name_th.$errors" />
       </div>
     </div>
     <div class="row mb-3">
@@ -63,7 +67,9 @@
           text="role_name"
           value="role_id"
           required
+          :class="{ 'is-invalid': $v.role_id.$error }"
         />
+        <InvalidFeedback :error="$v.role_id.$errors" />
       </div>
     </div>
   </BaseModal>
@@ -83,7 +89,8 @@ import router from "@/router";
 import apiService from "../../services/api";
 import AutoComplete from "../Component/AutoComplete.vue";
 import axios from "axios";
-import { ipAddress } from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
 
 const interns = ref([]);
 const service = new apiService();
@@ -94,13 +101,20 @@ const internSearch = ref([]);
 let modalType = "";
 
 const initialState = {
-  proj_id: projId,
   intn_id: null,
   intn_name_th: null,
   intn_code: null,
   role_id: null,
 };
 const formData = reactive({ ...initialState });
+const rules = {
+  intn_id: { required },
+  intn_name_th: { required },
+  intn_code: { required },
+  role_id: { required },
+}
+const v$ = useVuelidate(rules, formData);
+
 
 const tableHeads = ref([
   { key: "pint_intern.intn_code", title: "รหัสนักศึกษาฝึกงาน", size: 2 },
@@ -115,24 +129,28 @@ onMounted(async () => {
 });
 
 async function fornmSubmit() {
-  if (modalType == "A") {
-    await service
-      .createInternProject(formData)
-      .then(() => {
-        router.go();
-      })
-      .catch((e) => {
-        errorAlert(e.response.data);
-      });
-  } else if (modalType == "E") {
-    await service
-      .editProject(formData, editId)
-      .then(() => {
-        router.go();
-      })
-      .catch((e) => {
-        errorAlert(e.response.data);
-      });
+  const validate = await v$.value.$validate();
+  
+  if (validate) {
+    if (modalType == "A") {
+      await service
+        .createInternProject(formData, projId)
+        .then(() => {
+          router.go();
+        })
+        .catch((e) => {
+          errorAlert(e.response.data);
+        });
+    } else if (modalType == "E") {
+      await service
+        .editInternProject(formData, projId)
+        .then(() => {
+          router.go();
+        })
+        .catch((e) => {
+          errorAlert(e.response.data);
+        });
+    }
   }
 }
 
