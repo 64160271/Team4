@@ -62,8 +62,8 @@
         <template #sal_edit="{ data }" >
             <EditIcon @click="editSalary(data)"/>
         </template>
-        <template #sal_remove>
-            <DeleteButton />
+        <template #sal_remove="{ data }">
+            <DeleteButton @click="deleteSalaryIntern(data.sal_id)"/>
         </template>
     </DataTable>
 
@@ -92,7 +92,7 @@ import { useRoute } from "vue-router"
 import ExcelIcon from '../icons/ExcelIcon.vue'
 import SideLabelInput from '../Component/SideLabelInput.vue'
 import router from "@/router";
-import { errorAlert } from "../../assets/js/func"
+import { confirmation, successAlert, errorAlert } from "../../assets/js/func"
 
 const route = useRoute()
 let openModal = ref(false)
@@ -107,6 +107,7 @@ const changeStatus = ref({
 })
 let salaryEditId = 0
 let modalMode = ref()
+
 
 
 const formData = ref({
@@ -157,6 +158,22 @@ async function changeSave (value){
         console.log("aaaaa",changeStatus.value)
         await axios.post(`${import.meta.env.VITE_API_HOST}/reports/update-status`, changeStatus.value,)
         router.push({ name: 'manageSalary' })
+    }
+}
+
+async function deleteSalaryIntern (sal_id){
+    console.log(sal_id)
+    const result = await confirmation("คุณต้องการลบรายการนี้ใช้หรือไม่");
+    if(result){
+        await axios.delete(`${import.meta.env.VITE_API_HOST}/salaries/${sal_id}`)
+        .then(async (_res) => {
+        await successAlert("ลบรายการนี้สำเร็จแล้ว");
+            router.go();
+        }).catch((err) => {
+        console.log(e)
+        errorAlert(err);
+      });   
+    
     }
 }
 
@@ -232,10 +249,6 @@ async function formSubmit() {
     console.log(formData.value)
     console.log(124)
     router.go()
-}
-
-function handleClick(rep_id) {
-  router.push({ name: "reportData", params: { id: rep_id } });
 }
 
 function formatDate(date){

@@ -52,8 +52,8 @@
         <template #rep_edit>
             <EditIcon />
         </template>
-        <template #rep_remove>
-            <DeleteButton />
+        <template #rep_remove = "{ data }">
+            <DeleteButton @click="deleteReport(data.rep_id)"/>
         </template>
     </DataTable>
 </template>
@@ -135,6 +135,26 @@ function chageDate(value) {
         return `${day}/${month}/${year + 543}`
     }
     return ''
+}
+
+async function deleteReport (rep_id){
+    if(reports.value.rep_status == 1){
+        errorAlert("สถานะของรายการนี้ไม่สามารถลบได้");
+        return ;
+    }
+    console.log(rep_id)
+    const result = await confirmation("คุณต้องการลบรายการนี้ใช้หรือไม่");
+    if(result){
+        await axios.delete(`${import.meta.env.VITE_API_HOST}/reports/${rep_id}`)
+        .then(async (_res) => {
+        await successAlert("ลบรายการนี้สำเร็จแล้ว");
+            router.go();
+        }).catch((err) => {
+        console.log(e)
+        errorAlert(err);
+      });   
+    
+    }
 }
 
 let nameUser = "ปริญญา ก้อนจันทึก"
