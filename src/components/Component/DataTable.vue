@@ -70,7 +70,7 @@
               @click="$emit('pageChange', pageNum)"
               :class="{ 'active-page': pageNum == activePage }"
             >
-              {{ pageNum + activePage }}
+              {{ pageNum + (activePage-1) }}
             </router-link>
           </li>
 
