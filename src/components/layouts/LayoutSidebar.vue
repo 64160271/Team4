@@ -28,6 +28,15 @@
       </li>
 
       <li class="nav-item py-2">
+        <router-link to="/projects" class="nav-link text-dark hov-red" active-class="active"
+          @click="changeActiveMenu($event)">
+          <ProjectIcon class="hov-red me-3" />
+
+          โปรเจกต์
+        </router-link>
+      </li>
+
+      <li class="nav-item py-2">
         <router-link to="/certificates" class="nav-link text-dark hov-red" active-class="active"
           @click="changeActiveMenu($event)">
           <CertificateIcon class="hov-red" />
@@ -37,30 +46,29 @@
       </li>
 
       <li class="nav-item py-2">
-        <a class="btn nav-link text-dark text-start hov-red" type="button" @click="dropdownSalary = !dropdownSalary">
+        <a id="dropdownReport" class="btn nav-link text-dark text-start hov-red"
+           @click="handleCollapse('repMenu')">
           <ReportIcon class="hov-red" />
           เบี้ยเลี้ยง
           <span class="dropdown-toggle"></span>
         </a>
 
-        <Transition>
-          <div v-if="dropdownSalary">
+          <div id="repMenu" class="hidden">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-5">
               <li>
-                <router-link to="/signatures" class="nav-link text-dark hov-red" active-class="active"
+                <router-link to="/reports" class="nav-link text-dark hov-red" active-class="active"
                   @click="changeActiveMenu($event)">
                   รายงานเบี้ยเลี้ยง
                 </router-link>
               </li>
               <li>
-                <router-link to="/companies" class="nav-link text-dark hov-red" active-class="active"
+                <router-link to="/salaries" class="nav-link text-dark hov-red" active-class="active"
                   @click="changeActiveMenu($event)">
                   จัดการเบี้ยเลี้ยง
                 </router-link>
               </li>
             </ul>
           </div>
-        </Transition>
       </li>
 
       <li class="nav-item py-2">
@@ -74,14 +82,13 @@
 
       <li class="py-2">
         <a class="btn nav-link text-dark text-start dropdown-toggle hov-red" type="button"
-          @click="dropdownManageCertificate = !dropdownManageCertificate">
+        @click="handleCollapse('cerMenu')">
           <CertificateDataIcon class="hov-red" />
 
           จัดการเอกสารรับรอง
         </a>
 
-        <Transition>
-          <div v-if="dropdownManageCertificate">
+          <div id="cerMenu" class="hidden">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-5">
               <li>
                 <router-link to="/signatures" class="nav-link text-dark hov-red" active-class="active"
@@ -97,7 +104,6 @@
               </li>
             </ul>
           </div>
-        </Transition>
       </li>
     </ul>
 
@@ -105,7 +111,7 @@
       <router-link to="/login" class="nav-link text-dark hov-red">
         <LogoutIcon class="hov-red" />
 
-        Logout
+        ออกจากระบบ
       </router-link>
     </div>
   </div>
@@ -120,11 +126,10 @@ import ManageUniversityIcon from "../icons/ManageUniversityIcon.vue"
 import ReportIcon from "../icons/ReportIcon.vue"
 import InternListIcon from "../icons/InternListIcon.vue"
 import LogoutIcon from "../icons/LogoutIcon.vue"
+import ProjectIcon from "../icons/ProjectIcon.vue"
 import Cookies from "js-cookie"
 import { useRouter } from "vue-router"
 
-const dropdownManageCertificate = ref(false);
-const dropdownSalary = ref(false);
 const user = ref(Cookies.get('user'))
 const router = useRouter()
 
@@ -133,6 +138,10 @@ function changeActiveMenu(event) {
   const element = event.target;
   element.classList.add("active");
   active.classList.remove("active"); */
+}
+
+function handleCollapse(id) {
+  $('#' + id).slideToggle()
 }
 </script>
 
@@ -146,6 +155,10 @@ function changeActiveMenu(event) {
 .hov-red:hover {
   color: white !important;
   background-color: var(--main-color);
+}
+
+.hidden {
+  display: none;
 }
 
 .v-enter-active,
