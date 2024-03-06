@@ -12,11 +12,11 @@
           v-for="(head, index) in heads"
           class="th-custom fw-bold col-auto"
           :class="
-            ({ 'border-left': index == 0 },
+            { 'border-left': index == 0 },
             { 'border-right': index == heads.length - 1 },
             { 'text-left': !head.align },
             { ['text-' + head.align]: head.align },
-            { ['col-md-' + head.size || 'auto']: head.size })
+            { ['col-md-' + head.size || 'auto']: head.size }
           "
         >
           {{ head.title }}
@@ -64,14 +64,13 @@
 
           <li v-for="(pageNum, index) in 3" class="page-item">
             <router-link
-              :id="'p' + index"
               aria-current="page"
               to="#"
-              class="page-link rounded-circle mx-1"
+              class="page-link border-0 rounded-circle"
               @click="$emit('pageChange', pageNum)"
-              :class="{ 'active-page': index == activePage - 1 }"
+              :class="{ 'active-page': pageNum == activePage }"
             >
-              {{ pageNum }}
+              {{ pageNum + activePage }}
             </router-link>
           </li>
 
@@ -80,8 +79,7 @@
               :id="'p' + index"
               aria-current="page"
               to="#"
-              class="page-link border-0 text-dark mx-1"
-              @click="$emit('pageChange', pageNum)"
+              class="page-link border-0 text-dark"
               :class="{ 'active-page': index == activePage - 1 }"
             >
               ...
@@ -90,12 +88,12 @@
 
           <li class="page-item">
             <router-link
-              :id="'p' + index"
+              :id="'p' + pageMax"
               aria-current="page"
               to="#"
-              class="page-link rounded-circle mx-1"
-              @click="$emit('pageChange', pageNum)"
-              :class="{ 'active-page': index == activePage - 1 }"
+              class="page-link border-0 rounded-circle"
+              @click="$emit('pageChange', pageMax)"
+              :class="{ 'active-page': pageMax == activePage }"
             >
               {{ pageMax }}
             </router-link>
@@ -210,5 +208,10 @@ onMounted(() => {});
 
 .hover-background:hover > td {
   background-color: #ffcbcb60 !important;
+}
+
+.page-link {
+  font-size: 14px !important;
+  color: black
 }
 </style>
