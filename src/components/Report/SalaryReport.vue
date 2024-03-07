@@ -106,12 +106,18 @@ const optionsYear = ref({
       title: {
         display: true,
         text: "Salary",
+        font: {
+        size: 16,
+      }
       },
     },
     y: {
       title: {
         display: true,
         text: "Teams",
+        font: {
+        size: 16,
+      }
       },
     },
   },
@@ -120,7 +126,11 @@ const optionsYear = ref({
 
     title: {
       display: true,
-      text: "Horizontal Bar Chart - Salary and Extra",
+      text: "รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี " + yearSelect.value,
+      font: {
+        size: 18,
+        weight: 'bold',
+      }
     },
   },
 });
@@ -131,12 +141,18 @@ const optionsTeam = ref({
       title: {
         display: true,
         text: "Month",
+        font: {
+        size: 16,
+      }
       },
     },
     y: {
       title: {
         display: true,
         text: "Salary",
+        font: {
+        size: 16,
+      }
       },
     },
   },
@@ -144,7 +160,11 @@ const optionsTeam = ref({
   plugins: {
     title: {
       display: true,
-      text: "Horizontal Bar Chart - Salary and Extra",
+      text: "รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี "+ yearSelect.value+" ของทีม " + teamName.value,
+      font: {
+        size: 18,
+        weight: 'bold',
+      }
     },
   },
 });
@@ -175,7 +195,7 @@ const chartTeamData = ref({
   labels: [],
   datasets: [
     {
-      label: "salary",
+      label: "",
       data: [],
       borderWidth: 1,
       backgroundColor: "rgba(75, 192, 192, 0.2)",
@@ -187,8 +207,9 @@ const chartTeamData = ref({
       backgroundColor: "rgba(0, 191, 255, 0.1)",
       borderColor: "rgba(0, 191, 255, 0.8 )",
     },
+    
     {
-      label: "extra",
+      label: "",
       data: [],
       borderWidth: 1,
       backgroundColor: "rgba(255, 99, 132, 0.2)",
@@ -244,6 +265,7 @@ const fetchAllReport = async () => {
   chartAllData.value.labels = teamName;
   chartAllData.value.datasets[0].data = salary;
   chartAllData.value.datasets[1].data = extra;
+  optionsYear.value.plugins.title.text = "รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี " + yearSelect.value
   loaded.value = true;
 };
 
@@ -290,6 +312,7 @@ const fetchTeamReport = async () => {
   totalSalary.value = salary.reduce((a, b) => Number(a) + Number(b));
   totalExtra.value = extra.reduce((a, b) => Number(a) + Number(b));
   totalAll.value = totalSalary.value + totalExtra.value;
+  optionsTeam.value.plugins.title.text = "รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี "+ yearSelect.value+" ของทีม " + teamName.value
 };
 
 onMounted(async () => {
