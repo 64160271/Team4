@@ -52,17 +52,39 @@
         <ul class="pagination">
           <li class="page-item">
             <a
-              v-if="activePage > 1"
               class="page-link border-0 rounded-circle"
               href="#"
-              @click="$emit('pageChange', --activePage)"
+              @click="$emit('pageChange', 1)"
               aria-label="Previous"
             >
-              <span aria-hidden="true">&lt</span>
+              <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
 
-          <li v-for="(pageNum, index) in 3" class="page-item">
+          <li class="page-item">
+            <a
+              class="page-link border-0 rounded-circle"
+              href="#"
+              @click="handlePrevious"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&lt;</span>
+            </a>
+          </li>
+
+          <li v-if="pageable === 'm' || pageable === 'e'" class="page-item">
+            <span
+              :id="'p' + index"
+              aria-current="page"
+              to="#"
+              class="page-link border-0 text-dark"
+            >
+              ...
+            </span>
+          </li>
+
+          <!-- เลขหน้าเริ่มต้น -->
+          <li v-if="pageable === 's'" v-for="(pageNum, index) in 4" class="page-item">
             <router-link
               aria-current="page"
               to="#"
@@ -70,44 +92,78 @@
               @click="$emit('pageChange', pageNum)"
               :class="{ 'active-page': pageNum == activePage }"
             >
-              {{ pageNum + (activePage-1) }}
+              {{ pageNum }}
             </router-link>
           </li>
 
-          <li v-if="pageMax > 5" class="page-item">
+          <li v-if="pageable == 'n'" v-for="(pageNum, index) in pageMax" class="page-item">
+            <router-link
+              aria-current="page"
+              to="#"
+              class="page-link border-0 rounded-circle"
+              @click="$emit('pageChange', pageNum)"
+              :class="{ 'active-page': pageNum == activePage }"
+            >
+              {{ pageNum }}
+            </router-link>
+          </li>
+
+          <!-- เลขหน้ากลาง -->
+          <li v-if="pageable == 'm'" v-for="(pageNum, index) in 3" class="page-item">
+            <router-link
+              aria-current="page"
+              to="#"
+              class="page-link border-0 rounded-circle"
+              @click="$emit('pageChange', index + (activePage-1))"
+              :class="{ 'active-page': index + (activePage-1) == activePage }"
+            >
+              {{ index + (activePage-1) }}
+            </router-link>
+          </li>
+
+          <!-- เลขหน้าสิ้นสุด -->
+          <li v-if="pageable === 'e'" v-for="(pageNum, index) in 4" class="page-item">
+            <router-link
+              aria-current="page"
+              to="#"
+              class="page-link border-0 rounded-circle"
+              @click="$emit('pageChange', pageNum + (pageMax-4))"
+              :class="{ 'active-page': pageNum + (pageMax-4) == activePage }"
+            >
+              {{ pageNum + (pageMax-4) }}
+            </router-link>
+          </li>
+
+          <li v-if="pageable === 's' || pageable === 'm'" class="page-item">
             <span
               :id="'p' + index"
               aria-current="page"
               to="#"
               class="page-link border-0 text-dark"
-              :class="{ 'active-page': index == activePage - 1 }"
             >
               ...
             </span>
           </li>
 
           <li class="page-item">
-            <router-link
-              :id="'p' + pageMax"
-              aria-current="page"
-              to="#"
+            <a
               class="page-link border-0 rounded-circle"
-              @click="$emit('pageChange', pageMax)"
-              :class="{ 'active-page': pageMax == activePage }"
+              href="#"
+              @click="handleNext"
+              aria-label="Next"
             >
-              {{ pageMax }}
-            </router-link>
+              <span aria-hidden="true">&gt;</span>
+            </a>
           </li>
 
           <li class="page-item">
             <a
-              v-if="activePage < pageMax"
               class="page-link border-0 rounded-circle"
               href="#"
-              @click="$emit('pageChange', ++activePage)"
-              aria-label="Next"
+              @click="$emit('pageChange', pageMax)"
+              aria-label="Previous"
             >
-              <span aria-hidden="true">></span>
+              <span aria-hidden="true">&raquo;</span>
             </a>
           </li>
         </ul>
@@ -141,7 +197,7 @@ const pageMax = computed(() => {
   return Math.ceil(props.total / props.itemsPerPage);
 });
 
-const emit = defineEmits(["clicked"]);
+const emit = defineEmits(["clicked", "pageChange"]);
 
 const props = defineProps({
   heads: [Array, Boolean],
@@ -157,8 +213,37 @@ const props = defineProps({
   hoverBackground: [Boolean],
 });
 
+const pageable = computed(() => {
+  if (pageMax.value <= 4) {
+    return 'n'
+  }
+  else if (props.activePage < 4) {
+    return 's'
+  } else if (props.activePage > pageMax.value-4) {
+    return 'e'
+  } else {
+    return 'm'
+  }
+})
+
 function handleRowClick(value) {
   emit("clicked", value);
+}
+
+function handlePrevious() {
+  if (props.activePage-1 < 1) {
+    return
+  } else {
+    emit('pageChange', --props.activePage)
+  }
+}
+
+function handleNext() {
+  if (props.activePage+1 > pageMax.value) {
+    return
+  } else {
+    emit('pageChange', ++props.activePage)
+  }
 }
 
 onMounted(() => {});

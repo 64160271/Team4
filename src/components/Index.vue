@@ -101,7 +101,7 @@ import BaseInput from "./Component/BaseInput.vue";
 const total = ref();
 const page = ref(1);
 const pageMax = ref(1);
-const pageSize = 2;
+const pageSize = 10;
 const interns = ref([]);
 const teams = ref([]);
 const team_id = ref();
@@ -109,13 +109,13 @@ const startDate = ref("");
 const searchData = ref("");
 let timer;
 const tableHead = ref([
-  { key: "intn_key", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
-  { key: "intn_name_th", title: "ชื่อ-นามสกุล" },
-  { key: "intn_nickname_th", title: "ชื่อเล่น" },
-  { key: "work_infos[0].work_role.role_name", title: "ตำแหน่ง" },
-  { key: "work_infos[0].work_team.team_name", title: "ทีม" },
-  { key: "intn_start_date", title: "วันที่เริ่มฝึกงาน", align: "center" },
-  { key: "intn_end_date", title: "วันที่สิ้นสุดฝึกงาน", align: "center" },
+  { key: "intn_key", title: "รหัสนักศึกษาฝึกงาน", align: "center", size: 2 },
+  { key: "intn_name_th", title: "ชื่อ-นามสกุล", size: 2 },
+  { key: "intn_nickname_th", title: "ชื่อเล่น", size: 1 },
+  { key: "work_infos[0].work_role.role_name", title: "ตำแหน่ง", size: 2 },
+  { key: "work_infos[0].work_team.team_name", title: "ทีม", size: 2 },
+  { key: "intn_start_date", title: "วันที่เริ่มฝึกงาน", align: "center", size: 2 },
+  { key: "intn_end_date", title: "วันที่สิ้นสุดฝึกงาน", align: "center", size: 2 },
 ]);
 
 /*
