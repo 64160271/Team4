@@ -1,23 +1,21 @@
 <template>
     <LayoutMenuName page-name="รายงานเบี้ยเลี้ยง" />
     <div class="row mb-3">
-        <div class="col-auto my-auto">
+        
             <!-- ส่วนของ radio buttons -->
-            <div class="form-check form-check-inline">
-                <input v-model="searchData" type="text" id="search-bar" class="bg-grays-200 form-control"
-                    placeholder="Search" aria-label="" aria-describedby="basic-addon1" />
+            <div class="col-md-5 my-auto nopadding">
+                <Search v-model="searchData" @search="search" />
             </div>
 
-            <div class="form-check form-check-inline">
+            <div class="col-auto form-check form-check-inline">
 
 
             </div>
 
-            <div class="form-check form-check-inline">
-                <BaseSelect  v-model="team_id" :options="team" value="team_id"
-                    text="team_name" />
+            <div class="col-auto form-check form-check-inline">
+                <BaseSelect v-model="team_id" :options="team" value="team_id" text="team_name" />
             </div>
-        </div>
+        
         <div class="col-auto ms-auto my-auto">
             <div>
                 <BaseButton label="เพิ่มข้อมูล" @click="openModal = true" />
@@ -37,7 +35,8 @@
         </div>
     </BaseModal>
 
-    <DataTable :heads="dataHead" :items="reports" hovers clickable clickReturn="rep_id" @clicked="handleClick">
+    <DataTable :heads="dataHead" :items="reports" hovers clickable clickReturn="rep_id" @clicked="handleClick" paginate
+        :total="reports.length" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
         <template #rep_count_name="{ data }">
             {{ data.rep_salaries.length }}
         </template>
@@ -52,8 +51,8 @@
         <template #rep_edit>
             <EditIcon />
         </template>
-        <template #rep_remove = "{ data }">
-            <DeleteButton @click="deleteReport(data.rep_id)"/>
+        <template #rep_remove="{ data }">
+            <DeleteButton @click="deleteReport(data.rep_id)" />
         </template>
     </DataTable>
 </template>
@@ -70,11 +69,18 @@ import axios from 'axios'
 import EditIcon from '../icons/EditIcon.vue'
 import DeleteButton from '../icons/DeleteButton.vue'
 import router from "@/router";
+import Search from "../component/SearchBox.vue"
 
 
 const reports = ref([])
 const date = new Date();
 const openModal = ref(false)
+const page = ref(1);
+const pageMax = ref(1);
+const pageSize = 10;
+const total = ref();
+const searchData = ref("");
+let timer;
 
 const team = ref([])
 const team_id = ref([])
@@ -85,7 +91,7 @@ const dataHead = ref([
     { key: "rep_created_at_front", title: "วันที่สร้างรายการ", align: "center" },
     { key: "rep_updated_at_front", title: "วันที่แก้ไขรายการ", align: "center" },
     { key: "rep_created_user", title: "ผู้สร้างรายการ" },
-    { key: "rep_update_user", title: "ผู้แก้ไขข้อมูลล่าสุด" },
+    { key: "rep_updated_by_user.user_fname", title: "ผู้แก้ไขข้อมูลล่าสุด" },
     { key: "rep_status", title: "สถานะ", align: "center" },
     { key: "rep_edit", title: "แก้ไข", align: "center" },
     { key: "rep_remove", title: "ลบ", align: "center" },
@@ -96,11 +102,39 @@ const formData = ref({
     rep_updated_by: 1
 })
 
+function search() {
+    console.log(searchData)
+    if (timer) {
+        clearTimeout(timer)
+    }
+
+    timer = setTimeout(() => {
+        setCurrentPage(1)
+    }, 500)
+}
+
+async function setCurrentPage(pageNumber) {
+    if (pageNumber > 0 && pageNumber <= pageMax.value) {
+        page.value = pageNumber;
+    }
+
+    await getReport();
+}
+
 const getReport = async () => {
-    await axios.get(`${import.meta.env.VITE_API_HOST}/reports`).
-        then((response) => {
-            reports.value = response.data
-        })
+    const params = {
+        page: page.value,
+        limit: pageSize,
+        filter: searchData.value || undefined,
+    };
+
+    await axios
+        .get(`${import.meta.env.VITE_API_HOST}/reports`, { params })
+        .then((response) => {
+            reports.value = response.data.rows
+            total.value = response.data.count;
+            pageMax.value = Math.ceil(total.value / pageSize)
+        });
 }
 
 const getAllTeam = async () => {
@@ -117,7 +151,7 @@ async function formSubmit() {
 
 function handleClick(rep_id) {
     console.log(rep_id)
-  router.push({ name: "reportData", params: { id: rep_id } });
+    router.push({ name: "reportData", params: { id: rep_id } });
 }
 
 function chageDate(value) {
@@ -137,32 +171,32 @@ function chageDate(value) {
     return ''
 }
 
-async function deleteReport (rep_id){
-    if(reports.value.rep_status == 1){
+async function deleteReport(rep_id) {
+    if (reports.value.rep_status == 1) {
         errorAlert("สถานะของรายการนี้ไม่สามารถลบได้");
-        return ;
+        return;
     }
     console.log(rep_id)
     const result = await confirmation("คุณต้องการลบรายการนี้ใช้หรือไม่");
-    if(result){
+    if (result) {
         await axios.delete(`${import.meta.env.VITE_API_HOST}/reports/${rep_id}`)
-        .then(async (_res) => {
-        await successAlert("ลบรายการนี้สำเร็จแล้ว");
-            router.go();
-        }).catch((err) => {
-        console.log(e)
-        errorAlert(err);
-      });   
-    
+            .then(async (_res) => {
+                await successAlert("ลบรายการนี้สำเร็จแล้ว");
+                router.go();
+            }).catch((err) => {
+                console.log(e)
+                errorAlert(err);
+            });
+
     }
 }
 
 let nameUser = "ปริญญา ก้อนจันทึก"
 
-onMounted(() => {
-    getReport(),
-    getAllTeam()
+onMounted(async () => {
+    setCurrentPage(page.value),
+        getAllTeam()
 })
 </script>
 
-<style scoped></style> 
+<style scoped></style>
