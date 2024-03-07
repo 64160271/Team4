@@ -22,7 +22,7 @@
 
     <div class="row">
         <DataTable striped clickable clickReturn="cer_id" @clicked="checkRow" :heads="tableHead" :items="certificates"
-            hover-background :total="certificates.length" paginate :active-page="page" :items-per-page="pageSize"
+            hover-background :total="total" paginate :active-page="page" :items-per-page="pageSize"
             @page-change="setCurrentPage">
 
             <template #cer_key="{ data }">
@@ -32,7 +32,7 @@
                 <span class="ms-lg-4">{{ data.cer_code }}</span>
             </template>
 
-            <template #created_at="{ data }">
+            <template #created_at="{ data } ">
                 {{ changeTimestampToDate(data?.cer_created_at) }}
             </template>
 
@@ -155,12 +155,13 @@ const getAllCertificate = async () => {
         });
 };
 
-async function CerCreateSelect() {
+async function cerCreateSelect() {
 
     const response = await axios.get(`${import.meta.env.VITE_API_HOST}/certificates`);
     console.log(response)
     const year = response.data.rows.map(entry => new Date(entry.cer_created_at).getFullYear() + 543);
     years.value = [...new Set(year)];
+    years.value.unshift("ทั้งหมด");
     console.log(years.value)
 
 
@@ -241,7 +242,7 @@ onMounted(async () => {
     setCurrentPage(page.value);
     let service = new apiService();
     teams.value = await service.getAllTeam();
-    CerCreateSelect();
+    cerCreateSelect();
 })
 
 
