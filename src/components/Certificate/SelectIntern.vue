@@ -5,9 +5,9 @@
             <Search v-model="searchData" @search="search" />
         </div>
 
-        <div class="col-md-2 my-auto nopadding">
-            <BaseInput placeholder="ปี" @change="setCurrentPage(1)" v-model="endDate"
-                onfocus="(this.type='date')" onblur="(this.type='text')" />
+        <div class="col-md-2 ms-2 my-auto nopadding">
+            <BaseSelect placeholder="ปี" @change="setCurrentPage(1)" v-model="cerCreate" :options="years"
+                value="cerCreate" text="cerCreate" />
         </div>
 
         <div class="col-md-2 my-auto">
@@ -68,6 +68,8 @@ const team_id = ref();
 const endDate = ref("");
 const searchData = ref("");
 const teams = ref([]);
+const years = ref([]);
+const cerCreate = ref("");
 let timer;
 
 const tableHead = ref([
@@ -155,6 +157,18 @@ async function setCurrentPage(pageNumber) {
     }
     await getAllIntern();
 }
+
+async function CerCreateSelect() {
+
+const response = await axios.get(`${import.meta.env.VITE_API_HOST}/interns`);
+console.log(response)
+const year = response.data.rows.map(entry => new Date(entry.intn_contract_end_date).getFullYear());
+years.value = [...new Set(year)];
+console.log(years.value)
+
+
+}
+
 const getAllIntern = async () => {
     const params = {
         page: page.value,
@@ -162,6 +176,7 @@ const getAllIntern = async () => {
         team_id: team_id.value || undefined,
         filter: searchData.value || undefined,
         intn_contract_end_date: endDate.value || undefined,
+        cer_created_at: cerCreate.value || undefined,
         almost: true,
         noCertificate: true,
     };
@@ -180,6 +195,7 @@ onMounted(async () => {
     setCurrentPage(page.value);
     let service = new apiService();
     teams.value = await service.getAllTeam();
+    CerCreateSelect();
 });
 
 </script>

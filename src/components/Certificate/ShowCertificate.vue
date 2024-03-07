@@ -15,7 +15,8 @@
                 value="team_id" text="team_name" />
         </div>
 
-        <BaseButton class="col-auto ms-auto" @click="$router.push('/certificates/selectCompany')" label="ออกเอกสารรับรอง" />
+        <BaseButton class="col-auto ms-auto" @click="$router.push('/certificates/selectCompany')"
+            label="ออกเอกสารรับรอง" />
     </div>
 
 
@@ -26,7 +27,8 @@
 
             <template #cer_key="{ data }">
                 <input :name="data?.cer_id" :id="data?.cer_id" type="checkbox"
-                    @click="select_certificate(data?.cer_id) && checkRow(data?.cer_id)" class="form-check-input mt-2 p-2" />
+                    @click="select_certificate(data?.cer_created_at, data?.cer_filename) && checkRow(data?.cer_created_at, data?.cer_filename)"
+                    class="form-check-input mt-2 p-2" />
                 <span class="ms-lg-4">{{ data.cer_code }}</span>
             </template>
 
@@ -35,12 +37,16 @@
             </template>
 
             <template #open_file="{ data }">
-                <Picture @click="downloadPDF(data?.cer_created_at, data?.cer_filename)"></Picture>
+                <Picture @click="openPDF(data?.cer_created_at, data?.cer_filename)"></Picture>
+            </template>
+
+            <template #download="{ data }">
+                <Download @click="downloadPDF(data?.cer_created_at, data?.cer_filename)"></Download>
             </template>
 
             <template #bottom-right>
                 <div class="col-md-5 ms-auto text-end nopadding">
-                    <BaseButton class="" label="ดาวน์โหลดเอกสารที่เลือก" @click="sendToDownload()" />
+                    <BaseButton class="" label="ดาวน์โหลดเอกสารที่เลือก" @click="downloadSelectPDF()" />
                 </div>
             </template>
 
@@ -76,7 +82,7 @@ const tableHead = ref([
     { key: "cer_intern.intn_major.maj_faculty.fac_university.uni_name", title: "มหาวิทยาลัย", },
     { key: "created_at", title: "วันที่ออกเอกสาร", align: "center" },
     { key: "open_file", title: "เปิดไฟล์", align: "center" },
-    // { key: "download", title: "ดาวน์โหลด", align: "center" },
+    { key: "download", title: "ดาวน์โหลด", align: "center" },
     // { key: "delete", title: "ลบ" },
 ]);
 
@@ -86,6 +92,8 @@ const pageMax = ref(1);
 const pageSize = 10000;
 const certificates = ref([])
 const selected = [];
+const selected_years = [];
+const selected_filenames = [];
 let validate = ref(false);
 const team_id = ref();
 const cerCreate = ref("");
@@ -110,63 +118,24 @@ function search() {
     }, 500);
 }
 
-function select_certificate(id) {
-    if (selected.indexOf(id) != -1) {
-        selected.splice([selected.indexOf(id)], 1)
+function select_certificate(year, filename) {
+    if (selected_years.indexOf(year) != -1) {
+        selected_years.splice([selected_years.indexOf(year)], 1)
     } else {
-        selected.push(id)
+        selected_years.push(year)
     }
 
-    console.log(selected)
-}
-
-async function sendToDownload() {
-    if (selected.length == 0) {
-        validate.value = false
-        errorAlert("กรุณาเลือกอย่างน้อย 1 ข้อมูล")
-        return
-    }
-    const result = await confirmation();
-
-    if (result) {
-        const data_id = {
-            cer_id: selected,
-        }
-        const response = await axios.post(
-            `${import.meta.env.VITE_API_HOST}/certificates/download`,
-            data_id
-        ).then((response) => {
-            successAlert().then(() => {
-                router.push({ path: "/certificates/download" });
-            });
-        })
-            .catch((err) => {
-                errorAlert(err);
-            });
-        console.log(data_id);
-        console.log(response.data);
-
+    if (selected_filenames.indexOf(filename) != -1) {
+        selected_filenames.splice([selected_filenames.indexOf(filename)], 1)
+    } else {
+        selected_filenames.push(filename)
     }
 
+    console.log(selected_years)
+    console.log(selected_filenames)
 }
 
-// function download(){
-//     downloadPDF(selected);
-// }
 
-// const getAllCertificate = async () => {
-
-//     try {
-//         const response = await axios.get(`${import.meta.env.VITE_API_HOST}/certificates`);
-//         certificates.value = response.data;
-//     } catch (error) {
-//         console.error('Error fetching certificates:', error);
-//     }
-// };
-
-async function sentToDownload() {
-
-}
 const getAllCertificate = async () => {
     const params = {
         page: page.value,
@@ -208,8 +177,43 @@ async function setCurrentPage(pageNumber) {
 
 async function downloadPDF(year, cerFilename) {
     const pdfURL = `${import.meta.env.VITE_API_HOST}/certificates/${changeTimestampToYear(year)}/${cerFilename}`;
-    window.open(pdfURL, '_blank');
+
+    try {
+        const response = await fetch(pdfURL);
+        const blob = await response.blob();
+        const blobURL = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = blobURL;
+        link.download = cerFilename;
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+
+        URL.revokeObjectURL(blobURL);
+    } catch (error) {
+        console.error('เกิดข้อผิดพลาดในการดาวน์โหลด PDF:', error);
+    }
 }
+
+async function downloadSelectPDF() {
+    if (selected_years.length === 0 || selected_filenames.length === 0) {
+        console.warn('ยังไม่ได้เลือกข้อมูลใด ๆ');
+        return;
+    }
+
+    for (let i = 0; i < selected_years.length; i++) {
+        const year_select = selected_years[i];
+        const filename_select = selected_filenames[i];
+        downloadPDF(year_select, filename_select );
+
+    }
+    selected_years.length = 0;
+    selected_filenames.length = 0;
+}
+
 
 
 async function openPDF(year, cerFilename) {
