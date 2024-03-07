@@ -199,22 +199,23 @@ async function downloadPDF(year, cerFilename) {
 }
 
 async function downloadSelectPDF() {
+
     if (selected_years.length === 0 || selected_filenames.length === 0) {
-        console.warn('ยังไม่ได้เลือกข้อมูลใด ๆ');
-        return;
+        validate.value = false
+        errorAlert("กรุณาเลือกอย่างน้อย 1 ข้อมูล")
+        return
+    }
+    const result = await confirmation("คุณต้องการดาวน์โหลดเอกสารที่เลือกหรือไม่");
+
+    if (result) {
+        for (let i = 0; i < selected_years.length; i++) {
+            const year_select = selected_years[i];
+            const filename_select = selected_filenames[i];
+            downloadPDF(year_select, filename_select);
+        }
     }
 
-    for (let i = 0; i < selected_years.length; i++) {
-        const year_select = selected_years[i];
-        const filename_select = selected_filenames[i];
-        downloadPDF(year_select, filename_select );
-
-    }
-    selected_years.length = 0;
-    selected_filenames.length = 0;
 }
-
-
 
 async function openPDF(year, cerFilename) {
     window.open(`${import.meta.env.VITE_API_HOST}/certificates/${changeTimestampToYear(year)}/${cerFilename}`)
