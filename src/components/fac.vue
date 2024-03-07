@@ -61,7 +61,7 @@
             <div class="col-9">
                 <input type="text" id="majorName" class="form-control">                          
             </div>
-            <button type="button" class="col-md-1 btn btn-outline-secondary rounded-circle" @click="$event.target.parentElement.remove()">-</button>
+            <button type="button" class="col-1 btn btn-outline-secondary mx-auto rounded-circle" @click="$event.target.parentElement.remove()">-</button>
         </div>       
         <div class="row">
             <button type="button" class="col-1 btn btn-outline-secondary mx-auto rounded-circle" @click="countRow++">+</button>
