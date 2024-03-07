@@ -167,7 +167,6 @@ async function CerCreateSelect() {
 }
 
 async function setCurrentPage(pageNumber) {
-
     if (pageNumber > 0 && pageNumber <= pageMax.value) {
         page.value = pageNumber;
     }
@@ -239,7 +238,7 @@ function changeTimestampToYear(value) {
 }
 
 onMounted(async () => {
-    setCurrentPage(page.value, cerCreate.value);
+    setCurrentPage(page.value);
     let service = new apiService();
     teams.value = await service.getAllTeam();
     CerCreateSelect();
