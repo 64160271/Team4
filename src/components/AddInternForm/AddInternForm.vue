@@ -1045,5 +1045,14 @@ select:focus {
 .is-invalid:focus {
   transition: 0s;
   box-shadow: none;
+  border: 1px solid red !important;
+  outline: 1px solid rgb(255, 0, 0) !important;
+}
+
+textarea:focus {
+  transition: 0s;
+  box-shadow: none;
+  outline: 2px solid rgb(0, 119, 255) !important;
+  border: 1px solid white !important;
 }
 </style>

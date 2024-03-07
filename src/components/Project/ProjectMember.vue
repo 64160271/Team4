@@ -39,9 +39,9 @@
           @search="fetchIntern"
           @return="handleReturn"
           item-text="intn_name_th"
-          :class="{ 'is-invalid': $v.intn_code.$error }"
+          :class="{ 'is-invalid': v$.intn_code.$error }"
         />
-        <InvalidFeedback :error="$v.intn_code.$errors" />
+        <InvalidFeedback :errors="v$.intn_code.$errors" />
       </div>
     </div>
     <div class="row mb-3">
@@ -53,9 +53,9 @@
           placeholder="ค้นหาจากด้านบน"
           required
           disabled
-          :class="{ 'is-invalid': $v.intn_name_th.$error }"
+          :class="{ 'is-invalid': v$.intn_name_th.$error }"
         />
-        <InvalidFeedback :error="$v.intn_name_th.$errors" />
+        <InvalidFeedback :errors="v$.intn_name_th.$errors" />
       </div>
     </div>
     <div class="row mb-3">
@@ -67,9 +67,9 @@
           text="role_name"
           value="role_id"
           required
-          :class="{ 'is-invalid': $v.role_id.$error }"
+          :class="{ 'is-invalid': v$.role_id.$error }"
         />
-        <InvalidFeedback :error="$v.role_id.$errors" />
+        <InvalidFeedback :errors="v$.role_id.$errors" />
       </div>
     </div>
   </BaseModal>

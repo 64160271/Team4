@@ -48,9 +48,9 @@
           :value="formData.proj_name"
           placeholder="ชื่อโปรเจกต์"
           required
-          :class="{ 'is-invalid': $v.proj_name.$error }"
+          :class="{ 'is-invalid': v$.proj_name.$error }"
         />
-        <InvalidFeedback :error="$v.proj_name.$errors" />
+        <InvalidFeedback :errors="v$.proj_name.$errors" />
       </div>
     </div>
     <div class="row mb-3">
@@ -80,9 +80,9 @@
           text="ment_name"
           value="ment_id"
           required
-          :class="{ 'is-invalid': $v.proj_mentor_id.$error }"
+          :class="{ 'is-invalid': v$.proj_mentor_id.$error }"
         />
-        <InvalidFeedback :error="$v.proj_mentor_id.$errors" />
+        <InvalidFeedback :errors="v$.proj_mentor_id.$errors" />
       </div>
       <div class="col-md-6">
         <BaseSelect
@@ -92,9 +92,9 @@
           text="text"
           value="value"
           required
-          :class="{ 'is-invalid': $v.proj_status.$error }"
+          :class="{ 'is-invalid': v$.proj_status.$error }"
         />
-        <InvalidFeedback :error="$v.proj_status.$errors" />
+        <InvalidFeedback :errors="v$.proj_status.$errors" />
       </div>
     </div>
   </BaseModal>
@@ -107,7 +107,7 @@ import BaseModal from "../Component/BaseModal.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseButton from "../Component/BaseButton.vue";
 import SearchBox from "../Component/SearchBox.vue";
-import InvalidFeedback from "../Component/InvalidFeedback.vue"
+import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import { ref, onMounted, reactive } from "vue";
 import EditIcon from "../icons/EditIcon.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
@@ -139,8 +139,8 @@ const statusValue = ref([
 const rules = {
   proj_name: { required },
   proj_status: { required },
-  proj_mentor_id: { required } 
-}
+  proj_mentor_id: { required },
+};
 const v$ = useVuelidate(rules, formData);
 
 const tableHead = ref([
@@ -190,7 +190,7 @@ async function fornmSubmit() {
           errorAlert(e.response.data);
         });
     }
-    }
+  }
 }
 
 async function add() {
