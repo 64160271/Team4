@@ -16,7 +16,6 @@ import ManageUniversity from '../components/University/ManageUniversity.vue'
 import SelectCompany from '../components/Certificate/SelectCompany.vue'
 import SelectSignature from '../components/Certificate/SelectSignature.vue'
 import SelectIntern from '../components/Certificate/SelectIntern.vue'
-import PreviewCertificate from '../components/Certificate/PreviewCertificate.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -108,12 +107,6 @@ const router = createRouter({
             component: SelectIntern,
             props: true,
         },
-        {
-            path: '/certificates/previewCertificate',
-            name: 'previewCertificate',
-            component: PreviewCertificate,
-            props: true,
-        }
     ]
 })
 

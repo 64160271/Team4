@@ -1,6 +1,6 @@
 <template>
     <LayoutMenuName backButton page-name="เอกสารรับรอง > เลือกรายชื่อนักศึกษาฝึกงาน" />
-        <div class="row mb-3">
+    <div class="row mb-3">
         <div class="col-md-5 my-auto nopadding">
             <Search v-model="searchData" @search="search" />
         </div>
@@ -19,11 +19,11 @@
     <div class="row">
 
         <DataTable striped clickable click-return="intn_id" @clicked="checkRow" :heads="tableHead" :items="interns"
-            hover-background :total="total"
-            @page-change="setCurrentPage">
+            hover-background :total="total" @page-change="setCurrentPage" >
             <template #intn_key="{ data }">
                 <input :name="data?.intn_id" :id="data?.intn_id" type="checkbox"
-                    @click="select_intern(data?.intn_id) && checkRow(data?.intn_id)" class="form-check-input mt-2 p-2" />
+                    @click="select_intern(data?.intn_id) && checkRow(data?.intn_id)"
+                    class="form-check-input mt-2 p-2" />
                 <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
             </template>
 
@@ -87,7 +87,6 @@ const tableHead = ref([
 // })
 
 
-
 function checkRow(index) {
     let checkbox = document.getElementById(index);
 
@@ -120,7 +119,7 @@ function search() {
 
 async function sendToCreateCertificate() {
     console.log(selected)
-    if(selected.length == 0){
+    if (selected.length == 0) {
         validate.value = false
         errorAlert("กรุณาเลือกอย่างน้อย 1 ข้อมูล")
         return
@@ -153,16 +152,16 @@ async function sendToCreateCertificate() {
 async function setCurrentPage(pageNumber) {
     if (pageNumber > 0 && pageNumber <= pageMax.value) {
         page.value = pageNumber;
-        
+
     }
     await getAllIntern();
 }
 
-async function CerCreateSelect() {
+async function cerCreateSelect() {
 
 const response = await axios.get(`${import.meta.env.VITE_API_HOST}/interns`);
 console.log(response)
-const year = response.data.rows.map(entry => new Date(entry.intn_contract_end_date).getFullYear());
+const year = response.data.rows.map(entry => new Date(entry.intn_start_date).getFullYear());
 years.value = [...new Set(year)];
 years.value.unshift("ทั้งหมด");
 console.log(years.value)
@@ -196,7 +195,7 @@ onMounted(async () => {
     setCurrentPage(page.value);
     let service = new apiService();
     teams.value = await service.getAllTeam();
-    CerCreateSelect();
+    cerCreateSelect();
 });
 
 </script>
@@ -210,7 +209,7 @@ onMounted(async () => {
 }
 
 input[type="checkbox"]:checked {
-  border: 1px solid green;
-  background-color: green;
+    border: 1px solid green;
+    background-color: green;
 }
 </style>
