@@ -164,7 +164,12 @@ import CardInternInfo from "./CardInternInfo.vue";
 import BaseButton from "../Component/BaseButton.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseModal from "../Component/BaseModal.vue";
-import { confirmation, successAlert, getCurrentThaiDate, changeTimestampToDate } from "../../assets/js/func";
+import {
+  confirmation,
+  successAlert,
+  getCurrentThaiDate,
+  changeTimestampToDate,
+} from "../../assets/js/func";
 import SearchBox from "../Component/SearchBox.vue";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import useVuelidate from "@vuelidate/core";

@@ -314,11 +314,11 @@
 
             <div class="col-md-4">
               <label for="" class="form-label text-gray">วันเกิด </label>
-              <input
-                id="birthdate"
+              <DatePicker
+                placeholder="DD/MM/YYYY"
+                pid="birthdate"
                 v-model="personalInfo.intn_birth_date"
-                type="date"
-                class="form-control"
+                readonly
               />
             </div>
 
@@ -523,53 +523,60 @@
               <label for="" class="form-label text-gray"
                 >วันที่เริ่มฝึกงาน <span class="text-danger">*</span></label
               >
-              <input
-                id="startdate"
+              <DatePicker
+                placeholder="DD/MM/YYYY"
+                pid="startdate"
                 v-model="personalInfo.intn_start_date"
-                type="date"
-                class="form-control"
                 :class="{ 'is-invalid': v$.personal_info.intn_start_date.$error }"
                 required
-              />
-              <InvalidFeedback :errors="v$.personal_info.intn_start_date.$errors" />
+                readonly
+              >
+                <InvalidFeedback :errors="v$.personal_info.intn_start_date.$errors" />
+              </DatePicker>
             </div>
 
             <div class="col">
               <label for="" class="form-label text-gray">วันที่ผ่านทดลองงาน</label>
-              <input
-                id="enddate"
+              <DatePicker
+                placeholder="DD/MM/YYYY"
+                pid="enddate"
                 v-model="personalInfo.intn_end_date"
-                type="date"
-                class="form-control"
                 :class="{ 'is-invalid': v$.personal_info.intn_end_date.$error }"
-              />
-              <InvalidFeedback :errors="v$.personal_info.intn_end_date.$errors" />
+                required
+                readonly
+              >
+                <InvalidFeedback :errors="v$.personal_info.intn_end_date.$errors" />
+              </DatePicker>
             </div>
 
             <div class="col">
               <label for="" class="form-label text-gray">วันสุดท้ายที่มาทำงาน</label>
-              <input
-                id="lastwork"
+              <DatePicker
+                placeholder="DD/MM/YYYY"
+                pid="lastwork"
                 v-model="personalInfo.intn_last_work_date"
-                type="date"
-                class="form-control"
                 :class="{ 'is-invalid': v$.personal_info.intn_last_work_date.$error }"
-              />
-              <InvalidFeedback :errors="v$.personal_info.intn_last_work_date.$errors" />
+                required
+                readonly
+              >
+                <InvalidFeedback :errors="v$.personal_info.intn_last_work_date.$errors" />
+              </DatePicker>
             </div>
 
             <div class="col">
-              <BaseInput
+              <DatePicker
                 label="วันที่สิ้นสุดสัญญา"
-                id="contractend"
+                placeholder="DD/MM/YYYY"
+                pid="contractend"
                 v-model="personalInfo.intn_contract_end_date"
-                type="date"
                 :class="{ 'is-invalid': v$.personal_info.intn_contract_end_date.$error }"
                 required
-              />
-              <InvalidFeedback
-                :errors="v$.personal_info.intn_contract_end_date.$errors"
-              />
+                readonly
+              >
+                <InvalidFeedback
+                  :errors="v$.personal_info.intn_contract_end_date.$errors"
+                />
+              </DatePicker>
             </div>
           </div>
         </div>
@@ -792,6 +799,7 @@ import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import CameraLogo from "../icons/CameraLogo.vue";
 import router from "@/router";
 import SectionSpace from "../Component/SectionSpace.vue";
+import DatePicker from "../Component/Datepicker.vue";
 
 const formData = useInternFormData();
 const personalInfo = ref(formData.personal_info);
@@ -971,7 +979,7 @@ function showImg() {
 }
 
 onMounted(async () => {
-  await Promise.all([
+  Promise.all([
     (sections.value = await apiCall.getAllSectionWithRelated()),
     (universities.value = await apiCall.getAllUniversityWithRelated()),
     (roles.value = await apiCall.getAllRole()),

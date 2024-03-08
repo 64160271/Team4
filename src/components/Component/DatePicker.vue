@@ -6,16 +6,19 @@
   <div class="input-group date" :id="pid" data-target-input="nearest">
     <input
       :modelValue="modelValue"
-      :value="displayValue"
+      :value="fakeValue"
       type="text"
       class="form-control datetimepicker-input"
-      :data-target="'#'+pid"
+      :data-target="'#' + pid"
       @change="handleChange($event.target.value)"
       v-bind="$attrs"
     />
-    <div class="input-group-text" :data-target="'#'+pid">
+
+    <div class="input-group-text" :data-target="'#' + pid">
       <i class="bi bi-calendar"></i>
     </div>
+
+    <slot></slot>
   </div>
 </template>
 
@@ -24,17 +27,19 @@ import { ref, onMounted } from "vue";
 import { slashDtoDashY } from "../../assets/js/func";
 import moment from "moment";
 
-const emit = defineEmits()
+const fakeValue = ref("");
+const emit = defineEmits();
 const props = defineProps({
   label: "",
   pid: "",
+  required: Boolean,
   displayValue: {
     type: String,
-    default: ""
+    default: "",
   },
   format: {
     type: String,
-    default: "dd/MM/yyyy"
+    default: "dd/MM/yyyy",
   },
   modelValue: {
     type: [Boolean, String],
@@ -61,29 +66,34 @@ onMounted(() => {
     },
     localization: {
       format: props.format,
-      locale: 'th'
+      locale: "th-TH",
     },
     useCurrent: false,
   });
 });
 
 function convertEra(strDate) {
-  let dateString = strDate; // Oct 23
-  let dateMomentObject = moment(dateString, "DD/MM/YYYY"); // 1st argument - string, 2nd argument - format
+  let dateMomentObject = moment(strDate, "DD/MM/YYYY"); // 1st argument - string, 2nd argument - format
   let dateObject = dateMomentObject.toDate(); // convert moment.js object to Date object
-  let formatted = dateObject.toLocaleDateString('th-TH', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-  })
+  let formatted = dateObject.toLocaleDateString("th-TH", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
 
-  return formatted
+  return formatted;
 }
 
 function handleChange(val) {
-    const newDate = convertEra(val)
-    props.displayValue = newDate
-    emit('update:modelValue', slashDtoDashY(newDate))
+  if (!val) {
+    fakeValue.value = "";
+    emit("update:modelValue", "");
+    return;
+  }
+
+  const newDate = convertEra(val);
+  fakeValue.value = newDate;
+  emit("update:modelValue", slashDtoDashY(newDate));
 }
 </script>
 

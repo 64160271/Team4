@@ -27,12 +27,12 @@
       </div>
 
       <div class="col-md-2 my-auto nopadding">
-        <BaseInput
+        <DatePicker
+          pid="searchDate"
           placeholder="วันที่เริ่มต้นฝึกงาน"
           @change="setCurrentPage(1)"
           v-model="startDate"
-          onfocus="(this.type='date')"
-          onblur="(this.type='text')"
+          readonly
         />
       </div>
 
@@ -97,6 +97,7 @@ import SearchBox from "./Component/SearchBox.vue";
 import apiService from "../services/api";
 import BaseSelect from "./Component/BaseSelect.vue";
 import BaseInput from "./Component/BaseInput.vue";
+import DatePicker from "./Component/DatePicker.vue";
 
 const total = ref();
 const page = ref(1);

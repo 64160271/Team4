@@ -16,13 +16,12 @@
 
   <SectionSpace noSpace>
     <div class="row mb-3">
-      <SideLabelInput
-        v-model="searchData"
-        no-padding
-        input-size="3"
-        label="วันที่ลา"
-        type="date"
-      />
+      <div class="col-auto my-auto nopadding">
+        <label for="" class="col-form-label text-gray">วันที่ลา </label>
+      </div>
+      <div class="col-md-3 my-auto">
+        <DatePicker placeholder="DD/MM/YYYY" pid="search" v-model="searchData" readonly />
+      </div>
 
       <BaseButton
         label="+ เพิ่มข้อมูลการลา"
@@ -283,6 +282,7 @@ import SideLabelInput from "../Component/SideLabelInput.vue";
 import useVuelidate from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
+import DatePicker from "../Component/DatePicker.vue";
 
 const searchData = ref("");
 const router = useRouter();
