@@ -23,11 +23,11 @@
         </template>
 
         <template #proj_edit="{ data }">
-          <EditIcon @click="edit(data)" class="cursor-p" />
+          <EditIcon @click="edit(data)" class="cursor-p hov-outline-red" />
         </template>
 
         <template #proj_detail="{ data }">
-          <EyeIcon @click="linkToMember(data.proj_id)" width="26" class="cursor-p" />
+          <EyeIcon @click="linkToMember(data.proj_id)" width="26" class="cursor-p hov-outline-red" />
         </template>
       </DataTable>
     </div>
@@ -55,20 +55,20 @@
     </div>
     <div class="row mb-3">
       <div class="col-md-6">
-        <BaseInput
-          type="date"
+        <DatePicker
+          placeholder="DD/MM/YYYY"
+          pid="start"
           label="วันที่เริ่มโปรเจกต์"
-          :value="formData.proj_start_date"
           v-model="formData.proj_start_date"
-        />
+        ></DatePicker>
       </div>
       <div class="col-md-6">
-        <BaseInput
-          type="date"
+        <DatePicker
+        placeholder="DD/MM/YYYY"
+          pid="end"
           label="วันที่สิ้นสุดโปรเจกต์"
-          :value="formData.proj_end_date"
           v-model="formData.proj_end_date"
-        />
+        ></DatePicker>
       </div>
     </div>
     <div class="row mb-3">
@@ -116,6 +116,7 @@ import router from "@/router";
 import EyeIcon from "../icons/EyeIcon.vue";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
+import DatePicker from "../Component/DatePicker.vue"
 
 const projects = ref([]);
 const search = ref("");

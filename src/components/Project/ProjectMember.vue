@@ -15,7 +15,7 @@
         hover-background
       >
         <template #pint_edit="{ data }">
-          <EditIcon @click="edit(data)" class="cursor-p" />
+          <EditIcon @click="edit(data)" class="cursor-p hov-outline-red" />
         </template>
       </DataTable>
     </div>
