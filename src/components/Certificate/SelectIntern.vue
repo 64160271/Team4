@@ -5,10 +5,10 @@
             <Search v-model="searchData" @search="search" />
         </div>
 
-        <div class="col-md-2 ms-2 my-auto nopadding">
+        <!-- <div class="col-md-2 ms-2 my-auto nopadding">
             <BaseSelect placeholder="ปี" @change="setCurrentPage(1)" v-model="cerCreate" :options="years"
                 value="cerCreate" text="cerCreate" />
-        </div>
+        </div> -->
 
         <div class="col-md-2 my-auto">
             <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="team_id" :options="teams"
@@ -157,17 +157,17 @@ async function setCurrentPage(pageNumber) {
     await getAllIntern();
 }
 
-async function cerCreateSelect() {
+// async function cerCreateSelect() {
 
-const response = await axios.get(`${import.meta.env.VITE_API_HOST}/interns`);
-console.log(response)
-const year = response.data.rows.map(entry => new Date(entry.intn_start_date).getFullYear());
-years.value = [...new Set(year)];
-years.value.unshift("ทั้งหมด");
-console.log(years.value)
+// const response = await axios.get(`${import.meta.env.VITE_API_HOST}/interns`);
+// console.log(response)
+// const year = response.data.rows.map(entry => new Date(entry.intn_start_date).getFullYear());
+// years.value = [...new Set(year)];
+// years.value.unshift("ทั้งหมด");
+// console.log(years.value)
 
 
-}
+// }
 
 const getAllIntern = async () => {
     const params = {
@@ -195,7 +195,7 @@ onMounted(async () => {
     setCurrentPage(page.value);
     let service = new apiService();
     teams.value = await service.getAllTeam();
-    cerCreateSelect();
+    // cerCreateSelect();
 });
 
 </script>
