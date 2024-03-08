@@ -64,7 +64,7 @@ import DataTable from "../Component/DataTable.vue";
 import apiService from "../../services/api";
 import DatePicker from "../Component/DatePicker.vue";
 
-const d1 = ref()
+const d1 = ref("13/03/2566")
 const d2 = ref()
 const apiCall = new apiService();
 const form = ref(String(""));
@@ -99,6 +99,7 @@ const v$ = useVuelidate(rules, formData);
 const image = ref("");
 
 async function validate() {
+  console.log(d1.value)
   const result = await v$.value.$validate();
 }
 

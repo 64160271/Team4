@@ -6,6 +6,7 @@
   <div class="input-group date" :id="pid" data-target-input="nearest">
     <input
       :modelValue="modelValue"
+      :value="displayValue"
       type="text"
       class="form-control datetimepicker-input"
       :data-target="'#'+pid"
@@ -21,11 +22,20 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { slashDtoDashY } from "../../assets/js/func";
+import moment from "moment";
 
 const emit = defineEmits()
 const props = defineProps({
   label: "",
   pid: "",
+  displayValue: {
+    type: String,
+    default: ""
+  },
+  format: {
+    type: String,
+    default: "dd/MM/yyyy"
+  },
   modelValue: {
     type: [Boolean, String],
     default: false,
@@ -50,16 +60,30 @@ onMounted(() => {
       },
     },
     localization: {
-      format: "dd/MM/yyyy",
+      format: props.format,
       locale: 'th'
     },
     useCurrent: false,
   });
 });
 
+function convertEra(strDate) {
+  let dateString = strDate; // Oct 23
+  let dateMomentObject = moment(dateString, "DD/MM/YYYY"); // 1st argument - string, 2nd argument - format
+  let dateObject = dateMomentObject.toDate(); // convert moment.js object to Date object
+  let formatted = dateObject.toLocaleDateString('th-TH', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  })
+
+  return formatted
+}
+
 function handleChange(val) {
-    console.log(val)
-    emit('update:modelValue', val)
+    const newDate = convertEra(val)
+    props.displayValue = newDate
+    emit('update:modelValue', slashDtoDashY(newDate))
 }
 </script>
 
