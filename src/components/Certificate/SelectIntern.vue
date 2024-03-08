@@ -164,6 +164,7 @@ const response = await axios.get(`${import.meta.env.VITE_API_HOST}/interns`);
 console.log(response)
 const year = response.data.rows.map(entry => new Date(entry.intn_contract_end_date).getFullYear());
 years.value = [...new Set(year)];
+years.value.unshift("ทั้งหมด");
 console.log(years.value)
 
 
