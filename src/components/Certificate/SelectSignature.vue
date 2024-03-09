@@ -92,24 +92,5 @@ function getName(signature) {
 
 
 <style scoped>
-.back {
-    display: flex;
-    margin-right: 10px;
-    margin-bottom: 20px;
-}
 
-.search {
-    background-color: #8d969b30 !important;
-}
-
-.btn_choose {
-    border: 1px solid black;
-    color: black;
-
-}
-
-.btn_choose:hover {
-    border: 1px solid var(--main-color);
-    /* color: var(--main-color); */
-}
 </style>

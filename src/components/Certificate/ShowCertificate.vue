@@ -144,7 +144,6 @@ const getAllCertificate = async () => {
         filter: searchData.value || undefined,
         cer_created_at: cerCreate.value || undefined,
     };
-    // const date = new Date();
 
     await axios
         .get(`${import.meta.env.VITE_API_HOST}/certificates`, { params })
@@ -250,7 +249,5 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.search {
-    background-color: #8d969b30 !important;
-}
+
 </style>

@@ -5,11 +5,6 @@
             <Search v-model="searchData" @search="search" />
         </div>
 
-        <!-- <div class="col-md-2 ms-2 my-auto nopadding">
-            <BaseSelect placeholder="ปี" @change="setCurrentPage(1)" v-model="cerCreate" :options="years"
-                value="cerCreate" text="cerCreate" />
-        </div> -->
-
         <div class="col-md-2 my-auto">
             <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="team_id" :options="teams"
                 value="team_id" text="team_name" />
@@ -61,15 +56,12 @@ const pageMax = ref(1);
 const pageSize = 10000;
 const interns = ref([]);
 
-// const index = 0;
 const selected = [];
 let validate = ref(false);
 const team_id = ref();
 const endDate = ref("");
 const searchData = ref("");
 const teams = ref([]);
-const years = ref([]);
-const cerCreate = ref("");
 let timer;
 
 const tableHead = ref([
@@ -82,9 +74,7 @@ const tableHead = ref([
     { key: "intn_end_date", title: "วันที่สิ้นสุดฝึกงาน" },
 ]);
 
-// const props = defineProps({
-//     sign: '',
-// })
+
 
 
 function checkRow(index) {
@@ -157,17 +147,6 @@ async function setCurrentPage(pageNumber) {
     await getAllIntern();
 }
 
-// async function cerCreateSelect() {
-
-// const response = await axios.get(`${import.meta.env.VITE_API_HOST}/interns`);
-// console.log(response)
-// const year = response.data.rows.map(entry => new Date(entry.intn_start_date).getFullYear());
-// years.value = [...new Set(year)];
-// years.value.unshift("ทั้งหมด");
-// console.log(years.value)
-
-
-// }
 
 const getAllIntern = async () => {
     const params = {
@@ -176,7 +155,6 @@ const getAllIntern = async () => {
         team_id: team_id.value || undefined,
         filter: searchData.value || undefined,
         intn_contract_end_date: endDate.value || undefined,
-        cer_created_at: cerCreate.value || undefined,
         almost: true,
         noCertificate: true,
     };
@@ -195,21 +173,10 @@ onMounted(async () => {
     setCurrentPage(page.value);
     let service = new apiService();
     teams.value = await service.getAllTeam();
-    // cerCreateSelect();
 });
 
 </script>
 
 <style scoped>
-.back {
-    display: flex;
-    margin-right: 10px;
-    margin-bottom: 20px;
 
-}
-
-input[type="checkbox"]:checked {
-    border: 1px solid green;
-    background-color: green;
-}
 </style>
