@@ -35,7 +35,7 @@
         </div>
     </BaseModal>
 
-    <DataTable :heads="dataHead" :items="reports" hovers clickable clickReturn="rep_id" @clicked="handleClick" paginate
+    <DataTable :heads="dataHead" :items="reports" hovers    paginate
         :total="reports.length" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
         <template #rep_count_name="{ data }">
             {{ data.rep_salaries.length }}
@@ -48,11 +48,11 @@
             {{ chageDate(data.rep_updated_at) }}
 
         </template>
-        <template #rep_edit>
-            <EditIcon />
+        <template #rep_edit="{ data }">
+            <EditIcon @click="handleClick(data.rep_id)" class="hover-p"/>
         </template>
         <template #rep_remove="{ data }">
-            <DeleteButton @click="deleteReport(data.rep_id)" />
+            <DeleteButton @click="deleteReport(data)" />
         </template>
     </DataTable>
 </template>
@@ -70,6 +70,10 @@ import EditIcon from '../icons/EditIcon.vue'
 import DeleteButton from '../icons/DeleteButton.vue'
 import router from "@/router";
 import Search from "../component/SearchBox.vue"
+import { confirmation, successAlert, errorAlert } from "../../assets/js/func"
+import InvalidFeedback from "../Component/InvalidFeedback.vue";
+import useVuelidate from "@vuelidate/core"; 
+
 
 
 const reports = ref([])
@@ -81,6 +85,7 @@ const pageSize = 10;
 const total = ref();
 const searchData = ref("");
 let timer;
+
 
 const team = ref([])
 const team_id = ref([])
@@ -171,20 +176,20 @@ function chageDate(value) {
     return ''
 }
 
-async function deleteReport(rep_id) {
-    if (reports.value.rep_status == 1) {
+async function deleteReport(rep) {
+    if (rep.rep_status == 1) {
         errorAlert("สถานะของรายการนี้ไม่สามารถลบได้");
         return;
     }
-    console.log(rep_id)
+    console.log(rep.rep_id)
     const result = await confirmation("คุณต้องการลบรายการนี้ใช้หรือไม่");
     if (result) {
-        await axios.delete(`${import.meta.env.VITE_API_HOST}/reports/${rep_id}`)
+        await axios.delete(`${import.meta.env.VITE_API_HOST}/reports/${rep.rep_id}`)
             .then(async (_res) => {
                 await successAlert("ลบรายการนี้สำเร็จแล้ว");
                 router.go();
             }).catch((err) => {
-                console.log(e)
+                console.log(err)
                 errorAlert(err);
             });
 
