@@ -11,22 +11,27 @@
 -->
 
 <template>
-  <label for="" class="form-label text-gray" v-if="label">{{ label }}
+  <label for="" class="form-label text-gray" v-if="label"
+    >{{ label }}
     <span class="text-danger" v-if="required">*</span>
   </label>
-  <select 
-    class="form-select" 
-    :value="modelValue" 
-    :required="required" 
+  <select
+    class="form-select"
+    :value="modelValue"
+    :required="required"
     @change="updatedValue"
     v-bind="$attrs"
-   >
-    <option disabled selected v-if="setDefault && firstOptionType != null" value="">{{ placeholder }}</option>
+  >
+    <option disabled selected v-if="setDefault && firstOptionType != null" value="">
+      {{ placeholder }}
+    </option>
+    <option v-if="reset" value="reset">รีเซ็ตการเลือกข้อมูล</option>
     <option v-if="allSelect" value="">ทั้งหมด</option>
-    <option 
-     v-if="firstOptionType == 'object'"
-     v-for="option in options" 
-     :value="option[value]">
+    <option
+      v-if="firstOptionType == 'object'"
+      v-for="option in options"
+      :value="option[value]"
+    >
       {{ option[text] }}
     </option>
 
@@ -40,7 +45,7 @@
 <script setup>
 import { computed } from "vue";
 
-const emit = defineEmits()
+const emit = defineEmits();
 
 const props = defineProps({
   label: {
@@ -75,7 +80,11 @@ const props = defineProps({
   allSelect: {
     type: Boolean,
     default: false,
-  }
+  },
+  reset: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 /*
@@ -85,7 +94,11 @@ const props = defineProps({
  * return: null
  */
 async function updatedValue() {
-  emit('update:modelValue', event.target.value)
+  if (event.target.value === "reset") {
+    emit("update:modelValue", "");
+    return;
+  }
+  emit("update:modelValue", event.target.value);
 }
 
 /* ตรวจสอบประเภทตัวแปรของตัวเลือก */

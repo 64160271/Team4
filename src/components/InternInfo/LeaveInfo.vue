@@ -133,14 +133,15 @@
     <div v-if="lvs_time == 'hr'">
       <div class="row mb-3">
         <div class="col-md-4">
-          <BaseInput
+          <DatePicker
+            pid="d1"
+            placeholder="DD/MM/YYYY"
             required
             v-model="formData.lvs_from_date"
-            type="date"
             label="วันที่ลา"
             :class="{ 'is-invalid': v$.lvs_from_date.$error }"
-          />
-          <InvalidFeedback :errors="v$.lvs_from_date.$errors" />
+            ><InvalidFeedback :errors="v$.lvs_from_date.$errors"
+          /></DatePicker>
         </div>
         <div class="col-auto mt-auto">
           <Radio
@@ -179,25 +180,27 @@
     <div v-if="lvs_time == 'day'">
       <div class="row mb-3">
         <div class="col-md-5">
-          <BaseInput
+          <DatePicker
+            placeholder="DD/MM/YYYY"
+            pid="d2"
             required
             v-model="formData.lvs_from_date"
-            type="date"
             label="วันเริ่มต้น"
             :class="{ 'is-invalid': v$.lvs_from_date.$error }"
-          />
-          <InvalidFeedback :errors="v$.lvs_from_date.$errors" />
+            ><InvalidFeedback :errors="v$.lvs_from_date.$errors"
+          /></DatePicker>
         </div>
         <div class="col-md-5">
-          <BaseInput
+          <DatePicker
+            placeholder="DD/MM/YYYY"
+            pid="d3"
             required
             v-model="formData.lvs_to_date"
             :min="formData.lvs_from_date"
-            type="date"
             label="วันสิ้นสุด"
             :class="{ 'is-invalid': v$.lvs_to_date.$error }"
-          />
-          <InvalidFeedback :errors="v$.lvs_to_date.$errors" />
+            ><InvalidFeedback :errors="v$.lvs_to_date.$errors"
+          /></DatePicker>
         </div>
         <div class="col-md-2">
           <BaseInput
@@ -278,7 +281,6 @@ import BaseSelect from "../Component/BaseSelect.vue";
 import { useLeavesType } from "../../stores/constData";
 import { useInternName } from "../../stores/constData";
 import { diffDate, slashDtoDashY, getCurrentThaiDate } from "../../assets/js/func";
-import SideLabelInput from "../Component/SideLabelInput.vue";
 import useVuelidate from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
@@ -307,9 +309,15 @@ const formData = ref({
 
 const dateAfterStart = (v) => {
   if (v) {
-    console.log(v);
     let date = useInternName().getStartDate;
-    console.log(date);
+    return v > date;
+  }
+  return true;
+};
+
+const dateBeforeStart = (v) => {
+  if (v) {
+    let date = formData.value.lvs_from_date;
     return v > date;
   }
   return true;
@@ -325,6 +333,10 @@ const rules = {
   lvs_to_date: {
     required,
     dateAfterStart: helpers.withMessage(afterStartFeedback, dateAfterStart),
+    dateBeforeStart: helpers.withMessage(
+      "ไม่สามารถเลือกก่อนวันที่ลาได้",
+      dateBeforeStart
+    ),
   },
 };
 const v$ = useVuelidate(rules, formData.value);
@@ -388,4 +400,11 @@ const filterData = computed(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+textarea:focus {
+  transition: 0s;
+  box-shadow: none;
+  outline: 2px solid rgb(0, 119, 255) !important;
+  border: 1px solid white !important;
+}
+</style>

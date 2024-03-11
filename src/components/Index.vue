@@ -10,6 +10,24 @@
 
   <SectionSpace>
     <div class="row mb-3">
+      <button
+        class="col-auto btn ms-auto btn-sm outline-red"
+        @click="$router.push('/interns/key-data')"
+      >
+        <FormIconVue />
+        เพิ่มจากแบบฟอร์ม
+      </button>
+
+      <button
+        class="ms-4 col-auto btn btn-sm outline-red"
+        @click="$router.push('/interns/add-file')"
+      >
+        <ExcelIcon />
+        เพิ่มจากไฟล์ Excel
+      </button>
+    </div>
+
+    <div class="row mb-3">
       <div class="col-md-3 my-auto nopadding">
         <SearchBox v-model="searchData" @search="search" />
       </div>
@@ -26,7 +44,19 @@
         />
       </div>
 
-      <div class="col-md-2 my-auto nopadding">
+      <div class="col-md-2 my-auto">
+        <BaseSelect
+          placeholder="ตำแหน่ง"
+          all-select
+          @change="setCurrentPage(1)"
+          v-model="roleId"
+          :options="roles"
+          value="role_id"
+          text="role_name"
+        />
+      </div>
+
+      <div class="col my-auto">
         <DatePicker
           pid="searchDate"
           placeholder="วันที่เริ่มต้นฝึกงาน"
@@ -35,22 +65,17 @@
           readonly
         />
       </div>
-
-      <button
-        class="col-auto btn ms-auto btn-sm outline-red"
-        @click="$router.push('/interns/key-data')"
-      >
-        <FormIconVue />
-        เพิ่มจากแบบฟอร์ม
-      </button>
-
-      <button
-        class="ms-4 col-auto btn btn-sm outline-red"
-        @click="$router.push('/interns/add-file')"
-      >
-        <ExcelIcon />
-        เพิ่มจากไฟล์ Excel
-      </button>
+      <div class="col-md-2 my-auto pe-0">
+        <BaseSelect
+          placeholder="สถานะ"
+          all-select
+          @change="setCurrentPage(1)"
+          v-model="statusVal"
+          :options="status.list"
+          value="value"
+          text="text"
+        />
+      </div>
     </div>
 
     <div class="row">
@@ -81,6 +106,10 @@
           <img v-else src="../assets/images/person-nm.png" alt="" width="35" />
           <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
         </template>
+
+        <template #intn_status_custom="{ data }">
+          <span v-html="getStatus(data.intn_work_status)"></span>
+        </template>
       </DataTable>
     </div>
   </SectionSpace>
@@ -98,6 +127,7 @@ import apiService from "../services/api";
 import BaseSelect from "./Component/BaseSelect.vue";
 import BaseInput from "./Component/BaseInput.vue";
 import DatePicker from "./Component/DatePicker.vue";
+import { useStatusData } from "../stores/constData";
 
 const total = ref();
 const page = ref(1);
@@ -108,6 +138,10 @@ const teams = ref([]);
 const team_id = ref();
 const startDate = ref("");
 const searchData = ref("");
+const roles = ref([]);
+const roleId = ref();
+const status = ref(useStatusData());
+const statusVal = ref();
 let timer;
 const tableHead = ref([
   { key: "intn_key", title: "รหัสนักศึกษาฝึกงาน", align: "center", size: 2 },
@@ -117,6 +151,7 @@ const tableHead = ref([
   { key: "work_infos[0].work_team.team_name", title: "ทีม", size: 2 },
   { key: "intn_start_date", title: "วันที่เริ่มฝึกงาน", align: "center", size: 2 },
   { key: "intn_end_date", title: "วันที่สิ้นสุดฝึกงาน", align: "center", size: 2 },
+  { key: "intn_status_custom", title: "สถานะ", align: "center" },
 ]);
 
 /*
@@ -140,6 +175,8 @@ const getAllIntern = async () => {
     team_id: team_id.value || undefined,
     filter: searchData.value || undefined,
     intn_start_date: startDate.value || undefined,
+    role_id: roleId.value || undefined,
+    intn_work_status: statusVal.value || undefined,
   };
 
   await axios
@@ -155,6 +192,7 @@ onMounted(async () => {
   setCurrentPage(page.value);
   let service = new apiService();
   teams.value = await service.getAllTeam();
+  roles.value = await service.getAllRole();
 });
 
 function search() {
@@ -169,6 +207,14 @@ function search() {
 
 function handleClick(intn_id) {
   router.push({ name: "internData", params: { id: intn_id } });
+}
+
+function getStatus(status) {
+  if (status == "กำลังทำงาน") {
+    return '<span class="badge text-bg-success fw-bold">กำลังทำงาน</span>';
+  } else if (status == "พ้นสภาพ") {
+    return '<span style="color: #339900;" class="badge text-bg-danger fw-bold">พ้นสภาพ</span>';
+  }
 }
 </script>
 

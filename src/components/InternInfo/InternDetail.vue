@@ -67,6 +67,14 @@
                                 required />
                         </div>
                     </div>
+
+                    <div class="row mb-2">
+                        <label for="" class="col-md-2 col-form-label text-gray">บริษัท </label>
+                        <div class="col">
+                            <input placeholder="-" type="text" class="form-control-plaintext" :value="intern.intn_company?.com_name"
+                                readonly required />
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -141,6 +149,20 @@
                     <label for="" class="col-2 col-form-label text-gray">หมู่เลือด</label>
                     <div class="col">
                         <input v-model="intern.intn_blood_type" placeholder="-" type="text"
+                            class="form-control-plaintext" readonly required />
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <label for="" class="col-2 col-form-label text-gray">ธนาคาร </label>
+                    <div class="col">
+                        <input v-model="intern.intn_bank_name" placeholder="-" type="text" class="form-control-plaintext"
+                            readonly required />
+                    </div>
+
+                    <label for="" class="col-2 col-form-label text-gray">เลขที่บัญชี</label>
+                    <div class="col">
+                        <input v-model="intern.intn_bank_account" placeholder="-" type="text"
                             class="form-control-plaintext" readonly required />
                     </div>
                 </div>
@@ -370,7 +392,7 @@
             </div>
 
             <div class="row mb-4">
-                <textarea id="" name="" class="form-control col" rows="2"></textarea>
+                <textarea readonly :value="intern.intn_reason" id="" name="" class="form-control col" rows="2"></textarea>
             </div>
         </div>
     </SectionSpace>

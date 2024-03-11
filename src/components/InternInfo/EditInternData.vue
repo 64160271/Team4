@@ -88,7 +88,7 @@
               </div>
             </div>
 
-            <div class="row mb-4 gx-5">
+            <div class="row mb-3 gx-5">
               <div class="col-md-6">
                 <BaseSelect label="แผนก" :options="departments" v-model="workInfo.work_department_id"
                   placeholder="เลือก (ต้องเลือกฝ่ายก่อน)" value="dept_id" text="dept_name" />
@@ -99,6 +99,15 @@
                   text="team_name" placeholder="เลือก (ต้องเลือกฝ่ายก่อน)"
                   :class="{ 'is-invalid': v$.work_info.work_team_id.$error }" required />
                 <InvalidFeedback :errors="v$.work_info.work_team_id.$errors" />
+              </div>
+            </div>
+
+            <div class="row mb-4 gx-5">
+              <div class="col-md-12">
+                <BaseSelect label="สังกัด / บริษัท" :options="companies" v-model="personalInfo.intn_company_id"
+                  value="com_id" text="com_name" placeholder="เลือก"
+                  :class="{ 'is-invalid': v$.personal_info.intn_company_id.$error }" required />
+                <InvalidFeedback :errors="v$.personal_info.intn_company_id.$errors" />
               </div>
             </div>
           </div>
@@ -181,12 +190,13 @@
             <div class="col-md-6">
               <label for="" class="form-label text-gray">เลขบัตรประชาชน/พาสปอร์ต</label>
               <input id="citizenid" v-model="personalInfo.intn_citizen_id" maxlength="13" type="text"
-                class="form-control" />
+                class="form-control" :class="{ 'is-invalid': v$.personal_info.intn_citizen_id.$error }" />
+              <InvalidFeedback :errors="v$.personal_info.intn_citizen_id.$errors" />
             </div>
 
             <div class="col-md-4">
               <label for="" class="form-label text-gray">วันเกิด </label>
-              <input id="birthdate" v-model="personalInfo.intn_birth_date" type="date" class="form-control" />
+              <DatePicker placeholder="DD/MM/YYYY" pid="birthdate" v-model="personalInfo.intn_birth_date" readonly />
             </div>
 
             <div class="col">
@@ -206,6 +216,21 @@
 
             <div class="col">
               <BaseSelect label="หมู่เลือด" :options="bloodTypeList.list" v-model="personalInfo.intn_blood_type" />
+            </div>
+          </div>
+
+          <div class="row mb-3 gx-5">
+            <div class="col">
+              <BaseSelect label="ธนาคาร" :options="bankList" v-model="personalInfo.intn_bank_name" reset
+                :class="{ 'is-invalid': v$.personal_info.intn_bank_name.$error }" />
+              <InvalidFeedback :errors="v$.personal_info.intn_bank_name.$errors" />
+            </div>
+
+            <div class="col">
+              <label for="" class="form-label text-gray">หมายเลขบัญชีธนาคาร</label>
+              <input id="weight" v-model="personalInfo.intn_bank_account" type="text" class="form-control"
+                :class="{ 'is-invalid': v$.personal_info.intn_bank_account.$error }" />
+              <InvalidFeedback :errors="v$.personal_info.intn_bank_account.$errors" />
             </div>
           </div>
 
@@ -244,7 +269,7 @@
 
             <div class="col">
               <BaseSelect label="สถานภาพสมรส" :options="martialStatusList.list"
-                v-model="personalInfo.intn_martial_status" />
+                v-model="personalInfo.intn_martial_status" reset />
             </div>
           </div>
         </div>
@@ -313,29 +338,34 @@
           <div class="row mb-4">
             <div class="col">
               <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน <span class="text-danger">*</span></label>
-              <input id="startdate" v-model="personalInfo.intn_start_date" type="date" class="form-control"
-                :class="{ 'is-invalid': v$.personal_info.intn_start_date.$error }" required />
-              <InvalidFeedback :errors="v$.personal_info.intn_start_date.$errors" />
+              <DatePicker placeholder="DD/MM/YYYY" pid="startdate" v-model="personalInfo.intn_start_date"
+                :class="{ 'is-invalid': v$.personal_info.intn_start_date.$error }" required readonly>
+                <InvalidFeedback :errors="v$.personal_info.intn_start_date.$errors" />
+              </DatePicker>
             </div>
 
             <div class="col">
               <label for="" class="form-label text-gray">วันที่ผ่านทดลองงาน</label>
-              <input id="enddate" v-model="personalInfo.intn_end_date" type="date" class="form-control"
-                :class="{ 'is-invalid': v$.personal_info.intn_end_date.$error }" />
-              <InvalidFeedback :errors="v$.personal_info.intn_end_date.$errors" />
+              <DatePicker placeholder="DD/MM/YYYY" pid="enddate" v-model="personalInfo.intn_end_date"
+                :class="{ 'is-invalid': v$.personal_info.intn_end_date.$error }" required readonly>
+                <InvalidFeedback :errors="v$.personal_info.intn_end_date.$errors" />
+              </DatePicker>
             </div>
 
             <div class="col">
               <label for="" class="form-label text-gray">วันสุดท้ายที่มาทำงาน</label>
-              <input id="lastwork" v-model="personalInfo.intn_last_work_date" type="date" class="form-control"
-                :class="{ 'is-invalid': v$.personal_info.intn_last_work_date.$error }" />
-              <InvalidFeedback :errors="v$.personal_info.intn_last_work_date.$errors" />
+              <DatePicker placeholder="DD/MM/YYYY" pid="lastwork" v-model="personalInfo.intn_last_work_date"
+                :class="{ 'is-invalid': v$.personal_info.intn_last_work_date.$error }" required readonly>
+                <InvalidFeedback :errors="v$.personal_info.intn_last_work_date.$errors" />
+              </DatePicker>
             </div>
 
             <div class="col">
-              <BaseInput label="วันที่สิ้นสุดสัญญา" id="contractend" v-model="personalInfo.intn_contract_end_date"
-                type="date" :class="{ 'is-invalid': v$.personal_info.intn_contract_end_date.$error }" required />
-              <InvalidFeedback :errors="v$.personal_info.intn_contract_end_date.$errors" />
+              <DatePicker label="วันที่สิ้นสุดสัญญา" placeholder="DD/MM/YYYY" pid="contractend"
+                v-model="personalInfo.intn_contract_end_date"
+                :class="{ 'is-invalid': v$.personal_info.intn_contract_end_date.$error }" required readonly>
+                <InvalidFeedback :errors="v$.personal_info.intn_contract_end_date.$errors" />
+              </DatePicker>
             </div>
           </div>
         </div>
@@ -400,7 +430,7 @@
           <div class="row mb-4 gx-5">
             <div class="col">
               <label for="" class="form-label text-gray">เบอร์โทรศัพท์ <span class="text-danger">*</span></label>
-              <input id="tel" v-model="personalInfo.intn_tel" placeholder="xxx-xxx-xxxx" maxlength="10" type="text"
+              <input id="tel" v-model="personalInfo.intn_tel" placeholder="xxx-xxx-xxxx" maxlength="12" type="text"
                 class="form-control" :class="{ 'is-invalid': v$.personal_info.intn_tel.$error }" required />
               <InvalidFeedback :errors="v$.personal_info.intn_tel.$errors" />
             </div>
@@ -425,7 +455,7 @@
           <div class="row mb-4 gx-5">
             <div class="col">
               <BaseSelect label="สถานภาพทางทหาร" :options="militaryStatusList.list"
-                v-model="personalInfo.intn_military_status" />
+                v-model="personalInfo.intn_military_status" reset />
             </div>
 
             <div class="col">
@@ -447,7 +477,8 @@
           </div>
 
           <div class="row mb-4">
-            <textarea id="" name="" class="form-control mb-2 col" rows="2"></textarea>
+            <textarea id="other" name="" class="form-control mb-2 col" rows="2"
+              v-model="personalInfo.intn_note"></textarea>
           </div>
         </div>
       </div>
@@ -478,6 +509,7 @@
     useMartialStatus,
     useInternType,
     useBloodType,
+    bankList
   } from "../../stores/constData";
   import { useInternFormData, addInternFormRules } from "../../stores/addInternFormData";
   import { getAge, confirmation, successAlert, errorAlert, getImageFromBuffer } from "../../assets/js/func";
@@ -488,6 +520,7 @@
   import InvalidFeedback from "../Component/InvalidFeedback.vue";
   import CameraLogo from "../icons/CameraLogo.vue";
   import router from "@/router";
+  import DatePicker from "../Component/DatePicker.vue"
 
   const formData = useInternFormData();
   const personalInfo = ref(formData.personal_info);

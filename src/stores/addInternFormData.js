@@ -50,6 +50,8 @@ export const useInternFormData = defineStore("internFormData", {
                 intn_mentor_id: '',
                 intn_major_id: '',
                 intn_updated_by: 1,
+                intn_note: null,
+                intn_company_id: '',
             },
 
             college_info: {
@@ -136,6 +138,8 @@ export const useInternFormData = defineStore("internFormData", {
             this.work_info.work_team_id = intern.work_infos[0]?.work_team?.team_id
             this.personal_info.intn_bank_account = intern.intn_bank_account,
             this.personal_info.intn_bank_name = intern.intn_bank_name
+            this.personal_info.intn_note = intern.intn_note
+            this.personal_info.intn_company_id = intern.intn_company_id
         },
 
         reset() {
@@ -147,6 +151,14 @@ export const useInternFormData = defineStore("internFormData", {
         getStartDate() {
             return this.personal_info.intn_start_date
         },
+
+        getBankAccount() {
+            return this.personal_info.intn_bank_account
+        },
+
+        getBankName() {
+            return this.personal_info.intn_bank_name
+        }
     }
 });
 
@@ -159,6 +171,20 @@ const ageFeedback = 'อายุขั้นต่ำ 18 ปี'
 const citizenFeedback = ['ข้อมูลควรเป็นตัวเลขหรือตัวอักษรเท่านั้น', 'ข้อมูลควรมีความยาว 7-9 หรือ 13 ตัวอักษร']
 const afterStartFeedback = 'ไม่สามารถเลือกก่อนวันเริ่มต้นฝึกงานได้'
 
+const hasBankAccount = (v) => {
+    if (!v && useInternFormData().getBankAccount) {
+        return false
+    }
+
+    return true
+}
+const hasBankName = (v) => {
+    if (!v && useInternFormData().getBankName) {
+        return false
+    }
+
+    return true
+}
 const dateAfterStart = (v) => {
     if (v) {
         let date = useInternFormData().getStartDate
@@ -167,6 +193,7 @@ const dateAfterStart = (v) => {
     return true
 }
 const citizenLength = (v) => v ? (v.length == 13 || v.length == 7 || v.length == 8 || v.length == 9) : true
+const numberAndDash = helpers.regex(/^[0-9-]*$/)
 const engAndNumber = helpers.regex(/^[a-zA-Z0-9]*$/) 
 const requiredThai = helpers.regex(/^[ก-์]+$/)
 const requiredEng = helpers.regex(/^[a-zA-Z]*$/)
@@ -236,8 +263,16 @@ export const addInternFormRules =  {
             required,
             dateAfterStart: helpers.withMessage(afterStartFeedback, dateAfterStart)
         },
+        intn_bank_account: {
+            numberAndDash: helpers.withMessage('ข้อมูลต้องประกอบด้วยตัวเลขหรือ - เท่านั้น', numberAndDash),
+            hasBankName: helpers.withMessage('กรุณากรอกหมายเลขบัญชี', hasBankName),
+        },
+        intn_bank_name: {
+            hasBankAccount: helpers.withMessage('กรุณาเลือกธนาคาร', hasBankAccount)
+        },
         intn_intern_type: { required },
         intn_major_id: { required },
+        intn_company_id: { required }
     },
     college_info: {
         col_university_id: { required },

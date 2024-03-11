@@ -42,6 +42,7 @@
           :disabled="modalType == 'E'"
           :class="{ 'is-invalid': v$.intn_code.$error }"
         />
+        <InvalidFeedback :errors="v$.intn_code.$errors" />
       </div>
     </div>
     <div class="row mb-3">
@@ -131,7 +132,6 @@ onMounted(async () => {
 
 async function formSubmit() {
   const validate = await v$.value.$validate();
-  console.log(v$.value)
   
   if (validate) {
     if (modalType.value == "A") {
