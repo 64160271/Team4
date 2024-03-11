@@ -16,6 +16,9 @@ import ManageUniversity from '../components/University/ManageUniversity.vue'
 import SelectCompany from '../components/Certificate/SelectCompany.vue'
 import SelectSignature from '../components/Certificate/SelectSignature.vue'
 import SelectIntern from '../components/Certificate/SelectIntern.vue'
+import TestForm from '../components/AddInternForm/TestForm.vue'
+import ManageProject from '../components/Project/ManageProject.vue'
+import ProjectMember from '../components/Project/ProjectMember.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -107,6 +110,20 @@ const router = createRouter({
             component: SelectIntern,
             props: true,
         },
+        {
+            path: '/test',
+            component: TestForm
+        },
+        {
+            path: '/projects',
+            name: 'manageProject',
+            component: ManageProject
+        },
+        {
+            path: '/projects/:id',
+            name: 'projectMember',
+            component: ProjectMember,
+        }
     ]
 })
 

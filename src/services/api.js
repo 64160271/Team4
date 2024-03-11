@@ -44,6 +44,13 @@ export default class apiService {
             })
     }
 
+    getAllMentor = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/mentors`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
     getMentorBySectionId = async (id) => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/mentors/section/${id}`)
             .then((response) => {
@@ -214,6 +221,55 @@ export default class apiService {
 
     createAddress = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/addresses`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getAllProject = async (params = {}) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/projects`, { params })
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getProejctInfoByInternId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/projects/interns/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+    
+    getInternByProjectId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/interns/projects/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    createProject = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/projects`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    editProject = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/projects/${id}`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    createInternProject = async (data, id) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/projects/interns/${id}`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    editInternProject = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/projects/interns/${id}`, data)
             .then((response) => {
                 return response.data
             })

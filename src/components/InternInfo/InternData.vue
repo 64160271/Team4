@@ -21,12 +21,10 @@
                 </svg>
             </a>
         </div>
-        <SectionSpace noSpace>
+        
+        <InternDetail v-if="!isEdit" :intern="intern" />
 
-            <InternDetail v-if="!isEdit" :intern="intern" class="mt-3" />
-
-            <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" />
-        </SectionSpace>
+        <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" />
 
 </template>
 
