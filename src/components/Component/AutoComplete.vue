@@ -104,6 +104,13 @@ input:focus {
   border: 1px solid white !important;
 }
 
+.is-invalid:focus {
+  transition: 0s;
+  box-shadow: none;
+  border: 1px solid red !important;
+  outline: 1px solid rgb(255, 0, 0) !important;
+}
+
 .auto {
   position: relative;
 }

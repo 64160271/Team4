@@ -16,6 +16,12 @@
 
     <div class="row">
       <DataTable hover-background striped :heads="tableHead" :items="projects">
+          <template #pint_created_at_custom="{ data }">
+            {{ changeTimestampToDate(data.pint_created_at) }}
+          </template>
+          <template #pint_status_custom="{ data }">
+            <span v-html="getStatus(data.pint_project.proj_status)"></span>
+          </template>
       </DataTable>
     </div>
   </SectionSpace>
@@ -29,12 +35,13 @@ import apiService from "../../services/api";
 import BaseButton from "../Component/BaseButton.vue";
 import CardInternInfo from "./CardInternInfo.vue";
 import DataTable from "../Component/DataTable.vue";
+import { changeTimestampToDate } from "../../assets/js/func";
 
 const internId = useRoute().params.id;
 const service = new apiService();
 const projects = ref([]);
 const tableHead = ref([
-  { key: "pint_created_at", title: "วันที่เพิ่มข้อมูล", align: "center" },
+  { key: "pint_created_at_custom", title: "วันที่เพิ่มข้อมูล", align: "center" },
   { key: "pint_project.proj_name", title: "ชื่อโปรเจกต์", align: "left" },
   { key: "pint_project.proj_start_date", title: "วันที่เริ่ม", align: "center" },
   { key: "pint_project.proj_end_date", title: "วันที่สิ้นสุด", align: "center" },
@@ -60,6 +67,14 @@ const roleName = computed(() => {
 onMounted(async () => {
   projects.value = await service.getProejctInfoByInternId(internId);
 });
+
+function getStatus(status) {
+  if (status == 1) {
+    return '<span class="text-danger fw-bold">ดำเนินการ</span>';
+  } else if (status == 0) {
+    return '<span style="color: #339900;" class="text-finish fw-bold">เสร็จสิ้น</span>';
+  }
+}
 </script>
 
 <style scoped></style>

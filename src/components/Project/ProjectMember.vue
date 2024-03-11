@@ -1,5 +1,5 @@
 <template>
-  <LayoutMenuName backButton page-name="โปรเจกต์" />
+  <LayoutMenuName backButton :page-name="'โปรเจกต์ > ' + projName" />
 
   <SectionSpace>
     <div class="row mb-3">
@@ -22,7 +22,7 @@
   </SectionSpace>
 
   <BaseModal
-    @save="fornmSubmit"
+    @save="formSubmit"
     @close="openModal = false"
     v-if="openModal == true"
     title="เพิ่มข้อมูลนักศึกษาในโปรเจกต์"
@@ -30,7 +30,7 @@
     <div class="row mb-3">
       <div class="col-md-12">
         <AutoComplete
-          label="รหัสนักศึกษาฝึกงาน"
+          label="ค้นหานักศึกษาฝึกงาน"
           v-model="formData.intn_code"
           :value="formData.intn_code"
           placeholder="INT-0000"
@@ -38,10 +38,10 @@
           :items="internSearch"
           @search="fetchIntern"
           @return="handleReturn"
-          item-text="intn_name_th"
+          item-text="intn_code_name"
+          :disabled="modalType == 'E'"
           :class="{ 'is-invalid': v$.intn_code.$error }"
         />
-        <InvalidFeedback :errors="v$.intn_code.$errors" />
       </div>
     </div>
     <div class="row mb-3">
@@ -98,7 +98,8 @@ const projId = router.currentRoute.value.params.id;
 const openModal = ref(false);
 const roles = ref([]);
 const internSearch = ref([]);
-let modalType = "";
+const projName = ref("")
+const modalType = ref("");
 
 const initialState = {
   intn_id: null,
@@ -115,7 +116,6 @@ const rules = {
 }
 const v$ = useVuelidate(rules, formData);
 
-
 const tableHeads = ref([
   { key: "pint_intern.intn_code", title: "รหัสนักศึกษาฝึกงาน", size: 2 },
   { key: "pint_intern.intn_name_th", title: "ขื่อ - นามสกุล", size: 3 },
@@ -125,14 +125,16 @@ const tableHeads = ref([
 
 onMounted(async () => {
   const res = await service.getInternByProjectId(projId);
-  interns.value = res;
+  projName.value = res.project.proj_name
+  interns.value = res.interns;
 });
 
-async function fornmSubmit() {
+async function formSubmit() {
   const validate = await v$.value.$validate();
+  console.log(v$.value)
   
   if (validate) {
-    if (modalType == "A") {
+    if (modalType.value == "A") {
       await service
         .createInternProject(formData, projId)
         .then(() => {
@@ -141,7 +143,7 @@ async function fornmSubmit() {
         .catch((e) => {
           errorAlert(e.response.data);
         });
-    } else if (modalType == "E") {
+    } else if (modalType.value == "E") {
       await service
         .editInternProject(formData, projId)
         .then(() => {
@@ -168,10 +170,17 @@ async function fetchIntern() {
     await axios
       .get(`${import.meta.env.VITE_API_HOST}/interns`, { params })
       .then((response) => {
-        internSearch.value = response.data.rows;
+        internSearch.value = response.data.rows.map((intern) => ({
+          'intn_id': intern.intn_id,
+          'intn_name': intern.intn_name_th,
+          'intn_code': intern.intn_code,
+          'intn_code_name': `${intern.intn_code} ${intern.intn_name_th}`,
+          'role_id': `${intern.work_infos[0].work_role.role_id}`
+        }))
       });
   }, 500);
 }
+
 
 async function add() {
   if (!internSearch.value[0]) {
@@ -185,7 +194,7 @@ async function add() {
   Object.assign(formData, initialState);
 
   openModal.value = true;
-  modalType = "A";
+  modalType.value = "A";
 }
 
 async function edit(data) {
@@ -205,15 +214,15 @@ async function edit(data) {
   });
 
   openModal.value = true;
-  modalType = "E";
+  modalType.value = "E";
 }
 
 function handleReturn(val) {
   Object.assign(formData, {
     intn_id: val.intn_id,
     intn_code: val.intn_code,
-    intn_name_th: val.intn_name_th,
-    role_id: val.work_infos[0].work_role.role_id,
+    intn_name_th: val.intn_name,
+    role_id: val.role_id,
   });
 }
 </script>

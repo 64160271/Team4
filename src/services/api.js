@@ -226,8 +226,8 @@ export default class apiService {
             })
     }
 
-    getAllProject = async () => {
-        return await axios.get(`${import.meta.env.VITE_API_HOST}/projects`)
+    getAllProject = async (params = {}) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/projects`, { params })
             .then((response) => {
                 return response.data
             })

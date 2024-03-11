@@ -44,6 +44,8 @@ export const useInternFormData = defineStore("internFormData", {
                 intn_start_date: '',
                 intn_end_date: null,
                 intn_last_work_date: null,
+                intn_bank_name: null,
+                intn_bank_account: null,
                 intn_contract_end_date: '',
                 intn_mentor_id: '',
                 intn_major_id: '',
@@ -132,6 +134,8 @@ export const useInternFormData = defineStore("internFormData", {
             this.work_info.work_section_id = intern.work_infos[0]?.work_section.sec_id
             this.work_info.work_department_id = intern.work_infos[0]?.work_department?.dept_id
             this.work_info.work_team_id = intern.work_infos[0]?.work_team?.team_id
+            this.personal_info.intn_bank_account = intern.intn_bank_account,
+            this.personal_info.intn_bank_name = intern.intn_bank_name
         },
 
         reset() {

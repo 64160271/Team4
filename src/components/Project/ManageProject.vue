@@ -4,7 +4,7 @@
   <SectionSpace>
     <div class="row mb-3">
       <div class="col-md-3 my-auto nopadding">
-        <SearchBox v-model="search" />
+        <SearchBox placeholder="ค้นหาชื่อโปรเจกต์" v-model="searchData" @search="search" />
       </div>
 
       <BaseButton @click="add" class="btn-sm col-md-2 ms-auto" label="+ เพิ่มข้อมูล" />
@@ -13,10 +13,14 @@
     <div class="row">
       <DataTable
         striped
-        :total="projects.length"
+        :total="total"
         :heads="tableHead"
         :items="projects"
         hover-background
+        paginate
+        :active-page="page"
+        :items-per-page="pageSize"
+        @page-change="setCurrentPage"
       >
         <template #proj_status_custom="{ data }">
           <span v-html="getStatus(data.proj_status)"></span>
@@ -34,7 +38,7 @@
   </SectionSpace>
 
   <BaseModal
-    @save="fornmSubmit"
+    @save="formSubmit"
     @close="openModal = false"
     v-if="openModal == true"
     size="lg"
@@ -119,7 +123,7 @@ import { required } from "@vuelidate/validators";
 import DatePicker from "../Component/DatePicker.vue"
 
 const projects = ref([]);
-const search = ref("");
+const searchData = ref("");
 const openModal = ref(false);
 const service = new apiService();
 const mentors = ref([]);
@@ -145,19 +149,56 @@ const rules = {
 const v$ = useVuelidate(rules, formData);
 
 const tableHead = ref([
-  { key: "proj_name", title: "ชื่อโปรเจกต์" },
-  { key: "proj_start_date", title: "วันที่เริ่มต้นโปรเจกต์", align: "center" },
-  { key: "proj_end_date", title: "วันที่สิ้นสุดโปรเจกต์", align: "center" },
-  { key: "proj_mentor.ment_name", title: "ชื่อพี่เลี้ยง" },
-  { key: "proj_status_custom", title: "สถานะ", align: "center" },
+  { key: "proj_name", title: "ชื่อโปรเจกต์", size: 3 },
+  { key: "proj_start_date", title: "วันที่เริ่มต้นโปรเจกต์", align: "center", size: 2 },
+  { key: "proj_end_date", title: "วันที่สิ้นสุดโปรเจกต์", align: "center", size: 2 },
+  { key: "proj_mentor.ment_name", title: "ชื่อพี่เลี้ยง", size: 3 },
+  { key: "proj_status_custom", title: "สถานะ", align: "center", size:2 },
   { key: "proj_edit", title: "แก้ไข", align: "center" },
   { key: "proj_detail", title: "รายละเอียด", align: "center", size: 1 },
 ]);
 
 let editId = 0;
 
+const total = ref();
+const page = ref(1);
+const pageMax = ref(1);
+const pageSize = 10;
+let timer;
+
+async function setCurrentPage(pageNumber) {
+  if (pageNumber > 0 && pageNumber <= pageMax.value) {
+    page.value = pageNumber;
+  }
+
+  await fetchProject();
+}
+
+const fetchProject = async () => {
+  const params = {
+    page: page.value,
+    limit: pageSize,
+    proj_name: searchData.value || undefined,
+  };
+
+  const response = await service.getAllProject(params);
+  projects.value = response.rows;
+  total.value = response.count;
+  pageMax.value = Math.ceil(total.value / pageSize);
+}
+
+function search() {
+  if (timer) {
+    clearTimeout(timer);
+  }
+
+  timer = setTimeout(() => {
+    setCurrentPage(1);
+  }, 500);
+}
+
 onMounted(async () => {
-  projects.value = await service.getAllProject();
+  setCurrentPage(page.value);
 });
 
 function getStatus(status) {
@@ -168,7 +209,7 @@ function getStatus(status) {
   }
 }
 
-async function fornmSubmit() {
+async function formSubmit() {
   const validate = await v$.value.$validate();
 
   if (validate) {
