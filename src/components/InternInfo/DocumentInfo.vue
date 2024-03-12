@@ -94,7 +94,7 @@
 
     <div class="row mb-3">
       <div class="col-auto my-auto">
-        <label>ไฟล์เอกสาร</label>
+        <label>เอกสารแนบ</label>
       </div>
 
       <BaseButton

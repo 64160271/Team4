@@ -16,12 +16,12 @@
 
     <div class="row">
       <DataTable hover-background striped :heads="tableHead" :items="projects">
-          <template #pint_created_at_custom="{ data }">
-            {{ changeTimestampToDate(data.pint_created_at) }}
-          </template>
-          <template #pint_status_custom="{ data }">
-            <span v-html="getStatus(data.pint_project.proj_status)"></span>
-          </template>
+        <template #pint_created_at_custom="{ data }">
+          {{ changeTimestampToDate(data.pint_created_at) || "-" }}
+        </template>
+        <template #pint_status_custom="{ data }">
+          <span v-html="getStatus(data.pint_project.proj_status)"></span>
+        </template>
       </DataTable>
     </div>
   </SectionSpace>

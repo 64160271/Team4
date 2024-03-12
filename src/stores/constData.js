@@ -126,7 +126,8 @@ export const useInternName = defineStore('internName', {
             intn_role: '',
             intn_section: '',
             intn_department: '',
-            intn_start_date: ''
+            intn_start_date: '',
+            intn_ment_name: '',
         }
     },
 
@@ -140,6 +141,7 @@ export const useInternName = defineStore('internName', {
             this.intn_section = data.work_infos[0]?.work_section.sec_name
             this.intn_department = data.work_infos[0]?.work_department?.dept_name
             this.intn_start_date = data.intn_start_date
+            this.intn_ment_name = data.intn_ment.ment_name
         }
     },
 
