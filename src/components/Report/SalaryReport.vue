@@ -4,69 +4,79 @@
   <SectionSpace>
     <div class="row mb-3 top-300">
       <div class="col-md-2 my-auto">
-        <BaseSelect
-          placeholder="ปี"
-          @change="fetchReport()"
-          v-model="yearSelect"
-          :options="listYear"
-        />
+        <BaseSelect placeholder="ปี" @change="fetchReport()" v-model="yearSelect" :options="listYear" />
       </div>
 
       <div class="col-md-2 my-auto">
-        <BaseSelect
-          @change="fetchTeamReport()"
-          placeholder="ทีม"
-          all-select
-          v-model="team_id"
-          :options="teams"
-          value="team_id"
-          text="team_name"
-        />
+        <BaseSelect @change="fetchTeamReport()" placeholder="ทีม" all-select v-model="team_id" :options="teams"
+          value="team_id" text="team_name" />
       </div>
 
-      <button
-        class="col-2 btn ms-auto me-3 btn-sm outline-red"
-        @click="downloadExcelFile"
-      >
-        ดาวน์โหลด
+      <button class="col-md-2 btn ms-auto  outline-red" @click="downloadExcelFile">
+        ดาวน์โหลดรายงาน
       </button>
 
-      <div class="row p-0 m-0 my-2">
+      <div class="row my-2">
         <div class="form-check form-check-inline fw-bold">
           รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี : <span>{{ yearSelect }}</span>
         </div>
       </div>
 
-      <div class="row p-0 m-0 my-2">
+      <div class="row my-2">
         <div class="form-check form-check-inline fw-bold">
           ของทีม : <span>{{ teamName }}</span>
         </div>
       </div>
     </div>
 
-    <div class="row mb-4" v-if="view == 'T'">
-      <div class="border col-md-3 my-auto mx-5">
-        <div class="text mt-3">เบี้ยเลี้ยง</div>
-        <div class="money">
-          <span> {{ totalSalary.toFixed(2) || 0 }}</span>
+    <div class="row mb-4 p-0" v-if="view == 'T'">
+
+      <div class="border col mx-2 my-auto py-3">
+        <div class="row mx-auto">
+          <div class="col-md-5 text-center">
+            <img height="100" src="@/assets/images/wages.png" alt="">
+          </div>
+          <div class="col my-auto">
+            <div class="text">รวมเบี้ยเลี้ยง</div>
+            <div class="money">
+              <span> {{ '฿' + totalSalary.toFixed(2) || 0 }}</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="border col-md-3 my-auto mx-5">
-        <div class="text mt-3">เบี้ยเลี้ยงพิเศษ</div>
-        <div class="money">
-          <span> {{ totalExtra.toFixed(2) || 0 }}</span>
+
+      <div class="border col my-auto p-3 mx-2 my-auto">
+        <div class="row mx-auto">
+          <div class="col-md-5 text-center">
+            <img height="100" src="@/assets/images/extra.png" alt="">
+          </div>
+          <div class="col my-auto">
+            <div class="text">รวมเบี้ยเลี้ยงพิเศษ</div>
+            <div class="money">
+              <span> {{ '฿' + totalExtra.toFixed(2) || 0 }}</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="border col-md-3 my-auto mx-5">
-        <div class="text mt-3">เบี้ยเลี้ยงทั้งหมด</div>
-        <div class="money">
-          <span> {{ totalAll.toFixed(2) }}</span>
+
+      <div class="border col my-auto p-3 mx-2 my-auto">
+        <div class="row mx-auto">
+          <div class="col-md-5 text-center">
+            <img height="100" src="@/assets/images/total.png" alt="">
+          </div>
+          <div class="col my-auto">
+            <div class="text">รวมเบี้ยเลี้ยงทั้งหมด</div>
+            <div class="money">
+              <span> {{ '฿' + totalAll.toFixed(2) || 0 }}</span>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
 
-      <Bar v-if="loaded && view == 'A'" :options="optionsYear" :data="chartAllData" />
-      <Bar v-if="loaded && view == 'T'" :options="optionsTeam" :data="chartTeamData" />
+    <Bar v-if="loaded && view == 'A'" :options="optionsYear" :data="chartAllData" />
+    <Bar v-if="loaded && view == 'T'" :options="optionsTeam" :data="chartTeamData" />
   </SectionSpace>
 </template>
 
@@ -101,14 +111,15 @@ const teamName = ref("");
 const optionsYear = ref({
   aspectRatio: 1.2,
   indexAxis: 'y',
+  responsive: true,
   scales: {
     x: {
       title: {
         display: true,
         text: "Salary",
         font: {
-        size: 16,
-      }
+          size: 16,
+        }
       },
     },
     y: {
@@ -116,12 +127,11 @@ const optionsYear = ref({
         display: true,
         text: "Teams",
         font: {
-        size: 16,
-      }
+          size: 16,
+        }
       },
     },
   },
-  responsive: true,
   plugins: {
 
     title: {
@@ -142,8 +152,8 @@ const optionsTeam = ref({
         display: true,
         text: "Month",
         font: {
-        size: 16,
-      }
+          size: 16,
+        }
       },
     },
     y: {
@@ -151,8 +161,7 @@ const optionsTeam = ref({
         display: true,
         text: "Salary",
         font: {
-        size: 16,
-      }
+        }
       },
     },
   },
@@ -160,7 +169,7 @@ const optionsTeam = ref({
   plugins: {
     title: {
       display: true,
-      text: "รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี "+ yearSelect.value+" ของทีม " + teamName.value,
+      text: "รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี " + yearSelect.value + " ของทีม " + teamName.value,
       font: {
         size: 18,
         weight: 'bold',
@@ -207,7 +216,7 @@ const chartTeamData = ref({
       backgroundColor: "rgba(0, 191, 255, 0.1)",
       borderColor: "rgba(0, 191, 255, 0.8 )",
     },
-    
+
     {
       label: "",
       data: [],
@@ -312,7 +321,7 @@ const fetchTeamReport = async () => {
   totalSalary.value = salary.reduce((a, b) => Number(a) + Number(b));
   totalExtra.value = extra.reduce((a, b) => Number(a) + Number(b));
   totalAll.value = totalSalary.value + totalExtra.value;
-  optionsTeam.value.plugins.title.text = "รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี "+ yearSelect.value+" ของทีม " + teamName.value
+  optionsTeam.value.plugins.title.text = "รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี " + yearSelect.value + " ของทีม " + teamName.value
 };
 
 onMounted(async () => {
