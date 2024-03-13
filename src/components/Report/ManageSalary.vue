@@ -25,8 +25,8 @@
     <BaseModal v-if="openModal" @save="formSubmit" @close="openModal = false" title="เพิ่มรายการข้อมูล">
         <div class="col mb-3">
             <BaseInput v-model="formData.rep_code" label="รหัสรายการ" input_type="text" required="required"
-                placeholder="xx/xxxx" :class="{ 'is-invalid': v$.formData.rep_code.$error }" />
-            <InvalidFeedback :errors="v$.formData.rep_code.$error" />
+                placeholder="xx/xxxx" :class="{ 'is-invalid': v$.rep_code.$error }" />
+            <InvalidFeedback :errors="v$.rep_code.$errors" />
         </div>
         <div class="col mb-3">
             <BaseInput :value="chageDate(date)" label="วันที่สร้างรายการ" input_type="text" readonly="readonly" />
@@ -93,6 +93,10 @@ const rules = {
     }
 };
 
+const formData = ref({
+    rep_code: "",
+    rep_updated_by: 1
+})
 const v$ = useVuelidate(rules, formData);
 
 const team = ref([])
@@ -110,10 +114,7 @@ const dataHead = ref([
     { key: "rep_remove", title: "ลบ", align: "center" },
 ])
 
-const formData = ref({
-    rep_code: "",
-    rep_updated_by: 1
-})
+
 
 function search() {
     console.log(searchData)
