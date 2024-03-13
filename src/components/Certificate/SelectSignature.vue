@@ -1,3 +1,9 @@
+<!--
+ SelectSignature
+ แสดงหน้าจอสำหรับเลือกผู้รับรองในการออกเอกสารรับรอง
+ Author : Teerajuk Sakunchaisitthichok
+ Created date : 14-11-2566
+-->
 <template>
     <LayoutMenuName backButton page-name="เอกสารรับรอง > ลายเซ็นผู้มีสิทธ์ออกเอกสารรับรอง" />
     <SectionSpace>
@@ -49,6 +55,12 @@ const searchData = ref("");
 const id = ref(route.params.companyId);
 const loaded = ref(false)
 
+/*
+* getSignature
+* ฟังก์ชันสำหรับรับข้อมูลบริษัทจาก api
+* param: -
+* return: -
+*/
 
 const getSignature = async () => {
     const response = await axios.get(`${import.meta.env.VITE_API_HOST}/signatures/company/${id.value}`);
@@ -56,6 +68,14 @@ const getSignature = async () => {
     loaded.value = true
 
 }
+
+/*
+* filterData
+* ฟังก์ชันสำหรับกรองข้อมูลจากการพิมพ์ของผู้ใช้
+* param: -
+* return: -
+*/
+
 const filterData = () => {
     return signatures.value.filter((signature) => {
         return (
@@ -68,6 +88,12 @@ const filterData = () => {
     });
 }
 
+/*
+* sentCompanyId
+* ฟังก์ชันสำหรับส่งค่า id ของลายเซ็น และบริษัทไปที่หน้า SelectIntern
+* param: sign ไอดีของลายเซ็นที่รับมา
+* return: -
+*/
 
 function sentCompanyId(sign) {
     console.log(sign)
@@ -87,6 +113,12 @@ onMounted(() => {
 })
 
 
+/*
+* getName
+* ฟังก์ชันสำหรับจัดข้อมูลชื่อของเจ้าของลายเซ็น
+* param: signature ข้อมูลของเจ้าของลายเซ็น
+* return: -
+*/
 
 function getName(signature) {
     let name = `${signature.sign_prefix}

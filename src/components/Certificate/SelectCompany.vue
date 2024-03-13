@@ -1,3 +1,9 @@
+<!--
+ SelectCompany
+ แสดงหน้าจอสำหรับเลือกบริษัทในการออกเอกสารรับรอง
+ Author : Teerajuk Sakunchaisitthichok
+ Created date : 14-11-2566
+-->
 <template>
     <LayoutMenuName backButton page-name="เอกสารรับรอง > บริษัท" />
 
@@ -40,12 +46,24 @@ const companies = ref([])
 const searchData = ref("");
 const loaded = ref(false)
 
+/*
+* getCompany
+* ฟังก์ชันสำหรับรับข้อมูลบริษัทจาก api
+* param: -
+* return: -
+*/
 const getCompany = async () => {
     const response = await axios.get(`${import.meta.env.VITE_API_HOST}/companies/address`);
     companies.value = response.data;
     loaded.value = true
 }
 
+/*
+* filterData
+* ฟังก์ชันสำหรับกรองข้อมูลตามการพิมพ์ของผู้ใช้
+* param: -
+* return: ข้อมูลที่ได้จากการค้นหา
+*/
 const filterData = () => {
     return companies.value.filter((company) => {
         return (
@@ -59,6 +77,13 @@ onMounted(() => {
     getCompany()
 })
 
+/*
+* sentCompanyId
+* ฟังก์ชันสำหรับรับส่ง id ของบริษัทไปหน้า SelectSignature
+* param: id ค่าของบริษัทที่เลือก
+* return: -
+*/
+
 function sentCompanyId(id) {
     router.push({
         name: 'selectSignature',
@@ -68,6 +93,12 @@ function sentCompanyId(id) {
     })
 }
 
+/*
+* getAddress
+* ฟังก์ชันสำหรับจัด format สำหรับที่อยู่ข้อบริษัท
+* param: address ข้อมูลของ api ที่รับมา
+* return: ผลลัพธ์ในการจัดข้อมูลที่อยู่
+*/
 
 function getAddress(address) {
     let result = `${address?.addr_house_number || ''} 

@@ -1,3 +1,9 @@
+<!--
+ ShowCertificate
+ แสดงหน้าจอสำหรับแสดงรายการเอกสารรับรองทั้งหมด
+ Author : Teerajuk Sakunchaisitthichok
+ Created date : 14-11-2566
+-->
 <template>
     <LayoutMenuName page-name="เอกสารรับรองการฝึกงาน" />
     <SectionSpace>
@@ -30,7 +36,7 @@
 
                 <template #cer_key="{ data }">
                     <input :name="data?.cer_id" :id="data?.cer_id" type="checkbox"
-                        @click="select_certificate(data?.cer_created_at, data?.cer_filename) && checkRow(data?.cer_created_at, data?.cer_filename)"
+                        @click="selectCertificate(data?.cer_created_at, data?.cer_filename) && checkRow(data?.cer_created_at, data?.cer_filename)"
                         class="form-check-input mt-2 p-2" />
                     <span class="ms-lg-4">{{ data.cer_code }}</span>
                 </template>
@@ -96,8 +102,8 @@ const pageMax = ref(1);
 const pageSize = 10;
 const certificates = ref([])
 const selected = [];
-const selected_years = [];
-const selected_filenames = [];
+const selectedYears = [];
+const selectedFilenames = [];
 let validate = ref(false);
 const team_id = ref();
 const cerCreate = ref("");
@@ -107,11 +113,25 @@ const years = ref([]);
 const loaded = ref(false)
 let timer;
 
+/*
+* checkRow
+* ฟังก์ชันสำหรับเลือกข้อมูลแถวนั้นๆ
+* param: index ค่าของแถวที่เลือก
+* return: -
+*/
+
 function checkRow(index) {
     let checkbox = document.getElementById(index);
 
     checkbox.click();
 }
+
+/*
+* search
+* ฟังก์ชันสำหรับหน่วงเวลาในการค้นหา
+* param: -
+* return: -
+*/
 
 function search() {
     if (timer) {
@@ -123,21 +143,34 @@ function search() {
     }, 500);
 }
 
-function select_certificate(year, filename) {
-    if (selected_years.indexOf(year) != -1) {
-        selected_years.splice([selected_years.indexOf(year)], 1)
+/*
+* selectCertificate
+* ฟังก์ชันสำหรับหน่วงเวลาในการค้นหา
+* param: year และ filename ปี และชื่อไฟล์ของ certificate ที่เลือก
+* return: -
+*/
+
+function selectCertificate(year, filename) {
+    if (selectedYears.indexOf(year) != -1) {
+        selectedYears.splice([selectedYears.indexOf(year)], 1)
     } else {
-        selected_years.push(year)
+        selectedYears.push(year)
     }
 
-    if (selected_filenames.indexOf(filename) != -1) {
-        selected_filenames.splice([selected_filenames.indexOf(filename)], 1)
+    if (selectedFilenames.indexOf(filename) != -1) {
+        selectedFilenames.splice([selectedFilenames.indexOf(filename)], 1)
     } else {
-        selected_filenames.push(filename)
+        selectedFilenames.push(filename)
     }
 
 }
 
+/*
+* getAllCertificate
+* ฟังก์ชันสำหรับรับค่าจาก api และส่งค่าไปที่หลังบ้าน
+* param: -
+* return: -
+*/
 
 const getAllCertificate = async () => {
     loaded.value = false
@@ -159,6 +192,13 @@ const getAllCertificate = async () => {
         });
 };
 
+/*
+* cerCreateSelect
+* ฟังก์ชันสำหรับเลือก certificate ที่ต้องการดาวน์โหลดพร้อมกัน
+* param: -
+* return: -
+*/
+
 async function cerCreateSelect() {
 
     const response = await axios.get(`${import.meta.env.VITE_API_HOST}/certificates`);
@@ -169,6 +209,12 @@ async function cerCreateSelect() {
 
 }
 
+/*
+* setCurrentPage
+* ฟังก์ชันสำหรับจัดการเมื่อมีการเปลี่ยนหน้าของ DataTable
+* param: pageNumber เลขหน้า
+* return: -
+*/
 async function setCurrentPage(pageNumber) {
     if (pageNumber > 0 && pageNumber <= pageMax.value) {
         page.value = pageNumber;
@@ -177,6 +223,12 @@ async function setCurrentPage(pageNumber) {
     await getAllCertificate();
 }
 
+/*
+* downloadPDF
+* ฟังก์ชันสำหรับดาวน์โลหดเอกสารรับรองเป็นไฟล์ PDF
+* param: year และ fcerFilename ปี และชื่อไฟล์ของ certificate ที่ต้องการดาวน์โหลด
+* return: -
+*/
 async function downloadPDF(year, cerFilename) {
     const pdfURL = `${import.meta.env.VITE_API_HOST}/certificates/${changeTimestampToYear(year)}/${cerFilename}`;
 
@@ -200,9 +252,15 @@ async function downloadPDF(year, cerFilename) {
     }
 }
 
+/*
+* downloadSelectPDF
+* ฟังก์ชันสำหรับดาวน์โลหดเอกสารรับรองเป็นไฟล์ PDF แบบหลายไฟล์พร้อมกัน
+* param: -
+* return: -
+*/
 async function downloadSelectPDF() {
 
-    if (selected_years.length === 0 || selected_filenames.length === 0) {
+    if (selectedYears.length === 0 || selectedFilenames.length === 0) {
         validate.value = false
         errorAlert("กรุณาเลือกอย่างน้อย 1 ข้อมูล")
         return
@@ -210,19 +268,31 @@ async function downloadSelectPDF() {
     const result = await confirmation("คุณต้องการดาวน์โหลดเอกสารที่เลือกหรือไม่");
 
     if (result) {
-        for (let i = 0; i < selected_years.length; i++) {
-            const year_select = selected_years[i];
-            const filename_select = selected_filenames[i];
-            downloadPDF(year_select, filename_select);
+        for (let i = 0; i < selectedYears.length; i++) {
+            const yearSelect = selectedYears[i];
+            const filename_select = selectedFilenames[i];
+            downloadPDF(yearSelect, filename_select);
         }
     }
 
 }
 
+/*
+* openPDF
+* ฟังก์ชันสำหรับเปิดดูไฟล์ PDF ที่ได้ทำการออก
+* param: year และ fcerFilename ปี และชื่อไฟล์ของ certificate ที่ต้องการเปิด
+* return: -
+*/
 async function openPDF(year, cerFilename) {
     window.open(`${import.meta.env.VITE_API_HOST}/certificates/${changeTimestampToYear(year)}/${cerFilename}`)
 }
 
+/*
+* changeTimestampToYear
+* ฟังก์ชันสำหรับเปลี่ยน timestamp เป็นวันเดือนปี
+* param: value ค่า timestamp ที่รับมา
+* return: -
+*/
 function changeTimestampToYear(value) {
     if (value) {
         const date = new Date(value)

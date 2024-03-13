@@ -1,3 +1,9 @@
+<!--
+ SelectIntern
+ แสดงหน้าจอสำหรับเลือกนักศึกษาที่ต้องการออกเอกสารรับรอง
+ Author : Teerajuk Sakunchaisitthichok
+ Created date : 14-11-2566
+-->
 <template>
     <LayoutMenuName backButton page-name="เอกสารรับรอง > เลือกรายชื่อนักศึกษาฝึกงาน" />
     <SectionSpace>
@@ -18,7 +24,7 @@
                 hover-background :total="total" @page-change="setCurrentPage">
                 <template #intn_key="{ data }">
                     <input :name="data?.intn_id" :id="data?.intn_id" type="checkbox"
-                        @click="select_intern(data?.intn_id) && checkRow(data?.intn_id)"
+                        @click="selectIntern(data?.intn_id) && checkRow(data?.intn_id)"
                         class="form-check-input mt-2 p-2" />
                     <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
                 </template>
@@ -77,14 +83,27 @@ const tableHead = ref([
     { key: "intn_end_date", title: "วันที่สิ้นสุดฝึกงาน", align: 'center', size: 2 },
 ]);
 
+/*
+* checkRow
+* ฟังก์ชันสำหรับเลือกข้อมูลแถวนั้นๆ
+* param: index ค่าของแถวที่เลือก
+* return: -
+*/
+
 function checkRow(index) {
     let checkbox = document.getElementById(index);
 
     checkbox.click();
 }
 
+/*
+* selectIntern
+* ฟังก์ชันสำหรับรับ id จากข้อมูลที่ผู้ใช้เลือก
+* param: id ของนักศึกษาฝึกงาน
+* return: -
+*/
 
-function select_intern(id) {
+function selectIntern(id) {
     if (selected.indexOf(id) != -1) {
         selected.splice([selected.indexOf(id)], 1)
     } else {
@@ -96,7 +115,12 @@ function select_intern(id) {
 }
 
 
-
+/*
+* search
+* ฟังก์ชันสำหรับหน่วงเวลาในการค้นหา
+* param: -
+* return: -
+*/
 function search() {
     if (timer) {
         clearTimeout(timer);
@@ -106,6 +130,13 @@ function search() {
         setCurrentPage(1);
     }, 500);
 }
+
+/*
+* sentToCreateCertificate
+* ฟังก์ชันสำหรับรับส่งข้อมูลที่ผู้ใช้เลือกไปสร้างไฟล์ certificate ที่หลังบ้าน
+* param: -
+* return: -
+*/
 
 async function sendToCreateCertificate() {
     console.log(selected)
@@ -139,6 +170,12 @@ async function sendToCreateCertificate() {
     }
 }
 
+/*
+* setCurrentPage
+* ฟังก์ชันสำหรับจัดการเมื่อมีการเปลี่ยนหน้าของ DataTable
+* param: pageNumber เลขหน้า
+* return: -
+*/
 async function setCurrentPage(pageNumber) {
     if (pageNumber > 0 && pageNumber <= pageMax.value) {
         page.value = pageNumber;
@@ -147,7 +184,12 @@ async function setCurrentPage(pageNumber) {
     await getAllIntern();
 }
 
-
+/*
+* getAllIntern
+* ฟังก์ชันสำหรับรับข้อมูลบริษัทจาก api และส่งค่าไปที่หลังบ้าน
+* param: -
+* return: -
+*/
 const getAllIntern = async () => {
     loaded.value = false
     const params = {
