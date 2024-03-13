@@ -1,30 +1,34 @@
 <template>
     <LayoutMenuName backButton page-name="เอกสารรับรอง > ลายเซ็นผู้มีสิทธ์ออกเอกสารรับรอง" />
-    <div class="row mb-3 me-1">
-        <div class="col-md-5 my-auto nopadding">
-            <Search placeholder="ชื่อ" v-model="searchData" />
+    <SectionSpace>
+        <div class="row mb-3 me-1">
+            <div class="col-md-5 my-auto">
+                <Search placeholder="ค้นหาชื่อ หรือตำแหน่งลายเซ็น" v-model="searchData" />
+            </div>
         </div>
-    </div>
 
-    <!-- Modal -->
-    <div class="row mt-3">
-        <BaseCard class="mb-4" v-for="signature in filterData()" :title="getName(signature)" :sub="signature?.sign_role"
-            content="">
-            <template #before-title>
-                <div class="text-center mb-4">
-                    <img width="100" height="100" :src="signature?.sign_image_path" />
-                </div>
-            </template>
-            <template #after-title>
-                <div class="text-center">
-                    <BaseButton class="col-md-6 mx-auto" label="เลือก" @click="sentCompanyId(signature.sign_id)" />
-                </div>
-            </template>
+        <!-- Modal -->
+        <div class="row mt-3">
+            <NotFound v-if="filterData().length < 1 && loaded" />
+            <Loading v-if="!loaded" />
+            <BaseCard class="mb-4" v-for="signature in filterData()" :title="getName(signature)"
+                :sub="signature?.sign_role" content="">
+                <template #before-title>
+                    <div class="text-center mb-4">
+                        <img width="100" height="100" :src="signature?.sign_image_path" />
+                    </div>
+                </template>
+                <template #after-title>
+                    <div class="text-center">
+                        <BaseButton class="col-md-6 mx-auto" label="เลือก" @click="sentCompanyId(signature.sign_id)" />
+                    </div>
+                </template>
 
-        </BaseCard>
+            </BaseCard>
 
 
-    </div>
+        </div>
+    </SectionSpace>
 </template>
 
 <script setup>
@@ -35,17 +39,21 @@ import Search from '../Component/SearchBox.vue';
 import BaseButton from '../component/BaseButton.vue';
 import { useRoute } from 'vue-router';
 import router from "@/router";
+import NotFound from "../Component/NotFound.vue"
+import { filter } from 'lodash';
 const route = useRoute();
 
 
 const signatures = ref([]);
 const searchData = ref("");
 const id = ref(route.params.companyId);
+const loaded = ref(false)
 
 
 const getSignature = async () => {
     const response = await axios.get(`${import.meta.env.VITE_API_HOST}/signatures/company/${id.value}`);
     signatures.value = response.data;
+    loaded.value = true
 
 }
 const filterData = () => {
@@ -91,6 +99,4 @@ function getName(signature) {
 </script>
 
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,35 +1,37 @@
 <template>
     <LayoutMenuName backButton page-name="เอกสารรับรอง > เลือกรายชื่อนักศึกษาฝึกงาน" />
-    <div class="row mb-3">
-        <div class="col-md-5 my-auto nopadding">
-            <Search v-model="searchData" @search="search" />
+    <SectionSpace>
+        <div class="row mb-3">
+            <div class="col-md-3 my-auto nopadding">
+                <Search v-model="searchData" @search="search" />
+            </div>
+
+            <div class="col-md-2 my-auto">
+                <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="team_id" :options="teams"
+                    value="team_id" text="team_name" />
+            </div>
         </div>
 
-        <div class="col-md-2 my-auto">
-            <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="team_id" :options="teams"
-                value="team_id" text="team_name" />
+        <div class="row">
+            <Loading v-if="!loaded" />
+            <DataTable v-if="loaded" striped clickable click-return="intn_id" @clicked="checkRow" :heads="tableHead" :items="interns"
+                hover-background :total="total" @page-change="setCurrentPage">
+                <template #intn_key="{ data }">
+                    <input :name="data?.intn_id" :id="data?.intn_id" type="checkbox"
+                        @click="select_intern(data?.intn_id) && checkRow(data?.intn_id)"
+                        class="form-check-input mt-2 p-2" />
+                    <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
+                </template>
+
+                <template #bottom-right>
+                    <div class="col-md-5 ms-auto text-end nopadding">
+                        <BaseButton class="" label="ยืนยันการออกเอกสารรับรอง" @click="sendToCreateCertificate()" />
+                    </div>
+                </template>
+            </DataTable>
+
         </div>
-    </div>
-
-    <div class="row">
-
-        <DataTable striped clickable click-return="intn_id" @clicked="checkRow" :heads="tableHead" :items="interns"
-            hover-background :total="total" @page-change="setCurrentPage" >
-            <template #intn_key="{ data }">
-                <input :name="data?.intn_id" :id="data?.intn_id" type="checkbox"
-                    @click="select_intern(data?.intn_id) && checkRow(data?.intn_id)"
-                    class="form-check-input mt-2 p-2" />
-                <span class="ms-lg-4 ms-md-2">{{ data.intn_code }}</span>
-            </template>
-
-            <template #bottom-right>
-                <div class="col-md-5 ms-auto text-end nopadding">
-                    <BaseButton class="" label="ยืนยันการออกเอกสารรับรอง" @click="sendToCreateCertificate()" />
-                </div>
-            </template>
-        </DataTable>
-
-    </div>
+    </SectionSpace>
 </template>
 
 <script setup>
@@ -62,20 +64,18 @@ const team_id = ref();
 const endDate = ref("");
 const searchData = ref("");
 const teams = ref([]);
+const loaded = ref(false)
 let timer;
 
 const tableHead = ref([
-    { key: "intn_key", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
-    { key: "intn_name_th", title: "ชื่อ-นามสกุล" },
-    { key: "intn_nickname_th", title: "ชื่อเล่น" },
-    { key: "work_infos[0].work_role.role_name", title: "ตำแหน่ง" },
-    { key: "work_infos[0].work_team.team_name", title: "ทีม" },
-    { key: "intn_start_date", title: "วันที่เริ่มฝึกงาน" },
-    { key: "intn_end_date", title: "วันที่สิ้นสุดฝึกงาน" },
+    { key: "intn_key", title: "รหัสนักศึกษาฝึกงาน", align: "center", size: 2 },
+    { key: "intn_name_th", title: "ชื่อ-นามสกุล", size: 2 },
+    { key: "intn_nickname_th", title: "ชื่อเล่น" , size: 1},
+    { key: "work_infos[0].work_role.role_name", title: "ตำแหน่ง", size: 2 },
+    { key: "work_infos[0].work_team.team_name", title: "ทีม", size: 2 },
+    { key: "intn_start_date", title: "วันที่เริ่มฝึกงาน", align: 'center', size: 2},
+    { key: "intn_end_date", title: "วันที่สิ้นสุดฝึกงาน", align: 'center', size: 2 },
 ]);
-
-
-
 
 function checkRow(index) {
     let checkbox = document.getElementById(index);
@@ -149,6 +149,7 @@ async function setCurrentPage(pageNumber) {
 
 
 const getAllIntern = async () => {
+    loaded.value = false
     const params = {
         page: page.value,
         limit: pageSize,
@@ -166,6 +167,7 @@ const getAllIntern = async () => {
             interns.value = response.data.rows;
             total.value = response.data.count;
             pageMax.value = Math.ceil(total.value / pageSize);
+            loaded.value = true
         });
 };
 
@@ -178,5 +180,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-
+input[type="checkbox"] {
+  border: 1px solid black;
+}
 </style>

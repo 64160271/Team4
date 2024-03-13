@@ -1,58 +1,62 @@
 <template>
     <LayoutMenuName page-name="เอกสารรับรองการฝึกงาน" />
-    <div class="row mb-3">
-        <div class="col-md-5 my-auto nopadding">
-            <Search v-model="searchData" @search="search" />
+    <SectionSpace>
+        <div class="row mb-3">
+            <div class="col-md-3 my-auto nopadding">
+                <Search v-model="searchData" @search="search" />
+            </div>
+
+            <div class="col-md-2 ms-2 my-auto nopadding">
+                <BaseSelect placeholder="ปี" @change="setCurrentPage(1)" v-model="cerCreate" :options="years"
+                    value="cerCreate" text="cerCreate" />
+            </div>
+
+            <div class="col-md-2 my-auto">
+                <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="team_id" :options="teams"
+                    value="team_id" text="team_name" />
+            </div>
+
+            <BaseButton class="col-auto ms-auto" @click="$router.push('/certificates/selectCompany')"
+                label="ออกเอกสารรับรอง" />
         </div>
 
-        <div class="col-md-2 ms-2 my-auto nopadding">
-            <BaseSelect placeholder="ปี" @change="setCurrentPage(1)" v-model="cerCreate" :options="years"
-                value="cerCreate" text="cerCreate" />
+
+        <div class="row">
+            <Loading v-if="!loaded" />
+
+            <DataTable v-if="loaded" striped clickable clickReturn="cer_id" @clicked="checkRow" :heads="tableHead"
+                :items="certificates" hover-background :total="total" paginate :active-page="page"
+                :items-per-page="pageSize" @page-change="setCurrentPage">
+
+                <template #cer_key="{ data }">
+                    <input :name="data?.cer_id" :id="data?.cer_id" type="checkbox"
+                        @click="select_certificate(data?.cer_created_at, data?.cer_filename) && checkRow(data?.cer_created_at, data?.cer_filename)"
+                        class="form-check-input mt-2 p-2" />
+                    <span class="ms-lg-4">{{ data.cer_code }}</span>
+                </template>
+
+                <template #created_at="{ data }">
+                    {{ changeTimestampToDate(data?.cer_created_at) }}
+                </template>
+
+                <template #open_file="{ data }">
+                    <Picture @click="openPDF(data?.cer_created_at, data?.cer_filename)"></Picture>
+                </template>
+
+                <template #download="{ data }">
+                    <Download @click="downloadPDF(data?.cer_created_at, data?.cer_filename)"></Download>
+                </template>
+
+                <template #bottom-right>
+                    <div class="col-md-5 ms-auto text-end nopadding">
+                        <BaseButton class="" label="ดาวน์โหลดเอกสารที่เลือก" @click="downloadSelectPDF()" />
+                    </div>
+                </template>
+
+            </DataTable>
+
         </div>
-
-        <div class="col-md-2 my-auto">
-            <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="team_id" :options="teams"
-                value="team_id" text="team_name" />
-        </div>
-
-        <BaseButton class="col-auto ms-auto" @click="$router.push('/certificates/selectCompany')"
-            label="ออกเอกสารรับรอง" />
-    </div>
-
-
-    <div class="row">
-        <DataTable striped clickable clickReturn="cer_id" @clicked="checkRow" :heads="tableHead" :items="certificates"
-            hover-background :total="total" paginate :active-page="page" :items-per-page="pageSize"
-            @page-change="setCurrentPage">
-
-            <template #cer_key="{ data }">
-                <input :name="data?.cer_id" :id="data?.cer_id" type="checkbox"
-                    @click="select_certificate(data?.cer_created_at, data?.cer_filename) && checkRow(data?.cer_created_at, data?.cer_filename)"
-                    class="form-check-input mt-2 p-2" />
-                <span class="ms-lg-4">{{ data.cer_code }}</span>
-            </template>
-
-            <template #created_at="{ data } ">
-                {{ changeTimestampToDate(data?.cer_created_at) }}
-            </template>
-
-            <template #open_file="{ data }">
-                <Picture @click="openPDF(data?.cer_created_at, data?.cer_filename)"></Picture>
-            </template>
-
-            <template #download="{ data }">
-                <Download @click="downloadPDF(data?.cer_created_at, data?.cer_filename)"></Download>
-            </template>
-
-            <template #bottom-right>
-                <div class="col-md-5 ms-auto text-end nopadding">
-                    <BaseButton class="" label="ดาวน์โหลดเอกสารที่เลือก" @click="downloadSelectPDF()" />
-                </div>
-            </template>
-
-        </DataTable>
-
-    </div>
+    </SectionSpace>
 </template>
 
 <script setup>
@@ -75,12 +79,12 @@ import { confirmation, successAlert, errorAlert, changeTimestampToDate } from ".
 const route = useRoute();
 
 const tableHead = ref([
-    { key: "cer_key", title: "ชื่อไฟล์", align: "center" },
-    { key: "cer_intern.intn_code", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
-    { key: "cer_intern.intn_name_th", title: "ชื่อ - นามสกุล", },
-    { key: "cer_intern.work_infos[0].work_team.team_name", title: "ทีม", },
-    { key: "cer_intern.intn_major.maj_faculty.fac_university.uni_name", title: "มหาวิทยาลัย", },
-    { key: "created_at", title: "วันที่ออกเอกสาร", align: "center" },
+    { key: "cer_key", title: "ชื่อไฟล์", align: "center", size: 2 },
+    { key: "cer_intern.intn_code", title: "รหัสนักศึกษาฝึกงาน", align: "center", size: 1 },
+    { key: "cer_intern.intn_name_th", title: "ชื่อ - นามสกุล", size: 2 },
+    { key: "cer_intern.work_infos[0].work_team.team_name", title: "ทีม", size: 2 },
+    { key: "cer_intern.intn_major.maj_faculty.fac_university.uni_name", title: "มหาวิทยาลัย", size: 2 },
+    { key: "created_at", title: "วันที่ออกเอกสาร", align: "center", size: 2 },
     { key: "open_file", title: "เปิดไฟล์", align: "center" },
     { key: "download", title: "ดาวน์โหลด", align: "center" },
     // { key: "delete", title: "ลบ" },
@@ -100,6 +104,7 @@ const cerCreate = ref("");
 const searchData = ref("");
 const teams = ref([]);
 const years = ref([]);
+const loaded = ref(false)
 let timer;
 
 function checkRow(index) {
@@ -131,12 +136,11 @@ function select_certificate(year, filename) {
         selected_filenames.push(filename)
     }
 
-    console.log(selected_years)
-    console.log(selected_filenames)
 }
 
 
 const getAllCertificate = async () => {
+    loaded.value = false
     const params = {
         page: page.value,
         limit: pageSize,
@@ -151,17 +155,16 @@ const getAllCertificate = async () => {
             certificates.value = response.data.rows;
             total.value = response.data.count;
             pageMax.value = Math.ceil(total.value / pageSize);
+            loaded.value = true
         });
 };
 
 async function cerCreateSelect() {
 
     const response = await axios.get(`${import.meta.env.VITE_API_HOST}/certificates`);
-    console.log(response)
     const year = response.data.rows.map(entry => new Date(entry.cer_created_at).getFullYear() + 543);
     years.value = [...new Set(year)];
     years.value.unshift("ทั้งหมด");
-    console.log(years.value)
 
 
 }
@@ -249,5 +252,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-
+input[type="checkbox"] {
+  border: 1px solid black;
+}
 </style>
