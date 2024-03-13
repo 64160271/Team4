@@ -1,3 +1,10 @@
+<!--
+ ProjectMember
+ แสดงข้อมูล และจัดการนักศึกษาภายในโปรเจกต์
+ Author : Rawich Piboonsin
+ Created date : 05-03-2567
+-->
+
 <template>
   <LayoutMenuName backButton :page-name="'โปรเจกต์ > ' + projName" />
 

@@ -1,3 +1,10 @@
+<!--
+ MaangeProject
+ หน้าจอสำหรับแสดง และจัดการข้อมูลโปรเจกต์
+ Author : Rawich Piboonsin
+ Created date : 05-03-2567
+-->
+
 <template>
   <LayoutMenuName page-name="โปรเจกต์" />
 
@@ -166,6 +173,12 @@ const pageMax = ref(1);
 const pageSize = 10;
 let timer;
 
+/*
+ * setCurrentPage
+ * เรียกดูข้อมูลเมื่อผู้ใช้ทำการเปลี่ยนหน้าของ Paginate
+ * param: เลขหน้า
+ * return: -
+ */
 async function setCurrentPage(pageNumber) {
   if (pageNumber > 0 && pageNumber <= pageMax.value) {
     page.value = pageNumber;
@@ -174,6 +187,12 @@ async function setCurrentPage(pageNumber) {
   await fetchProject();
 }
 
+/*
+ * setCurrentPage
+ * เรียกดูข้อมูลเมื่อผู้ใช้ทำการเปลี่ยนหน้าของ Paginate
+ * param: เลขหน้า
+ * return: -
+ */
 const fetchProject = async () => {
   const params = {
     page: page.value,

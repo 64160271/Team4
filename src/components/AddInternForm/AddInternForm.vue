@@ -603,10 +603,6 @@ async function submitForm() {
   }
 }
 
-function formatTel() {
-  $("#tel").inputmask("999-999-9999");
-}
-
 /*
  * setFaculty
  * กำหนดข้อมูลคณะที่แสดงในตัวเลือก โดยให้แสดงเฉพาะคณะที่อยู่ในสถานศึกษาที่เลือก

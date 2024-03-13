@@ -168,6 +168,12 @@ async function setCurrentPage(pageNumber) {
   await getAllIntern();
 }
 
+/*
+ * getAllIntern
+ * ฟังก์ชันสำหรับเรียก api ข้อมูลนักศึกษาฝึกงาน
+ * param: -
+ * return: -
+*/
 const getAllIntern = async () => {
   const params = {
     page: page.value,
@@ -195,6 +201,12 @@ onMounted(async () => {
   roles.value = await service.getAllRole();
 });
 
+/*
+ * search
+ * ฟังก์ชันสำหรับจัดการการค้นหา
+ * param: -
+ * return: -
+*/
 function search() {
   if (timer) {
     clearTimeout(timer);
@@ -205,10 +217,22 @@ function search() {
   }, 500);
 }
 
+/*
+ * handleClick
+ * ฟังก์ชันเมื่อมีการคลิกที่รายชื่อของนักศึกษาฝึกงาน
+ * param: รหัสนักศึกษาฝึกงาน
+ * return: -
+*/
 function handleClick(intn_id) {
   router.push({ name: "internData", params: { id: intn_id } });
 }
 
+/*
+ * getStatus
+ * ฟังก์ชันแสดงสถานะของนักศึกษาฝึกงานในรูปของ badge
+ * param: สถานะของนักศึกษา
+ * return: html แสดงสถานะ
+*/
 function getStatus(status) {
   if (status == "กำลังทำงาน") {
     return '<span class="badge text-bg-success fw-bold">กำลังทำงาน</span>';
