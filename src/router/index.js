@@ -13,6 +13,9 @@ import SalaryReport from '../components/Report/SalaryReport.vue'
 import ManageCompany from '../components/CerfificateData/ManageCompany.vue'
 import ManageSignature from '../components/CerfificateData/ManageSignature.vue'
 import ManageUniversity from '../components/University/ManageUniversity.vue'
+import TestForm from '../components/AddInternForm/TestForm.vue'
+import ManageProject from '../components/Project/ManageProject.vue'
+import ProjectMember from '../components/Project/ProjectMember.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -88,6 +91,20 @@ const router = createRouter({
             component: ManageCompany
         },
         
+        {
+            path: '/test',
+            component: TestForm
+        },
+        {
+            path: '/projects',
+            name: 'manageProject',
+            component: ManageProject
+        },
+        {
+            path: '/projects/:id',
+            name: 'projectMember',
+            component: ProjectMember,
+        }
     ]
 })
 

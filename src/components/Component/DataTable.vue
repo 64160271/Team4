@@ -15,7 +15,8 @@
             { 'border-left': index == 0 },
             { 'border-right': index == heads.length - 1 },
             { 'text-left': !head.align },
-            { ['text-' + head.align]: head.align }
+            { ['text-' + head.align]: head.align },
+            { ['col-md-' + head.size || 'auto']: head.size }
           "
         >
           {{ head.title }}
@@ -35,12 +36,9 @@
       >
         <td v-for="head in heads" :class="{ ['text-' + head.align]: head.align }">
           <span>{{ _.get(item, head.key) }}</span>
-          <slot
-            :index="index"
-            :data="item"
-            :name="head.key"
-            v-if="!_.get(item, head.key)"
-          ></slot>
+          <slot :index="index" :data="item" :name="head.key" v-if="!_.get(item, head.key)"
+            >-</slot
+          >
         </td>
       </tr>
     </tbody>
@@ -54,38 +52,118 @@
         <ul class="pagination">
           <li class="page-item">
             <a
-              v-if="activePage > 1"
               class="page-link border-0 rounded-circle"
               href="#"
-              @click="$emit('pageChange', --activePage)"
+              @click="$emit('pageChange', 1)"
               aria-label="Previous"
             >
-              <span aria-hidden="true">&lt</span>
+              <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
 
-          <li v-for="(pageNum, index) in pageMax" class="page-item">
-            <router-link
+          <li class="page-item">
+            <a
+              class="page-link border-0 rounded-circle"
+              href="#"
+              @click="handlePrevious"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&lt;</span>
+            </a>
+          </li>
+
+          <li v-if="pageable === 'm' || pageable === 'e'" class="page-item">
+            <span
               :id="'p' + index"
               aria-current="page"
               to="#"
-              class="page-link rounded-circle mx-1"
+              class="page-link border-0 text-dark"
+            >
+              ...
+            </span>
+          </li>
+
+          <!-- เลขหน้าเริ่มต้น -->
+          <li v-if="pageable === 's'" v-for="(pageNum, index) in 4" class="page-item">
+            <router-link
+              aria-current="page"
+              to="#"
+              class="page-link border-0 rounded-circle"
               @click="$emit('pageChange', pageNum)"
-              :class="{ 'active-page': index == activePage - 1 }"
+              :class="{ 'active-page': pageNum == activePage }"
             >
               {{ pageNum }}
             </router-link>
           </li>
 
+          <li v-if="pageable == 'n'" v-for="(pageNum, index) in pageMax" class="page-item">
+            <router-link
+              aria-current="page"
+              to="#"
+              class="page-link border-0 rounded-circle"
+              @click="$emit('pageChange', pageNum)"
+              :class="{ 'active-page': pageNum == activePage }"
+            >
+              {{ pageNum }}
+            </router-link>
+          </li>
+
+          <!-- เลขหน้ากลาง -->
+          <li v-if="pageable == 'm'" v-for="(pageNum, index) in 3" class="page-item">
+            <router-link
+              aria-current="page"
+              to="#"
+              class="page-link border-0 rounded-circle"
+              @click="$emit('pageChange', index + (activePage-1))"
+              :class="{ 'active-page': index + (activePage-1) == activePage }"
+            >
+              {{ index + (activePage-1) }}
+            </router-link>
+          </li>
+
+          <!-- เลขหน้าสิ้นสุด -->
+          <li v-if="pageable === 'e'" v-for="(pageNum, index) in 4" class="page-item">
+            <router-link
+              aria-current="page"
+              to="#"
+              class="page-link border-0 rounded-circle"
+              @click="$emit('pageChange', pageNum + (pageMax-4))"
+              :class="{ 'active-page': pageNum + (pageMax-4) == activePage }"
+            >
+              {{ pageNum + (pageMax-4) }}
+            </router-link>
+          </li>
+
+          <li v-if="pageable === 's' || pageable === 'm'" class="page-item">
+            <span
+              :id="'p' + index"
+              aria-current="page"
+              to="#"
+              class="page-link border-0 text-dark"
+            >
+              ...
+            </span>
+          </li>
+
           <li class="page-item">
             <a
-              v-if="activePage < pageMax"
               class="page-link border-0 rounded-circle"
               href="#"
-              @click="$emit('pageChange', ++activePage)"
+              @click="handleNext"
               aria-label="Next"
             >
-              <span aria-hidden="true">></span>
+              <span aria-hidden="true">&gt;</span>
+            </a>
+          </li>
+
+          <li class="page-item">
+            <a
+              class="page-link border-0 rounded-circle"
+              href="#"
+              @click="$emit('pageChange', pageMax)"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&raquo;</span>
             </a>
           </li>
         </ul>
@@ -119,7 +197,7 @@ const pageMax = computed(() => {
   return Math.ceil(props.total / props.itemsPerPage);
 });
 
-const emit = defineEmits(["clicked"]);
+const emit = defineEmits(["clicked", "pageChange"]);
 
 const props = defineProps({
   heads: [Array, Boolean],
@@ -135,11 +213,40 @@ const props = defineProps({
   hoverBackground: [Boolean],
 });
 
+const pageable = computed(() => {
+  if (pageMax.value <= 4) {
+    return 'n'
+  }
+  else if (props.activePage < 4) {
+    return 's'
+  } else if (props.activePage > pageMax.value-4) {
+    return 'e'
+  } else {
+    return 'm'
+  }
+})
+
 function handleRowClick(value) {
   emit("clicked", value);
 }
 
-onMounted(async () => {});
+function handlePrevious() {
+  if (props.activePage-1 < 1) {
+    return
+  } else {
+    emit('pageChange', --props.activePage)
+  }
+}
+
+function handleNext() {
+  if (props.activePage+1 > pageMax.value) {
+    return
+  } else {
+    emit('pageChange', ++props.activePage)
+  }
+}
+
+onMounted(() => {});
 </script>
 
 <style scoped>
@@ -186,5 +293,10 @@ onMounted(async () => {});
 
 .hover-background:hover > td {
   background-color: #ffcbcb60 !important;
+}
+
+.page-link {
+  font-size: 14px !important;
+  color: black
 }
 </style>

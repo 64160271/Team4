@@ -44,13 +44,15 @@ const props = defineProps({
 <style scoped>
 input:focus {
   transition: 0s;
-  box-shadow: none !important;
-  border: 2px solid rgb(0, 119, 255) !important;
+  box-shadow: none;
+  outline: 2px solid rgb(0, 119, 255) !important;
+  border: 1px solid white !important;
 }
 
 .is-invalid:focus {
   transition: 0s;
   box-shadow: none;
-  border: 2px solid red !important;
+  border: 1px solid red !important;
+  outline: 1px solid rgb(255, 0, 0) !important;
 }
 </style>
