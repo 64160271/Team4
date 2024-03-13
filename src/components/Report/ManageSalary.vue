@@ -1,21 +1,21 @@
 <template>
     <LayoutMenuName page-name="รายงานเบี้ยเลี้ยง" />
     <div class="row mb-3">
-        
-            <!-- ส่วนของ radio buttons -->
-            <div class="col-md-5 my-auto nopadding">
-                <Search v-model="searchData" @search="search" />
-            </div>
 
-            <div class="col-auto form-check form-check-inline">
+        <!-- ส่วนของ radio buttons -->
+        <div class="col-md-5 my-auto nopadding">
+            <Search v-model="searchData" @search="search" />
+        </div>
+
+        <div class="col-auto form-check form-check-inline">
 
 
-            </div>
+        </div>
 
-            <div class="col-auto form-check form-check-inline">
-                <BaseSelect v-model="team_id" :options="team" value="team_id" text="team_name" />
-            </div>
-        
+        <div class="col-auto form-check form-check-inline">
+            <BaseSelect v-model="team_id" :options="team" value="team_id" text="team_name" />
+        </div>
+
         <div class="col-auto ms-auto my-auto">
             <div>
                 <BaseButton label="เพิ่มข้อมูล" @click="openModal = true" />
@@ -25,7 +25,8 @@
     <BaseModal v-if="openModal" @save="formSubmit" @close="openModal = false" title="เพิ่มรายการข้อมูล">
         <div class="col mb-3">
             <BaseInput v-model="formData.rep_code" label="รหัสรายการ" input_type="text" required="required"
-                placeholder="xx/xxxx" />
+                placeholder="xx/xxxx" :class="{ 'is-invalid': v$.formData.rep_code.$error }" />
+            <InvalidFeedback :errors="v$.formData.rep_code.$error" />
         </div>
         <div class="col mb-3">
             <BaseInput :value="chageDate(date)" label="วันที่สร้างรายการ" input_type="text" readonly="readonly" />
@@ -35,8 +36,8 @@
         </div>
     </BaseModal>
 
-    <DataTable :heads="dataHead" :items="reports" hovers    paginate
-        :total="reports.length" :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage">
+    <DataTable :heads="dataHead" :items="reports" hovers paginate :total="reports.length" :active-page="page"
+        :items-per-page="pageSize" @page-change="setCurrentPage">
         <template #rep_count_name="{ data }">
             {{ data.rep_salaries.length }}
         </template>
@@ -49,7 +50,7 @@
 
         </template>
         <template #rep_edit="{ data }">
-            <EditIcon @click="handleClick(data.rep_id)" class="hover-p"/>
+            <EditIcon @click="handleClick(data.rep_id)" class="hover-p" />
         </template>
         <template #rep_remove="{ data }">
             <DeleteButton @click="deleteReport(data)" />
@@ -72,7 +73,8 @@ import router from "@/router";
 import Search from "../component/SearchBox.vue"
 import { confirmation, successAlert, errorAlert } from "../../assets/js/func"
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
-import useVuelidate from "@vuelidate/core"; 
+import useVuelidate from "@vuelidate/core";
+import {required}  from "@vuelidate/validators";
 
 
 
@@ -85,7 +87,13 @@ const pageSize = 10;
 const total = ref();
 const searchData = ref("");
 let timer;
+const rules = {
+    rep_code: {
+        required
+    }
+};
 
+const v$ = useVuelidate(rules, formData);
 
 const team = ref([])
 const team_id = ref([])
@@ -150,8 +158,12 @@ const getAllTeam = async () => {
 }
 
 async function formSubmit() {
-    await axios.post(`${import.meta.env.VITE_API_HOST}/reports`, formData.value,)
-    router.go()
+    const validate = await v$.value.$validate(); /* validate แบบฟอร์ม */
+
+    if (validate) {
+        await axios.post(`${import.meta.env.VITE_API_HOST}/reports`, formData.value,)
+        router.go()
+    }
 }
 
 function handleClick(rep_id) {
