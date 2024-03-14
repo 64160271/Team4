@@ -1,34 +1,57 @@
 <template>
-    <LayoutMenu />
+  <LayoutMenu />
 
-      <CardInternInfo class="mb-3" :internId="internId">
-        <div class="row mb-2">
-          <label for="" class="col-md-3 col-form-label text-gray">
-            เบี้ยเลี้ยงปัจจุบัน (บาท)
-          </label>
-          <label for="" class="col-md-3 col-form-label text-gray">
-            {{ lastSalary }}
-          </label>
+  <CardInternInfo class="my-3" :internId="internId">
+    <div class="row mb-2">
+      <label for="" class="col-md-3 col-form-label text-gray">
+        เบี้ยเลี้ยงปัจจุบัน (บาท)
+      </label>
+      <label for="" class="col-md-3 col-form-label text-gray">
+        {{ lastSalary }}
+      </label>
 
-          <label for="" class="col-md-3 col-form-label text-gray">
-            เบี้ยเลี้ยงพิเศษ (บาท)
-          </label>
+      <label for="" class="col-md-3 col-form-label text-gray">
+        เบี้ยเลี้ยงพิเศษ (บาท)
+      </label>
 
-          <label for="" class="col-md-3 col-form-label text-gray"> - </label>
-        </div>
-      </CardInternInfo>
+      <label for="" class="col-md-3 col-form-label text-gray"> - </label>
+    </div>
+  </CardInternInfo>
 
-    <SectionSpace>
-      <div class="row mb-4 mt-2">
-      <SideLabelInput v-model="searchData.sal_from_date" type="date" label="วันเริ่มต้น - สิ้นสุด" noPadding />
+  <SectionSpace noSpace>
+    <div class="row mb-4 mt-2">
+      <div class="col-auto my-auto nopadding">
+        <label for="" class="col-form-label text-gray"
+          >วันเริ่มต้นได้รับ - สิ้นสุด
+        </label>
+      </div>
+      <div class="col-md-3 my-auto">
+        <DatePicker
+          placeholder="เริ่มต้น"
+          pid="searchFrom"
+          v-model="searchData.sal_from_date"
+          readonly
+        />
+      </div>
 
-      <div class="col-md-2">
-        <BaseInput v-model="searchData.sal_to_date" type="date" />
+      <div class="col-md-3">
+        <DatePicker
+          placeholder="สิ้นสุด"
+          v-model="searchData.sal_to_date"
+          pid="searchTo"
+          readonly
+        />
       </div>
     </div>
 
     <div class="row">
-      <DataTable :total="filterData.length" striped :heads="tableHead" :items="filterData">
+      <DataTable
+        :total="filterData.length"
+        striped
+        hover-background
+        :heads="tableHead"
+        :items="filterData"
+      >
         <template #total="{ data }">
           {{ calculateTotal(data) }}
         </template>
@@ -48,6 +71,7 @@ import CardInternInfo from "./CardInternInfo.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import SideLabelInput from "../Component/SideLabelInput.vue";
 import { slashDtoDashY } from "../../assets/js/func";
+import DatePicker from "../Component/DatePicker.vue";
 
 const internId = useRoute().params.id;
 const salaries = ref([]);
@@ -88,9 +112,9 @@ const filterData = computed(() => {
     return (
       slashDtoDashY(salary.sal_from_date) >= searchData.value.sal_from_date.trim() ||
       slashDtoDashY(salary.sal_to_date) <= searchData.value.sal_to_date.trim()
-    )
-  })
-})
+    );
+  });
+});
 </script>
 
 <style scoped></style>

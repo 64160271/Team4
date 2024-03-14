@@ -10,11 +10,11 @@
     <LayoutMenuName backButton page-name="เพิ่มนักศึกษาฝึกงาน > กรอกแบบฟอร์ม" />
 
     <SectionSpace>
-      <div class="row mx-auto" style="width: 90%">
+      <div class="row mx-auto" style="width: 95%">
         <div class="row nopadding border-bottom">
-          <div class="col-md-3 my-auto text-center">
-            <div class="text-center mb-4">
-              <img id="blah" src="" alt="" class="img bg-grays-200" />
+          <div class="col-auto my-auto">
+            <div class="mb-4 text-center">
+              <img id="blah" src="@/assets/images/person-nm.png" alt="" class="img bg-grays-200" />
             </div>
 
             <button id="picture" type="button" class="btn btn-sm outline-red position-relative px-4">
@@ -25,7 +25,7 @@
           </div>
 
           <!-- เริ่มต้นส่วนข้อมูลพนักงาน -->
-          <div class="col-md-9 align-self-center">
+          <div class="col-md-9 ms-auto">
             <div class="row my-2">
               <span class="h5 text-decoration-underline">ข้อมูลพนักงาน</span>
             </div>
@@ -42,7 +42,8 @@
               </div>
 
               <div class="col-md-6">
-                <BaseSelect label="สถานะการฝึกงาน" :options="statusList.list" v-model="personalInfo.intn_work_status"
+                <BaseSelect label="สถานะการฝึกงาน" :options="statusList.list" text="text" value="value"
+                  v-model="personalInfo.intn_work_status"
                   :class="{ 'is-invalid': v$.personal_info.intn_work_status.$error }" required />
                 <InvalidFeedback :errors="v$.personal_info.intn_work_status.$errors" />
               </div>
@@ -86,7 +87,7 @@
               </div>
             </div>
 
-            <div class="row mb-4 gx-5">
+            <div class="row mb-3 gx-5">
               <div class="col-md-6">
                 <BaseSelect label="แผนก" :options="departments" v-model="workInfo.work_department_id"
                   placeholder="เลือก (ต้องเลือกฝ่ายก่อน)" value="dept_id" text="dept_name" />
@@ -97,6 +98,15 @@
                   text="team_name" placeholder="เลือก (ต้องเลือกฝ่ายก่อน)"
                   :class="{ 'is-invalid': v$.work_info.work_team_id.$error }" required />
                 <InvalidFeedback :errors="v$.work_info.work_team_id.$errors" />
+              </div>
+            </div>
+
+            <div class="row mb-4 gx-5">
+              <div class="col-md-12">
+                <BaseSelect label="สังกัด / บริษัท" :options="companies" v-model="personalInfo.intn_company_id"
+                  value="com_id" text="com_name" placeholder="เลือก"
+                  :class="{ 'is-invalid': v$.personal_info.intn_company_id.$error }" required />
+                <InvalidFeedback :errors="v$.personal_info.intn_company_id.$errors" />
               </div>
             </div>
           </div>
@@ -179,12 +189,13 @@
             <div class="col-md-6">
               <label for="" class="form-label text-gray">เลขบัตรประชาชน/พาสปอร์ต</label>
               <input id="citizenid" v-model="personalInfo.intn_citizen_id" maxlength="13" type="text"
-                class="form-control" />
+                class="form-control" :class="{ 'is-invalid': v$.personal_info.intn_citizen_id.$error }" />
+              <InvalidFeedback :errors="v$.personal_info.intn_citizen_id.$errors" />
             </div>
 
             <div class="col-md-4">
               <label for="" class="form-label text-gray">วันเกิด </label>
-              <input id="birthdate" v-model="personalInfo.intn_birth_date" type="date" class="form-control" />
+              <DatePicker placeholder="DD/MM/YYYY" pid="birthdate" v-model="personalInfo.intn_birth_date" readonly />
             </div>
 
             <div class="col">
@@ -204,6 +215,21 @@
 
             <div class="col">
               <BaseSelect label="หมู่เลือด" :options="bloodTypeList.list" v-model="personalInfo.intn_blood_type" />
+            </div>
+          </div>
+
+          <div class="row mb-3 gx-5">
+            <div class="col">
+              <BaseSelect label="ธนาคาร" :options="bankList" v-model="personalInfo.intn_bank_name" reset
+                :class="{ 'is-invalid': v$.personal_info.intn_bank_name.$error }" />
+              <InvalidFeedback :errors="v$.personal_info.intn_bank_name.$errors" />
+            </div>
+
+            <div class="col">
+              <label for="" class="form-label text-gray">หมายเลขบัญชีธนาคาร</label>
+              <input id="weight" v-model="personalInfo.intn_bank_account" type="text" class="form-control"
+                :class="{ 'is-invalid': v$.personal_info.intn_bank_account.$error }" />
+              <InvalidFeedback :errors="v$.personal_info.intn_bank_account.$errors" />
             </div>
           </div>
 
@@ -242,7 +268,7 @@
 
             <div class="col">
               <BaseSelect label="สถานภาพสมรส" :options="martialStatusList.list"
-                v-model="personalInfo.intn_martial_status" />
+                v-model="personalInfo.intn_martial_status" reset />
             </div>
           </div>
         </div>
@@ -311,25 +337,34 @@
           <div class="row mb-4">
             <div class="col">
               <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน <span class="text-danger">*</span></label>
-              <input id="startdate" v-model="personalInfo.intn_start_date" type="date" class="form-control"
-                :class="{ 'is-invalid': v$.personal_info.intn_start_date.$error }" required />
-              <InvalidFeedback :errors="v$.personal_info.intn_start_date.$errors" />
+              <DatePicker placeholder="DD/MM/YYYY" pid="startdate" v-model="personalInfo.intn_start_date"
+                :class="{ 'is-invalid': v$.personal_info.intn_start_date.$error }" required readonly>
+                <InvalidFeedback :errors="v$.personal_info.intn_start_date.$errors" />
+              </DatePicker>
             </div>
 
             <div class="col">
               <label for="" class="form-label text-gray">วันที่ผ่านทดลองงาน</label>
-              <input id="enddate" v-model="personalInfo.intn_end_date" type="date" class="form-control" />
+              <DatePicker placeholder="DD/MM/YYYY" pid="enddate" v-model="personalInfo.intn_end_date"
+                :class="{ 'is-invalid': v$.personal_info.intn_end_date.$error }" required readonly>
+                <InvalidFeedback :errors="v$.personal_info.intn_end_date.$errors" />
+              </DatePicker>
             </div>
 
             <div class="col">
               <label for="" class="form-label text-gray">วันสุดท้ายที่มาทำงาน</label>
-              <input id="lastwork" v-model="personalInfo.intn_last_work_date" type="date" class="form-control" />
+              <DatePicker placeholder="DD/MM/YYYY" pid="lastwork" v-model="personalInfo.intn_last_work_date"
+                :class="{ 'is-invalid': v$.personal_info.intn_last_work_date.$error }" required readonly>
+                <InvalidFeedback :errors="v$.personal_info.intn_last_work_date.$errors" />
+              </DatePicker>
             </div>
 
             <div class="col">
-              <BaseInput label="วันที่สิ้นสุดสัญญา" id="contractend" v-model="personalInfo.intn_contract_end_date"
-                type="date" :class="{ 'is-invalid': v$.personal_info.intn_contract_end_date.$error }" required />
-              <InvalidFeedback :errors="v$.personal_info.intn_contract_end_date.$errors" />
+              <DatePicker label="วันที่สิ้นสุดสัญญา" placeholder="DD/MM/YYYY" pid="contractend"
+                v-model="personalInfo.intn_contract_end_date"
+                :class="{ 'is-invalid': v$.personal_info.intn_contract_end_date.$error }" required readonly>
+                <InvalidFeedback :errors="v$.personal_info.intn_contract_end_date.$errors" />
+              </DatePicker>
             </div>
           </div>
         </div>
@@ -394,7 +429,7 @@
           <div class="row mb-4 gx-5">
             <div class="col">
               <label for="" class="form-label text-gray">เบอร์โทรศัพท์ <span class="text-danger">*</span></label>
-              <input id="tel" v-model="personalInfo.intn_tel" placeholder="xxx-xxx-xxxx" maxlength="10" type="text"
+              <input id="tel" v-model="personalInfo.intn_tel" placeholder="xxx-xxx-xxxx" maxlength="12" type="text"
                 class="form-control" :class="{ 'is-invalid': v$.personal_info.intn_tel.$error }" required />
               <InvalidFeedback :errors="v$.personal_info.intn_tel.$errors" />
             </div>
@@ -419,7 +454,7 @@
           <div class="row mb-4 gx-5">
             <div class="col">
               <BaseSelect label="สถานภาพทางทหาร" :options="militaryStatusList.list"
-                v-model="personalInfo.intn_military_status" />
+                v-model="personalInfo.intn_military_status" reset />
             </div>
 
             <div class="col">
@@ -441,288 +476,287 @@
           </div>
 
           <div class="row mb-4">
-            <textarea id="" name="" class="form-control mb-2 col" rows="2"></textarea>
-          </div>
-        </div>
-
-        <div class="container">
-          <div class="row my-4">
-            <button type="button" class="col-md-2 btn outline-gray" @click="$router.push({ name: 'index' })">
-              ย้อนกลับ
-            </button>
-            <button type="" class="col-md-2 ms-auto btn outline-red me-4" @click="reset">
-              รีเซ็ต
-            </button>
-            <button type="button" class="col-md-2 align-self-end btn outline-red" @click="submitForm">
-              บันทึก
-            </button>
+            <textarea id="other" name="" class="form-control mb-2 col" rows="2"
+              v-model="personalInfo.intn_note"></textarea>
           </div>
         </div>
       </div>
     </SectionSpace>
+
+    <footer class="mt-3 footer shadow-top">
+      <div class="row mx-4 nopadding">
+        <button type="button" class="col-md-2 btn outline-gray" @click="$router.push({ name: 'index' })">
+          ย้อนกลับ
+        </button>
+        <button type="button" class="col-md-2 ms-auto btn outline-red me-4" @click="$router.go()">
+          รีเซ็ต
+        </button>
+        <button type="button" class="col-md-2 align-self-end btn outline-red" @click="submitForm">
+          บันทึก
+        </button>
+      </div>
+    </footer>
   </form>
 </template>
 
 <script setup>
-  import { ref, computed } from "vue";
-  import { onMounted, toRaw } from "vue";
-  import {
-    usePrefixData,
-    useStatusData,
-    useMilitaryStatus,
-    useGenderData,
-    useMartialStatus,
-    useInternType,
-    useBloodType,
-  } from "../../stores/constData";
-  import { useInternFormData, addInternFormRules } from "../../stores/addInternFormData";
-  import { getAge, confirmation, successAlert, errorAlert } from "../../assets/js/func";
-  import apiService from "../../services/api";
-  import useVuelidate from "@vuelidate/core"; // validate
-  import BaseInput from "../Component/BaseInput.vue";
-  import BaseSelect from "../Component/BaseSelect.vue";
-  import InvalidFeedback from "../Component/InvalidFeedback.vue";
-  import CameraLogo from "../icons/CameraLogo.vue";
-  import router from "@/router";
-  import SectionSpace from "../Component/SectionSpace.vue";
+import { ref } from "vue";
+import { onMounted, toRaw } from "vue";
+import {
+  usePrefixData,
+  useStatusData,
+  useMilitaryStatus,
+  useGenderData,
+  useMartialStatus,
+  useInternType,
+  useBloodType,
+  bankList,
+} from "../../stores/constData";
+import { useInternFormData, addInternFormRules } from "../../stores/addInternFormData";
+import { getAge, confirmation, successAlert, errorAlert } from "../../assets/js/func";
+import apiService from "../../services/api";
+import useVuelidate from "@vuelidate/core"; // validate
+import BaseInput from "../Component/BaseInput.vue";
+import BaseSelect from "../Component/BaseSelect.vue";
+import InvalidFeedback from "../Component/InvalidFeedback.vue";
+import CameraLogo from "../icons/CameraLogo.vue";
+import router from "@/router";
+import SectionSpace from "../Component/SectionSpace.vue";
+import DatePicker from "../Component/Datepicker.vue";
 
-  const formData = useInternFormData();
-  const personalInfo = ref(formData.personal_info);
-  const workInfo = ref(formData.work_info);
-  const collegeInfo = ref(formData.college_info);
-  const address = ref(formData.address);
-  const rules = toRaw(addInternFormRules);
+const formData = useInternFormData();
+const personalInfo = ref(formData.personal_info);
+const workInfo = ref(formData.work_info);
+const collegeInfo = ref(formData.college_info);
+const address = ref(formData.address);
+const rules = toRaw(addInternFormRules);
 
-  const apiCall = new apiService();
-  const roles = ref({});
-  const sections = ref({});
-  const companies = ref([]);
-  const mentors = ref();
-  const departments = ref();
-  const teams = ref();
-  const universities = ref({});
-  const faculties = ref();
-  const majors = ref();
-  const prefixList = ref(usePrefixData());
-  const statusList = ref(useStatusData());
-  const internTypeList = ref(useInternType());
-  const militaryStatusList = ref(useMilitaryStatus());
-  const genderList = ref(useGenderData());
-  const martialStatusList = ref(useMartialStatus());
-  const bloodTypeList = ref(useBloodType());
+const apiCall = new apiService();
+const roles = ref({});
+const sections = ref({});
+const companies = ref([]);
+const mentors = ref();
+const departments = ref();
+const teams = ref();
+const universities = ref({});
+const faculties = ref();
+const majors = ref();
+const prefixList = ref(usePrefixData());
+const statusList = ref(useStatusData());
+const internTypeList = ref(useInternType());
+const militaryStatusList = ref(useMilitaryStatus());
+const genderList = ref(useGenderData());
+const martialStatusList = ref(useMartialStatus());
+const bloodTypeList = ref(useBloodType());
 
-  const sectionsForm = ref(formData.sectionsForm);
-  const universitiesForm = ref(formData.universitiesForm);
+const sectionsForm = ref(formData.sectionsForm);
+const universitiesForm = ref(formData.universitiesForm);
 
-  const v$ = useVuelidate(rules, formData); // validate
+const v$ = useVuelidate(rules, formData); // validate
 
-  /*
-   * submitForm
-   * จัดการเมื่อมีการกดปุ่มบันทึก
-   * param: -
-   * return: -
-   */
-  async function submitForm() {
-    const validate = await v$.value.$validate(); /* validate แบบฟอร์ม */
+/*
+ * submitForm
+ * จัดการเมื่อมีการกดปุ่มบันทึก
+ * param: -
+ * return: -
+ */
+async function submitForm() {
+  const validate = await v$.value.$validate(); /* validate แบบฟอร์ม */
 
-    if (validate) {
-      const result = await confirmation();
-      if (result) {
-        workInfo.value.work_from_date = personalInfo.value.intn_start_date;
-        personalInfo.value.intn_code = new String("INT-").concat(
+  if (validate) {
+    const result = await confirmation();
+    if (result) {
+      await Promise.all([
+        (workInfo.value.work_from_date = personalInfo.value.intn_start_date),
+        (personalInfo.value.intn_code = new String("INT-").concat(
           personalInfo.value.intn_code
-        );
-        personalInfo.value.intn_intern_email.concat("@clicknext.com");
+        )),
+      ]);
 
-        /* สร้างข้อมูลนักศึกษาผ่าน API */
-        await apiCall
-          .createIntern({
-            personal_info: formData.personal_info,
-            address: formData.address,
-            work_info: formData.work_info,
-            college_info: formData.college_info,
-            intn_image: formData.intn_image,
-          })
-          .then((response) => {
-            successAlert().then(() => {
-              router.push({ name: "index" });
-              formData.$reset() /* ย้อนกลับหน้า index */
-            });
-          })
-          .catch((err) => {
-            errorAlert("เกิดข้อผิดพลาด: ข้อมูลซ้ำ");
+      if (personalInfo.value.intn_intern_email) {
+        personalInfo.value.intn_intern_email += "@clicknext.com";
+      } else {
+        personalInfo.value.intn_intern_email = null;
+      }
+
+      /* สร้างข้อมูลนักศึกษาผ่าน API */
+      await apiCall
+        .createIntern({
+          personal_info: formData.personal_info,
+          address: formData.address,
+          work_info: formData.work_info,
+          college_info: formData.college_info,
+          intn_image: formData.intn_image,
+        })
+        .then(() => {
+          successAlert().then(() => {
+            router.push({ name: "index" });
+            formData.$reset(); /* ย้อนกลับหน้า index */
           });
+        })
+        .catch((e) => {
+          errorAlert(e.response.data);
+        });
 
-        personalInfo.value.intn_code = personalInfo.value.intn_code.replace("INT-", "");
-      }
+      personalInfo.value.intn_code = personalInfo.value.intn_code.replace("INT-", "");
     }
   }
+}
 
-  /*
-   * reset
-   * รีเซ็ตค่าในแบบฟอร์ม
-   * param: -
-   * return: -
-   */
-  function reset() {
-    formData.reset()
+function formatTel() {
+  $("#tel").inputmask("999-999-9999");
+}
 
-    /* personalInfo.value = formData.personal_info;
-    workInfo.value = formData.work_info;
-    collegeInfo.value = formData.college_info;
-    address.value = formData.address; */
-  }
+/*
+ * setFaculty
+ * กำหนดข้อมูลคณะที่แสดงในตัวเลือก โดยให้แสดงเฉพาะคณะที่อยู่ในสถานศึกษาที่เลือก
+ * param: -
+ * return: -
+ */
+function setFaculty() {
+  collegeInfo.value.col_university_id = universitiesForm.value.university.uni_id;
+  faculties.value = universitiesForm.value.university.faculties;
+  universitiesForm.value.faculty = "";
 
-  /*
-   * setFaculty
-   * กำหนดข้อมูลคณะที่แสดงในตัวเลือก โดยให้แสดงเฉพาะคณะที่อยู่ในสถานศึกษาที่เลือก
-   * param: -
-   * return: -
-   */
-  function setFaculty() {
-    collegeInfo.value.col_university_id = universitiesForm.value.university.uni_id;
-    faculties.value = universitiesForm.value.university.faculties;
-    universitiesForm.value.faculty = "";
+  majors.value = "";
+  personalInfo.value.intn_major_id = "";
+  collegeInfo.value.col_faculty_id = "";
+}
 
-    majors.value = "";
-    personalInfo.value.intn_major_id = "";
-    collegeInfo.value.col_faculty_id = "";
-  }
+/*
+ * setMajor
+ * กำหนดข้อมูลสาขาวิชาที่แสดงในตัวเลือก โดยให้แสดงเฉพาะสาขาที่อยู่ในคณะที่เลือก
+ * param: -
+ * return: -
+ */
+function setMajor() {
+  collegeInfo.value.col_faculty_id = universitiesForm.value.faculty.fac_id;
+  majors.value = universitiesForm.value.faculty.majors;
+  personalInfo.value.intn_major_id = "";
+}
 
-  /*
-   * setMajor
-   * กำหนดข้อมูลสาขาวิชาที่แสดงในตัวเลือก โดยให้แสดงเฉพาะสาขาที่อยู่ในคณะที่เลือก
-   * param: -
-   * return: -
-   */
-  function setMajor() {
-    collegeInfo.value.col_faculty_id = universitiesForm.value.faculty.fac_id;
-    majors.value = universitiesForm.value.faculty.majors;
-    personalInfo.value.intn_major_id = "";
-  }
+/*
+ * setRelatedData
+ * กำหนดข้อมูลที่สัมพันธ์กันกับฝ่ายที่แสดงในตัวเลือก เช่น ทีม แผนก พี่เลี้ยง โดยให้แสดงเฉพาะข้อมูลที่อยู่ในฝ่ายที่เลือกเท่านั้น
+ * param: -
+ * return: -
+ */
+function setRelatedData() {
+  workInfo.value.work_section_id = sectionsForm.value.section.sec_id;
+  teams.value = sectionsForm.value.section.teams;
+  departments.value = sectionsForm.value.section.departments[0]
+    ? sectionsForm.value.section.departments
+    : "";
+  mentors.value = sectionsForm.value.section.mentors;
 
-  /*
-   * setRelatedData
-   * กำหนดข้อมูลที่สัมพันธ์กันกับฝ่ายที่แสดงในตัวเลือก เช่น ทีม แผนก พี่เลี้ยง โดยให้แสดงเฉพาะข้อมูลที่อยู่ในฝ่ายที่เลือกเท่านั้น
-   * param: -
-   * return: -
-   */
-  function setRelatedData() {
-    workInfo.value.work_section_id = sectionsForm.value.section.sec_id;
+  workInfo.value.work_team_id = null;
+  workInfo.value.work_department_id = null;
+  personalInfo.value.intn_mentor_id = null;
+}
+
+/*
+ * setFilledData
+ * จัดการกับความสัมพันธ์ของข้อมูลในตัวเลือกของ ฝ่าย และ มหาวิทยาลัย หากผู้ใช้มีการย้อนกลับไปที่หน้าจอ
+ * param: -
+ * return: -
+ */
+function setFilledData() {
+  if (sectionsForm.value.section) {
     teams.value = sectionsForm.value.section.teams;
-    departments.value = sectionsForm.value.section.departments[0]
-      ? sectionsForm.value.section.departments
-      : "";
+    departments.value = sectionsForm.value.section.departments;
     mentors.value = sectionsForm.value.section.mentors;
-
-    workInfo.value.work_team_id = null;
-    workInfo.value.work_department_id = null;
-    personalInfo.value.intn_mentor_id = null;
   }
 
-  /*
-   * setFilledData
-   * จัดการกับความสัมพันธ์ของข้อมูลในตัวเลือกของ ฝ่าย และ มหาวิทยาลัย หากผู้ใช้มีการย้อนกลับไปที่หน้าจอ
-   * param: -
-   * return: -
-   */
-  function setFilledData() {
-    if (sectionsForm.value.section) {
-      teams.value = sectionsForm.value.section.teams;
-      departments.value = sectionsForm.value.section.departments;
-      mentors.value = sectionsForm.value.section.mentors;
-    }
+  if (universitiesForm.value.university) {
+    faculties.value = universitiesForm.value.university.faculties;
 
-    if (universitiesForm.value.university) {
-      faculties.value = universitiesForm.value.university.faculties;
-
-      if (universitiesForm.value.faculty) {
-        majors.value = universitiesForm.value.faculty.majors;
-      }
+    if (universitiesForm.value.faculty) {
+      majors.value = universitiesForm.value.faculty.majors;
     }
   }
+}
 
-  /*
-   * changePrefix
-   * กำหนดคำนำหน้าของภาษาอังกฤษให้สัมพันธ์กับภาษาไทย (นาย -> Mr.)
-   * param: คำนำหน้าภาษาไทย
-   * return: -
-   */
-  function changePrefix(prefix) {
-    let splitted = prefix.split(",");
-    personalInfo.value.intn_prefix_th = splitted[0];
-    personalInfo.value.intn_prefix_en = splitted[1];
+/*
+ * changePrefix
+ * กำหนดคำนำหน้าของภาษาอังกฤษให้สัมพันธ์กับภาษาไทย (นาย -> Mr.)
+ * param: คำนำหน้าภาษาไทย
+ * return: -
+ */
+function changePrefix(prefix) {
+  let splitted = prefix.split(",");
+  personalInfo.value.intn_prefix_th = splitted[0];
+  personalInfo.value.intn_prefix_en = splitted[1];
+}
+
+/*
+ * showImg
+ * แสดงรูปภาพเมื่อมีการอัปโหลดไฟล์รูปแบบ
+ * param: -
+ * return: -
+ */
+function showImg() {
+  const imgUpload = document.getElementById("img-upload");
+
+  if (imgUpload.files[0] != undefined) {
+    formData.intn_image = imgUpload.files[0];
   }
 
-  /*
-   * showImg
-   * แสดงรูปภาพเมื่อมีการอัปโหลดไฟล์รูปแบบ
-   * param: -
-   * return: -
-   */
-  function showImg() {
-    const imgUpload = document.getElementById("img-upload");
-
-    if (imgUpload.files[0] != undefined) {
-      formData.intn_image = imgUpload.files[0];
-    }
-
-    if (formData.intn_image) {
-      blah.src = URL.createObjectURL(formData.intn_image);
-    }
+  if (formData.intn_image) {
+    blah.src = URL.createObjectURL(formData.intn_image);
   }
+}
 
-  onMounted(async () => {
-    await Promise.all([
-      (sections.value = await apiCall.getAllSectionWithRelated()),
-      (universities.value = await apiCall.getAllUniversityWithRelated()),
-      (roles.value = await apiCall.getAllRole()),
-      (companies.value = await apiCall.getAllCompany())
-    ]);
+onMounted(async () => {
+  Promise.all([
+    (sections.value = await apiCall.getAllSectionWithRelated()),
+    (universities.value = await apiCall.getAllUniversityWithRelated()),
+    (roles.value = await apiCall.getAllRole()),
+    (companies.value = await apiCall.getAllCompany()),
+  ]);
 
-    setFilledData();
-    showImg();
+  setFilledData();
+  showImg();
 
-    /* สำหรับตัว Autocomplete ที่อยู่ */
-    $.Thailand({
-      $district: $("#district"), // input ของตำบล
-      $amphoe: $("#amphoe"), // input ของอำเภอ
-      $province: $("#province"), // input ของจังหวัด
-      $zipcode: $("#zipcode"), // input ของรหัสไปรษณีย์
+  /* สำหรับตัว Autocomplete ที่อยู่ */
+  $.Thailand({
+    $district: $("#district"), // input ของตำบล
+    $amphoe: $("#amphoe"), // input ของอำเภอ
+    $province: $("#province"), // input ของจังหวัด
+    $zipcode: $("#zipcode"), // input ของรหัสไปรษณีย์
 
-      onDataFill: function (data) {
-        address.value.addr_subdistrict = data.district;
-        address.value.addr_district = data.amphoe;
-        address.value.addr_province = data.province;
-        address.value.addr_post_code = data.zipcode;
-      },
-    });
+    onDataFill: function (data) {
+      address.value.addr_subdistrict = data.district;
+      address.value.addr_district = data.amphoe;
+      address.value.addr_province = data.province;
+      address.value.addr_post_code = data.zipcode;
+    },
   });
+});
 </script>
 
 <style scoped>
-  .bg-grays-200 {
-    background-color: #8d969b30 !important;
-  }
+.bg-grays-200 {
+  background-color: #8d969b30 !important;
+}
 
-  .img {
-    height: 150px;
-    width: 150px;
-    border-radius: 50%;
-    border: 1px solid var(--main-color);
-  }
+.img {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 1px solid var(--main-color);
+}
 
-  .border-bottom {
-    border-color: var(--main-color) !important;
-    /* border-color: var(--main-color) !important; */
-    margin-bottom: 12px;
-  }
+.border-bottom {
+  border-color: var(--main-color) !important;
+  /* border-color: var(--main-color) !important; */
+  margin-bottom: 12px;
+}
 
-  .nm-color {
-    border-color: var(--bs-border-color) !important;
-  }
+.nm-color {
+  border-color: var(--bs-border-color) !important;
+}
 
-  /* input {
+/* input {
   border: 1px solid rgba(0, 0, 0, 0.575)
 }
 
@@ -730,20 +764,31 @@ select {
   border: 1px solid rgba(0, 0, 0, 0.575)
 } */
 
-  input:focus {
-    transition: 0s;
-    box-shadow: none;
-    border: 2px solid rgb(0, 119, 255);
-  }
+input:focus {
+  transition: 0s;
+  box-shadow: none;
+  outline: 2px solid rgb(0, 119, 255) !important;
+  border: 1px solid white !important;
+}
 
-  select:focus {
-    transition: 0s;
-    box-shadow: none;
-    border: 2px solid rgb(0, 119, 255);
-  }
+select:focus {
+  transition: 0s;
+  box-shadow: none;
+  outline: 2px solid rgb(0, 119, 255) !important;
+  border: 1px solid white !important;
+}
 
-  .is-invalid:focus {
-    transition: 0s;
-    box-shadow: none;
-  }
+.is-invalid:focus {
+  transition: 0s;
+  box-shadow: none;
+  border: 1px solid red !important;
+  outline: 1px solid rgb(255, 0, 0) !important;
+}
+
+textarea:focus {
+  transition: 0s;
+  box-shadow: none;
+  outline: 2px solid rgb(0, 119, 255) !important;
+  border: 1px solid white !important;
+}
 </style>

@@ -143,6 +143,23 @@ export function formatDate(strdate) {
     return [year, month, day].join('-');
 }
 
+export function changeTimestampToDate(value) {
+    if (value) {
+        const date = new Date(value)
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        if (day < 10) {
+            day = 0 + `${day}`
+        }
+        if (month < 10) {
+            month = 0 + `${month}`
+        }
+        return `${day}/${month}/${year + 543}`
+    }
+    return ''
+}
+
 export function diffDate(from, to) {
     let date1 = new Date(from);
     let date2 = new Date(to);
@@ -197,6 +214,17 @@ export function slashDtoDashY(strDate) {
 
     let result = `${splitted[2]-543}-${splitted[1]}-${splitted[0]}`
     return result
+}
+
+export function getCurrentThaiDate() {
+    const date = new Date();
+    const formatedDate = date.toLocaleDateString("th-TH", {
+        year: "numeric",
+        month: "long",
+        day: "2-digit",
+    });
+
+    return formatedDate
 }
 
 /* function convertToArrayBuffer(data) {
