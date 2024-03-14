@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { slashDtoDashY } from "../assets/js/func";
+import { getImageFromBuffer } from "../assets/js/func";
 
 export const useBloodType = defineStore('blood_type', {
     state: () => {
@@ -28,8 +28,8 @@ export const useStatusData = defineStore('status', {
     state: () => {
         return {
             list: [
-                { value: 1, text: "กำลังทำงาน" },
-                { value: 0, text: "พ้นสภาพ" }
+                'กำลังทำงาน',
+                'พ้นสภาพ'
             ]
         }
     }
@@ -89,33 +89,6 @@ export const useMartialStatus = defineStore('martialStatus', {
     }
 })
 
-export const bankList = [
-    'ธนาคารกรุงเทพ',
-    'ธนาคารกสิกรไทย',
-    'ธนาคารกรุงไทย',
-    'ธนาคารทหารไทย',
-    'ธนาคารไทยพาณิชย์',
-    'ธนาคารกรุงศรีอยุธยา',
-    'ธนาคารเกียรตินาคิน',
-    'ธนาคารซีไอเอ็มบีไทย',
-    'ธนาคารทิสโก้',
-    'ธนาคารธนชาต',
-    'ธนาคารยูโอบี',
-    'ธนาคารสแตนดาร์ดชาร์เตอร์ด (ไทย)',
-    'ธนาคารไทยเครดิตเพื่อรายย่อย',
-    'ธนาคารแลนด์ แอนด์ เฮาส์ ',
-    'ธนาคารไอซีบีซี (ไทย)',
-    'ธนาคารพัฒนาวิสาหกิจขนาดกลางและขนาดย่อมแห่งประเทศไทย',
-    'ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร',
-    'ธนาคารเพื่อการส่งออกและนำเข้าแห่งประเทศไทย',
-    'ธนาคารออมสิน',
-    'ธนาคารอาคารสงเคราะห์',
-    'ธนาคารอิสลามแห่งประเทศไทย',
-    'ธนาคารแห่งประเทศจีน',
-    'ธนาคารซูมิโตโม มิตซุย ทรัสต์ (ไทย)',
-    'ธนาคารฮ่องกงและเซี้ยงไฮ้แบงกิ้งคอร์ปอเรชั่น จำกัด',
-]
-
 export const useInternName = defineStore('internName', {
     state: () => {
         return {
@@ -124,9 +97,6 @@ export const useInternName = defineStore('internName', {
             intn_image_path: '',
             intn_id: '',
             intn_role: '',
-            intn_section: '',
-            intn_department: '',
-            intn_start_date: ''
         }
     },
 
@@ -137,35 +107,16 @@ export const useInternName = defineStore('internName', {
             this.intn_name = data.intn_name_th
             this.intn_id = data.intn_id
             this.intn_role = data.work_infos[0]?.work_role.role_name
-            this.intn_section = data.work_infos[0]?.work_section.sec_name
-            this.intn_department = data.work_infos[0]?.work_department?.dept_name
-            this.intn_start_date = data.intn_start_date
         }
     },
 
     getters: {
-        getId() {
-            return this.intn_id
-        },
-
         getName() {
             return this.intn_name
         },
 
         getRole() {
             return this.intn_role
-        },
-
-        getSection() {
-            return this.intn_section
-        },
-
-        getDepartment() {
-            return this.intn_department
-        },
-
-        getStartDate() {
-            return slashDtoDashY(this.intn_start_date)
         }
     }
 })

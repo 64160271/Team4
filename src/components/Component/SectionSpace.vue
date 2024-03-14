@@ -1,18 +1,13 @@
 <template>
-  <div class="card px-4 border position-relative" :class="{ sect: !noSpace }">
-    <div class="card-body">
-      <slot></slot>
+    <div class="card px-4 border">
+        <div class="card-body">
+            <slot></slot>
+        </div>
     </div>
-  </div>
 </template>
 
 <script setup>
-const props = defineProps({
-  noSpace: {
-    type: Boolean,
-    default: false,
-  },
-});
+
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped></style>

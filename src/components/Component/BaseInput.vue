@@ -7,7 +7,8 @@
 -->
 
 <template>
-  <label for="" class="form-label text-gray" v-if="label">{{ label }}
+  <label for="" class="form-label text-gray" v-if="label"
+    >{{ label }}
     <span class="text-danger" v-if="required">*</span>
   </label>
   <input :modelValue="modelValue" :type="input_type" class="form-control" :readonly="readonly" :required="required"
@@ -44,15 +45,13 @@ const props = defineProps({
 <style scoped>
 input:focus {
   transition: 0s;
-  box-shadow: none;
-  outline: 2px solid rgb(0, 119, 255) !important;
-  border: 1px solid white !important;
+  box-shadow: none !important;
+  border: 2px solid rgb(0, 119, 255) !important;
 }
 
 .is-invalid:focus {
   transition: 0s;
   box-shadow: none;
-  border: 1px solid red !important;
-  outline: 1px solid rgb(255, 0, 0) !important;
+  border: 2px solid red !important;
 }
 </style>

@@ -7,15 +7,7 @@
 -->
 
 <template>
-  <div
-    id="modal"
-    class="modal"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-hidden="true"
-    v-show="open"
-  >
+  <div id="modal" class="modal" tabindex="-1" aria-hidden="true" v-show="open">
     <div
       class="modal-dialog modal-dialog-centered"
       :class="{ 'modal-lg': size == 'lg' }, { 'modal-xl': size == 'xl' }"
