@@ -80,6 +80,7 @@
 
     <div class="row">
       <DataTable
+        v-if="loaded"
         hover-background
         striped
         :heads="tableHead"
@@ -111,6 +112,8 @@
           <span v-html="getStatus(data.intn_work_status)"></span>
         </template>
       </DataTable>
+
+      <Loading v-if="!loaded" />
     </div>
   </SectionSpace>
 </template>
@@ -142,6 +145,7 @@ const roles = ref([]);
 const roleId = ref();
 const status = ref(useStatusData());
 const statusVal = ref();
+const loaded = ref(false)
 let timer;
 const tableHead = ref([
   { key: "intn_key", title: "รหัสนักศึกษาฝึกงาน", align: "center", size: 2 },
@@ -175,6 +179,8 @@ async function setCurrentPage(pageNumber) {
  * return: -
 */
 const getAllIntern = async () => {
+  loaded.value = false
+
   const params = {
     page: page.value,
     limit: pageSize,
@@ -191,6 +197,7 @@ const getAllIntern = async () => {
       interns.value = response.data.rows;
       total.value = response.data.count;
       pageMax.value = Math.ceil(total.value / pageSize);
+      loaded.value = true
     });
 };
 

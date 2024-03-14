@@ -32,7 +32,9 @@
     </div>
 
     <div class="row">
+      <Loading v-if="!loaded" />
       <DataTable
+        v-if="loaded"
         striped
         hover-background
         :total="filterData.length"
@@ -290,6 +292,7 @@ import { helpers, required } from "@vuelidate/validators";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import DatePicker from "../Component/DatePicker.vue";
 
+const loaded = ref(false)
 const searchData = ref("");
 const router = useRouter();
 const internRole = ref();
@@ -356,9 +359,11 @@ const tableHead = ref([
 ]);
 
 onMounted(async () => {
+  loaded.value = false
   leavesInfo.value = await apiCall.getLeaveInfoByInternId(internId);
   internName.value = await useInternName().getName;
   internRole.value = await useInternName().getRole;
+  loaded.value = true
 });
 
 async function formSubmit() {

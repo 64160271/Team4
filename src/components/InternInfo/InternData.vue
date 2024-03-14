@@ -8,7 +8,10 @@
 <template>
         <LayoutMenu class="mb-3" :name="intern.intn_name_th" />
         
-        <div class="position-relative">
+        <Loading class="mt-5" v-if="!loaded" />
+
+        <div v-if="loaded">
+            <div class="position-relative">
             <a id="editButton" class="prio mt-3 me-4 btn btn-sm rounded-circle col-auto top-0 end-0 position-absolute"
                 @click="isEdit = !isEdit, editData()">
                 <svg class="" width="27" height="32" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,7 +27,7 @@
         
         <InternDetail v-if="!isEdit" :intern="intern" />
 
-        <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" />
+        <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" /></div>
 
 </template>
 
@@ -42,6 +45,7 @@ const route = useRoute()
 const id = route.params.id
 const isEdit = ref(false)
 const apiCall = new apiService()
+const loaded = ref(false)
 
 function cancelEdit() {
     isEdit.value = false
@@ -64,7 +68,9 @@ function editData() {
 }
 
 onMounted(async () => {
+    loaded.value = false
     intern.value = await apiCall.getInternById(id);
+    loaded.value = true
 })
 </script>
 

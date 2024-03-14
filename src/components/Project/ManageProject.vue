@@ -18,7 +18,9 @@
     </div>
 
     <div class="row">
+      <Loading v-if="!loaded" />
       <DataTable
+        v-if="loaded"
         striped
         :total="total"
         :heads="tableHead"
@@ -38,7 +40,7 @@
         </template>
 
         <template #proj_detail="{ data }">
-          <EyeIcon @click="linkToMember(data.proj_id)" width="26" class="cursor-p hov-outline-red" />
+          <EyeIcon @click="linkToMember(data.proj_id)" width="26" class="cursor-p hov-fill-red" />
         </template>
       </DataTable>
     </div>
@@ -129,6 +131,7 @@ import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import DatePicker from "../Component/DatePicker.vue"
 
+const loaded = ref(false)
 const projects = ref([]);
 const searchData = ref("");
 const openModal = ref(false);
@@ -194,6 +197,8 @@ async function setCurrentPage(pageNumber) {
  * return: -
  */
 const fetchProject = async () => {
+  loaded.value = false
+
   const params = {
     page: page.value,
     limit: pageSize,
@@ -204,6 +209,8 @@ const fetchProject = async () => {
   projects.value = response.rows;
   total.value = response.count;
   pageMax.value = Math.ceil(total.value / pageSize);
+
+  loaded.value = true
 }
 
 function search() {

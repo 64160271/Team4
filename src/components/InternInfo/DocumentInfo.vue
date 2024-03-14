@@ -29,7 +29,9 @@
     </div>
 
     <div class="row">
+      <Loading v-if="!loaded" />
       <DataTable
+        v-if="loaded"
         striped
         :total="filterData.length"
         :heads="tableHead"
@@ -176,6 +178,7 @@ import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { useInternName } from "../../stores/constData";
 
+const loaded = ref(false)
 const router = useRouter();
 const internId = useRoute().params.id;
 const documents = ref([]);
@@ -207,6 +210,7 @@ const rules = {
 const v$ = useVuelidate(rules, formData.value);
 
 onMounted(async () => {
+  loaded.value = false
   documents.value = await apiCall.getDocumentByInternId(internId);
   dept.value = useInternName().getDepartment;
   section.value = useInternName().getSection;
@@ -214,6 +218,7 @@ onMounted(async () => {
     const instance = getCurrentInstance();
     instance?.proxy?.$forceUpdate();
   }
+  loaded.value = true
   /* modal.value = new bootstrap.Modal("#modal", {}); */
 });
 

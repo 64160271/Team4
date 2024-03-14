@@ -45,7 +45,9 @@
     </div>
 
     <div class="row">
+      <Loading v-if="!loaded" />
       <DataTable
+        v-if="loaded"
         :total="filterData.length"
         striped
         hover-background
@@ -73,6 +75,7 @@ import SideLabelInput from "../Component/SideLabelInput.vue";
 import { slashDtoDashY } from "../../assets/js/func";
 import DatePicker from "../Component/DatePicker.vue";
 
+const loaded = ref(false)
 const internId = useRoute().params.id;
 const salaries = ref([]);
 const apiCall = new apiService();
@@ -98,7 +101,9 @@ const lastSalary = computed(() => {
 });
 
 onMounted(async () => {
+  loaded.value = false
   salaries.value = await apiCall.getSalaryByInternId(internId);
+  loaded.value = true
 });
 
 function calculateTotal(data) {
