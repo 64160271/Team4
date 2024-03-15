@@ -1,11 +1,10 @@
-import SectionSpace from '../Component/SectionSpace.vue';
 <template>
   <LayoutMenuName page-name="จัดการมหาวิทยาลัย" />
 
   <SectionSpace>
     <div class="row mb-4 nopadding">
-      <div class="col-md-3 my-auto">
-        <SearchBox v-model="searchData" class="my-auto" />
+      <div class="col-md-3 my-auto nopadding">
+        <SearchBox v-model="searchData" class="my-auto" placeholder="ชื่อมหาวิทยาลัย" />
       </div>
 
       <BaseButton label="เพิ่มมหาวิทยาลัย" class="col-md-2 ms-auto" @click="add()">
@@ -55,7 +54,8 @@ import SectionSpace from '../Component/SectionSpace.vue';
       </div>
     </BaseModal>
 
-    <div class="row" v-if="filterData.length == 0">
+    <Loading v-if="!loaded" />
+    <div class="row ms-auto" v-if="loaded && filterData.length < 1">
       <NotFound />
     </div>
 
@@ -158,6 +158,7 @@ import { errorAlert, confirmation, successAlert } from "../../assets/js/func";
 import apiService from "../../services/api";
 
 let uni_id = 0;
+const loaded = ref(false)
 const api = new apiService();
 const searchData = ref("");
 const router = useRouter();
@@ -185,11 +186,14 @@ const filterData = computed(() => {
 
 /* ฟังก์ชันสำหรับ เรียก api ข้อมูลมหาวิทยาลัย */
 const getAllUniversity = async () => {
+  loaded.value = false
   await axios
     .get(`${import.meta.env.VITE_API_HOST}/universities/related`)
     .then((response) => {
       universities.value = response.data;
     });
+
+  loaded.value = true
 };
 
 /* ฟังก์ชันเมื่อคลิกปุ่ม แก้ไขข้อมูล */
