@@ -152,7 +152,7 @@ import SectionSpace from '../Component/SectionSpace.vue';
     </div>
   </SectionSpace>
     <BaseModal :title="uniName" v-if="modalOpen" @close="modalOpen = false" @save="submitForm">
-        <div class="row g-3 align-items-center mx-4 mb-2">
+        <div class="row g-3 align-items-center mx-1 mb-2">
             <div class="col-2">
                 <label for="facultyName" class="col-form-label">คณะ</label>
             </div>
@@ -160,14 +160,14 @@ import SectionSpace from '../Component/SectionSpace.vue';
                 <input type="text" id="facName" class="form-control">
             </div>
         </div>
-        <div v-for="i in countRow" class="row g-3 align-items-center mx-4 mb-2">
+        <div v-for="i in countRow" class="row g-3 align-items-center mx-1 mb-2 my-1">
             <div class="col-2">
                 <label for="majorName" class="col-form-label">สาขา</label>
             </div>
             <div class="col-9">
                 <input type="text" id="majorName" class="form-control">                          
             </div>
-            <button type="button" class="col-md-1 btn btn-outline-secondary rounded-circle" @click="$event.target.parentElement.remove()">-</button>
+            <button type="button" class="col-1 btn btn-outline-secondary mx-auto rounded-circle" @click="$event.target.parentElement.remove()">-</button>
         </div>       
         <div class="row">
             <button type="button" class="col-1 btn btn-outline-secondary mx-auto rounded-circle" @click="countRow++">+</button>
@@ -376,5 +376,9 @@ onMounted(() => {
   width: 150px;
   border-radius: 50%;
   border: 1px solid var(--main-color);
+}
+
+.rounded-circle {
+    border-radius: 50%;
 }
 </style>
