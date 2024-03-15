@@ -15,6 +15,9 @@
     </div>
 
     <div class="row mb-2">
+      <Loading v-if="!loaded" />
+      <NotFound v-if="loaded && filterData < 1" />
+
       <BaseCard
         v-for="signature in filterData"
         title=" "
@@ -198,7 +201,9 @@ import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import { errorAlert } from "../../assets/js/func";
+import NotFound from "../Component/NotFound.vue"
 
+const loaded = ref(false)
 const router = useRouter();
 const openModal = ref(false);
 const initialState = {
@@ -305,8 +310,10 @@ function showImg() {
   }
 }
 onMounted(async () => {
+  loaded.value = false
   signatures.value = await apiCall.getAllSignatureWithCompany();
   companies.value = await apiCall.getAllCompany();
+  loaded.value = true
 });
 </script>
 
