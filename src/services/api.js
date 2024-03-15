@@ -44,6 +44,13 @@ export default class apiService {
             })
     }
 
+    getAllMentor = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/mentors`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
     getMentorBySectionId = async (id) => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/mentors/section/${id}`)
             .then((response) => {
@@ -109,13 +116,6 @@ export default class apiService {
 
     getAllUniversityWithRelated = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/universities/related`)
-            .then((response) => {
-                return response.data
-            })
-    }
-
-    getAllCompany = async () => {
-        return await axios.get(`${import.meta.env.VITE_API_HOST}/companies`)
             .then((response) => {
                 return response.data
             })
@@ -218,7 +218,14 @@ export default class apiService {
                 return response.data
             })
     }
-    
+
+    getAllSignatureWithCompany = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/signatures/company`)
+        .then((response) => {
+            return response.data
+        })
+    }
+
     createWorkInfo = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/workinfo`, data)
             .then((response) => {
@@ -247,13 +254,62 @@ export default class apiService {
     }
     getAllSignature = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/signatures`)
+        .then((response) => {
+            return response.data
+        })
+    }
+
+    createAddress = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/addresses`, data)
             .then((response) => {
                 return response.data
             })
     }
 
-    getAllSignatureWithCompany = async () => {
-        return await axios.get(`${import.meta.env.VITE_API_HOST}/signatures/company`)
+    getAllProject = async (params = {}) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/projects`, { params })
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getProejctInfoByInternId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/projects/interns/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+    
+    getInternByProjectId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/interns/projects/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    createProject = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/projects`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    editProject = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/projects/${id}`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    createInternProject = async (data, id) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/projects/interns/${id}`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    editInternProject = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/projects/interns/${id}`, data)
             .then((response) => {
                 return response.data
             })
