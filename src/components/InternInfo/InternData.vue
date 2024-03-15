@@ -6,10 +6,9 @@
 -->
 
 <template>
-
         <LayoutMenu class="mb-3" :name="intern.intn_name_th" />
-
-        <div class="row position-relative">
+        
+        <div class="position-relative">
             <a id="editButton" class="prio mt-3 me-4 btn btn-sm rounded-circle col-auto top-0 end-0 position-absolute"
                 @click="isEdit = !isEdit, editData()">
                 <svg class="" width="27" height="32" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,12 +21,10 @@
                 </svg>
             </a>
         </div>
+        
+        <InternDetail v-if="!isEdit" :intern="intern" />
 
-        <SectionSpace>
-            <InternDetail v-if="!isEdit" :intern="intern" class="mt-3" />
-
-            <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" />
-        </SectionSpace>
+        <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" />
 
 </template>
 
@@ -79,6 +76,6 @@ hr {
 }
 
 .prio {
-    z-index: 100;
+    z-index: 5;
 }
 </style>
