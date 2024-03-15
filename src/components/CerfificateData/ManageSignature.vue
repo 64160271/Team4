@@ -3,8 +3,8 @@
 
   <SectionSpace>
     <div class="row mb-4 nopadding">
-      <div class="col-md-4 my-auto">
-        <SearchBox v-model="searchData" />
+      <div class="col-md-4 my-auto nopadding">
+        <SearchBox v-model="searchData" placeholder="ชื่อ หรือตำแหน่งเจ้าของลายเซ็น" />
       </div>
 
       <BaseButton

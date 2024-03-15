@@ -9,7 +9,7 @@
   <SectionSpace>
     <div class="header">
       <div class="bx_nav row nopadding">
-        <div class="col-md-4 my-auto">
+        <div class="col-md-4 my-auto nopadding">
           <SearchBox placeholder="ชื่อบริษัท สาขา" v-model="searchData" />
         </div>
 
