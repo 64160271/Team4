@@ -83,6 +83,9 @@
     </div>
 
     <div class="content_card row mb-2">
+      <Loading v-if="!loaded" />
+      <NotFound v-if="loaded && filterData.length < 1" />
+
       <BaseCard hover v-for="Company in filterData" class="outline-card mt-4" :title="Company.com_name"
         :sub="Company.com_address.addr_province">
         <template #after-title>
@@ -189,9 +192,10 @@ import useVuelidate from "@vuelidate/core";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import { errorAlert } from "../../assets/js/func";
 import { useRouter } from "vue-router";
-
 import { required, helpers, maxLength } from "@vuelidate/validators";
+import NotFound from "../Component/NotFound.vue";
 
+const loaded = ref(false)
 const searchData = ref("");
 const router = useRouter();
 const apiCall = new apiService();
@@ -215,7 +219,7 @@ const filterData = computed(() => {
   return companies.value.filter((company) => {
     return (
       company.com_name.indexOf(searchData.value.trim()) > -1 ||
-      company.com_role.indexOf(searchData.value.trim()) > -1
+      company.com_address.addr_province.indexOf(searchData.value.trim()) > -1
     );
   });
 });
@@ -344,7 +348,9 @@ const openEditModel2 = (company) => {
 };
 
 onMounted(async () => {
+    loaded.value = false
   companies.value = await apiCall.getCompanyWithAddress();
+  loaded.value = true
 
   $.Thailand({
     $district: $("#district"), // input ของตำบล

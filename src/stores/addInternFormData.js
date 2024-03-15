@@ -3,21 +3,9 @@ import { required, minValue, email, integer, helpers } from "@vuelidate/validato
 import { getAge, formatDate } from "../assets/js/func";
 import { slashDtoDashY } from "../assets/js/func";
 
-const thaiFeedback = 'ข้อมูลต้องเป็นภาษาไทยเท่านั้น'
-const numberFeedback = 'ข้อมูลต้องเป็นตัวเลขเท่านั้น'
-const engFeedback = 'ข้อมูลต้องเป็นภาษาอังกฤษเท่านั้น'
-const emailFeedback = 'ข้อมูลต้องอยู่ในรูปแบบอีเมล'
-const ageFeedback = 'อายุขั้นต่ำ 18 ปี'
-
-const requiredThai = helpers.regex(/^[ก-์]+$/)
-const requiredEng = helpers.regex(/^[a-zA-Z]*$/)
-
-const startWithZero = (value) => value[0] == '0'
-const checkAge = (value) => {
-    if (value) {
-        return (getAge(value) > 18)
-    }
-    return true
+const workStat = {
+    'พ้นสภาพ': 0,
+    'กำลังทำงาน': 1,
 }
 
 export const useInternFormData = defineStore("internFormData", {
