@@ -16,13 +16,12 @@
 
   <SectionSpace noSpace>
     <div class="row mb-3">
-      <SideLabelInput
-        v-model="searchData"
-        no-padding
-        input-size="3"
-        label="วันที่ลา"
-        type="date"
-      />
+      <div class="col-auto my-auto nopadding">
+        <label for="" class="col-form-label text-gray">วันที่ลา </label>
+      </div>
+      <div class="col-md-3 my-auto">
+        <DatePicker placeholder="DD/MM/YYYY" pid="search" v-model="searchData" readonly />
+      </div>
 
       <BaseButton
         label="+ เพิ่มข้อมูลการลา"
@@ -134,14 +133,15 @@
     <div v-if="lvs_time == 'hr'">
       <div class="row mb-3">
         <div class="col-md-4">
-          <BaseInput
+          <DatePicker
+            pid="d1"
+            placeholder="DD/MM/YYYY"
             required
             v-model="formData.lvs_from_date"
-            type="date"
             label="วันที่ลา"
             :class="{ 'is-invalid': v$.lvs_from_date.$error }"
-          />
-          <InvalidFeedback :errors="v$.lvs_from_date.$errors" />
+            ><InvalidFeedback :errors="v$.lvs_from_date.$errors"
+          /></DatePicker>
         </div>
         <div class="col-auto mt-auto">
           <Radio
@@ -180,25 +180,27 @@
     <div v-if="lvs_time == 'day'">
       <div class="row mb-3">
         <div class="col-md-5">
-          <BaseInput
+          <DatePicker
+            placeholder="DD/MM/YYYY"
+            pid="d2"
             required
             v-model="formData.lvs_from_date"
-            type="date"
             label="วันเริ่มต้น"
             :class="{ 'is-invalid': v$.lvs_from_date.$error }"
-          />
-          <InvalidFeedback :errors="v$.lvs_from_date.$errors" />
+            ><InvalidFeedback :errors="v$.lvs_from_date.$errors"
+          /></DatePicker>
         </div>
         <div class="col-md-5">
-          <BaseInput
+          <DatePicker
+            placeholder="DD/MM/YYYY"
+            pid="d3"
             required
             v-model="formData.lvs_to_date"
             :min="formData.lvs_from_date"
-            type="date"
             label="วันสิ้นสุด"
             :class="{ 'is-invalid': v$.lvs_to_date.$error }"
-          />
-          <InvalidFeedback :errors="v$.lvs_to_date.$errors" />
+            ><InvalidFeedback :errors="v$.lvs_to_date.$errors"
+          /></DatePicker>
         </div>
         <div class="col-md-2">
           <BaseInput
@@ -278,11 +280,11 @@ import Radio from "../Component/Radio.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
 import { useLeavesType } from "../../stores/constData";
 import { useInternName } from "../../stores/constData";
-import { diffDate, slashDtoDashY } from "../../assets/js/func";
-import SideLabelInput from "../Component/SideLabelInput.vue";
+import { diffDate, slashDtoDashY, getCurrentThaiDate } from "../../assets/js/func";
 import useVuelidate from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
+import DatePicker from "../Component/DatePicker.vue";
 
 const searchData = ref("");
 const router = useRouter();
@@ -292,7 +294,7 @@ const leavesType = ref(useLeavesType);
 const internId = useRoute().params.id;
 const leavesInfo = ref([]);
 const apiCall = new apiService();
-const today = ref(new Date());
+const today = ref(getCurrentThaiDate());
 const openModal = ref(false);
 const lvs_time = ref("hr");
 const formData = ref({
@@ -307,9 +309,15 @@ const formData = ref({
 
 const dateAfterStart = (v) => {
   if (v) {
-    console.log(v);
     let date = useInternName().getStartDate;
-    console.log(date);
+    return v > date;
+  }
+  return true;
+};
+
+const dateBeforeStart = (v) => {
+  if (v) {
+    let date = formData.value.lvs_from_date;
     return v > date;
   }
   return true;
@@ -325,6 +333,10 @@ const rules = {
   lvs_to_date: {
     required,
     dateAfterStart: helpers.withMessage(afterStartFeedback, dateAfterStart),
+    dateBeforeStart: helpers.withMessage(
+      "ไม่สามารถเลือกก่อนวันที่ลาได้",
+      dateBeforeStart
+    ),
   },
 };
 const v$ = useVuelidate(rules, formData.value);
@@ -388,4 +400,11 @@ const filterData = computed(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+textarea:focus {
+  transition: 0s;
+  box-shadow: none;
+  outline: 2px solid rgb(0, 119, 255) !important;
+  border: 1px solid white !important;
+}
+</style>

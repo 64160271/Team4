@@ -12,17 +12,16 @@
         label="วันที่ลา"
         type="date"
       />
-
-      <BaseButton
-        label="+ เพิ่มข้อมูลการลา"
-        @click="openModal = true"
-        class="col-md-2 ms-auto"
-      >
-      </BaseButton>
     </div>
 
     <div class="row">
-      <DataTable hover-background striped :heads="tableHead" :items="workInfo">
+      <DataTable hover-background striped :heads="tableHead" :items="projects">
+          <template #pint_created_at_custom="{ data }">
+            {{ changeTimestampToDate(data.pint_created_at) }}
+          </template>
+          <template #pint_status_custom="{ data }">
+            <span v-html="getStatus(data.pint_project.proj_status)"></span>
+          </template>
       </DataTable>
     </div>
   </SectionSpace>
@@ -36,22 +35,24 @@ import apiService from "../../services/api";
 import BaseButton from "../Component/BaseButton.vue";
 import CardInternInfo from "./CardInternInfo.vue";
 import DataTable from "../Component/DataTable.vue";
+import { changeTimestampToDate } from "../../assets/js/func";
 
 const internId = useRoute().params.id;
-const apiCall = new apiService();
-const workInfo = ref([]);
-const mentor = ref();
+const service = new apiService();
+const projects = ref([]);
 const tableHead = ref([
-  { key: "lvs_id", title: "เลขที่ใบลา", align: "center" },
-  { key: "lvs_from_date", title: "วันที่ลา", align: "center" },
-  { key: "lvs_to_date", title: "ถึงวันที่", align: "center" },
-  { key: "lvs_type_name", title: "ประเภทการลา" },
-  { key: "lvs_duration_fake", title: "ระยะเวลา" },
-  { key: "lvs_updated_by_user.user_name", title: "ผู้ทำการแก้ไข" },
-  { key: "open_file", title: "หลักฐาน", align: "center" },
+  { key: "pint_created_at_custom", title: "วันที่เพิ่มข้อมูล", align: "center" },
+  { key: "pint_project.proj_name", title: "ชื่อโปรเจกต์", align: "left" },
+  { key: "pint_project.proj_start_date", title: "วันที่เริ่ม", align: "center" },
+  { key: "pint_project.proj_end_date", title: "วันที่สิ้นสุด", align: "center" },
+  {
+    key: "pint_project.proj_mentor.ment_name",
+    title: "พี่เลี้ยงโปรเจกต์",
+  },
+  { key: "pint_status_custom", title: "สถานะ", align: "center" },
 ]);
 
-const sectionName = computed(() => {
+/* const sectionName = computed(() => {
   return workInfo.value[0]?.work_sec?.sec_name || "-";
 });
 
@@ -61,13 +62,19 @@ const departmentName = computed(() => {
 
 const roleName = computed(() => {
   return workInfo.value[0]?.work_role?.role_name || "-";
-});
+}); */
 
 onMounted(async () => {
-  /* workInfo.value = await apiCall.getWorkInfoByInternId(internId);
-  mentor.value = await apiCall.getMentorByInternId(internId);
-  console.log(workInfo.value); */
+  projects.value = await service.getProejctInfoByInternId(internId);
 });
+
+function getStatus(status) {
+  if (status == 1) {
+    return '<span class="text-danger fw-bold">ดำเนินการ</span>';
+  } else if (status == 0) {
+    return '<span style="color: #339900;" class="text-finish fw-bold">เสร็จสิ้น</span>';
+  }
+}
 </script>
 
 <style scoped></style>

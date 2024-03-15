@@ -198,10 +198,26 @@
     margin: 0 !important;
 }
 
+.footer {
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    padding-top: 1em !important;
+    padding-bottom: 1em !important;
+    margin-left: -48px !important;
+    margin-right: -48px !important;
+    overflow: hidden;
+    
+    z-index: 99;
+}
+
 .hov-outline-red:hover path {
     stroke: var(--main-color) !important;
 }
 
 .custom-icon path {
     fill: var(--main-color) !important;
+}
+.shadow-top {
+    box-shadow: 0px -2px 6px #dfdfdf;
 }

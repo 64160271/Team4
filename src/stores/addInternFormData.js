@@ -3,46 +3,55 @@ import { required, minValue, email, integer, helpers } from "@vuelidate/validato
 import { getAge, formatDate } from "../assets/js/func";
 import { slashDtoDashY } from "../assets/js/func";
 
+const workStat = {
+    'พ้นสภาพ': 0,
+    'กำลังทำงาน': 1,
+}
+
 export const useInternFormData = defineStore("internFormData", {
     state: () => {
         return {
             intn_image: '',
             personal_info: {
                 intn_code: '',
-                intn_intern_email: '',
+                intn_intern_email: null,
                 intn_status: '',
                 intn_prefix_th: '',
                 intn_prefix_en: '',
                 intn_fname_th: '',
-                intn_fname_en: '',
+                intn_fname_en: null,
                 intn_lname_th: '',
-                intn_lname_en: '',
+                intn_lname_en: null,
                 intn_nickname_th: '',
-                intn_nickname_en: '',
-                intn_citizen_id: '',
-                intn_birth_date: '',
+                intn_nickname_en: null,
+                intn_citizen_id: null,
+                intn_birth_date: null,
                 intn_gender: '',
-                intn_blood_type: '',
+                intn_blood_type: null,
                 intn_weight: Number(0),
                 intn_height: Number(0),
-                intn_nationality: '',
-                intn_nation: '',
-                intn_religion: '',
-                intn_martial_status: '',
+                intn_nationality: null,
+                intn_nation: null,
+                intn_religion: null,
+                intn_martial_status: null,
                 intn_age: Number(0),
-                intn_military_status: '',
-                intn_reason: '',
+                intn_military_status: null,
+                intn_reason: null,
                 intn_tel: '',
                 intn_email: '',
                 intn_intern_type: 'นักศึกษาฝึกงาน',
-                intn_contract_number: '',
+                intn_contract_num: null,
                 intn_start_date: '',
-                intn_end_date: '',
-                intn_last_work_date: '',
+                intn_end_date: null,
+                intn_last_work_date: null,
+                intn_bank_name: null,
+                intn_bank_account: null,
                 intn_contract_end_date: '',
                 intn_mentor_id: '',
                 intn_major_id: '',
                 intn_updated_by: 1,
+                intn_note: null,
+                intn_company_id: '',
             },
 
             college_info: {
@@ -58,14 +67,14 @@ export const useInternFormData = defineStore("internFormData", {
             },
 
             address: {
-                addr_house_number: '',
-                addr_village_number: '',
-                addr_alley: '',
-                addr_street: '',
-                addr_subdistrict: '',
-                addr_district: '',
-                addr_province: '',
-                addr_post_code: '',
+                addr_house_number: null,
+                addr_village_number: null,
+                addr_alley: null,
+                addr_street: null,
+                addr_subdistrict: null,
+                addr_district: null,
+                addr_province: null,
+                addr_post_code: null,
             },
 
             sectionsForm: {
@@ -81,8 +90,8 @@ export const useInternFormData = defineStore("internFormData", {
     actions: {
         setData(intern) {
             this.personal_info.intn_code = intern.intn_code.split('-')[1]
-            this.personal_info.intn_intern_email = intern.intn_intern_email || ''
-            this.personal_info.intn_work_status = intern.intn_work_status
+            this.personal_info.intn_intern_email = intern.intn_intern_email?.split('@')[0] || ''
+            this.personal_info.intn_work_status = workStat[intern.intn_work_status]
             this.personal_info.intn_prefix_th = intern.intn_prefix_th
             this.personal_info.intn_prefix_en = intern.intn_prefix_en
             this.personal_info.intn_fname_th = intern.intn_fname_th
@@ -106,7 +115,7 @@ export const useInternFormData = defineStore("internFormData", {
             this.personal_info.intn_military_status = intern.intn_military_status
             this.personal_info.intn_reason = intern.intn_reason
             this.address.addr_house_number = intern.intn_address?.addr_house_number
-            this.address.addr_village_number = intern.intn_address?.addr_village_number
+            this.address.addr_village_num = intern.intn_address?.addr_village_number
             this.address.addr_alley = intern.intn_address?.addr_alley
             this.address.addr_street = intern.intn_address?.addr_street
             this.address.addr_subdistrict = intern.intn_address?.addr_subdistrict
@@ -127,6 +136,10 @@ export const useInternFormData = defineStore("internFormData", {
             this.work_info.work_section_id = intern.work_infos[0]?.work_section.sec_id
             this.work_info.work_department_id = intern.work_infos[0]?.work_department?.dept_id
             this.work_info.work_team_id = intern.work_infos[0]?.work_team?.team_id
+            this.personal_info.intn_bank_account = intern.intn_bank_account,
+            this.personal_info.intn_bank_name = intern.intn_bank_name
+            this.personal_info.intn_note = intern.intn_note
+            this.personal_info.intn_company_id = intern.intn_company_id
         },
 
         reset() {
@@ -138,6 +151,14 @@ export const useInternFormData = defineStore("internFormData", {
         getStartDate() {
             return this.personal_info.intn_start_date
         },
+
+        getBankAccount() {
+            return this.personal_info.intn_bank_account
+        },
+
+        getBankName() {
+            return this.personal_info.intn_bank_name
+        }
     }
 });
 
@@ -150,15 +171,29 @@ const ageFeedback = 'อายุขั้นต่ำ 18 ปี'
 const citizenFeedback = ['ข้อมูลควรเป็นตัวเลขหรือตัวอักษรเท่านั้น', 'ข้อมูลควรมีความยาว 7-9 หรือ 13 ตัวอักษร']
 const afterStartFeedback = 'ไม่สามารถเลือกก่อนวันเริ่มต้นฝึกงานได้'
 
+const hasBankAccount = (v) => {
+    if (!v && useInternFormData().getBankAccount) {
+        return false
+    }
+
+    return true
+}
+const hasBankName = (v) => {
+    if (!v && useInternFormData().getBankName) {
+        return false
+    }
+
+    return true
+}
 const dateAfterStart = (v) => {
     if (v) {
         let date = useInternFormData().getStartDate
-        console.log(date)
         return (v > date)
     }
     return true
 }
 const citizenLength = (v) => v ? (v.length == 13 || v.length == 7 || v.length == 8 || v.length == 9) : true
+const numberAndDash = helpers.regex(/^[0-9-]*$/)
 const engAndNumber = helpers.regex(/^[a-zA-Z0-9]*$/) 
 const requiredThai = helpers.regex(/^[ก-์]+$/)
 const requiredEng = helpers.regex(/^[a-zA-Z]*$/)
@@ -228,8 +263,16 @@ export const addInternFormRules =  {
             required,
             dateAfterStart: helpers.withMessage(afterStartFeedback, dateAfterStart)
         },
+        intn_bank_account: {
+            numberAndDash: helpers.withMessage('ข้อมูลต้องประกอบด้วยตัวเลขหรือ - เท่านั้น', numberAndDash),
+            hasBankName: helpers.withMessage('กรุณากรอกหมายเลขบัญชี', hasBankName),
+        },
+        intn_bank_name: {
+            hasBankAccount: helpers.withMessage('กรุณาเลือกธนาคาร', hasBankAccount)
+        },
         intn_intern_type: { required },
         intn_major_id: { required },
+        intn_company_id: { required }
     },
     college_info: {
         col_university_id: { required },

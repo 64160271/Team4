@@ -36,6 +36,9 @@
         :items="filterData"
         hover-background
       >
+        <template #doc_created_at_c="{ data }">
+          {{ changeTimestampToDate(data.doc_created_at) }}
+        </template>
         <template #open_file="{ data }">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -161,7 +164,12 @@ import CardInternInfo from "./CardInternInfo.vue";
 import BaseButton from "../Component/BaseButton.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseModal from "../Component/BaseModal.vue";
-import { confirmation, successAlert } from "../../assets/js/func";
+import {
+  confirmation,
+  successAlert,
+  getCurrentThaiDate,
+  changeTimestampToDate,
+} from "../../assets/js/func";
 import SearchBox from "../Component/SearchBox.vue";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import useVuelidate from "@vuelidate/core";
@@ -174,13 +182,13 @@ const documents = ref([]);
 const searchData = ref("");
 const apiCall = new apiService();
 const openModal = ref(false);
-const today = ref(new Date());
+const today = ref(getCurrentThaiDate());
 const section = ref("");
 const dept = ref("");
 const tableHead = ref([
   { key: "doc_title", title: "ชื่อเอกสาร" },
   { key: "doc_mimetype", title: "ประเภทไฟล์" },
-  { key: "doc_created_at", title: "วันที่อัปโหลดไฟล์", align: "center" },
+  { key: "doc_created_at_c", title: "วันที่อัปโหลดไฟล์", align: "center" },
   /* { key: "lvs_day", title: "ผู้ทำการแก้ไข" }, */
   { key: "open_file", title: "เปิดไฟล์", align: "center" },
   { key: "delete_file", title: "ลบไฟล์", align: "center" },
