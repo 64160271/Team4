@@ -29,7 +29,9 @@
     </div>
 
     <div class="row">
+      <Loading v-if="!loaded" />
       <DataTable
+        v-if="loaded"
         striped
         :total="filterData.length"
         :heads="tableHead"
@@ -94,7 +96,7 @@
 
     <div class="row mb-3">
       <div class="col-auto my-auto">
-        <label>ไฟล์เอกสาร</label>
+        <label>เอกสารแนบ</label>
       </div>
 
       <BaseButton
@@ -156,7 +158,7 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref, computed, getCurrentInstance } from "vue";
 import DataTable from "../Component/DataTable.vue";
@@ -176,11 +178,12 @@ import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { useInternName } from "../../stores/constData";
 
+const loaded = ref(false)
 const router = useRouter();
 const internId = useRoute().params.id;
 const documents = ref([]);
 const searchData = ref("");
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const openModal = ref(false);
 const today = ref(getCurrentThaiDate());
 const section = ref("");
@@ -207,6 +210,7 @@ const rules = {
 const v$ = useVuelidate(rules, formData.value);
 
 onMounted(async () => {
+  loaded.value = false
   documents.value = await apiCall.getDocumentByInternId(internId);
   dept.value = useInternName().getDepartment;
   section.value = useInternName().getSection;
@@ -214,6 +218,7 @@ onMounted(async () => {
     const instance = getCurrentInstance();
     instance?.proxy?.$forceUpdate();
   }
+  loaded.value = true
   /* modal.value = new bootstrap.Modal("#modal", {}); */
 });
 

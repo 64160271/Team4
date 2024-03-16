@@ -391,8 +391,9 @@
                 <label for="" class="col form-label text-gray">หมายเหตุ</label>
             </div>
 
-            <div class="row mb-4">
-                <textarea readonly :value="intern.intn_reason" id="" name="" class="form-control col" rows="2"></textarea>
+            <div class="row mb-4 nopadding">
+                <input v-model="intern.intn_note" placeholder="-" type="text" class="form-control-plaintext"
+                            readonly />
             </div>
         </div>
     </SectionSpace>

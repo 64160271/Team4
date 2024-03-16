@@ -1,3 +1,10 @@
+<!--
+ ProjectMember
+ แสดงข้อมูล และจัดการนักศึกษาภายในโปรเจกต์
+ Author : Rawich Piboonsin
+ Created date : 05-03-2567
+-->
+
 <template>
   <LayoutMenuName backButton :page-name="'โปรเจกต์ > ' + projName" />
 
@@ -7,7 +14,9 @@
     </div>
 
     <div class="row">
+      <Loading v-if="!loaded" />
       <DataTable
+        v-if="loaded"
         striped
         :total="interns.length"
         :heads="tableHeads"
@@ -81,20 +90,21 @@ import DataTable from "../Component/DataTable.vue";
 import BaseModal from "../Component/BaseModal.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseButton from "../Component/BaseButton.vue";
-import SearchBox from "../Component/SearchBox.vue";
 import { ref, onMounted, reactive } from "vue";
 import { errorAlert } from "../../assets/js/func";
 import EditIcon from "../icons/EditIcon.vue";
-import BaseSelect from "../Component/BaseSelect.vue";
 import router from "@/router";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import AutoComplete from "../Component/AutoComplete.vue";
 import axios from "axios";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
+import InvalidFeedback from "../Component/InvalidFeedback.vue";
+import BaseSelect from "../Component/BaseSelect.vue";
 
+const loaded = ref(false)
 const interns = ref([]);
-const service = new apiService();
+const service = new ApiService();
 const projId = router.currentRoute.value.params.id;
 const openModal = ref(false);
 const roles = ref([]);
@@ -125,13 +135,16 @@ const tableHeads = ref([
 ]);
 
 onMounted(async () => {
+  loaded.value = false
   const res = await service.getInternByProjectId(projId);
   projName.value = res.project.proj_name
   interns.value = res.interns;
+  loaded.value = true
 });
 
 async function formSubmit() {
   const validate = await v$.value.$validate();
+  console.log(formData)
   
   if (validate) {
     if (modalType.value == "A") {
