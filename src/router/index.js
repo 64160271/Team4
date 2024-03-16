@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, createWebHashHistory } from "vue-router";
 import Index from '../components/Index.vue'
 import Login from '../components/Login.vue'
 import InternData from '../components/InternInfo/InternData.vue'
@@ -23,7 +23,8 @@ import Cookies from "js-cookie";
 import NotFoundPage from "../components/NotFoundPage.vue";
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
+    // history: createWebHistory(),
     routes: [
         {
             path: '/interns',
