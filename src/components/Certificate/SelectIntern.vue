@@ -64,6 +64,7 @@ const pageMax = ref(1);
 const pageSize = 10000;
 const interns = ref([]);
 
+const date = new Date();
 const selected = [];
 let validate = ref(false);
 const team_id = ref();
@@ -198,10 +199,9 @@ const getAllIntern = async () => {
         team_id: team_id.value || undefined,
         filter: searchData.value || undefined,
         intn_contract_end_date: endDate.value || undefined,
-        almost: true,
+        almost: date,
         noCertificate: true,
     };
-    const date = new Date();
 
     await axios
         .get(`${import.meta.env.VITE_API_HOST}/interns`, { params })
