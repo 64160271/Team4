@@ -1,7 +1,41 @@
 <template>
   <LayoutMenu />
 
-  <CardInternInfo class="my-3" :internId="internId"> </CardInternInfo>
+  <CardInternInfo class="my-3" :internId="internId">
+    <div class="row mb-2">
+      <label for="" class="col-md-3 col-form-label text-gray">
+        ฝ่าย
+      </label>
+      <label for="" class="col-md-3 col-form-label text-gray">
+        {{ work.getSection || '-' }}
+      </label>
+
+      <label for="" class="col-md-3 col-form-label text-gray">
+        แผนก
+      </label>
+
+      <label for="" class="col-md-3 col-form-label text-gray">
+        {{ work.getDepartment || '-' }}
+      </label>
+    </div>
+
+    <div class="row">
+      <label for="" class="col-md-3 col-form-label text-gray">
+        ตำแหน่ง
+      </label>
+      <label for="" class="col-md-3 col-form-label text-gray">
+        {{ work.getRole }}
+      </label>
+
+      <label for="" class="col-md-3 col-form-label text-gray">
+        พี่เลี้ยง
+      </label>
+
+      <label for="" class="col-md-3 col-form-label text-gray">
+        {{ work.getMentor }}
+      </label>
+    </div>
+  </CardInternInfo>
 
   <SectionSpace noSpace>
 
@@ -29,11 +63,13 @@ import BaseButton from "../Component/BaseButton.vue";
 import CardInternInfo from "./CardInternInfo.vue";
 import DataTable from "../Component/DataTable.vue";
 import { changeTimestampToDate } from "../../assets/js/func";
+import { useInternName } from "../../stores/constData";
 
 const loaded = ref(false)
 const internId = useRoute().params.id;
 const service = new ApiService();
 const projects = ref([]);
+const work = ref(useInternName())
 const tableHead = ref([
   { key: "pint_created_at_custom", title: "วันที่เพิ่มข้อมูล", align: "center" },
   { key: "pint_project.proj_name", title: "ชื่อโปรเจกต์", align: "left" },
@@ -45,18 +81,6 @@ const tableHead = ref([
   },
   { key: "pint_status_custom", title: "สถานะ", align: "center" },
 ]);
-
-/* const sectionName = computed(() => {
-  return workInfo.value[0]?.work_sec?.sec_name || "-";
-});
-
-const departmentName = computed(() => {
-  return workInfo.value[0]?.work_dept?.dept_name || "-";
-});
-
-const roleName = computed(() => {
-  return workInfo.value[0]?.work_role?.role_name || "-";
-}); */
 
 onMounted(async () => {
   loaded.value = false

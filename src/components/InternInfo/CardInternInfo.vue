@@ -35,6 +35,7 @@ import { onMounted, ref } from "vue";
 import { useInternName } from "../../stores/constData";
 import axios from "axios";
 
+const loaded = ref(false)
 const internData = ref();
 
 const props = defineProps({
@@ -53,6 +54,7 @@ onMounted(async () => {
       internData.value = useInternName();
       internData.value.setData(response.data);
     });
+  
 });
 </script>
 
