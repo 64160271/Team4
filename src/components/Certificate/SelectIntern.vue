@@ -49,7 +49,7 @@ import BaseSelect from "../Component/BaseSelect.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import { useRoute } from 'vue-router';
 import router from "@/router";
-import apiService from '../../services/api';
+import ApiService from '../../services/ApiService';
 import Search from '../Component/SearchBox.vue';
 import { getAge, confirmation, successAlert, errorAlert } from "../../assets/js/func";
 
@@ -215,7 +215,7 @@ const getAllIntern = async () => {
 
 onMounted(async () => {
     setCurrentPage(page.value);
-    let service = new apiService();
+    let service = new ApiService();
     teams.value = await service.getAllTeam();
 });
 

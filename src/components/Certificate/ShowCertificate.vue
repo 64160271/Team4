@@ -77,7 +77,7 @@ import BaseInput from "../Component/BaseInput.vue";
 import Picture from "../icons/PictureLogo.vue";
 import Delete from '../icons/DeleteButton.vue';
 import { useRoute } from 'vue-router';
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import router from "@/router";
 import { confirmation, successAlert, errorAlert, changeTimestampToDate } from "../../assets/js/func";
 
@@ -312,7 +312,7 @@ function changeTimestampToYear(value) {
 
 onMounted(async () => {
     setCurrentPage(page.value);
-    let service = new apiService();
+    let service = new ApiService();
     teams.value = await service.getAllTeam();
     cerCreateSelect();
 })
