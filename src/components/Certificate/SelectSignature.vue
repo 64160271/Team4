@@ -42,7 +42,7 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import BaseCard from '../Component/BaseCard.vue';
 import Search from '../Component/SearchBox.vue';
-import BaseButton from '../component/BaseButton.vue';
+import BaseButton from '../Component/BaseButton.vue';
 import { useRoute } from 'vue-router';
 import router from "@/router";
 import NotFound from "../Component/NotFound.vue"
