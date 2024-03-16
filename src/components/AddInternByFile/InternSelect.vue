@@ -266,6 +266,7 @@ async function createInterns() {
     let name = rawData[index][8].split(" ");
     let row = {
       intn_id: rawData[index]["intn_id"],
+      com_name: rawData[index][1],
       sec_name: rawData[index][2],
       dept_name: rawData[index][3],
       team_name: rawData[index][4],
