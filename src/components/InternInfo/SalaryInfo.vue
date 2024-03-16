@@ -45,7 +45,9 @@
     </div>
 
     <div class="row">
+      <Loading v-if="!loaded" />
       <DataTable
+        v-if="loaded"
         :total="filterData.length"
         striped
         hover-background
@@ -62,7 +64,7 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute } from "vue-router";
 import { onMounted, ref, computed, isProxy, toRaw } from "vue";
 import { useAddSalaryForm } from "../../stores/addSalaryFormdata";
@@ -73,11 +75,10 @@ import SideLabelInput from "../Component/SideLabelInput.vue";
 import { slashDtoDashY } from "../../assets/js/func";
 import DatePicker from "../Component/DatePicker.vue";
 
+const loaded = ref(false)
 const internId = useRoute().params.id;
 const salaries = ref([]);
-const apiCall = new apiService();
-const formData = ref(useAddSalaryForm());
-const modal = ref();
+const apiCall = new ApiService();
 const tableHead = ref([
   { key: "sal_report.rep_code", title: "รหัสรายการ", align: "left" },
   { key: "sal_from_date", title: "วันเริ่มต้น", align: "center" },
@@ -98,7 +99,9 @@ const lastSalary = computed(() => {
 });
 
 onMounted(async () => {
+  loaded.value = false
   salaries.value = await apiCall.getSalaryByInternId(internId);
+  loaded.value = true
 });
 
 function calculateTotal(data) {

@@ -16,14 +16,16 @@ import ManageUniversity from '../components/University/ManageUniversity.vue'
 import TestForm from '../components/AddInternForm/TestForm.vue'
 import ManageProject from '../components/Project/ManageProject.vue'
 import ProjectMember from '../components/Project/ProjectMember.vue'
+import Cookies from "js-cookie";
+import NotFoundPage from "../components/NotFoundPage.vue";
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/',
+            path: '/interns',
             name: 'index',
-            component: Index
+            component: Index,
         },
         {
             path: '/login',
@@ -104,8 +106,28 @@ const router = createRouter({
             path: '/projects/:id',
             name: 'projectMember',
             component: ProjectMember,
+        },
+        {
+            path: '/:catchAll(.*)',
+            name: "NotFoundPage",
+            component: NotFoundPage,
         }
     ]
+})
+
+router.beforeEach((to, from, next) => {
+    const token = Cookies.get('token')
+
+    if (to.name !== 'login' && !token) {
+        next({ name: 'login' })
+    }
+
+    if (to.name == 'login') {
+        Cookies.remove('token')
+        Cookies.remove('user')
+        next()
+    }
+    else next()
 })
 
 export default router

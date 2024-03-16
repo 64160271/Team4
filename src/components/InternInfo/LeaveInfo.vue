@@ -32,7 +32,9 @@
     </div>
 
     <div class="row">
+      <Loading v-if="!loaded" />
       <DataTable
+        v-if="loaded"
         striped
         hover-background
         :total="filterData.length"
@@ -43,6 +45,9 @@
           {{ getDuration(data.lvs_duration) }}
         </template>
         <template #open_file="{ data }">
+          <span v-if="!data.lvs_file_path">
+            -
+          </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -51,6 +56,7 @@
             class="bi bi-card-image cursor-p outline-hov-red"
             viewBox="0 0 16 16"
             @click="showLeaveFile(data.lvs_file_path)"
+            v-else
           >
             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
             <path
@@ -115,8 +121,8 @@
         name="time"
         value="hr"
         type="radio"
+        @change="formData.lvs_duration = 'F'"
         label="ชั่วโมง"
-        @change="formData.lvs_duration == 'F'"
         checked
       />
       <Radio
@@ -268,7 +274,7 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref, computed } from "vue";
 import BaseInput from "../Component/BaseInput.vue";
@@ -286,6 +292,7 @@ import { helpers, required } from "@vuelidate/validators";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import DatePicker from "../Component/DatePicker.vue";
 
+const loaded = ref(false)
 const searchData = ref("");
 const router = useRouter();
 const internRole = ref();
@@ -293,13 +300,13 @@ const internName = ref();
 const leavesType = ref(useLeavesType);
 const internId = useRoute().params.id;
 const leavesInfo = ref([]);
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const today = ref(getCurrentThaiDate());
 const openModal = ref(false);
 const lvs_time = ref("hr");
 const formData = ref({
   lvs_type: "",
-  lvs_reason: "",
+  lvs_reason: null,
   lvs_from_date: "",
   lvs_to_date: "",
   lvs_file: "",
@@ -316,7 +323,7 @@ const dateAfterStart = (v) => {
 };
 
 const dateBeforeStart = (v) => {
-  if (v) {
+  if (v && lvs_time.value != 'hr') {
     let date = formData.value.lvs_from_date;
     return v > date;
   }
@@ -352,16 +359,24 @@ const tableHead = ref([
 ]);
 
 onMounted(async () => {
+  loaded.value = false
   leavesInfo.value = await apiCall.getLeaveInfoByInternId(internId);
   internName.value = await useInternName().getName;
   internRole.value = await useInternName().getRole;
+  loaded.value = true
 });
 
 async function formSubmit() {
-  if (lvs_time.value == "hr") formData.value.lvs_to_date = formData.value.lvs_from_date;
-  else if (lvs_time.value == "day") formData.value.lvs_duration = "M";
-
   const validate = await v$.value.$validate();
+
+  if (lvs_time.value == "hr") {
+    formData.value.lvs_to_date = formData.value.lvs_from_date
+  }
+  else if (lvs_time.value == "day") {
+    formData.value.lvs_duration = "M";
+  }
+
+  console.log(lvs_time.value, formData.value.lvs_duration)
 
   if (validate) {
     formData.value.lvs_intern_id = internId;

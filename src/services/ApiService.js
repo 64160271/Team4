@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default class apiService {
+export default class ApiService {
 
     getAllUniversity = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/universities`)
