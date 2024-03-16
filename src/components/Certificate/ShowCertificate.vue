@@ -68,7 +68,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import BaseButton from '../component/BaseButton.vue';
+import BaseButton from '../Component/BaseButton.vue';
 import DataTable from '../Component/DataTable.vue';
 import Download from '../icons/DownloadButton.vue';
 import Search from "../Component/SearchBox.vue";
