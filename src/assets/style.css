@@ -201,6 +201,9 @@
     margin: 0 !important;
 }
 
+.hov-outline-red:hover path {
+    stroke: var(--main-color) !important;
+}
 .footer {
     position: sticky;
     bottom: 0;

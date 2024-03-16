@@ -122,14 +122,14 @@ export default class ApiService {
     }
 
     createIntern = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, data, { headers: {"Content-Type": "multipart/form-data"} })
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, data, { headers: { "Content-Type": "multipart/form-data" } })
             .then((response) => {
                 return response.data
             })
     }
 
     editInternData = async (data, id) => {
-        return await axios.put(`${import.meta.env.VITE_API_HOST}/interns/${id}`, data, { headers: {"Content-Type": "multipart/form-data"} })
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/interns/${id}`, data, { headers: { "Content-Type": "multipart/form-data" } })
             .then((response) => {
                 return response.data
             })
@@ -162,7 +162,7 @@ export default class ApiService {
                 return response.data
             })
     }
- 
+
     getAllCompany = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/companies`)
             .then((response) => {
@@ -192,7 +192,7 @@ export default class ApiService {
     }
 
     createDocument = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/documents`, data, { headers: {"Content-Type": "multipart/form-data"} })
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/documents`, data, { headers: { "Content-Type": "multipart/form-data" } })
             .then((response) => {
                 return response.data
             })
@@ -212,11 +212,51 @@ export default class ApiService {
             })
     }
 
+    createSignature = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/signatures`, data, { headers: {"Content-Type": "multipart/form-data"} })
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getAllSignatureWithCompany = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/signatures/company`)
+        .then((response) => {
+            return response.data
+        })
+    }
+
     createWorkInfo = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/workinfo`, data)
             .then((response) => {
                 return response.data
             })
+    }
+
+    getCompanyWithAddress = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/companies/address`)
+        .then((response) => {
+            return response.data
+        })
+    }
+    editSignature = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/signatures/${id}`, data, { headers: {"Content-Type": "multipart/form-data"} })
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    createAddress = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/addresses`, data)
+        .then((response) => {
+            return response.data
+        })
+    }
+    getAllSignature = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/signatures`)
+        .then((response) => {
+            return response.data
+        })
     }
 
     createAddress = async (data) => {
@@ -272,6 +312,20 @@ export default class ApiService {
         return await axios.put(`${import.meta.env.VITE_API_HOST}/projects/interns/${id}`, data)
             .then((response) => {
                 return response.data
+            })
+    }
+
+    createCompany = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/companies/createCompany`, data)
+            .then((response) => {
+                return response
+            })
+    }
+
+    editCompany = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/companies/${id}`, data)
+            .then((response) => {
+                return response
             })
     }
 }
