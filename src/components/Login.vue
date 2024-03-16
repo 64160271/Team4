@@ -125,9 +125,9 @@ const login = async () => {
   if (result.status) {
     let me = await validateTokent(result.token)
 
-    Cookies.set("token", result.token, {
+    Cookies.set("token", result.token/* , {
       expires: new Date(me.exp * 1000)
-    });
+    } */);
 
     Cookies.set("user", `${me.fname} ${me.lname}`)
 

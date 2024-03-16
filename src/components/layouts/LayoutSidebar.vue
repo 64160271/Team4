@@ -54,17 +54,19 @@
         </a>
 
           <div id="repMenu" class="hidden">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-5">
-              <li>
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-2">
+              <li class="my-2">
                 <router-link to="/reports" class="nav-link text-dark hov-red" active-class="active"
                   @click="changeActiveMenu($event)">
-                  รายงานเบี้ยเลี้ยง
+                  <Monitor />
+                  <span class="ms-3">รายงานเบี้ยเลี้ยง</span>
                 </router-link>
               </li>
               <li>
                 <router-link to="/salaries" class="nav-link text-dark hov-red" active-class="active"
                   @click="changeActiveMenu($event)">
-                  จัดการเบี้ยเลี้ยง
+                  <ManageSalaryIcon />
+                  <span class="ms-3">จัดการเบี้ยเลี้ยง</span>
                 </router-link>
               </li>
             </ul>
@@ -89,17 +91,19 @@
         </a>
 
           <div id="cerMenu" class="hidden">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-5">
-              <li>
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 ms-2">
+              <li class="my-2">
                 <router-link to="/signatures" class="nav-link text-dark hov-red" active-class="active"
                   @click="changeActiveMenu($event)">
-                  ลายเซ็น
+                  <ManageSignatureIcon />
+                  <span class="ms-3">ลายเซ็น</span> 
                 </router-link>
               </li>
               <li>
                 <router-link to="/companies" class="nav-link text-dark hov-red" active-class="active"
                   @click="changeActiveMenu($event)">
-                  บริษัท
+                  <ManageCompanyIcon />
+                  <span class="ms-3">บริษัท</span>
                 </router-link>
               </li>
             </ul>
@@ -129,6 +133,10 @@ import LogoutIcon from "../icons/LogoutIcon.vue"
 import ProjectIcon from "../icons/ProjectIcon.vue"
 import Cookies from "js-cookie"
 import { useRouter } from "vue-router"
+import Monitor from "../icons/Monitor.vue";
+import ManageSalaryIcon from "../icons/ManageSalaryIcon.vue";
+import ManageCompanyIcon from "../icons/ManageCompanyIcon.vue";
+import ManageSignatureIcon from "../icons/ManageSignatureIcon.vue";
 
 const user = ref(Cookies.get('user'))
 const router = useRouter()
