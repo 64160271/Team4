@@ -13,7 +13,7 @@
         <div class="row nopadding border-bottom">
           <div class="col-auto my-auto">
             <div class="mb-4 text-center">
-              <img id="blah" :src="intern?.intn_image_path || '../../src/assets/images/person-nm.png'" alt=""
+              <img id="blah" :src="intern?.intn_image_path || '@/assets/images/person-nm.png'" alt=""
                 class="img bg-grays-200" />
 
             </div>
