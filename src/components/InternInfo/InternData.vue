@@ -36,7 +36,7 @@ import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
 import LayoutMenu from './LayoutMenu.vue'
-import apiService from '../../services/api'
+import ApiService from '../../services/ApiService'
 import EditInternData from './EditInternData.vue'
 import InternDetail from './InternDetail.vue'
 
@@ -44,7 +44,7 @@ const intern = ref({})
 const route = useRoute()
 const id = route.params.id
 const isEdit = ref(false)
-const apiCall = new apiService()
+const apiCall = new ApiService()
 const loaded = ref(false)
 
 function cancelEdit() {

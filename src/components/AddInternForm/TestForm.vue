@@ -61,12 +61,12 @@ import BaseButton from "../Component/BaseButton.vue";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import { useGenderData } from "../../stores/constData";
 import DataTable from "../Component/DataTable.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import DatePicker from "../Component/DatePicker.vue";
 
 const d1 = ref("13/03/2566")
 const d2 = ref()
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const form = ref(String(""));
 const sections = ref([]);
 const formData = useInternFormData();

@@ -274,7 +274,7 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref, computed } from "vue";
 import BaseInput from "../Component/BaseInput.vue";
@@ -300,7 +300,7 @@ const internName = ref();
 const leavesType = ref(useLeavesType);
 const internId = useRoute().params.id;
 const leavesInfo = ref([]);
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const today = ref(getCurrentThaiDate());
 const openModal = ref(false);
 const lvs_time = ref("hr");

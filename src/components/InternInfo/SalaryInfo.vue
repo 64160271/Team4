@@ -64,7 +64,7 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute } from "vue-router";
 import { onMounted, ref, computed, isProxy, toRaw } from "vue";
 import { useAddSalaryForm } from "../../stores/addSalaryFormdata";
@@ -78,7 +78,7 @@ import DatePicker from "../Component/DatePicker.vue";
 const loaded = ref(false)
 const internId = useRoute().params.id;
 const salaries = ref([]);
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const tableHead = ref([
   { key: "sal_report.rep_code", title: "รหัสรายการ", align: "left" },
   { key: "sal_from_date", title: "วันเริ่มต้น", align: "center" },

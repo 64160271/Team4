@@ -513,7 +513,7 @@
   } from "../../stores/constData";
   import { useInternFormData, addInternFormRules } from "../../stores/addInternFormData";
   import { getAge, confirmation, successAlert, errorAlert, getImageFromBuffer } from "../../assets/js/func";
-  import apiService from "../../services/api";
+  import ApiService from "../../services/ApiService";
   import useVuelidate from "@vuelidate/core"; // validate
   import BaseInput from "../Component/BaseInput.vue";
   import BaseSelect from "../Component/BaseSelect.vue";
@@ -532,7 +532,7 @@
     intern: Object,
   })
 
-  const apiCall = new apiService();
+  const apiCall = new ApiService();
   const roles = ref({});
   const sections = ref({});
   const companies = ref([])

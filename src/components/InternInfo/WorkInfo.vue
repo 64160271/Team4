@@ -24,7 +24,7 @@
 import { computed, onMounted, ref } from "vue";
 import LayoutMenu from "./LayoutMenu.vue";
 import { useRoute } from "vue-router";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import BaseButton from "../Component/BaseButton.vue";
 import CardInternInfo from "./CardInternInfo.vue";
 import DataTable from "../Component/DataTable.vue";
@@ -32,7 +32,7 @@ import { changeTimestampToDate } from "../../assets/js/func";
 
 const loaded = ref(false)
 const internId = useRoute().params.id;
-const service = new apiService();
+const service = new ApiService();
 const projects = ref([]);
 const tableHead = ref([
   { key: "pint_created_at_custom", title: "วันที่เพิ่มข้อมูล", align: "center" },

@@ -94,7 +94,7 @@ import { ref, onMounted, reactive } from "vue";
 import { errorAlert } from "../../assets/js/func";
 import EditIcon from "../icons/EditIcon.vue";
 import router from "@/router";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import AutoComplete from "../Component/AutoComplete.vue";
 import axios from "axios";
 import useVuelidate from "@vuelidate/core";
@@ -104,7 +104,7 @@ import BaseSelect from "../Component/BaseSelect.vue";
 
 const loaded = ref(false)
 const interns = ref([]);
-const service = new apiService();
+const service = new ApiService();
 const projId = router.currentRoute.value.params.id;
 const openModal = ref(false);
 const roles = ref([]);

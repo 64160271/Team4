@@ -126,7 +126,7 @@ import ExcelIcon from "./icons/ExcelIcon.vue";
 import DataTable from "./Component/DataTable.vue";
 import router from "@/router";
 import SearchBox from "./Component/SearchBox.vue";
-import apiService from "../services/api";
+import ApiService from "../services/ApiService";
 import BaseSelect from "./Component/BaseSelect.vue";
 import BaseInput from "./Component/BaseInput.vue";
 import DatePicker from "./Component/DatePicker.vue";

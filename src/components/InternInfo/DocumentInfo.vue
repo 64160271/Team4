@@ -158,7 +158,7 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref, computed, getCurrentInstance } from "vue";
 import DataTable from "../Component/DataTable.vue";
@@ -183,7 +183,7 @@ const router = useRouter();
 const internId = useRoute().params.id;
 const documents = ref([]);
 const searchData = ref("");
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const openModal = ref(false);
 const today = ref(getCurrentThaiDate());
 const section = ref("");

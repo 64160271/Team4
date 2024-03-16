@@ -114,7 +114,7 @@
 </template>
 
 <script setup>
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import DataTable from "../Component/DataTable.vue";
 import BaseModal from "../Component/BaseModal.vue";
 import BaseInput from "../Component/BaseInput.vue";
@@ -135,7 +135,7 @@ const loaded = ref(false)
 const projects = ref([]);
 const searchData = ref("");
 const openModal = ref(false);
-const service = new apiService();
+const service = new ApiService();
 const mentors = ref([]);
 const modalType = ref("");
 const initialState = {
