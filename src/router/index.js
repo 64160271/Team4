@@ -15,6 +15,7 @@ import ManageSignature from '../components/CerfificateData/ManageSignature.vue'
 import ManageUniversity from '../components/University/ManageUniversity.vue'
 import TestForm from '../components/AddInternForm/TestForm.vue'
 import Cookies from "js-cookie";
+import NotFoundPage from "../components/NotFoundPage.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -92,6 +93,11 @@ const router = createRouter({
         {
             path: '/test',
             component: TestForm
+        },
+        {
+            path: '/:catchAll(.*)',
+            name: "NotFoundPage",
+            component: NotFoundPage,
         }
     ]
 })
