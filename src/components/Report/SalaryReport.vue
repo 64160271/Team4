@@ -90,7 +90,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import BaseSelect from "../Component/BaseSelect.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { Bar, Line } from "vue-chartjs";
 import {
     Chart as ChartJS,
@@ -342,7 +342,7 @@ const fetchTeamReport = async () => {
 };
 
 onMounted(async () => {
-    const services = new apiService();
+    const services = new ApiService();
     teams.value = await services.getAllTeam();
 
     try {
