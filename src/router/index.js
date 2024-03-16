@@ -95,6 +95,7 @@ const router = createRouter({
             name: 'manageCompany',
             component: ManageCompany
         },
+        
         {
             path: '/certificates/selectCompany',
             name: 'selectCompany',
