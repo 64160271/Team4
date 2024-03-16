@@ -29,6 +29,7 @@
 
       <li class="nav-item py-2">
         <router-link to="/projects" class="nav-link text-dark hov-red" active-class="active"
+        :class="{ active: router.currentRoute.value.path.includes('/projects') }"
           @click="changeActiveMenu($event)">
           <ProjectIcon class="hov-red me-3" />
 
@@ -38,6 +39,7 @@
 
       <li class="nav-item py-2">
         <router-link to="/certificates" class="nav-link text-dark hov-red" active-class="active"
+        :class="{ active: router.currentRoute.value.path.includes('/certificates') }"
           @click="changeActiveMenu($event)">
           <CertificateIcon class="hov-red" />
 
