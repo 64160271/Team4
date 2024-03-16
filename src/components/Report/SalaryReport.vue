@@ -121,6 +121,12 @@ const loaded = ref(false);
 const yearSelect = ref(currentYear);
 const teamName = ref("");
 
+/*
+ * optionsYear
+ * สร้างกราฟออกมาเป็นแนวนอน โดยมีแกน X เป็น Salary และ แกน Y เป็น Teams รายปี
+ * param:  -
+ * return: -
+ */
 const optionsYear = ref({
     aspectRatio: 1.2,
     indexAxis: 'y',
@@ -157,6 +163,12 @@ const optionsYear = ref({
     },
 });
 
+/*
+ * linePosition
+ * สร้างกราฟเป็น line
+ * param:  -
+ * return: -
+ */
 const linePosition = {
     id: 'linePosition',
     beforeDatasetsDraw(chart) {
@@ -169,6 +181,13 @@ const linePosition = {
     }
 }
 
+
+/*
+ * optionsTeam
+ * สร้างกราฟออกมาเป็นแนวตั้ง โดยมีแกน X เป็น Month และ แกน Y เป็น Salary ของทีม
+ * param:  -
+ * return: -
+ */
 const optionsTeam = ref({
     scales: {
         x: {
@@ -203,6 +222,12 @@ const optionsTeam = ref({
     
 });
 
+/*
+ * chartAllData
+ * คำสั่งสร้างกราฟด้วย Chartjs ของปี
+ * param:  -
+ * return: -
+ */
 const chartAllData = ref({
     labels: [],
     datasets: [
@@ -223,6 +248,13 @@ const chartAllData = ref({
     ],
 });
 
+
+/*
+ * chartAllData
+ * คำสั่งสร้างกราฟด้วย Chartjs ของทีม
+ * param:  -
+ * return: -
+ */
 const chartTeamData = ref({
     labels: [],
     datasets: [
@@ -272,6 +304,13 @@ ChartJS.register(
     LinearScale
 );
 
+/*
+ * fetchAllReport
+ * คำสั่งเปลี่ยนfetเchหน้าเมื่อเปลี่ยนปี
+ * param: year 
+ * return: -
+ */
+
 const fetchAllReport = async () => {
     view.value = "A";
     const params = {
@@ -304,6 +343,13 @@ const fetchAllReport = async () => {
     teamName.value = ""
 };
 
+
+/*
+ * fetchAllReport
+ * คำสั่งเปลี่ยนfetเchหน้าเมื่อเปลี่ยนปีและทีม
+ * param: year 
+ * return: -
+ */
 const fetchTeamReport = async () => {
     if (!team_id.value) {
         view.value = "A";
@@ -348,6 +394,13 @@ const fetchTeamReport = async () => {
     optionsTeam.value.plugins.title.text = "รายงานค่าใช้จ่ายเบี้ยเลี้ยงสหกิจศึกษา ประจำปี " + yearSelect.value + " ของทีม " + teamName.value
 };
 
+
+/*
+ * onMounted
+ * เมื่อเข้ามาหน้า Report ให้แสดงกราฟข้อมูล
+ * param: year 
+ * return: -
+ */
 onMounted(async () => {
     const services = new ApiService();
     teams.value = await services.getAllTeam();
@@ -363,6 +416,12 @@ onMounted(async () => {
     }
 });
 
+/*
+ * fetchReport
+ * ตรวจสอบค่าว่าเป็นแบบ ปี หรือ แบบ ทีม
+ * param: year 
+ * return: -
+ */
 const fetchReport = () => {
     if (view.value === "A" || team_id.value == "") {
         fetchAllReport();
@@ -371,6 +430,12 @@ const fetchReport = () => {
     }
 };
 
+/*
+ * downloadExcelFile
+ * ดาวน์โหลดfile excel
+ * param: year 
+ * return: -
+ */
 const downloadExcelFile = async () => {
     window.open(`${import.meta.env.VITE_API_HOST}/salaries/excel`);
 };
