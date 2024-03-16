@@ -80,6 +80,8 @@
 
     <div class="row">
       <DataTable
+        v-if="loaded"
+        hover-background
         striped
         :heads="tableHead"
         :items="interns"
@@ -110,6 +112,8 @@
           <span v-html="getStatus(data.intn_work_status)"></span>
         </template>
       </DataTable>
+
+      <Loading v-if="!loaded" />
     </div>
   </SectionSpace>
 </template>
@@ -122,7 +126,7 @@ import ExcelIcon from "./icons/ExcelIcon.vue";
 import DataTable from "./Component/DataTable.vue";
 import router from "@/router";
 import SearchBox from "./Component/SearchBox.vue";
-import apiService from "../services/api";
+import ApiService from "../services/ApiService";
 import BaseSelect from "./Component/BaseSelect.vue";
 import BaseInput from "./Component/BaseInput.vue";
 import DatePicker from "./Component/DatePicker.vue";
@@ -141,6 +145,7 @@ const roles = ref([]);
 const roleId = ref();
 const status = ref(useStatusData());
 const statusVal = ref();
+const loaded = ref(false)
 let timer;
 const tableHead = ref([
   { key: "intn_key", title: "รหัสนักศึกษาฝึกงาน", align: "center", size: 2 },
@@ -167,7 +172,15 @@ async function setCurrentPage(pageNumber) {
   await getAllIntern();
 }
 
+/*
+ * getAllIntern
+ * ฟังก์ชันสำหรับเรียก api ข้อมูลนักศึกษาฝึกงาน
+ * param: -
+ * return: -
+*/
 const getAllIntern = async () => {
+  loaded.value = false
+
   const params = {
     page: page.value,
     limit: pageSize,
@@ -184,6 +197,7 @@ const getAllIntern = async () => {
       interns.value = response.data.rows;
       total.value = response.data.count;
       pageMax.value = Math.ceil(total.value / pageSize);
+      loaded.value = true
     });
 };
 
@@ -194,6 +208,12 @@ onMounted(async () => {
   roles.value = await service.getAllRole();
 });
 
+/*
+ * search
+ * ฟังก์ชันสำหรับจัดการการค้นหา
+ * param: -
+ * return: -
+*/
 function search() {
   if (timer) {
     clearTimeout(timer);
@@ -204,10 +224,22 @@ function search() {
   }, 500);
 }
 
+/*
+ * handleClick
+ * ฟังก์ชันเมื่อมีการคลิกที่รายชื่อของนักศึกษาฝึกงาน
+ * param: รหัสนักศึกษาฝึกงาน
+ * return: -
+*/
 function handleClick(intn_id) {
   router.push({ name: "internData", params: { id: intn_id } });
 }
 
+/*
+ * getStatus
+ * ฟังก์ชันแสดงสถานะของนักศึกษาฝึกงานในรูปของ badge
+ * param: สถานะของนักศึกษา
+ * return: html แสดงสถานะ
+*/
 function getStatus(status) {
   if (status == "กำลังทำงาน") {
     return '<span class="badge text-bg-success fw-bold">กำลังทำงาน</span>';
