@@ -79,8 +79,6 @@ const loaded = ref(false)
 const internId = useRoute().params.id;
 const salaries = ref([]);
 const apiCall = new apiService();
-const formData = ref(useAddSalaryForm());
-const modal = ref();
 const tableHead = ref([
   { key: "sal_report.rep_code", title: "รหัสรายการ", align: "left" },
   { key: "sal_from_date", title: "วันเริ่มต้น", align: "center" },
