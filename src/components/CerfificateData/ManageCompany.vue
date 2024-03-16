@@ -179,7 +179,7 @@
 </template>
 
 <script setup>
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import BaseCard from "../Component/BaseCard.vue";
 import BaseModal from "../Component/BaseModal.vue";
 import BaseInput from "../Component/BaseInput.vue";
@@ -198,7 +198,7 @@ import NotFound from "../Component/NotFound.vue";
 const loaded = ref(false)
 const searchData = ref("");
 const router = useRouter();
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const companies = ref([]);
 const openCreateModel = ref(false);
 const openEditModel = ref(false);
@@ -209,7 +209,7 @@ const CompanyProvinceFeedback = 'ข้อมูลต้องไม่เป�
 const Feedback_postcode = 'ข้อมูลต้องเป็นตัวเลขเท่านั้น' 
 const size_post_code = 'ควรกรอกไม่เกิน 5 ตัวเลข' 
 
-const requiredNotSpecialcharacters = helpers.regex(/^[a-zA-Z0-9ก-์]*$/)        // อักขระพิเศษ
+const requiredNotSpecialcharacters = helpers.regex(/^[a-zA-Z0-9ก-์\s]*$/)        // อักขระพิเศษ
 const requiredNotSpecialcharactersAndnumber = helpers.regex(/^[a-zA-Zก-์]*$/)        // ตัวเลขหรืออักขระพิเศษ
 const requiredNotSpNumCh = helpers.regex(/^[0-9]*$/)        // ตัวเลขไทย, ตัวหนังสือ, อักขระพิเศษ
 
