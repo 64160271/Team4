@@ -5,12 +5,12 @@
     <div class="row mb-2">
       <label for="" class="col-md-3 col-form-label text-gray"> ฝ่าย</label>
       <label for="" class="col-md-3 col-form-label text-gray">
-        {{ section }}
+        {{ work.getSection }}
       </label>
 
       <label for="" class="col-md-3 col-form-label text-gray"> แผนก </label>
 
-      <label for="" class="col-md-3 col-form-label text-gray"> {{ dept || "-" }} </label>
+      <label for="" class="col-md-3 col-form-label text-gray"> {{ work.getDepartment || "-" }} </label>
     </div>
   </CardInternInfo>
 
@@ -186,8 +186,7 @@ const searchData = ref("");
 const apiCall = new ApiService();
 const openModal = ref(false);
 const today = ref(getCurrentThaiDate());
-const section = ref("");
-const dept = ref("");
+const work = ref(useInternName())
 const tableHead = ref([
   { key: "doc_title", title: "ชื่อเอกสาร" },
   { key: "doc_mimetype", title: "ประเภทไฟล์" },
@@ -212,12 +211,6 @@ const v$ = useVuelidate(rules, formData.value);
 onMounted(async () => {
   loaded.value = false
   documents.value = await apiCall.getDocumentByInternId(internId);
-  dept.value = useInternName().getDepartment;
-  section.value = useInternName().getSection;
-  if (!section.value) {
-    const instance = getCurrentInstance();
-    instance?.proxy?.$forceUpdate();
-  }
   loaded.value = true
   /* modal.value = new bootstrap.Modal("#modal", {}); */
 });

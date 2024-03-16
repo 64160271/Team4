@@ -79,10 +79,10 @@
 
     <div class="row mb-3">
       <div class="col-md-6">
-        <BaseInput :value="internName" label="ชื่อผู้ลา" disabled />
+        <BaseInput :value="intern.getName" label="ชื่อผู้ลา" disabled />
       </div>
       <div class="col-md-6">
-        <BaseInput :value="internRole" label="ตำแหน่ง" disabled />
+        <BaseInput :value="intern.getRole" label="ตำแหน่ง" disabled />
       </div>
     </div>
 
@@ -295,8 +295,7 @@ import DatePicker from "../Component/DatePicker.vue";
 const loaded = ref(false)
 const searchData = ref("");
 const router = useRouter();
-const internRole = ref();
-const internName = ref();
+const intern = ref(useInternName())
 const leavesType = ref(useLeavesType);
 const internId = useRoute().params.id;
 const leavesInfo = ref([]);
@@ -361,8 +360,6 @@ const tableHead = ref([
 onMounted(async () => {
   loaded.value = false
   leavesInfo.value = await apiCall.getLeaveInfoByInternId(internId);
-  internName.value = await useInternName().getName;
-  internRole.value = await useInternName().getRole;
   loaded.value = true
 });
 
