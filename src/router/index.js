@@ -17,6 +17,7 @@ import TestForm from '../components/AddInternForm/TestForm.vue'
 import ManageProject from '../components/Project/ManageProject.vue'
 import ProjectMember from '../components/Project/ProjectMember.vue'
 import Cookies from "js-cookie";
+import NotFoundPage from "../components/NotFoundPage.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -104,6 +105,11 @@ const router = createRouter({
             path: '/projects/:id',
             name: 'projectMember',
             component: ProjectMember,
+        },
+        {
+            path: '/:catchAll(.*)',
+            name: "NotFoundPage",
+            component: NotFoundPage,
         }
     ]
 })
