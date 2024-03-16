@@ -155,11 +155,11 @@ import { required } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import { errorAlert, confirmation, successAlert } from "../../assets/js/func";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 
 let uni_id = 0;
 const loaded = ref(false)
-const api = new apiService();
+const api = new ApiService();
 const searchData = ref("");
 const router = useRouter();
 const showDetail = ref([]);
