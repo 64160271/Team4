@@ -522,7 +522,7 @@ import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import CameraLogo from "../icons/CameraLogo.vue";
 import router from "@/router";
 import SectionSpace from "../Component/SectionSpace.vue";
-import DatePicker from "../Component/Datepicker.vue";
+import DatePicker from "../Component/DatePicker.vue";
 
 const formData = useInternFormData();
 const personalInfo = ref(formData.personal_info);
