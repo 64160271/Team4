@@ -238,8 +238,8 @@ export const addInternFormRules =  {
         intn_gender: { required },
         intn_tel: {
             required,
-            integer: helpers.withMessage(numberFeedback, integer),
-            startWithZero: helpers.withMessage('ข้อมูลต้องอยู่ในรูปแบบเบอร์โทรศัพท์', startWithZero)
+            numberAndDash: helpers.withMessage('ข้อมูลต้องอยู่ในรูปแบบเบอร์โทรศัพท์', numberAndDash),
+            startWithZero: helpers.withMessage('ข้อมูลต้องเริ่มด้วยเลขศูนย์', startWithZero)
         },
         intn_email: {
             required,
