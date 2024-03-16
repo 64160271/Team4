@@ -203,7 +203,7 @@ const getAllIntern = async () => {
 
 onMounted(async () => {
   setCurrentPage(page.value);
-  let service = new apiService();
+  let service = new ApiService();
   teams.value = await service.getAllTeam();
   roles.value = await service.getAllRole();
 });
