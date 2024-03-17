@@ -213,8 +213,20 @@ const requiredNotSpecialcharacters = helpers.regex(/^[a-zA-Z0-9ก-์\s]*$/)   
 const requiredNotSpecialcharactersAndnumber = helpers.regex(/^[a-zA-Zก-์]*$/)        // ตัวเลขหรืออักขระพิเศษ
 const requiredNotSpNumCh = helpers.regex(/^[0-9]*$/)        // ตัวเลขไทย, ตัวหนังสือ, อักขระพิเศษ
 
+/*
+ * postLength
+ * ฟังก์ชัน Validate ว่าความยาวของข้อมูลต้องเป็น 5 ตัวเท่านั้น
+ * param: ค่าจากแบบฟอร์ม
+ * return: true: ข้อมูลมีความยาว 5 ตัว / false: ไม่ใช่ 5 ตัว
+ */
 const postLength = (v) => v ? (v.length == 5) : true
 
+/*
+ * filterData
+ * ฟังก์ชันค้นหาข้อมูลบริษัท
+ * param: -
+ * return: รายการบริษัทที่ตรงกับคำค้นหา
+ */
 const filterData = computed(() => {
   return companies.value.filter((company) => {
     return (
@@ -270,6 +282,12 @@ const rules = {
 
 const v$ = useVuelidate(rules, companyData);
 
+/*
+ * submitForm
+ * ฟังก์ชันจัดการในการส่งแบบฟอร์มพิ่มบริษัท
+ * param: -
+ * return: -
+ */
 async function submitForm() {
   const validate = await v$.value.$validate();
 
@@ -313,6 +331,12 @@ const editedCompany = reactive({
 });
 const vedit$ = useVuelidate(rules, editedCompany);
 
+/*
+ * submitFormedit
+ * ฟังก์ชันจัดการในการส่งแบบฟอร์มแก้ไขบริษัท
+ * param: -
+ * return: -
+ */
 async function submitFormedit() {
   const validate = await vedit$.value.$validate();
 
@@ -328,7 +352,12 @@ async function submitFormedit() {
   }
 }
 
-// ฟังก์ชันที่เรียกเมื่อปุ่ม Edit ถูกคลิก
+/*
+ * openEditModel2
+ * ฟังก์ชันจัดการเมื่อมีการกดปุ่มแก้ไขบริษัท
+ * param: ข้อมูลบริษัทที่จะแก้ไข
+ * return: -
+ */
 const openEditModel2 = (company) => {
   Object.assign(editedCompany, {
     com_name: company?.com_name,
