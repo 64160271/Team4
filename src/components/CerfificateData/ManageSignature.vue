@@ -1,3 +1,10 @@
+<!--
+ ManageSignature
+ หน้าจอสำหรับแสดงข้อมูล และจัดการข้อมูลลายเซ็น
+ Author : Phanida Thamwapee
+ Created date : 04-12-2566
+-->
+
 <template>
   <LayoutMenuName page-name="จัดการข้อมูลลายเซ็น" />
 
@@ -234,6 +241,12 @@ const rules = {
 };
 const v$ = useVuelidate(rules, formData);
 
+/*
+ * filterData
+ * ฟังก์ชันค้นหาข้อมูลลายเซ็น
+ * param: -
+ * return: รายการลายเซ็นที่ตรงกับคำค้นหา
+ */
 const filterData = computed(() => {
   let key = searchData.value.trim();
   return signatures.value.filter((signature) => {
@@ -241,6 +254,12 @@ const filterData = computed(() => {
   });
 });
 
+/*
+ * submitForm
+ * ฟังก์ชันจัดการในการส่งแบบฟอร์มแก้ไขหรือเพิ่มลายเซ็น
+ * param: -
+ * return: -
+ */
 async function submitForm() {
   const validate = await v$.value.$validate();
 
@@ -255,7 +274,7 @@ async function submitForm() {
           errorAlert(e.response.data, true);
         });
     } else if (modalMode.value == "edit") {
-      /* ลบ sign_img ทิ้งหากเป็น file เดิม ป้องกันการสร้างไฟล์ซ้ำซ้อน */
+      // ลบ sign_img ทิ้งหากเป็น file เดิม ป้องกันการสร้างไฟล์ซ้ำซ้อน
       const temp = formData.sign_image;
       if (typeof formData.sign_image != "object") {
         delete formData["sign_image"];
@@ -275,12 +294,24 @@ async function submitForm() {
   }
 }
 
+/*
+ * add
+ * ฟังก์ชันจัดการเมื่อมีการกดปุ่มเพิ่มข้อมูลลายเซ็น
+ * param: -
+ * return: -
+ */
 async function add() {
   Object.assign(formData, initialState);
   openModal.value = true;
   modalMode.value = "add";
 }
 
+/*
+ * edit
+ * ฟังก์ชันจัดการเมื่อมีการกดปุ่มแก้ไขข้อมูลลายเซ็น
+ * param: ข้อมูลลายเซ็นที่แก้ไข
+ * return: -
+ */
 async function edit(signature) {
   Object.assign(formData, {
     sign_prefix: signature?.sign_prefix,
@@ -293,15 +324,15 @@ async function edit(signature) {
 
   openModal.value = true;
   signEditId = signature.sign_id;
-
-  /* แสดงรูปภาพในแบบฟอร์ม */
-  /* let blah = document.getElementById("blah");
-    if (blah) {
-        blah.src = formData.value.uni_file;
-    } */
   modalMode.value = "edit";
 }
 
+/*
+ * showImg
+ * ฟังก์ชันแสดงชื่อไฟล์ที่อัปโหลด
+ * param: -
+ * return: -
+ */
 function showImg() {
   const imgUpload = document.getElementById("img-upload");
 
