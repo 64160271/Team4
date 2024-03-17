@@ -1,3 +1,10 @@
+<!--
+ DocumentInfo
+ หน้าจอสำหรับจัดการข้อมูลการลาของนักศึกษาฝึกงาน
+ Author : Rawich Piboonsin
+ Created date : 04-12-2566
+-->
+
 <template>
   <LayoutMenu />
 
@@ -313,6 +320,12 @@ const formData = ref({
   lvs_duration: "F",
 });
 
+/*
+ * dateAfterStart
+ * ฟังก์ชัน Validate ไม่ให้เลือกวันลาก่อนวันที่เริ่มฝึกงาน
+ * param: ค่าของวันที่่ในแบบฟอร์ม
+ * return: true: กรอกวันที่ถูกต้อง / false: กรอกวันที่ก่อนวันเริ่มฝึกงาน
+*/
 const dateAfterStart = (v) => {
   if (v) {
     let date = useInternName().getStartDate;
@@ -321,6 +334,12 @@ const dateAfterStart = (v) => {
   return true;
 };
 
+/*
+ * dateBeforeStart
+ * ฟังก์ชัน Validate ไม่ให้เลือกวันสิ้นสุดการลาก่อนวันที่เริ่มลา
+ * param: ค่าของวันที่่ในแบบฟอร์ม
+ * return: true: กรอกวันที่ถูกต้อง / false: กรอกวันที่ก่อนวันเริ่มลา
+*/
 const dateBeforeStart = (v) => {
   if (v && lvs_time.value != 'hr') {
     let date = formData.value.lvs_from_date;
@@ -363,6 +382,12 @@ onMounted(async () => {
   loaded.value = true
 });
 
+/*
+ * formSubmit
+ * ฟังก์ชันสำหรับจัดการการส่งแบบฟอร์มเพิ่มข้อมูลการลา
+ * param: -
+ * return: -
+*/
 async function formSubmit() {
   const validate = await v$.value.$validate();
 
@@ -386,10 +411,22 @@ async function formSubmit() {
   }
 }
 
+/*
+ * showLeaveFile
+ * แสดงไฟล์หลักฐานการลา
+ * param: path ของไฟล์
+ * return: -
+*/
 function showLeaveFile(path) {
   window.open(path);
 }
 
+/*
+ * showFileName
+ * ฟังก์ชันสำหรับแสดงชื่อไฟล์หลังจากอัปโหลดไฟล์ในแบบฟอร์ม
+ * param: -
+ * return: -
+*/
 function showFileName() {
   const imgUpload = document.getElementById("file-upload");
 
@@ -398,6 +435,12 @@ function showFileName() {
   }
 }
 
+/*
+ * getDuration
+ * ฟังก์ชันสำหรับแสดงรูปแบบของระยะเวลาที่ลา
+ * param: ตัวอักษรย่อแสดงระยะเวลา (F / M / AM / PM)
+ * return: คำเขียนของระยะเวลา
+*/
 function getDuration(duration) {
   const isNumber = !isNaN(duration) && !isNaN(parseFloat(duration));
 
@@ -405,6 +448,12 @@ function getDuration(duration) {
   else return duration;
 }
 
+/*
+ * filterData
+ * ฟังก์ชันสำหรับการค้นหาข้อมูลการลา
+ * param: -
+ * return: ข้อมูลการลาที่ตรงกับคำค้นหา
+*/
 const filterData = computed(() => {
   return leavesInfo.value.filter((leaveInfo) => {
     return slashDtoDashY(leaveInfo.lvs_from_date) >= searchData.value.trim();

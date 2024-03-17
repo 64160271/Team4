@@ -142,6 +142,12 @@ onMounted(async () => {
   loaded.value = true
 });
 
+/*
+ * formSubmit
+ * ฟังก์ชันจัดการการส่งแบบฟอร์มแก้ไขและเพิ่มข้อมูลนักศึกษาในโปรเจกต์
+ * param: -
+ * return: -
+*/
 async function formSubmit() {
   const validate = await v$.value.$validate();
   console.log(formData)
@@ -170,6 +176,13 @@ async function formSubmit() {
 }
 
 let timer;
+
+/*
+ * fetchIntern
+ * ฟังก์ชันสำหรับ fetch ข้อมูลนักศึกษาในโปรเจกต์จาก Api
+ * param: -
+ * return: -
+ */
 async function fetchIntern() {
   if (timer) {
     clearTimeout(timer);
@@ -194,7 +207,12 @@ async function fetchIntern() {
   }, 500);
 }
 
-
+/*
+ * add
+ * ฟังก์ชันสำหรับจัดการเมื่อมีการกดปุ่มเพิ่มข้อมูลโปรเจกต์
+ * param: -
+ * return: -
+*/
 async function add() {
   if (!internSearch.value[0]) {
     fetchIntern();
@@ -210,6 +228,12 @@ async function add() {
   modalType.value = "A";
 }
 
+/*
+ * edit
+ * ฟังก์ชันสำหรับจัดการเมื่อมีการกดปุ่มแก้ไขข้อมูลนักศึกษาในโปรเจกต์
+ * param: ข้อมูลนักศึกษาที่กดแก้ไข
+ * return: -
+*/
 async function edit(data) {
   if (!internSearch.value[0]) {
     fetchIntern();
@@ -230,6 +254,12 @@ async function edit(data) {
   modalType.value = "E";
 }
 
+/*
+ * handleReturn
+ * ฟังก์ชันสำหรับจัดการเมื่อมีการเลือกค่าจาก Autocomplete
+ * param: ค่าที่เลือก
+ * return: -
+*/
 function handleReturn(val) {
   Object.assign(formData, {
     intn_id: val.intn_id,

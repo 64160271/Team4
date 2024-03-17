@@ -191,9 +191,9 @@ async function setCurrentPage(pageNumber) {
 }
 
 /*
- * setCurrentPage
- * เรียกดูข้อมูลเมื่อผู้ใช้ทำการเปลี่ยนหน้าของ Paginate
- * param: เลขหน้า
+ * fetchProject
+ * ฟังก์ชันสำหรับ fetch ข้อมูลโปรเจกต์
+ * param: -
  * return: -
  */
 const fetchProject = async () => {
@@ -213,6 +213,12 @@ const fetchProject = async () => {
   loaded.value = true
 }
 
+/*
+ * search
+ * ฟังก์ชันสำหรับจัดการการค้นหา
+ * param: -
+ * return: -
+*/
 function search() {
   if (timer) {
     clearTimeout(timer);
@@ -227,6 +233,12 @@ onMounted(async () => {
   setCurrentPage(page.value);
 });
 
+/*
+ * getStatus
+ * ฟังก์ชันสำหรับแสดงสถานะของโปรเจกต์ตามตัวเลขสถานะ
+ * param: ตัวเลขสถานะของโปรเจกต์
+ * return: html สำหรับแสดงสถานะ
+*/
 function getStatus(status) {
   if (status == 1) {
     return '<span class="text-danger fw-bold">ดำเนินการ</span>';
@@ -235,6 +247,12 @@ function getStatus(status) {
   }
 }
 
+/*
+ * formSubmit
+ * ฟังก์ชันจัดการการส่งแบบฟอร์มแก้ไขและเพิ่มข้อมูลโปรเจกต์
+ * param: -
+ * return: -
+*/
 async function formSubmit() {
   const validate = await v$.value.$validate();
 
@@ -261,6 +279,12 @@ async function formSubmit() {
   }
 }
 
+/*
+ * add
+ * ฟังก์ชันสำหรับจัดการเมื่อมีการกดปุ่มเพิ่มข้อมูลโปรเจกต์
+ * param: -
+ * return: -
+*/
 async function add() {
   if (!mentors.value[0]) {
     mentors.value = await service.getAllMentor();
@@ -272,6 +296,12 @@ async function add() {
   modalType.value = "A";
 }
 
+/*
+ * edit
+ * ฟังก์ชันสำหรับจัดการเมื่อมีการกดปุ่มแก้ไขข้อมูลโปรเจกต์
+ * param: ข้อมูลโปรเจกต์ที่กดแก้ไข
+ * return: -
+*/
 async function edit(project) {
   if (!mentors.value[0]) {
     mentors.value = await service.getAllMentor();
@@ -291,6 +321,12 @@ async function edit(project) {
   modalType.value = "E";
 }
 
+/*
+ * linkToMember
+ * ฟังก์ชันสำหรับเปลี่ยนหน้าจอเมื่อกดดูรายละเอียดโปรเจกต์
+ * param: id ของโปรเจกต์
+ * return: -
+*/
 function linkToMember(projId) {
   router.push({ name: "projectMember", params: { id: projId } });
 }

@@ -1,3 +1,10 @@
+<!--
+ WorkInfo.vue
+ หน้าจอสำหรับแสดงข้อมูลการทำงานของนักศึกษาฝึกงาน
+ Author : Rawich Piboonsin
+ Created date : 04-12-2566
+-->
+
 <template>
   <LayoutMenu />
 
@@ -88,6 +95,12 @@ onMounted(async () => {
   loaded.value = true
 });
 
+/*
+ * getStatus
+ * ฟังก์ชันสำหรับแสดงสถานะของโปรเจกต์ตามตัวเลขสถานะ
+ * param: ตัวเลขสถานะของโปรเจกต์
+ * return: html สำหรับแสดงสถานะ
+*/
 function getStatus(status) {
   if (status == 1) {
     return '<span class="text-danger fw-bold">ดำเนินการ</span>';

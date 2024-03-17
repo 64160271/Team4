@@ -1,3 +1,10 @@
+<!--
+ CardInternInfo
+ การ์ดสำหรับแสดงข้อมูลส่วนตัวของนักศึกษาฝึกงาน
+ Author : Rawich Piboonsin
+ Created date : 04-12-2566
+-->
+
 <template>
   <div class="card shadow-sm border">
     <div class="card-body row">

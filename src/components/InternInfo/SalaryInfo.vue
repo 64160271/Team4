@@ -1,3 +1,10 @@
+<!--
+ SalaryInfo
+ หน้าจอสำหรับแสดงข้อมูลเบี้ยเลี้ยงของนักศึกษาฝึกงาน
+ Author : Rawich Piboonsin
+ Created date : 04-12-2566
+-->
+
 <template>
   <LayoutMenu />
 
@@ -94,6 +101,12 @@ const searchData = ref({
   sal_to_date: "",
 });
 
+/*
+ * lastSalary
+ * ฟังก์ชันสำหรับเรียกดูเบี้ยเลี้ยงปัจจุบันของนักศึกษา
+ * param: -
+ * return: เบี้ยเลี้ยงปัจจุบันของนักศึกษา
+*/
 const lastSalary = computed(() => {
   return salaries.value[0]?.sal_salary || "-";
 });
@@ -104,12 +117,24 @@ onMounted(async () => {
   loaded.value = true
 });
 
+/*
+ * calculateTotal
+ * คำนวณเบี้ยเลี้ยงสุทธิของรายการเบี้ยเลี้ยงนั้นๆ
+ * param: ข้อมูลเบี้ยเลี้ยง
+ * return: เบี้ยเลี้ยงรวมของนักศึกษาในรูปทศนิยม 2 ตำแหน่ง
+*/
 function calculateTotal(data) {
   let total =
     Number(Number(data?.sal_salary) * Number(data?.sal_day)) + Number(data?.sal_extra);
   return total.toFixed(2);
 }
 
+/*
+ * filterData
+ * ฟังก์ชันสำหรับการค้นหาข้อมูลเบี้ยเลี้ยง
+ * param: -
+ * return: ข้อมูลเบี้ยเลี้ยงที่ตรงกับคำค้นหา
+*/
 const filterData = computed(() => {
   return salaries.value.filter((salary) => {
     return (
