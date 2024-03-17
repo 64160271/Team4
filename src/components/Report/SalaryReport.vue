@@ -308,8 +308,8 @@ const listYear = ref([]);
 
 /*
  * fetchAllReport
- * คำสั่งเปลี่ยนfetเchหน้าเมื่อเปลี่ยนปี
- * param: year 
+ * คำสั่ง fetเch ข้อมูลมื่อเปลี่ยนปี
+ * param: - 
  * return: -
  */
 
@@ -347,9 +347,9 @@ const fetchAllReport = async () => {
 
 
 /*
- * fetchAllReport
- * คำสั่งเปลี่ยนfetเchหน้าเมื่อเปลี่ยนปีและทีม
- * param: year 
+ * fetchTeamReport
+ * คำสั่ง fetch ข้อมูลเมื่อเปลี่ยนปีและทีม
+ * param: -
  * return: -
  */
 const fetchTeamReport = async () => {
@@ -421,7 +421,7 @@ onMounted(async () => {
 /*
  * fetchReport
  * ตรวจสอบค่าว่าเป็นแบบ ปี หรือ แบบ ทีม
- * param: year 
+ * param: - 
  * return: -
  */
 const fetchReport = () => {
@@ -434,8 +434,8 @@ const fetchReport = () => {
 
 /*
  * downloadExcelFile
- * ดาวน์โหลดfile excel
- * param: year 
+ * ดาวน์โหลดfile excel ของรายงานเบี้ยเลี้ยง
+ * param: - 
  * return: -
  */
 const downloadExcelFile = async () => {
