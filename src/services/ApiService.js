@@ -1,3 +1,10 @@
+/*
+ * ApiService
+ * Service ที่รวม Api ทั้งหมดของระบบ Internship Management System
+ * Author: Team4
+ * Create date: 18-08-2566
+*/
+
 import axios from 'axios'
 
 export default class ApiService {
