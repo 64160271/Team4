@@ -80,6 +80,12 @@ export default class ApiService {
             })
     }
 
+    /*
+     * getAllMentor
+     * ฟังก์ชันเรียก api สำหรับดูข้อมูลพี่เลียงทั้งหมด
+     * param: -
+     * return: ข้อมูลพี่เลี้ยงทั้งหมด
+    */
     getAllMentor = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/mentors`)
             .then((response) => {
@@ -295,6 +301,12 @@ export default class ApiService {
             })
     }
 
+    /*
+     * createUniversity
+     * ฟังก์ชันเรียก api สร้างข้อมูลมหาวิทยาลัย
+     * param: ข้อมูลที่ต้องการสร้าง
+     * return: สถานะการสร้างข้อมูล
+    */
     createUniversity = async (data) => {
         return await axios.post(
             `${import.meta.env.VITE_API_HOST}/universities`,
@@ -307,6 +319,12 @@ export default class ApiService {
         })
     }
 
+    /*
+     * editUniversity
+     * ฟังก์ชันเรียก api แก้ไขข้อมูลมหาวิทยาลัย
+     * param: ข้อมูลที่ต้องการแก้ไข, id มหาวิทยาลัย
+     * return: สถานะการแก้ไขข้อมูล
+    */
     editUniversity = async (data, id) => {
         return await axios.put(
             `${import.meta.env.VITE_API_HOST}/universities/${id}`,
@@ -411,6 +429,12 @@ export default class ApiService {
             })
     }
 
+    /*
+     * createSignature
+     * ฟังก์ชันเรียก api สร้างข้อมูลลายเซ็น
+     * param: ข้อมูลที่ต้องการสร้าง
+     * return: สถานะการสร้างข้อมูล
+    */
     createSignature = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/signatures`, data, { headers: {"Content-Type": "multipart/form-data"} })
             .then((response) => {
@@ -418,6 +442,12 @@ export default class ApiService {
             })
     }
 
+    /*
+     * getAllSignatureWithCompany
+     * ฟังก์ชันเรียก api ดูข้้อมูลลายเซ็นและบริษัทของเจ้าของลายเซ็น
+     * param: -
+     * return: ข้้อมูลลายเซ็นและบริษัทของเจ้าของลายเซ็น
+    */
     getAllSignatureWithCompany = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/signatures/company`)
         .then((response) => {
@@ -438,12 +468,25 @@ export default class ApiService {
             })
     }
 
+    /*
+     * getCompanyWithAddress
+     * ฟังก์ชันเรียก api ดูข้อมูลบริษัทและที่อยู่ของบริษัท
+     * param: -
+     * return: ข้อมูลบริษัทและที่อยู่
+    */
     getCompanyWithAddress = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/companies/address`)
         .then((response) => {
             return response.data
         })
     }
+
+    /*
+     * editSignature
+     * ฟังก์ชันเรียก api แก้ไขข้อมูลลายเซ็น
+     * param: ข้อมูลที่ต้องการแก้ไข, id ของลายเซ็น
+     * return: สถานะการแก้ไขข้อมูล
+    */
     editSignature = async (data, id) => {
         return await axios.put(`${import.meta.env.VITE_API_HOST}/signatures/${id}`, data, { headers: {"Content-Type": "multipart/form-data"} })
             .then((response) => {
@@ -451,12 +494,25 @@ export default class ApiService {
             })
     }
 
+    /*
+     * createAddress
+     * ฟังก์ชันเรียก api สร้างข้อมูลที่อยู่
+     * param: ข้อมูลที่ต้องการสร้าง
+     * return: สถานะการสร้างข้อมูล
+    */
     createAddress = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/addresses`, data)
         .then((response) => {
             return response.data
         })
     }
+
+    /*
+     * getAllSignature
+     * ฟังก์ชันเรียก api ดูข้อมูลทั้งหมดของลายเซ็น
+     * param: -
+     * return: ข้อมูลลายเซ็นทั้งหมด
+    */
     getAllSignature = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/signatures`)
         .then((response) => {
@@ -477,6 +533,12 @@ export default class ApiService {
             })
     }
 
+    /*
+     * deleteUniversity
+     * ฟังก์ชันเรียก api ลบข้อมูลมหาวิทยาลัย
+     * param: id มหาวิทยาลัย
+     * return: สถานะการลบข้อมูล
+    */
     deleteUniversity = async (id) => {
         return await axios.delete(`${import.meta.env.VITE_API_HOST}/universities/${id}`)
         .then((response) => {
@@ -575,6 +637,12 @@ export default class ApiService {
             })
     }
 
+    /*
+     * createCompany
+     * ฟังก์ชันเรียก api สร้างข้อมูลบริษัท
+     * param: ข้อมูลที่ต้องการสร้าง
+     * return: ข้อมูลบริษัท
+    */
     createCompany = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/companies/createCompany`, data)
             .then((response) => {
@@ -582,6 +650,12 @@ export default class ApiService {
             })
     }
 
+    /*
+     * editCompany
+     * ฟังก์ชันเรียก api แก้ไขข้อมูลบริษัท
+     * param: ข้อมูลที่ต้องการแก้ไข, id บริษัท
+     * return: สถานะการแก้ไขข้อมูล
+    */
     editCompany = async (data, id) => {
         return await axios.put(`${import.meta.env.VITE_API_HOST}/companies/${id}`, data)
             .then((response) => {
