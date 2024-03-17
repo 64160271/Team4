@@ -2,6 +2,12 @@ import axios from 'axios'
 
 export default class ApiService {
 
+    /*
+     * getAllUniversity
+     * ฟังก์ชันเรียก api สำหรับดูข้อมูลมหาวิทยาลัยทั้งหมด
+     * param: -
+     * return: ข้อมูลมหาวิทยาลัยทั้งหมด
+    */
     getAllUniversity = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/universities`)
             .then((response) => {
