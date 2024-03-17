@@ -106,6 +106,7 @@ import {
     Legend,
     BarElement,
     LineElement,
+    LineController,
     PointElement,
     CategoryScale,
     LinearScale,
@@ -120,6 +121,18 @@ const totalAll = ref(0);
 const loaded = ref(false);
 const yearSelect = ref(currentYear);
 const teamName = ref("");
+
+ChartJS.register(
+    Title,
+    Tooltip,
+    Legend,
+    LineElement,
+    PointElement,
+    LineController,
+    BarElement,
+    CategoryScale,
+    LinearScale
+);
 
 /*
  * optionsYear
@@ -292,17 +305,6 @@ const chartTeamData = ref({
 const teams = ref([]);
 const team_id = ref();
 const listYear = ref([]);
-
-ChartJS.register(
-    Title,
-    Tooltip,
-    Legend,
-    LineElement,
-    PointElement,
-    BarElement,
-    CategoryScale,
-    LinearScale
-);
 
 /*
  * fetchAllReport
