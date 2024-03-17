@@ -1,3 +1,10 @@
+<!--
+ MaangeUniversity
+ หน้าจอสำหรับแสดง และจัดการข้อมูลมหาวิทยาลัย
+ Author : Kanyaporn Phetthong, Wilaklak Prathummat
+ Created date : 04-12-2566
+-->
+
 <template>
   <LayoutMenuName page-name="จัดการมหาวิทยาลัย" />
 
@@ -178,13 +185,24 @@ const rules = {
 };
 const v$ = useVuelidate(rules, formData);
 
+/*
+ * filterData
+ * ฟังก์ชันค้นหารายการมหาวิทยาัลย
+ * param: -
+ * return: รายการมหาวิทยาลัยที่ตรงกับคำค้นหา
+ */
 const filterData = computed(() => {
   return universities.value.filter((university) => {
     return university.uni_name.indexOf(searchData.value.trim()) > -1;
   });
 });
 
-/* ฟังก์ชันสำหรับ เรียก api ข้อมูลมหาวิทยาลัย */
+/*
+ * getAllUniversity
+ * ฟังก์ชันสำหรับ fetch ข้อมูลมหาวิทยาลัย
+ * param: -
+ * return: -
+ */
 const getAllUniversity = async () => {
   loaded.value = false
   await axios
@@ -196,9 +214,14 @@ const getAllUniversity = async () => {
   loaded.value = true
 };
 
-/* ฟังก์ชันเมื่อคลิกปุ่ม แก้ไขข้อมูล */
+/*
+ * edit
+ * ฟังก์ชันสำหรับจัดการเมื่อมีการกดปุ่มแก้ไขข้อมูลมหาวิทยาลัย
+ * param: ข้อมูลมหาวิทยาลัยที่กดแก้ไข
+ * return: -
+*/
 async function edit(university) {
-  /* กำหนดค่าให้ formData */
+  // กำหนดค่าให้ formData
   Object.assign(formData, {
     uni_name: university?.uni_name,
     uni_file: university?.uni_image_path,
@@ -207,7 +230,7 @@ async function edit(university) {
   uni_id = university.uni_id;
   isOpen.value = true;
 
-  /* แสดงรูปภาพในแบบฟอร์ม */
+  // แสดงรูปภาพในแบบฟอร์ม
   let blah = document.getElementById("blah");
   if (blah) {
     blah.src = formData.uni_file;
@@ -216,15 +239,26 @@ async function edit(university) {
   console.log(formData);
 }
 
-/* ฟังก์ชันเมื่อกดปุ่ม เพื่มข้อมูล */
+/*
+ * add
+ * ฟังก์ชันสำหรับจัดการเมื่อมีการกดปุ่มเพิ่มข้อมูลมหาวิทยาลัย
+ * param: -
+ * return: -
+*/
 function add() {
-  /* กำนหนดค่าให้แบบฟอร์มเป็นค่าว่าง */
+  // กำนหนดค่าให้แบบฟอร์มเป็นค่าว่าง
   Object.assign(formData, inititalState);
 
   isOpen.value = true;
   modalMode.value = "add";
 }
 
+/*
+ * showImg
+ * ฟังก์ชันสำหรับแสดงโลโก้มหาวิทยาลัยเมื่อมีการอัปโหลดไฟล์
+ * param: -
+ * return: -
+ */
 function showImg() {
   const imgUpload = document.getElementById("img-upload");
   const blah = document.getElementById("blah");
@@ -238,11 +272,17 @@ function showImg() {
   }
 }
 
+/*
+ * formSubmit
+ * ฟังก์ชันจัดการการส่งแบบฟอร์มแก้ไขและเพิ่มข้อมูลมหาวิทยาลัย
+ * param: -
+ * return: -
+*/
 async function formSubmit() {
   const validate = await v$.value.$validate();
 
   if (validate) {
-    /* ถ้าหากเป็นแบบฟอร์มสำหรับเพิ่มข้อมูล ให้เรียก api เพิ่มข้อมูล */
+    // ถ้าหากเป็นแบบฟอร์มสำหรับเพิ่มข้อมูล ให้เรียก api เพิ่มข้อมูล
     if (modalMode.value == "add") {
       await api
         .createUniversity(formData)
@@ -253,9 +293,9 @@ async function formSubmit() {
           errorAlert(e.response.data);
         });
 
-      /* ถ้าหากเป็นแบบฟอร์มสำหรับแก้ไขข้อมูล */
+      // ถ้าหากเป็นแบบฟอร์มสำหรับแก้ไขข้อมูล
     } else if (modalMode.value == "edit") {
-      /* ลบ uni_file ทิ้งหากเป็นโลโก้เดิม ป้องกันการสร้างไฟล์ซ้ำซ้อน */
+      // ลบ uni_file ทิ้งหากเป็นโลโก้เดิม ป้องกันการสร้างไฟล์ซ้ำซ้อน
       if (typeof formData.uni_file != "object") {
         delete formData["uni_file"];
       }
@@ -272,6 +312,12 @@ async function formSubmit() {
   }
 }
 
+/*
+ * deleteUniversity
+ * ฟังก์ชันสำหรับลบข้อมูลมหาวิทยาลัย
+ * param: id ของมหาวิทยาลัยที่ต้องการลบ
+ * return: -
+ */
 async function deleteUniversity(id) {
   const result = await confirmation(
     "ยืนยันการลบข้อมูลหรือไม่\nข้อมูลคณะและสาขาของมหาวิทยาลัยจะถูกลบไปด้วย"
