@@ -1,3 +1,10 @@
+<!--
+ InternDetail
+ หน้าจอสำหรับแสดงรายละเอียดของนักศึกษาฝึกงาน
+ Author : Rawich Piboonsin
+ Created date : 04-12-2566
+-->
+
 <template>
     <SectionSpace noSpace>
         <div class="mx-auto mt-3" style="width: 90%">
@@ -71,8 +78,8 @@
                     <div class="row mb-2">
                         <label for="" class="col-md-2 col-form-label text-gray">บริษัท </label>
                         <div class="col">
-                            <input placeholder="-" type="text" class="form-control-plaintext" :value="intern.intn_company?.com_name"
-                                readonly required />
+                            <input placeholder="-" type="text" class="form-control-plaintext"
+                                :value="intern.intn_company?.com_name" readonly required />
                         </div>
                     </div>
                 </div>
@@ -156,8 +163,8 @@
                 <div class="row mb-2">
                     <label for="" class="col-2 col-form-label text-gray">ธนาคาร </label>
                     <div class="col">
-                        <input v-model="intern.intn_bank_name" placeholder="-" type="text" class="form-control-plaintext"
-                            readonly required />
+                        <input v-model="intern.intn_bank_name" placeholder="-" type="text"
+                            class="form-control-plaintext" readonly required />
                     </div>
 
                     <label for="" class="col-2 col-form-label text-gray">เลขที่บัญชี</label>
@@ -392,8 +399,7 @@
             </div>
 
             <div class="row mb-4 nopadding">
-                <input v-model="intern.intn_note" placeholder="-" type="text" class="form-control-plaintext"
-                            readonly />
+                <input v-model="intern.intn_note" placeholder="-" type="text" class="form-control-plaintext" readonly />
             </div>
         </div>
     </SectionSpace>
@@ -407,6 +413,12 @@
         intern: Object
     })
 
+    /*
+     * getCollegeInfo
+     * ฟังก์ชันสำหรับเรียกดูข้อมูลสาขาของนักศึกษา
+     * param: -
+     * return: ข้อมูลสาขาของนักศึกษา
+    */
     const getCollegeInfo = computed(() => {
         if (internProp.intern.intn_major) {
             return internProp.intern.intn_major
@@ -415,6 +427,12 @@
         return '-'
     })
 
+    /*
+     * getWorkRole
+     * ฟังก์ชันสำหรับเรียกดูข้อมูลตำแหน่งฝึกงานของนักศึกษา
+     * param: -
+     * return: ข้อมูลตำแหน่งฝึกงานของนักศึกษา
+    */
     const getWorkRole = computed(() => {
         if (internProp.intern.work_infos) {
             return internProp.intern.work_infos[0]?.work_role.role_name
@@ -423,6 +441,12 @@
         return '-'
     })
 
+    /*
+     * getSection
+     * ฟังก์ชันสำหรับเรียกดูข้อมูลฝ่ายของนักศึกษา
+     * param: -
+     * return: ฝ่ายของนักศึกษา
+    */
     const getSection = computed(() => {
         if (internProp.intern.work_infos) {
             return internProp.intern.work_infos[0]?.work_section.sec_name
@@ -431,6 +455,12 @@
         return '-'
     })
 
+    /*
+     * getDepartment
+     * ฟังก์ชันสำหรับเรียกดูข้อมูลแผนกของนักศึกษา
+     * param: -
+     * return: ข้อมูลแผนกของนักศึกษา
+    */
     const getDepartment = computed(() => {
         if (internProp.intern.work_infos) {
             return internProp.intern.work_infos[0]?.work_department?.dept_name
@@ -439,6 +469,12 @@
         return '-'
     })
 
+    /*
+     * getTeam
+     * ฟังก์ชันสำหรับเรียกดูข้อมูลทีมของนักศึกษา
+     * param: -
+     * return: ข้อมูลทีมของนักศึกษา
+    */
     const getTeam = computed(() => {
         if (internProp.intern.work_infos) {
             return internProp.intern.work_infos[0]?.work_team.team_name
@@ -447,6 +483,12 @@
         return '-'
     })
 
+    /*
+     * getImage
+     * ฟังก์ชันสำหรับเรียกดูรูปภาพของนักศึกษา
+     * param: -
+     * return: รูปภาพของนักศึกษา
+    */
     function getImage(img) {
         if (img != null || img != '') {
             return `../src/assets/images/interns/${img}`

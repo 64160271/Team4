@@ -1,6 +1,6 @@
 <!--
- AddInternForm
- Parent of module add intern by form
+ EditInternData
+ หน้าจอสำหรับแก้ไขข้อมูลนักศึกษาฝึกงาน
  Author : Rawich Piboonsin
  Created date : 04-09-2566
 -->

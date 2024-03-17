@@ -47,11 +47,23 @@ const isEdit = ref(false)
 const apiCall = new ApiService()
 const loaded = ref(false)
 
+/*
+ * cancelEdit
+ * ฟังก์ชันสำหรับจัดการเมื่อยกเลืกการแก้ไขข้อมูล
+ * param: -
+ * return: -
+*/
 function cancelEdit() {
     isEdit.value = false
     editData()
 }
 
+/*
+ * editData
+ * ฟังก์ชันสำหรับจัดการเมื่อมีการกดปุ่มแก้ไข
+ * param: -
+ * return: -
+*/
 function editData() {
     let editButton = document.getElementById("editButton")
 

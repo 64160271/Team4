@@ -40,49 +40,61 @@
 </template>
 
 <script setup>
-    import { useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 
-    const route = useRoute()
-    const internId = route.params.id
+const route = useRoute()
+const internId = route.params.id
 
-    function addActiveClass(e) {
-        e.target.classList.add('fix')
-    }
+/*
+ * addActiveClass
+ * ฟังก์ชันสำหรับจัดการการ hover เมนู
+ * param: element ของเมนูที่ถูก hover
+ * return: -
+*/
+function addActiveClass(e) {
+    e.target.classList.add('fix')
+}
 
-    function removeActiveClass(e) {
-        e.target.classList.remove('fix')
-    }
+/*
+ * removeActiveClass
+ * ฟังก์ชันสำหรับจัดการยกเลิก hover เมนู
+ * param: element ของเมนูที่ถูก hover
+ * return: -
+*/
+function removeActiveClass(e) {
+    e.target.classList.remove('fix')
+}
 
 </script>
 
 <style scoped>
-    button:active {
-        border: none !important;
-    }
+button:active {
+    border: none !important;
+}
 
-    .border-active {
-        border-color: var(--main-color) !important;
-    }
+.border-active {
+    border-color: var(--main-color) !important;
+}
 
-    .fix {
-        border-color: var(--main-color) !important;
-        color: var(--main-color) !important;
-    }
+.fix {
+    border-color: var(--main-color) !important;
+    color: var(--main-color) !important;
+}
 
-    .active {
-        border-color: var(--main-color) !important;
-        color: var(--main-color) !important;
-        font-weight: bold !important;
-    }
+.active {
+    border-color: var(--main-color) !important;
+    color: var(--main-color) !important;
+    font-weight: bold !important;
+}
 
-    div {
-        margin-left: -48px !important;
-        margin-right: -48px !important;
-        z-index: 99;
-        top: 0 !important;
-    }
+div {
+    margin-left: -48px !important;
+    margin-right: -48px !important;
+    z-index: 99;
+    top: 0 !important;
+}
 
-    .custom-menu {
-        padding-bottom: 12px;
-    }
+.custom-menu {
+    padding-bottom: 12px;
+}
 </style>

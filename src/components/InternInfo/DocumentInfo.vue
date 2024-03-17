@@ -1,3 +1,10 @@
+<!--
+ DocumentInfo
+ หน้าจอสำหรับจัดการข้อมูลเอกสารส่วนตัวของนักศึกษาฝึกงาน
+ Author : Rawich Piboonsin
+ Created date : 04-12-2566
+-->
+
 <template>
   <LayoutMenu />
 
@@ -215,16 +222,34 @@ onMounted(async () => {
   /* modal.value = new bootstrap.Modal("#modal", {}); */
 });
 
+/*
+ * filterData
+ * ฟังก์ชันสำหรับค้นหารายการเอกสารส่วนตัว
+ * param: -
+ * return: รายการอกสารที่ตรงกับคำค้นหา
+*/
 const filterData = computed(() => {
   return documents.value.filter((document) => {
     return document.doc_title.indexOf(searchData.value.trim()) > -1;
   });
 });
 
+/*
+ * showDocumentFile
+ * ฟังก์ชันสำหรับเปิดไฟล์ที่เลือก
+ * param: path ของไฟล์
+ * return: -
+*/
 function showDocumentFile(path) {
   window.open(path);
 }
 
+/*
+ * formSubmit
+ * ฟังก์ชันสำหรับจัดการการส่งแบบฟอร์มเพิ่มข้อมูลเอกสาร
+ * param: -
+ * return: -
+*/
 async function formSubmit() {
   const validate = await v$.value.$validate();
 
@@ -235,6 +260,12 @@ async function formSubmit() {
   }
 }
 
+/*
+ * showFileName
+ * ฟังก์ชันสำหรับแสดงชื่อไฟล์หลังจากกดอัปโหลด
+ * param: -
+ * return: -
+*/
 function showFileName() {
   const imgUpload = document.getElementById("file-upload");
 
@@ -243,6 +274,12 @@ function showFileName() {
   }
 }
 
+/*
+ * deleteDocument
+ * ฟังก์ชันสำหรับจัดการกับการลบข้อมูลเอกสารส่วนตัวของนักศึกษา
+ * param: data ข้อมูลเอกสารส่วนตัว
+ * return: -
+*/
 async function deleteDocument(data) {
   const result = await confirmation(
     `ยืนยันการลบข้อมูลเอกสาร "${data.doc_title}" หรือไม่`
