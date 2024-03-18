@@ -24,7 +24,7 @@
 
 <script setup>
 import { ref, onMounted, defineModel } from "vue";
-import { slashDtoDashY } from "../../assets/js/func";
+import { slashDtoDashY, changeTimestampToDate } from "../../assets/js/func";
 import moment from "moment";
 
 const fakeValue = ref("");
@@ -74,9 +74,10 @@ onMounted(() => {
   initFirstValue()
 });
 
+
 function initFirstValue() {
   if (props.modelValue) {
-    fakeValue.value = props.modelValue
+    fakeValue.value = changeTimestampToDate(props.modelValue)
   }
 }
 
