@@ -6,28 +6,33 @@
 -->
 
 <template>
-    <div class="row mb-4 text-center bg-white pt-4">
-        <router-link :to="{ name: 'internData', params: { id: internId } }"
-            class="text-decoration-none col h5 my-0 pb-3 border-bottom border-2" active-class="active">
+    <div class="row text-center bg-white pt-4 shadow-sm position-sticky">
+        <router-link @mouseover="addActiveClass" @mouseout="removeActiveClass"
+            :to="{ name: 'internData', params: { id: internId } }"
+            class="text-decoration-none col h5 my-0 custom-menu border-bottom border-2" active-class="active">
             ข้อมูลส่วนตัว
         </router-link>
 
-        <router-link :to="{ name: 'workInfo', params: { id: internId } }"
+        <router-link @mouseover="addActiveClass" @mouseout="removeActiveClass"
+            :to="{ name: 'workInfo', params: { id: internId } }"
             class="text-decoration-none col h5 py-0 my-0 border-bottom border-2" active-class="active">
             ข้อมูลการทำงาน
         </router-link>
 
-        <router-link :to="{ name: 'salaryInfo', params: { id: internId } }"
+        <router-link @mouseover="addActiveClass" @mouseout="removeActiveClass"
+            :to="{ name: 'salaryInfo', params: { id: internId } }"
             class="text-decoration-none col h5 py-0 my-0 border-bottom border-2" active-class="active">
             ข้อมูลเบี้ยเลี้ยง
         </router-link>
 
-        <router-link :to="{ name: 'leaveInfo', params: { id: internId } }"
+        <router-link @mouseover="addActiveClass" @mouseout="removeActiveClass"
+            :to="{ name: 'leaveInfo', params: { id: internId } }"
             class="text-decoration-none col h5 py-0 my-0 border-bottom border-2" active-class="active">
             ข้อมูลการลา
         </router-link>
 
-        <router-link :to="{ name: 'documentInfo', params: { id: internId } }"
+        <router-link @mouseover="addActiveClass" @mouseout="removeActiveClass"
+            :to="{ name: 'documentInfo', params: { id: internId } }"
             class="text-decoration-none col h5 py-0 my-0 border-bottom border-2" active-class="active">
             เอกสารที่เกี่ยวข้อง
         </router-link>
@@ -36,10 +41,29 @@
 
 <script setup>
 import { useRoute } from 'vue-router';
-import { onMounted, ref } from 'vue';
 
 const route = useRoute()
 const internId = route.params.id
+
+/*
+ * addActiveClass
+ * ฟังก์ชันสำหรับจัดการการ hover เมนู
+ * param: element ของเมนูที่ถูก hover
+ * return: -
+*/
+function addActiveClass(e) {
+    e.target.classList.add('fix')
+}
+
+/*
+ * removeActiveClass
+ * ฟังก์ชันสำหรับจัดการยกเลิก hover เมนู
+ * param: element ของเมนูที่ถูก hover
+ * return: -
+*/
+function removeActiveClass(e) {
+    e.target.classList.remove('fix')
+}
 
 </script>
 
@@ -52,6 +76,11 @@ button:active {
     border-color: var(--main-color) !important;
 }
 
+.fix {
+    border-color: var(--main-color) !important;
+    color: var(--main-color) !important;
+}
+
 .active {
     border-color: var(--main-color) !important;
     color: var(--main-color) !important;
@@ -61,5 +90,11 @@ button:active {
 div {
     margin-left: -48px !important;
     margin-right: -48px !important;
- }
+    z-index: 99;
+    top: 0 !important;
+}
+
+.custom-menu {
+    padding-bottom: 12px;
+}
 </style>

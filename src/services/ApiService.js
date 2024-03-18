@@ -1,8 +1,8 @@
 /*
  * ApiService
- * Service สำหรับ api ทั้งหมดของระบบ ims
+ * Service ที่รวม Api ทั้งหมดของระบบ Internship Management System
  * Author: Team4
- * Create date: 14-11-2566  
+ * Create date: 18-08-2566
 */
 
 import axios from 'axios'
@@ -35,7 +35,7 @@ export default class ApiService {
             })
     }
 
-    /*
+     /*
      * getAllMajor
      * ฟังก์ชันเรียก api สำหรับดูข้อมูลสาขาทั้งหมด
      * param: -
@@ -48,7 +48,7 @@ export default class ApiService {
             })
     }
 
-    /*
+     /*
      * getFacultyByUniversityId
      * ฟังก์ชันเรียก api สำหรับค้นหาคณะจากรหัสมหาวิทยาลัย
      * param: id ของมหาวิทยาลัย
@@ -82,6 +82,13 @@ export default class ApiService {
     */
     getAllSection = async () => {
         return await axios.get(`${import.meta.env.VITE_API_HOST}/sections`)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    getAllMentor = async () => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/mentors`)
             .then((response) => {
                 return response.data
             })
@@ -218,26 +225,13 @@ export default class ApiService {
     }
 
     /*
-     * getAllCompany
-     * ฟังก์ชันเรียก api ดูข้อมูลบริษัททั้งหมด
-     * param: -
-     * return: ข้อมูลบริษัททั้งหมด
-    */
-    getAllCompany = async () => {
-        return await axios.get(`${import.meta.env.VITE_API_HOST}/companies`)
-            .then((response) => {
-                return response.data
-            })
-    }
-
-    /*
      * createIntern
      * ฟังก์ชันเรียก api สำหรับสร้างข้อมูลนักศึกษาฝึกงาน
      * param: ข้อมูลที่ต้องการเพิ่ม
      * return: สถานะการเพิ่มข้อมูล
     */
     createIntern = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, data, { headers: { "Content-Type": "multipart/form-data" } })
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/interns`, data, { headers: {"Content-Type": "multipart/form-data"} })
             .then((response) => {
                 return response.data
             })
@@ -250,7 +244,7 @@ export default class ApiService {
      * return: สถานะการแก้ไขข้อมูล
     */
     editInternData = async (data, id) => {
-        return await axios.put(`${import.meta.env.VITE_API_HOST}/interns/${id}`, data, { headers: { "Content-Type": "multipart/form-data" } })
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/interns/${id}`, data, { headers: {"Content-Type": "multipart/form-data"} })
             .then((response) => {
                 return response.data
             })
@@ -307,43 +301,7 @@ export default class ApiService {
                 return response.data
             })
     }
-
-    /*
-     * createUniversity
-     * ฟังก์ชันเรียก api สร้างข้อมูลมหาวิทยาลัย
-     * param: ข้อมูลที่ต้องการสร้าง
-     * return: สถานะการสร้างข้อมูล
-    */
-    createUniversity = async (data) => {
-        return await axios.post(
-            `${import.meta.env.VITE_API_HOST}/universities`,
-            data,
-            {
-                headers: { "Content-Type": "multipart/form-data" },
-            }
-        ).then((response) => {
-            return response.data
-        })
-    }
-
-    /*
-     * editUniversity
-     * ฟังก์ชันเรียก api แก้ไขข้อมูลมหาวิทยาลัย
-     * param: ข้อมูลที่ต้องการแก้ไข, id มหาวิทยาลัย
-     * return: สถานะการแก้ไขข้อมูล
-    */
-    editUniversity = async (data, id) => {
-        return await axios.put(
-            `${import.meta.env.VITE_API_HOST}/universities/${id}`,
-            data,
-            {
-                headers: { "Content-Type": "multipart/form-data" },
-            }
-        ).then((response) => {
-            return response.data
-        })
-    }
-
+ 
     /*
      * getAllCompany
      * ฟังก์ชันเรียก api ดูข้อมูลบริษัททั้งหมด
@@ -403,7 +361,7 @@ export default class ApiService {
      * return: สถานะการสร้างข้อมูล
     */
     createDocument = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/documents`, data, { headers: { "Content-Type": "multipart/form-data" } })
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/documents`, data, { headers: {"Content-Type": "multipart/form-data"} })
             .then((response) => {
                 return response.data
             })
@@ -436,19 +394,6 @@ export default class ApiService {
     }
 
     /*
-     * createSignature
-     * ฟังก์ชันเรียก api สร้างข้อมูลลายเซ็น
-     * param: ข้อมูลที่ต้องการสร้าง
-     * return: สถานะการสร้างข้อมูล
-    */
-    createSignature = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/signatures`, data, { headers: { "Content-Type": "multipart/form-data" } })
-            .then((response) => {
-                return response.data
-            })
-    }
-
-    /*
      * createWorkInfo
      * ฟังก์ชันเรียก api สำหรับสร้างข้อมูลการทำงาน
      * param: ข้อมุูลที่ต้องการสร้าง
@@ -456,32 +401,6 @@ export default class ApiService {
     */
     createWorkInfo = async (data) => {
         return await axios.post(`${import.meta.env.VITE_API_HOST}/workinfo`, data)
-            .then((response) => {
-                return response.data
-            })
-    }
-
-    /*
-     * getCompanyWithAddress
-     * ฟังก์ชันเรียก api ดูข้อมูลบริษัทและที่อยู่ของบริษัท
-     * param: -
-     * return: ข้อมูลบริษัทและที่อยู่
-    */
-    getCompanyWithAddress = async () => {
-        return await axios.get(`${import.meta.env.VITE_API_HOST}/companies/address`)
-            .then((response) => {
-                return response.data
-            })
-    }
-
-    /*
-     * editSignature
-     * ฟังก์ชันเรียก api แก้ไขข้อมูลลายเซ็น
-     * param: ข้อมูลที่ต้องการแก้ไข, id ของลายเซ็น
-     * return: สถานะการแก้ไขข้อมูล
-    */
-    editSignature = async (data, id) => {
-        return await axios.put(`${import.meta.env.VITE_API_HOST}/signatures/${id}`, data, { headers: { "Content-Type": "multipart/form-data" } })
             .then((response) => {
                 return response.data
             })
@@ -501,67 +420,93 @@ export default class ApiService {
     }
 
     /*
-     * getAllSignature
-     * ฟังก์ชันเรียก api ดูข้อมูลทั้งหมดของลายเซ็น
-     * param: -
-     * return: ข้อมูลลายเซ็นทั้งหมด
+     * getAllProject
+     * ฟังก์ชันเรียก api ดูข้อมูลโปรเจกต์ทั้งหมด
+     * param: ฟิลเตอร์สำหรับการค้นหา
+     * return: ข้อมูลโปรเจกต์
     */
-    getAllSignature = async () => {
-        return await axios.get(`${import.meta.env.VITE_API_HOST}/signatures`)
+    getAllProject = async (params = {}) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/projects`, { params })
             .then((response) => {
                 return response.data
             })
     }
 
     /*
-     * getAllSignatureWithCompany
-     * ฟังก์ชันเรียก api ดูข้้อมูลลายเซ็นและบริษัทของเจ้าของลายเซ็น
-     * param: -
-     * return: ข้้อมูลลายเซ็นและบริษัทของเจ้าของลายเซ็น
+     * getProejctInfoByInternId
+     * ฟังก์ชันเรียก api ดูข้อมูลโปรเจกต์ของนักศึกษาฝึกงาน
+     * param: id ของนักศึกษาฝึกงาน
+     * return: ข้อมูลโปรเจกต์ของนักศึกษาฝึกงาน
     */
-    getAllSignatureWithCompany = async () => {
-        return await axios.get(`${import.meta.env.VITE_API_HOST}/signatures/company`)
+    getProejctInfoByInternId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/projects/interns/${id}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+    
+    /*
+     * getInternByProjectId
+     * ฟังก์ชันเรียก api ดูข้อมูลนักศึกษาภายในโปรเจกต์
+     * param: id ของโปรเจกต์
+     * return: ข้อมูลนักศึกษาในโปรเจกต์
+    */
+    getInternByProjectId = async (id) => {
+        return await axios.get(`${import.meta.env.VITE_API_HOST}/interns/projects/${id}`)
             .then((response) => {
                 return response.data
             })
     }
 
     /*
-     * deleteUniversity
-     * ฟังก์ชันเรียก api ลบข้อมูลมหาวิทยาลัย
-     * param: id มหาวิทยาลัย
-     * return: สถานะการลบข้อมูล
+     * createProject
+     * ฟังก์ชันเรียก api สร้างข้อมูลโปรเจกต์
+     * param: ข้อมูลท่ต้องการสร้าง
+     * return: สถานะการสร้างข้อมูล
     */
-    deleteUniversity = async (id) => {
-        return await axios.delete(`${import.meta.env.VITE_API_HOST}/universities/${id}`)
+    createProject = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/projects`, data)
             .then((response) => {
                 return response.data
             })
     }
 
     /*
-     * createCompany
-     * ฟังก์ชันเรียก api สร้างข้อมูลบริษัท
-     * param: ข้อมูลที่ต้องการสร้าง
-     * return: ข้อมูลบริษัท
-    */
-    createCompany = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/companies/createCompany`, data)
-            .then((response) => {
-                return response
-            })
-    }
-
-    /*
-     * editCompany
-     * ฟังก์ชันเรียก api แก้ไขข้อมูลบริษัท
-     * param: ข้อมูลที่ต้องการแก้ไข, id บริษัท
+     * editProject
+     * ฟังก์ชันเรียก api แก้ไขข้อมูลโปรเจกต์
+     * param: ข้อมูลที่ต้องการแก้ไขและ id ของโปรเจกต์
      * return: สถานะการแก้ไขข้อมูล
     */
-    editCompany = async (data, id) => {
-        return await axios.put(`${import.meta.env.VITE_API_HOST}/companies/${id}`, data)
+    editProject = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/projects/${id}`, data)
             .then((response) => {
-                return response
+                return response.data
+            })
+    }
+
+    /*
+     * createInternProject
+     * ฟังก์ชันเรียก api สร้างข้อมูลนักศึกษาภายในโปรเจกต์
+     * param: ข้อมูลที่ต้องการสร้าง
+     * return: สถานะการสร้างข้อมูล
+    */
+    createInternProject = async (data, id) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/projects/interns/${id}`, data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    /*
+     * editInternProject
+     * ฟังก์ชันเรียก api แก้ไขข้อมูลนักศึกษาภายในโปรเจกต์
+     * param: ข้อมูลที่ต้องการแก้ไข และ id ของนักศึกษาฝึกงาน
+     * return: สถานะการแก้ไขข้อมูล
+    */
+    editInternProject = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/projects/interns/${id}`, data)
+            .then((response) => {
+                return response.data
             })
     }
 }

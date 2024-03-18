@@ -1,11 +1,34 @@
+<!--
+ DocumentInfo
+ หน้าจอสำหรับจัดการข้อมูลการลาของนักศึกษาฝึกงาน
+ Author : Rawich Piboonsin
+ Created date : 04-12-2566
+-->
+
 <template>
-    <LayoutMenu />
+  <LayoutMenu />
 
-      <CardInternInfo class="mb-3" :internId="internId"> </CardInternInfo>
+  <CardInternInfo class="my-3" :internId="internId">
+    <div class="row mb-2">
+      <label for="" class="col-md-3 col-form-label text-gray"> วันที่ลาทั้งหมด </label>
+      <label for="" class="col-md-3 col-form-label text-gray">
+        {{ leavesInfo.length }}
+      </label>
 
-    <SectionSpace>
-      <div class="row mb-3">
-      <SideLabelInput v-model="searchData" no-padding input-size="3" label="วันที่ลา" type="date" />
+      <label for="" class="col-md-3 col-form-label text-gray"> วันที่ลาได้้ </label>
+
+      <label for="" class="col-md-3 col-form-label text-gray"> - </label>
+    </div>
+  </CardInternInfo>
+
+  <SectionSpace noSpace>
+    <div class="row mb-3">
+      <div class="col-auto my-auto nopadding">
+        <label for="" class="col-form-label text-gray">วันที่ลา </label>
+      </div>
+      <div class="col-md-3 my-auto">
+        <DatePicker placeholder="DD/MM/YYYY" pid="search" v-model="searchData" readonly />
+      </div>
 
       <BaseButton
         label="+ เพิ่มข้อมูลการลา"
@@ -16,11 +39,22 @@
     </div>
 
     <div class="row">
-      <DataTable striped :total="filterData.length" :heads="tableHead" :items="filterData">
+      <Loading v-if="!loaded" />
+      <DataTable
+        v-if="loaded"
+        striped
+        hover-background
+        :total="filterData.length"
+        :heads="tableHead"
+        :items="filterData"
+      >
         <template #lvs_duration_fake="{ data }">
           {{ getDuration(data.lvs_duration) }}
         </template>
         <template #open_file="{ data }">
+          <span v-if="!data.lvs_file_path">
+            -
+          </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -29,6 +63,7 @@
             class="bi bi-card-image cursor-p outline-hov-red"
             viewBox="0 0 16 16"
             @click="showLeaveFile(data.lvs_file_path)"
+            v-else
           >
             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
             <path
@@ -38,7 +73,7 @@
         </template>
       </DataTable>
     </div>
-    </SectionSpace>
+  </SectionSpace>
 
   <BaseModal
     v-if="openModal"
@@ -51,10 +86,10 @@
 
     <div class="row mb-3">
       <div class="col-md-6">
-        <BaseInput :value="internName" label="ชื่อผู้ลา" disabled />
+        <BaseInput :value="intern.getName" label="ชื่อผู้ลา" disabled />
       </div>
       <div class="col-md-6">
-        <BaseInput :value="internRole" label="ตำแหน่ง" disabled />
+        <BaseInput :value="intern.getRole" label="ตำแหน่ง" disabled />
       </div>
     </div>
 
@@ -93,8 +128,8 @@
         name="time"
         value="hr"
         type="radio"
+        @change="formData.lvs_duration = 'F'"
         label="ชั่วโมง"
-        @change="formData.lvs_duration == 'F'"
         checked
       />
       <Radio
@@ -111,14 +146,15 @@
     <div v-if="lvs_time == 'hr'">
       <div class="row mb-3">
         <div class="col-md-4">
-          <BaseInput 
-            required 
-            v-model="formData.lvs_from_date" 
-            type="date" 
+          <DatePicker
+            pid="d1"
+            placeholder="DD/MM/YYYY"
+            required
+            v-model="formData.lvs_from_date"
             label="วันที่ลา"
             :class="{ 'is-invalid': v$.lvs_from_date.$error }"
-          />
-          <InvalidFeedback :errors="v$.lvs_from_date.$errors" />
+            ><InvalidFeedback :errors="v$.lvs_from_date.$errors"
+          /></DatePicker>
         </div>
         <div class="col-auto mt-auto">
           <Radio
@@ -157,19 +193,27 @@
     <div v-if="lvs_time == 'day'">
       <div class="row mb-3">
         <div class="col-md-5">
-          <BaseInput required v-model="formData.lvs_from_date" type="date" label="วันเริ่มต้น" :class="{ 'is-invalid': v$.lvs_from_date.$error }" />
-          <InvalidFeedback :errors="v$.lvs_from_date.$errors" />
+          <DatePicker
+            placeholder="DD/MM/YYYY"
+            pid="d2"
+            required
+            v-model="formData.lvs_from_date"
+            label="วันเริ่มต้น"
+            :class="{ 'is-invalid': v$.lvs_from_date.$error }"
+            ><InvalidFeedback :errors="v$.lvs_from_date.$errors"
+          /></DatePicker>
         </div>
         <div class="col-md-5">
-          <BaseInput
+          <DatePicker
+            placeholder="DD/MM/YYYY"
+            pid="d3"
             required
             v-model="formData.lvs_to_date"
             :min="formData.lvs_from_date"
-            type="date"
             label="วันสิ้นสุด"
             :class="{ 'is-invalid': v$.lvs_to_date.$error }"
-          />
-          <InvalidFeedback :errors="v$.lvs_to_date.$errors" />
+            ><InvalidFeedback :errors="v$.lvs_to_date.$errors"
+          /></DatePicker>
         </div>
         <div class="col-md-2">
           <BaseInput
@@ -183,7 +227,7 @@
 
     <div class="row mb-3">
       <div class="col-auto my-auto">
-        <label>ไฟล์หลักฐานการลา</label>
+        <label>เอกสารแนบ</label>
       </div>
 
       <BaseButton
@@ -215,6 +259,7 @@
             class="file-upload"
             type="file"
             name=""
+            accept="image/*,application/pdf"
           />
         </template>
       </BaseButton>
@@ -236,7 +281,7 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref, computed } from "vue";
 import BaseInput from "../Component/BaseInput.vue";
@@ -248,26 +293,26 @@ import Radio from "../Component/Radio.vue";
 import BaseSelect from "../Component/BaseSelect.vue";
 import { useLeavesType } from "../../stores/constData";
 import { useInternName } from "../../stores/constData";
-import { diffDate, slashDtoDashY } from "../../assets/js/func";
-import SideLabelInput from "../Component/SideLabelInput.vue";
+import { diffDate, slashDtoDashY, getCurrentThaiDate } from "../../assets/js/func";
 import useVuelidate from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { helpers, required } from "@vuelidate/validators";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
+import DatePicker from "../Component/DatePicker.vue";
 
-const searchData = ref('')
+const loaded = ref(false)
+const searchData = ref("");
 const router = useRouter();
-const internRole = ref();
-const internName = ref();
+const intern = ref(useInternName())
 const leavesType = ref(useLeavesType);
 const internId = useRoute().params.id;
 const leavesInfo = ref([]);
-const apiCall = new apiService();
-const today = ref(new Date());
+const apiCall = new ApiService();
+const today = ref(getCurrentThaiDate());
 const openModal = ref(false);
-const lvs_time = ref("hr")
+const lvs_time = ref("hr");
 const formData = ref({
   lvs_type: "",
-  lvs_reason: "",
+  lvs_reason: null,
   lvs_from_date: "",
   lvs_to_date: "",
   lvs_file: "",
@@ -275,12 +320,51 @@ const formData = ref({
   lvs_duration: "F",
 });
 
+/*
+ * dateAfterStart
+ * ฟังก์ชัน Validate ไม่ให้เลือกวันลาก่อนวันที่เริ่มฝึกงาน
+ * param: ค่าของวันที่่ในแบบฟอร์ม
+ * return: true: กรอกวันที่ถูกต้อง / false: กรอกวันที่ก่อนวันเริ่มฝึกงาน
+*/
+const dateAfterStart = (v) => {
+  if (v) {
+    let date = useInternName().getStartDate;
+    return v > date;
+  }
+  return true;
+};
+
+/*
+ * dateBeforeStart
+ * ฟังก์ชัน Validate ไม่ให้เลือกวันสิ้นสุดการลาก่อนวันที่เริ่มลา
+ * param: ค่าของวันที่่ในแบบฟอร์ม
+ * return: true: กรอกวันที่ถูกต้อง / false: กรอกวันที่ก่อนวันเริ่มลา
+*/
+const dateBeforeStart = (v) => {
+  if (v && lvs_time.value != 'hr') {
+    let date = formData.value.lvs_from_date;
+    return v > date;
+  }
+  return true;
+};
+const afterStartFeedback = "ไม่สามารถเลือกก่อนวันเริ่มต้นฝึกงานได้";
+
 const rules = {
   lvs_type: { required },
-  lvs_from_date: { required },
-  lvs_to_date: { required },
-}
-const v$ = useVuelidate(rules, formData.value)
+  lvs_from_date: {
+    required,
+    dateAfterStart: helpers.withMessage(afterStartFeedback, dateAfterStart),
+  },
+  lvs_to_date: {
+    required,
+    dateAfterStart: helpers.withMessage(afterStartFeedback, dateAfterStart),
+    dateBeforeStart: helpers.withMessage(
+      "ไม่สามารถเลือกก่อนวันที่ลาได้",
+      dateBeforeStart
+    ),
+  },
+};
+const v$ = useVuelidate(rules, formData.value);
 
 const tableHead = ref([
   { key: "lvs_id", title: "เลขที่ใบลา", align: "center" },
@@ -293,32 +377,56 @@ const tableHead = ref([
 ]);
 
 onMounted(async () => {
+  loaded.value = false
   leavesInfo.value = await apiCall.getLeaveInfoByInternId(internId);
-  internName.value = await useInternName().getName;
-  internRole.value = await useInternName().getRole;
+  loaded.value = true
 });
 
+/*
+ * formSubmit
+ * ฟังก์ชันสำหรับจัดการการส่งแบบฟอร์มเพิ่มข้อมูลการลา
+ * param: -
+ * return: -
+*/
 async function formSubmit() {
-  if (lvs_time.value == "hr") formData.value.lvs_to_date = formData.value.lvs_from_date
-  else if (lvs_time.value == "day") formData.value.lvs_duration = "M"
+  const validate = await v$.value.$validate();
 
-  const validate = await v$.value.$validate()
+  if (lvs_time.value == "hr") {
+    formData.value.lvs_to_date = formData.value.lvs_from_date
+  }
+  else if (lvs_time.value == "day") {
+    formData.value.lvs_duration = "M";
+  }
+
+  console.log(lvs_time.value, formData.value.lvs_duration)
 
   if (validate) {
     formData.value.lvs_intern_id = internId;
     try {
       await apiCall.createLeaveInfo(formData.value);
-      router.go()
+      router.go();
     } catch (e) {
       return e;
     }
   }
 }
 
+/*
+ * showLeaveFile
+ * แสดงไฟล์หลักฐานการลา
+ * param: path ของไฟล์
+ * return: -
+*/
 function showLeaveFile(path) {
   window.open(path);
 }
 
+/*
+ * showFileName
+ * ฟังก์ชันสำหรับแสดงชื่อไฟล์หลังจากอัปโหลดไฟล์ในแบบฟอร์ม
+ * param: -
+ * return: -
+*/
 function showFileName() {
   const imgUpload = document.getElementById("file-upload");
 
@@ -327,21 +435,37 @@ function showFileName() {
   }
 }
 
+/*
+ * getDuration
+ * ฟังก์ชันสำหรับแสดงรูปแบบของระยะเวลาที่ลา
+ * param: ตัวอักษรย่อแสดงระยะเวลา (F / M / AM / PM)
+ * return: คำเขียนของระยะเวลา
+*/
 function getDuration(duration) {
-  const isNumber = (!isNaN(duration) && !isNaN(parseFloat(duration)))
+  const isNumber = !isNaN(duration) && !isNaN(parseFloat(duration));
 
-  if (isNumber) return `${duration} วัน`
-  else return duration
-
+  if (isNumber) return `${duration} วัน`;
+  else return duration;
 }
 
+/*
+ * filterData
+ * ฟังก์ชันสำหรับการค้นหาข้อมูลการลา
+ * param: -
+ * return: ข้อมูลการลาที่ตรงกับคำค้นหา
+*/
 const filterData = computed(() => {
   return leavesInfo.value.filter((leaveInfo) => {
-    return (
-      slashDtoDashY(leaveInfo.lvs_from_date) >= searchData.value.trim()
-    )
-  })
-})
+    return slashDtoDashY(leaveInfo.lvs_from_date) >= searchData.value.trim();
+  });
+});
 </script>
 
-<style scoped></style>
+<style scoped>
+textarea:focus {
+  transition: 0s;
+  box-shadow: none;
+  outline: 2px solid rgb(0, 119, 255) !important;
+  border: 1px solid white !important;
+}
+</style>

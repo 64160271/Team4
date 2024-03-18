@@ -4,10 +4,7 @@
 
     <LayoutSidebar v-if="!['login'].includes($route.name)" />
 
-    <main
-      v-if="!['login'].includes($route.name)"
-      class="px-5 main-style"
-    >
+    <main v-if="!['login'].includes($route.name)" class="px-5 main-style">
       <div class="mb-3">
         <router-view />
       </div>
@@ -24,7 +21,6 @@ import Login from "./components/Login.vue";
 .main-style {
   margin-left: 280px;
   background-color: #f5f6f8;
-  height: 100%;
-  overflow-y: scroll;
+  min-height: 100vh;
 }
 </style>

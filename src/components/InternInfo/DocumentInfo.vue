@@ -1,19 +1,28 @@
+<!--
+ DocumentInfo
+ หน้าจอสำหรับจัดการข้อมูลเอกสารส่วนตัวของนักศึกษาฝึกงาน
+ Author : Rawich Piboonsin
+ Created date : 04-12-2566
+-->
+
 <template>
-    <LayoutMenu />
+  <LayoutMenu />
 
-    <CardInternInfo class="mb-3" :internId="internId">
-      <div class="row mb-2">
-          <label for="" class="col-md-3 col-form-label text-gray">
-            รายการเอกสาร
-          </label>
-          <label for="" class="col-md-3 col-form-label text-gray">
-            {{ documents.length }}
-          </label>
-        </div>
-     </CardInternInfo>
+  <CardInternInfo class="my-3" :internId="internId">
+    <div class="row mb-2">
+      <label for="" class="col-md-3 col-form-label text-gray"> ฝ่าย</label>
+      <label for="" class="col-md-3 col-form-label text-gray">
+        {{ work.getSection }}
+      </label>
 
-    <SectionSpace>
-      <div class="row mb-3">
+      <label for="" class="col-md-3 col-form-label text-gray"> แผนก </label>
+
+      <label for="" class="col-md-3 col-form-label text-gray"> {{ work.getDepartment || "-" }} </label>
+    </div>
+  </CardInternInfo>
+
+  <SectionSpace noSpace>
+    <div class="row mb-3">
       <div class="my-auto col-md-3 nopadding">
         <SearchBox v-model="searchData" placeholder="ชื่อเอกสาร" />
       </div>
@@ -27,7 +36,18 @@
     </div>
 
     <div class="row">
-      <DataTable striped :total="filterData.length" :heads="tableHead" :items="filterData">
+      <Loading v-if="!loaded" />
+      <DataTable
+        v-if="loaded"
+        striped
+        :total="filterData.length"
+        :heads="tableHead"
+        :items="filterData"
+        hover-background
+      >
+        <template #doc_created_at_c="{ data }">
+          {{ changeTimestampToDate(data.doc_created_at) }}
+        </template>
         <template #open_file="{ data }">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +103,7 @@
 
     <div class="row mb-3">
       <div class="col-auto my-auto">
-        <label>ไฟล์เอกสาร</label>
+        <label>เอกสารแนบ</label>
       </div>
 
       <BaseButton
@@ -115,6 +135,7 @@
             class="file-upload"
             type="file"
             name=""
+            accept="image/*,application/pdf"
           />
         </template>
       </BaseButton>
@@ -132,7 +153,10 @@
       </div>
 
       <div class="col-md-5 my-auto">
-        <span v-if="v$.doc_file.$error" :class="{ 'is-invalid': v$.doc_file.$error }"></span>
+        <span
+          v-if="v$.doc_file.$error"
+          :class="{ 'is-invalid': v$.doc_file.$error }"
+        ></span>
         <InvalidFeedback :errors="v$.doc_file.$errors" />
       </div>
     </div>
@@ -141,31 +165,39 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute, useRouter } from "vue-router";
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref, computed, getCurrentInstance } from "vue";
 import DataTable from "../Component/DataTable.vue";
 import CardInternInfo from "./CardInternInfo.vue";
 import BaseButton from "../Component/BaseButton.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseModal from "../Component/BaseModal.vue";
-import { confirmation, successAlert } from "../../assets/js/func";
+import {
+  confirmation,
+  successAlert,
+  getCurrentThaiDate,
+  changeTimestampToDate,
+} from "../../assets/js/func";
 import SearchBox from "../Component/SearchBox.vue";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
+import { useInternName } from "../../stores/constData";
 
+const loaded = ref(false)
 const router = useRouter();
 const internId = useRoute().params.id;
 const documents = ref([]);
-const searchData = ref('');
-const apiCall = new apiService();
+const searchData = ref("");
+const apiCall = new ApiService();
 const openModal = ref(false);
-const today = ref(new Date());
+const today = ref(getCurrentThaiDate());
+const work = ref(useInternName())
 const tableHead = ref([
   { key: "doc_title", title: "ชื่อเอกสาร" },
   { key: "doc_mimetype", title: "ประเภทไฟล์" },
-  { key: "doc_created_at", title: "วันที่อัปโหลดไฟล์", align: "center" },
+  { key: "doc_created_at_c", title: "วันที่อัปโหลดไฟล์", align: "center" },
   /* { key: "lvs_day", title: "ผู้ทำการแก้ไข" }, */
   { key: "open_file", title: "เปิดไฟล์", align: "center" },
   { key: "delete_file", title: "ลบไฟล์", align: "center" },
@@ -180,36 +212,60 @@ const formData = ref({
 const rules = {
   doc_title: { required },
   doc_file: { required },
-}
-const v$ = useVuelidate(rules, formData.value)
+};
+const v$ = useVuelidate(rules, formData.value);
 
 onMounted(async () => {
+  loaded.value = false
   documents.value = await apiCall.getDocumentByInternId(internId);
+  loaded.value = true
   /* modal.value = new bootstrap.Modal("#modal", {}); */
 });
 
+/*
+ * filterData
+ * ฟังก์ชันสำหรับค้นหารายการเอกสารส่วนตัว
+ * param: -
+ * return: รายการอกสารที่ตรงกับคำค้นหา
+*/
 const filterData = computed(() => {
   return documents.value.filter((document) => {
-    return (
-      document.doc_title.indexOf(searchData.value.trim()) > -1
-    )
-  })
-})
+    return document.doc_title.indexOf(searchData.value.trim()) > -1;
+  });
+});
 
+/*
+ * showDocumentFile
+ * ฟังก์ชันสำหรับเปิดไฟล์ที่เลือก
+ * param: path ของไฟล์
+ * return: -
+*/
 function showDocumentFile(path) {
   window.open(path);
 }
 
+/*
+ * formSubmit
+ * ฟังก์ชันสำหรับจัดการการส่งแบบฟอร์มเพิ่มข้อมูลเอกสาร
+ * param: -
+ * return: -
+*/
 async function formSubmit() {
- const validate = await v$.value.$validate()
+  const validate = await v$.value.$validate();
 
- if (validate) {
+  if (validate) {
     formData.value.doc_intern_id = internId;
     const res = await apiCall.createDocument(formData.value);
     router.go();
- }
+  }
 }
 
+/*
+ * showFileName
+ * ฟังก์ชันสำหรับแสดงชื่อไฟล์หลังจากกดอัปโหลด
+ * param: -
+ * return: -
+*/
 function showFileName() {
   const imgUpload = document.getElementById("file-upload");
 
@@ -218,8 +274,16 @@ function showFileName() {
   }
 }
 
+/*
+ * deleteDocument
+ * ฟังก์ชันสำหรับจัดการกับการลบข้อมูลเอกสารส่วนตัวของนักศึกษา
+ * param: data ข้อมูลเอกสารส่วนตัว
+ * return: -
+*/
 async function deleteDocument(data) {
-  const result = await confirmation(`ยืนยันการลบข้อมูลเอกสาร "${data.doc_title}" หรือไม่`);
+  const result = await confirmation(
+    `ยืนยันการลบข้อมูลเอกสาร "${data.doc_title}" หรือไม่`
+  );
 
   if (result) {
     await apiCall

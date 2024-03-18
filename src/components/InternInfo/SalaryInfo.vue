@@ -1,34 +1,66 @@
+<!--
+ SalaryInfo
+ หน้าจอสำหรับแสดงข้อมูลเบี้ยเลี้ยงของนักศึกษาฝึกงาน
+ Author : Rawich Piboonsin
+ Created date : 04-12-2566
+-->
+
 <template>
-    <LayoutMenu />
+  <LayoutMenu />
 
-      <CardInternInfo class="mb-3" :internId="internId">
-        <div class="row mb-2">
-          <label for="" class="col-md-3 col-form-label text-gray">
-            เบี้ยเลี้ยงปัจจุบัน (บาท)
-          </label>
-          <label for="" class="col-md-3 col-form-label text-gray">
-            {{ lastSalary }}
-          </label>
+  <CardInternInfo class="my-3" :internId="internId">
+    <div class="row mb-2">
+      <label for="" class="col-md-3 col-form-label text-gray">
+        เบี้ยเลี้ยงปัจจุบัน (บาท)
+      </label>
+      <label for="" class="col-md-3 col-form-label text-gray">
+        {{ lastSalary }}
+      </label>
 
-          <label for="" class="col-md-3 col-form-label text-gray">
-            เบี้ยเลี้ยงพิเศษ (บาท)
-          </label>
+      <label for="" class="col-md-3 col-form-label text-gray">
+        เบี้ยเลี้ยงพิเศษ (บาท)
+      </label>
 
-          <label for="" class="col-md-3 col-form-label text-gray"> - </label>
-        </div>
-      </CardInternInfo>
+      <label for="" class="col-md-3 col-form-label text-gray"> - </label>
+    </div>
+  </CardInternInfo>
 
-    <SectionSpace>
-      <div class="row mb-4 mt-2">
-      <SideLabelInput v-model="searchData.sal_from_date" type="date" label="วันเริ่มต้น - สิ้นสุด" noPadding />
+  <SectionSpace noSpace>
+    <div class="row mb-4 mt-2">
+      <div class="col-auto my-auto nopadding">
+        <label for="" class="col-form-label text-gray"
+          >วันเริ่มต้นได้รับ - สิ้นสุด
+        </label>
+      </div>
+      <div class="col-md-3 my-auto">
+        <DatePicker
+          placeholder="เริ่มต้น"
+          pid="searchFrom"
+          v-model="searchData.sal_from_date"
+          readonly
+        />
+      </div>
 
-      <div class="col-md-2">
-        <BaseInput v-model="searchData.sal_to_date" type="date" />
+      <div class="col-md-3">
+        <DatePicker
+          placeholder="สิ้นสุด"
+          v-model="searchData.sal_to_date"
+          pid="searchTo"
+          readonly
+        />
       </div>
     </div>
 
     <div class="row">
-      <DataTable :total="filterData.length" striped :heads="tableHead" :items="filterData">
+      <Loading v-if="!loaded" />
+      <DataTable
+        v-if="loaded"
+        :total="filterData.length"
+        striped
+        hover-background
+        :heads="tableHead"
+        :items="filterData"
+      >
         <template #total="{ data }">
           {{ calculateTotal(data) }}
         </template>
@@ -39,7 +71,7 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute } from "vue-router";
 import { onMounted, ref, computed, isProxy, toRaw } from "vue";
 import { useAddSalaryForm } from "../../stores/addSalaryFormdata";
@@ -48,12 +80,12 @@ import CardInternInfo from "./CardInternInfo.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import SideLabelInput from "../Component/SideLabelInput.vue";
 import { slashDtoDashY } from "../../assets/js/func";
+import DatePicker from "../Component/DatePicker.vue";
 
+const loaded = ref(false)
 const internId = useRoute().params.id;
 const salaries = ref([]);
-const apiCall = new apiService();
-const formData = ref(useAddSalaryForm());
-const modal = ref();
+const apiCall = new ApiService();
 const tableHead = ref([
   { key: "sal_report.rep_code", title: "รหัสรายการ", align: "left" },
   { key: "sal_from_date", title: "วันเริ่มต้น", align: "center" },
@@ -69,28 +101,48 @@ const searchData = ref({
   sal_to_date: "",
 });
 
+/*
+ * lastSalary
+ * ฟังก์ชันสำหรับเรียกดูเบี้ยเลี้ยงปัจจุบันของนักศึกษา
+ * param: -
+ * return: เบี้ยเลี้ยงปัจจุบันของนักศึกษา
+*/
 const lastSalary = computed(() => {
   return salaries.value[0]?.sal_salary || "-";
 });
 
 onMounted(async () => {
+  loaded.value = false
   salaries.value = await apiCall.getSalaryByInternId(internId);
+  loaded.value = true
 });
 
+/*
+ * calculateTotal
+ * คำนวณเบี้ยเลี้ยงสุทธิของรายการเบี้ยเลี้ยงนั้นๆ
+ * param: ข้อมูลเบี้ยเลี้ยง
+ * return: เบี้ยเลี้ยงรวมของนักศึกษาในรูปทศนิยม 2 ตำแหน่ง
+*/
 function calculateTotal(data) {
   let total =
     Number(Number(data?.sal_salary) * Number(data?.sal_day)) + Number(data?.sal_extra);
   return total.toFixed(2);
 }
 
+/*
+ * filterData
+ * ฟังก์ชันสำหรับการค้นหาข้อมูลเบี้ยเลี้ยง
+ * param: -
+ * return: ข้อมูลเบี้ยเลี้ยงที่ตรงกับคำค้นหา
+*/
 const filterData = computed(() => {
   return salaries.value.filter((salary) => {
     return (
       slashDtoDashY(salary.sal_from_date) >= searchData.value.sal_from_date.trim() ||
       slashDtoDashY(salary.sal_to_date) <= searchData.value.sal_to_date.trim()
-    )
-  })
-})
+    );
+  });
+});
 </script>
 
 <style scoped></style>

@@ -6,10 +6,12 @@
 -->
 
 <template>
-
         <LayoutMenu class="mb-3" :name="intern.intn_name_th" />
+        
+        <Loading class="mt-5" v-if="!loaded" />
 
-        <div class="row position-relative">
+        <div v-if="loaded">
+            <div class="position-relative">
             <a id="editButton" class="prio mt-3 me-4 btn btn-sm rounded-circle col-auto top-0 end-0 position-absolute"
                 @click="isEdit = !isEdit, editData()">
                 <svg class="" width="27" height="32" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,12 +24,10 @@
                 </svg>
             </a>
         </div>
+        
+        <InternDetail v-if="!isEdit" :intern="intern" />
 
-        <SectionSpace>
-            <InternDetail v-if="!isEdit" :intern="intern" class="mt-3" />
-
-            <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" />
-        </SectionSpace>
+        <EditInternData v-if="isEdit" :intern="intern" :cancel-edit="cancelEdit" /></div>
 
 </template>
 
@@ -36,7 +36,7 @@ import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
 import LayoutMenu from './LayoutMenu.vue'
-import apiService from '../../services/api'
+import ApiService from '../../services/ApiService'
 import EditInternData from './EditInternData.vue'
 import InternDetail from './InternDetail.vue'
 
@@ -44,13 +44,26 @@ const intern = ref({})
 const route = useRoute()
 const id = route.params.id
 const isEdit = ref(false)
-const apiCall = new apiService()
+const apiCall = new ApiService()
+const loaded = ref(false)
 
+/*
+ * cancelEdit
+ * ฟังก์ชันสำหรับจัดการเมื่อยกเลืกการแก้ไขข้อมูล
+ * param: -
+ * return: -
+*/
 function cancelEdit() {
     isEdit.value = false
     editData()
 }
 
+/*
+ * editData
+ * ฟังก์ชันสำหรับจัดการเมื่อมีการกดปุ่มแก้ไข
+ * param: -
+ * return: -
+*/
 function editData() {
     let editButton = document.getElementById("editButton")
 
@@ -67,7 +80,9 @@ function editData() {
 }
 
 onMounted(async () => {
+    loaded.value = false
     intern.value = await apiCall.getInternById(id);
+    loaded.value = true
 })
 </script>
 
@@ -79,6 +94,6 @@ hr {
 }
 
 .prio {
-    z-index: 100;
+    z-index: 5;
 }
 </style>

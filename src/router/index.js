@@ -16,14 +16,20 @@ import ManageUniversity from '../components/University/ManageUniversity.vue'
 import ManageSalary from '../components/Report/ManageSalary.vue'
 import ReportData from '../components/Report/ReportData.vue'
 import AddReportFile from '../components/Report/AddReportFile.vue'
+import TestForm from '../components/AddInternForm/TestForm.vue'
+import ManageProject from '../components/Project/ManageProject.vue'
+import ProjectMember from '../components/Project/ProjectMember.vue'
+import Cookies from "js-cookie";
+import NotFoundPage from "../components/NotFoundPage.vue";
+import { useAuthenticate } from "../stores/authenticate";
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/',
+            path: '/interns',
             name: 'index',
-            component: Index
+            component: Index,
         },
         {
             path: '/login',
@@ -106,7 +112,41 @@ const router = createRouter({
             component: AddReportFile
         },
         
+            path: '/test',
+            component: TestForm
+        },
+        {
+            path: '/projects',
+            name: 'manageProject',
+            component: ManageProject
+        },
+        {
+            path: '/projects/:id',
+            name: 'projectMember',
+            component: ProjectMember,
+        },
+        {
+            path: '/:catchAll(.*)',
+            name: "NotFoundPage",
+            component: NotFoundPage,
+        }
     ]
+})
+
+router.beforeEach((to, from, next) => {
+    const auth = useAuthenticate()
+
+    if (to.name !== 'login' && !auth.isAuthenticate()) {
+        next({ name: 'login' })
+    }
+
+    else if (to.name === 'login') {
+        auth.$reset()
+        Cookies.remove('token')
+        next()
+    }
+
+    else next()
 })
 
 export default router
