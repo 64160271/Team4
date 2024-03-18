@@ -18,6 +18,7 @@ import ManageProject from '../components/Project/ManageProject.vue'
 import ProjectMember from '../components/Project/ProjectMember.vue'
 import Cookies from "js-cookie";
 import NotFoundPage from "../components/NotFoundPage.vue";
+import { useAuthenticate } from "../stores/authenticate";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -115,17 +116,18 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    const token = Cookies.get('token')
+    const auth = useAuthenticate()
 
-    if (to.name !== 'login' && !token) {
+    if (to.name !== 'login' && !auth.isAuthenticate()) {
         next({ name: 'login' })
     }
 
-    if (to.name == 'login') {
+    else if (to.name === 'login') {
+        auth.$reset()
         Cookies.remove('token')
-        Cookies.remove('user')
         next()
     }
+
     else next()
 })
 

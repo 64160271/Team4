@@ -12,7 +12,7 @@
     <hr />
 
     <label class="text-center fw-bold" for="">ฝ่ายบุคคล</label>
-    <label class="text-center" for="">{{ user }}</label>
+    <label class="text-center" for="">{{ useAuthenticate().getName }}</label>
 
     <hr />
 
@@ -139,6 +139,7 @@ import Monitor from "../icons/Monitor.vue";
 import ManageSalaryIcon from "../icons/ManageSalaryIcon.vue";
 import ManageCompanyIcon from "../icons/ManageCompanyIcon.vue";
 import ManageSignatureIcon from "../icons/ManageSignatureIcon.vue";
+import { useAuthenticate } from "../../stores/authenticate";
 
 const user = ref(Cookies.get('user'))
 const router = useRouter()
