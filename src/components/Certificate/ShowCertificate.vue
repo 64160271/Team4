@@ -18,8 +18,8 @@
             </div>
 
             <div class="col-md-2 my-auto">
-                <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="teamId" :options="teams"
-                    value="teamId" text="team_name" />
+                <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="team_id" :options="teams"
+                    value="team_id" text="team_name" />
             </div>
 
             <BaseButton class="col-auto ms-auto" @click="$router.push('/certificates/selectCompany')"
@@ -105,7 +105,7 @@ const selected = [];
 const selectedYears = [];
 const selectedFilenames = [];
 let validate = ref(false);
-const teamId = ref();
+const team_id = ref();
 const cerCreate = ref("");
 const searchData = ref("");
 const teams = ref([]);
@@ -177,7 +177,7 @@ const getAllCertificate = async () => {
     const params = {
         page: page.value,
         limit: pageSize,
-        teamId: teamId.value || undefined,
+        team_id: team_id.value || undefined,
         filter: searchData.value || undefined,
         cer_created_at: cerCreate.value || undefined,
     };

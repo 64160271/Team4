@@ -207,7 +207,7 @@ let editCompanyId = 0;
 const CompanyNameFeedback = 'ข้อมูลต้องไม่เป็นอักขระพิเศษ'
 const CompanyProvinceFeedback = 'ข้อมูลต้องไม่เป็นตัวเลขหรืออักขระพิเศษ'
 const Feedback_postcode = 'ข้อมูลต้องเป็นตัวเลขเท่านั้น' 
-const sizePostCode = 'ควรกรอกไม่เกิน 5 ตัวเลข' 
+const size_post_code = 'ควรกรอกไม่เกิน 5 ตัวเลข' 
 
 const requiredNotSpecialcharacters = helpers.regex(/^[a-zA-Z0-9ก-์\s]*$/)        // อักขระพิเศษ
 const requiredNotSpecialcharactersAndnumber = helpers.regex(/^[a-zA-Zก-์]*$/)        // ตัวเลขหรืออักขระพิเศษ
@@ -275,7 +275,7 @@ const rules = {
     addr_post_code: {   // เลขไปรษณีย์
       required,
       requiredNotSpNumCh: helpers.withMessage(Feedback_postcode, requiredNotSpNumCh),
-      postLength: helpers.withMessage(sizePostCode, postLength), 
+      postLength: helpers.withMessage(size_post_code, postLength), 
     },
   },
 };

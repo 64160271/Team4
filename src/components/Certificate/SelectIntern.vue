@@ -13,8 +13,8 @@
             </div>
 
             <div class="col-md-2 my-auto">
-                <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="teamId" :options="teams"
-                    value="teamId" text="team_name" />
+                <BaseSelect placeholder="ทีม" all-select @change="setCurrentPage(1)" v-model="team_id" :options="teams"
+                    value="team_id" text="team_name" />
             </div>
         </div>
 
@@ -67,7 +67,7 @@ const interns = ref([]);
 const date = new Date();
 const selected = [];
 let validate = ref(false);
-const teamId = ref();
+const team_id = ref();
 const endDate = ref("");
 const searchData = ref("");
 const teams = ref([]);
@@ -196,7 +196,7 @@ const getAllIntern = async () => {
     const params = {
         page: page.value,
         limit: pageSize,
-        teamId: teamId.value || undefined,
+        team_id: team_id.value || undefined,
         filter: searchData.value || undefined,
         intn_contract_end_date: endDate.value || undefined,
         almost: date,
