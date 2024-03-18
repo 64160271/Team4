@@ -134,8 +134,11 @@ import SectionSpace from '../Component/SectionSpace.vue';
 
               <div class="col-lg-4 d-flex align-items-stretch mb-3">
                 <div class="card flex-fill p-4">
-                  <button class="btn col-md-6 outline-red m-auto " @click="modalOpen = !open, uniName = university.uni_name">+ เพิ่มคณะ</button>
+                  <!-- <button class="btn col-md-6 outline-red m-auto " @click="modalOpen = !open, uniName = university.uni_name">+ เพิ่มคณะ</button> -->
+                  <button class="btn col-md-6 outline-red m-auto " @click="addfaculty(university.uni_name)">+ เพิ่มคณะ</button>
+
                 </div>
+                
                 <BaseModal
                   v-if="isOpen == true"
                   @save="formSubmit"
@@ -151,13 +154,13 @@ import SectionSpace from '../Component/SectionSpace.vue';
       </div>
     </div>
   </SectionSpace>
-    <BaseModal :title="uniName" v-if="modalOpen" @close="modalOpen = false" @save="submitForm">
+    <BaseModal :title="uniName" v-if="modalOpen" @close="modalOpen = false" @save="formSubmit" :uniName="uniName">
         <div class="row g-3 align-items-center mx-1 mb-2">
             <div class="col-2">
                 <label for="facultyName" class="col-form-label">คณะ</label>
             </div>
             <div class="col-9">
-                <input type="text" id="facName" class="form-control">
+                <input type="text" id="facName" class="form-control" v-model="formData.faculty.fac_name" placeholder="ชื่อคณะ">
             </div>
         </div>
         <div v-for="i in countRow" class="row g-3 align-items-center mx-1 mb-2 my-1">
@@ -165,7 +168,7 @@ import SectionSpace from '../Component/SectionSpace.vue';
                 <label for="majorName" class="col-form-label">สาขา</label>
             </div>
             <div class="col-9">
-                <input type="text" id="majorName" class="form-control">                          
+                <input type="text" id="majorName" class="form-control" v-model="formData.major.maj_name" placeholder="ชื่อสาขา">                          
             </div>
             <button type="button" class="col-1 btn btn-outline-secondary mx-auto rounded-circle" @click="$event.target.parentElement.remove()">-</button>
         </div>       
@@ -272,6 +275,14 @@ function add() {
   modalMode.value = "add";
 }
 
+function addfaculty(uniName) {
+  /* กำนหนดค่าให้แบบฟอร์มเป็นค่าว่าง */
+  Object.assign(formData, inititalState);
+  this.uniName = uniName;
+  modalOpen.value = true;
+  modalMode.value = "addfaculty";
+}
+
 
 function showImg() {
   const imgUpload = document.getElementById("img-upload");
@@ -316,6 +327,19 @@ async function formSubmit() {
           formData.uni_file = uni_id;
           errorAlert(e.response.data);
         });
+
+      /* ถ้าหากเป็นแบบฟอร์มสำหรับเพิ่มข้อมูลคณะและสาขา */
+    } else if(modalMode.value == "addfaculty") {
+      await api
+        .createFaculty(formData)
+        .then(() => {
+          router.go();
+        })
+        .catch((e) => {
+          errorAlert(e.response.data);
+        });
+    } else {
+      console.log("ไม่พบ modelMode");
     }
   }
 }

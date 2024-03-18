@@ -249,4 +249,11 @@ export default class apiService {
                 return response.data
             })
     }
+
+    createFaculty = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/faculties/bulk`,data)
+            .then((response) => {
+                return response.data
+            })
+    }
 }
