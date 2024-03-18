@@ -562,7 +562,6 @@ const v$ = useVuelidate(rules, formData); // validate
  */
 async function submitForm() {
   const validate = await v$.value.$validate(); /* validate แบบฟอร์ม */
-
   if (validate) {
     const result = await confirmation();
     if (result) {
