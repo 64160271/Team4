@@ -63,8 +63,9 @@ import { useGenderData } from "../../stores/constData";
 import DataTable from "../Component/DataTable.vue";
 import ApiService from "../../services/ApiService";
 import DatePicker from "../Component/DatePicker.vue";
+import { slashDtoDashY } from "../../assets/js/func";
 
-const d1 = ref("13/03/2566")
+const d1 = ref(slashDtoDashY("18/02/2566" ))
 const d2 = ref()
 const apiCall = new ApiService();
 const form = ref(String(""));

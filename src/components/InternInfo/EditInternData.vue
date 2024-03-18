@@ -563,7 +563,7 @@
    */
   async function submitForm() {
     const validate = await v$.value.$validate(); /* validate แบบฟอร์ม */
-
+    
     if (validate) {
       const result = await confirmation();
       if (result) {
@@ -740,7 +740,7 @@
 
     setFilledData();
 
-    /* สำหรับตัว Autocomplete ที่อยู่ */
+    // สำหรับตัว Autocomplete ที่อยู่
     $.Thailand({
       $district: $("#district"), // input ของตำบล
       $amphoe: $("#amphoe"), // input ของอำเภอ

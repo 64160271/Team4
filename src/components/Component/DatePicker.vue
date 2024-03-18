@@ -76,7 +76,7 @@ onMounted(() => {
 
 
 function initFirstValue() {
-  if (props.modelValue) {
+  if (props.modelValue && (typeof props.modelValue !== 'boolean')) {
     fakeValue.value = changeTimestampToDate(props.modelValue)
   }
 }
