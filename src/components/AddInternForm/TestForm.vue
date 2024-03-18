@@ -30,8 +30,8 @@
   />
   <InvalidFeedback :errors="v$.form.$errors" />
 
-  <DatePicker placeholder="เพลส" pid="d1" label="ลาเบล" v-model="d1" />
-  <DatePicker pid="d2" label="gg" v-model="d2" />
+  <DatePicker placeholder="something" pid="d1" label="ลาเบล" v-model="d1" />
+  <DatePicker :value="d1" pid="d2" label="gg" v-model="d2" />
 
   <BaseInput
     v-model="addressdd.house_number"

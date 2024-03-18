@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineModel } from "vue";
 import { slashDtoDashY } from "../../assets/js/func";
 import moment from "moment";
 
@@ -70,7 +70,15 @@ onMounted(() => {
     },
     useCurrent: false,
   });
+
+  initFirstValue()
 });
+
+function initFirstValue() {
+  if (props.modelValue) {
+    fakeValue.value = props.modelValue
+  }
+}
 
 function convertEra(strDate) {
   let dateMomentObject = moment(strDate, "DD/MM/YYYY"); // 1st argument - string, 2nd argument - format
