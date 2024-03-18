@@ -17,10 +17,15 @@
 
     <BaseModal size="lg" v-if="openModal == true" @save="formSubmit" @close="openModal = false" title="เพิ่มข้อมูล">
         <div class="col mb-3">
-            <BaseInput v-model="formData.rep_intn_code" :value="formData.rep_intn_code" label="รหัสนักศึกษาฝึกงาน"
+            <AutoComplete label="รหัสนักศึกษาฝึกงาน" v-model="formData.rep_intn_code" :value="formData.rep_intn_code"
+                placeholder="INT-0000" required :items="internSearch" @search="fetchIntern" @return="handleReturn"
+                item-text="rep_intn_code" :class="{ 'is-invalid': v$.rep_intn_code.$error }"
+                :disabled="modalMode == 'edit'" />
+            <InvalidFeedback :errors="v$.rep_intn_code.$errors" />
+            <!-- <BaseInput v-model="formData.rep_intn_code" :value="formData.rep_intn_code" label="รหัสนักศึกษาฝึกงาน"
                 input_type="text" required="required" placeholder="xxx-xxxx" :disabled="modalMode == 'edit'"
                 :class="{ 'is-invalid': v$.rep_intn_code.$error }" />
-            <InvalidFeedback :errors="v$.rep_intn_code.$errors" />
+            <InvalidFeedback :errors="v$.rep_intn_code.$errors" /> -->
         </div>
         <div class="col mb-3">
             <BaseInput :value="formData.sal_intn_name" label="ชื่อ-นามสกุล" input_type="text" readonly="readonly"
@@ -28,14 +33,18 @@
             <InvalidFeedback :errors="v$.sal_intn_name.$errors" />
         </div>
         <div class="col mb-3">
-            <BaseInput v-model="formData.sal_from_date" :value="formData.sal_from_date" label="วันที่เริ่มต้น"
-                input_type="date" required :class="{ 'is-invalid': v$.sal_from_date.$error }" />
-            <InvalidFeedback :errors="v$.sal_from_date.$errors" />
+            <DatePicker placeholder="DD/MM/YYYY" pid="start" label="วันที่ได้รับ" v-model="formData.sal_from_date"
+                required :class="{ 'is-invalid': v$.sal_from_date.$error }">
+                <InvalidFeedback :errors="v$.sal_from_date.$errors" />
+            </DatePicker>
+
         </div>
         <div class="col mb-3">
-            <BaseInput v-model="formData.sal_to_date" :value="formData.sal_to_date" label="วันที่สิ้นสุด"
-                input_type="date" required :class="{ 'is-invalid': v$.sal_to_date.$error }" />
-            <InvalidFeedback :errors="v$.sal_to_date.$errors" />
+            <DatePicker placeholder="DD/MM/YYYY" pid="end" label="วันที่สิ้นสุด" v-model="formData.sal_to_date" required
+                :class="{ 'is-invalid': v$.sal_to_date.$error }">
+                <InvalidFeedback :errors="v$.sal_to_date.$errors" />
+            </DatePicker>
+            <div></div>
         </div>
         <hr>
         <div class="row">
@@ -69,15 +78,11 @@
         <template #sal_total="{ data }">
             {{ calculateSalary(data.sal_day, data.sal_salary, data.sal_extra) }}
         </template>
-        <template #sal_from_date_front="{ data }">
-            {{ formatDate(data.sal_from_date) }}
-        </template>
+
         <template #sal_salary_and_extra="{ data }">
             {{ data.sal_salary }} / {{ data.sal_extra }}
         </template>
-        <template #sal_to_date_front="{ data }">
-            {{ formatDate(data.sal_to_date) }}
-        </template>
+
         <template #sal_edit="{ data }">
             <EditIcon @click="editSalary(data)" />
         </template>
@@ -98,7 +103,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import BaseButton from '../Component/BaseButton.vue'
 import DataTable from '../Component/DataTable.vue'
 import BaseModal from '../Component/BaseModal.vue'
@@ -111,12 +116,16 @@ import { useRoute } from "vue-router"
 import ExcelIcon from '../icons/ExcelIcon.vue'
 import SideLabelInput from '../Component/SideLabelInput.vue'
 import router from "@/router";
-import { confirmation, successAlert, errorAlert } from "../../assets/js/func"
+import { confirmation, successAlert, errorAlert, slashDtoDashY } from "../../assets/js/func"
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
+import AutoComplete from '../Component/AutoComplete.vue';
+import DatePicker from '../Component/DatePicker.vue';
+import { useAuthenticate } from '../../stores/authenticate';
 
 const route = useRoute()
+const user = useAuthenticate()
 let openModal = ref(false)
 let openModal2 = ref(false)
 const salarys = ref([])
@@ -129,8 +138,18 @@ const changeStatus = ref({
 })
 let salaryEditId = 0
 let modalMode = ref()
+const internSearch = ref([]);
 const requiredNotSpNumCh = helpers.regex(/^[1-9][0-9]*$/)
 const NumOfSalary = 'ข้อมูลต้องเป็นตัวเลขเท่านั้น'
+const afterStartFeedback = 'ไม่สามารถเลือกวันที่มากกว่าวันที่ได้รับได้'
+const dateAfterStart = (v) => {
+    if (v) {
+        let date = formData.sal_from_date
+        return (v > date)
+    }
+    return true
+}
+
 
 const rules = {
     rep_intn_code: {
@@ -143,7 +162,7 @@ const rules = {
         required
     },
     sal_to_date: {
-        required
+        dateAfterStart: helpers.withMessage(afterStartFeedback, dateAfterStart)
     },
     sal_day: {
         required,
@@ -159,7 +178,7 @@ const rules = {
     }
 };
 
-const formData = ref({
+const initialState = {
     rep_intn_code: "",
     sal_updated_by: 1,
     sal_report_id: id,
@@ -170,14 +189,17 @@ const formData = ref({
     sal_salary: Number(0),
     sal_extra: Number(0),
     sal_total_salary: Number(0),
-})
+};
+
+
+const formData = reactive({ ...initialState });
 const v$ = useVuelidate(rules, formData);
 
 const dataHead = ref([
     { key: "sal_intern.intn_code", title: "รหัสนักศึกษาฝึกงาน", align: "center" },
     { key: "sal_intern.intn_name_th", title: "ชื่อ-นามสกุล" },
-    { key: "sal_from_date_front", title: "วันที่ได้รับ", align: "center" },
-    { key: "sal_to_date_front", title: "วันที่สิ้นสุด", align: "center" },
+    { key: "sal_from_date", title: "วันที่ได้รับ", align: "center" },
+    { key: "sal_to_date", title: "วันที่สิ้นสุด", align: "center" },
     { key: "sal_day", title: "จำนวนวันทำงาน", align: "right" },
     { key: "sal_salary_and_extra", title: "เบี้ยเลี้ยงทั้งหมด", align: "center" },
     { key: "sal_total", title: "ยอดรวม", align: "center" },
@@ -185,6 +207,65 @@ const dataHead = ref([
     { key: "sal_remove", title: "ลบ", align: "center" },
     { key: "sal_intn_history", title: "ประวัติ", align: "center" },
 ])
+
+let timer;
+
+async function fetchIntern() {
+    if (timer) {
+        clearTimeout(timer);
+    }
+
+    timer = setTimeout(async () => {
+        const params = {
+            filter: formData.rep_intn_code || undefined,
+        };
+
+        await axios
+            .get(`${import.meta.env.VITE_API_HOST}/interns`, { params })
+            .then((response) => {
+                internSearch.value = response.data.rows.map((intern) => ({
+                    'sal_intn_name': intern.intn_name_th,
+                    'rep_intn_code': intern.intn_code,
+                }))
+            });
+    }, 500);
+    console.log("bbbb=", formData)
+    console.log("aaaaaaaaa=", internSearch.value)
+}
+
+// async function fetchIntern() {
+//     if (timer) {
+//         clearTimeout(timer);
+//     }
+
+//     timer = setTimeout(async () => {
+//         const params = {
+//             filter: formData.rep_intn_code || undefined,
+//         };
+
+//         await axios
+//             .get(`${import.meta.env.VITE_API_HOST}/interns`, { params })
+//             .then((response) => {
+//                 internSearch.value = response.data.rows.map(intern => {
+//                     return {
+//                         'sal_intn_name': intern.intn_name_th,
+//                         'rep_intn_code': intern.intn_code,
+//                         // Add other properties as needed
+//                     };
+//                 });
+//             });
+//     }, 500);
+//     console.log("bbbb=", formData.value);
+//     console.log("aaaaaaaaa=", internSearch.value);
+// }
+
+function handleReturn(val) {
+    Object.assign(formData, {
+        rep_intn_code: val.rep_intn_code,
+        sal_intn_name: val.sal_intn_name
+    });
+
+}
 
 async function changeSave(value) {
     if (reports.value.rep_status == 1) {
@@ -244,23 +325,24 @@ const getSalaryByReportId = async () => {
     console.log(salarys.value)
 }
 
-function checkModal(checkModd) {
+async function checkModal(checkModd) {
     if (checkModd == false) {
         openModal.value = true
     }
-    formData.value.sal_total_salary = 0
+
+    Object.assign(formData, initialState);
     modalMode.value = "add"
 }
 
 
 async function editSalary(salary) {
-    Object.assign(formData.value, {
+    Object.assign(formData, {
         rep_intn_code: salary?.sal_intern.intn_code,
         sal_updated_by: salary?.sal_updated_by,
         sal_report_id: salary?.sal_report_id,
         sal_intn_name: salary?.sal_intern.intn_name_th,
-        sal_from_date: salary?.sal_from_date,
-        sal_to_date: salary?.sal_to_date,
+        sal_from_date: slashDtoDashY(salary?.sal_from_date),
+        sal_to_date: slashDtoDashY(salary?.sal_to_date),
         sal_day: salary?.sal_day,
         sal_salary: salary?.sal_salary,
         sal_extra: salary?.sal_extra,
@@ -282,7 +364,7 @@ function calculateSalary(day, salary, extra) {
 
     let result = day * salary + extra;
 
-    return formData.value.sal_total_salary = result;
+    return formData.sal_total_salary = result;
 }
 
 
@@ -294,26 +376,26 @@ async function formSubmit() {
     if (validate) {
 
         if (modalMode.value == "add") {
-            await axios.post(`${import.meta.env.VITE_API_HOST}/salaries/create-salary`, formData.value)
+            await axios.post(`${import.meta.env.VITE_API_HOST}/salaries/create-salary`, formData)
         } else if (modalMode.value == "edit") {
-            await axios.put(`${import.meta.env.VITE_API_HOST}/salaries/edit-salary-intern/${salaryEditId}`, formData.value)
+            await axios.put(`${import.meta.env.VITE_API_HOST}/salaries/edit-salary-intern/${salaryEditId}`, formData)
         }
         router.go()
     }
     console.log("mode = ", modalMode.value)
-    console.log(formData.value)
+    console.log(formData)
     console.log(124)
-    
+
 }
 
-function formatDate(date) {
-    let split = date.split("-")
-    let year = parseInt(split[0]) + 543
-    let month = split[1]
-    let day = split[2]
+// function formatDate(date) {
+//     let split = date.split("-")
+//     let year = parseInt(split[0]) + 543
+//     let month = split[1]
+//     let day = split[2]
 
-    return `${day}-${month}-${year}`
-}
+//     return `${day}-${month}-${year}`
+// }
 
 let nameUser = "ปริญญา ก้อนจันทึก"
 

@@ -111,10 +111,6 @@ const router = createRouter({
             name: 'addReport-File',
             component: AddReportFile
         },
-        
-            path: '/test',
-            component: TestForm
-        },
         {
             path: '/projects',
             name: 'manageProject',

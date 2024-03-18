@@ -32,7 +32,7 @@
             <BaseInput :value="chageDate(date)" label="วันที่สร้างรายการ" input_type="text" readonly="readonly" />
         </div>
         <div class="col mb-3">
-            <BaseInput :value="nameUser" label="ผู้ทำการแก้ไขข้อมูล" input_type="text" readonly="readonly" />
+            <BaseInput :value="formData.rep_updated_by" label="ผู้ทำการแก้ไขข้อมูล" input_type="text" readonly="readonly" />
         </div>
     </BaseModal>
 
@@ -75,8 +75,8 @@ import { confirmation, successAlert, errorAlert } from "../../assets/js/func"
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import useVuelidate from "@vuelidate/core";
 import {required}  from "@vuelidate/validators";
-
-
+import { useAuthenticate } from '../../stores/authenticate';
+const user = useAuthenticate()
 
 const reports = ref([])
 const date = new Date();
@@ -95,7 +95,7 @@ const rules = {
 
 const formData = ref({
     rep_code: "",
-    rep_updated_by: 1
+    rep_updated_by: user.getId
 })
 const v$ = useVuelidate(rules, formData);
 
@@ -209,7 +209,7 @@ async function deleteReport(rep) {
     }
 }
 
-let nameUser = "ปริญญา ก้อนจันทึก"
+// let nameUser = "ปริญญา ก้อนจันทึก"
 
 onMounted(async () => {
     setCurrentPage(page.value),
