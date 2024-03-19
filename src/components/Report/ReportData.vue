@@ -1,5 +1,5 @@
 <template>
-    <LayoutMenuName backButton page-name="รายงานเบี้ยเลี้ยง" />
+    <LayoutMenuName backButton :page-name="'เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง >' .repCode " />
     <div class="row mb-2">
 
         <div class="col-auto ms-auto">
@@ -89,6 +89,9 @@
         <template #sal_remove="{ data }">
             <DeleteButton @click="deleteSalaryIntern(data.sal_id)" />
         </template>
+        <template #sal_intn_history="{ data }">
+            <HistoryIcon @click="router.push({ name: 'historySalaryIntern', params: { idIntern: data.sal_intern.intn_id } })" />
+        </template>
     </DataTable>
 
     <div class="row">
@@ -123,15 +126,16 @@ import { required, helpers } from "@vuelidate/validators";
 import AutoComplete from '../Component/AutoComplete.vue';
 import DatePicker from '../Component/DatePicker.vue';
 import { useAuthenticate } from '../../stores/authenticate';
+import HistoryIcon from '../icons/HistoryIcon.vue' ;
 
 const route = useRoute()
 const user = useAuthenticate()
 let openModal = ref(false)
-let openModal2 = ref(false)
 const salarys = ref([])
 const reports = ref([])
 const date = new Date();
 const id = route.params.id
+const repCode = ref("");
 const changeStatus = ref({
     report_id: Number(0),
     status_report: Number(0)
@@ -180,7 +184,7 @@ const rules = {
 
 const initialState = {
     rep_intn_code: "",
-    sal_updated_by: 1,
+    sal_updated_by: user.getId,
     sal_report_id: id,
     sal_intn_name: "",
     sal_from_date: "",
@@ -207,6 +211,8 @@ const dataHead = ref([
     { key: "sal_remove", title: "ลบ", align: "center" },
     { key: "sal_intn_history", title: "ประวัติ", align: "center" },
 ])
+
+
 
 let timer;
 
@@ -312,17 +318,20 @@ const getReportById = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/reports/${id}`).
         then((response) => {
             reports.value = response.data
+            repCode.value = reports.value.rep_code
         })
-    console.log(reports.value)
+    console.log("aaaaa=",reports.value)
+    console.log("aaaaa45354=",repCode.value)
 }
 
 const getSalaryByReportId = async () => {
     await axios.get(`${import.meta.env.VITE_API_HOST}/salaries/reports/${id}`).
         then((response) => {
             salarys.value = response.data
-
+            
         })
-    console.log(salarys.value)
+    console.log("aaaaaaaaaaaaaa = ",salarys.value)
+    
 }
 
 async function checkModal(checkModd) {

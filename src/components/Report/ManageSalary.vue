@@ -1,19 +1,14 @@
 <template>
-    <LayoutMenuName page-name="รายงานเบี้ยเลี้ยง" />
+    <LayoutMenuName page-name="เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง" />
     <div class="row mb-3">
 
         <!-- ส่วนของ radio buttons -->
         <div class="col-md-5 my-auto nopadding">
             <Search v-model="searchData" @search="search" />
         </div>
-
-        <div class="col-auto form-check form-check-inline">
-
-
-        </div>
-
-        <div class="col-auto form-check form-check-inline">
-            <BaseSelect v-model="team_id" :options="team" value="team_id" text="team_name" />
+        <div class="col-md-2 ms-2 my-auto nopadding">
+            <BaseSelect placeholder="ปี" @change="setCurrentPage(1)" v-model="selectData" :options="years"
+                value="selectData" text="selectData" />
         </div>
 
         <div class="col-auto ms-auto my-auto">
@@ -25,14 +20,14 @@
     <BaseModal v-if="openModal" @save="formSubmit" @close="openModal = false" title="เพิ่มรายการข้อมูล">
         <div class="col mb-3">
             <BaseInput v-model="formData.rep_code" label="รหัสรายการ" input_type="text" required="required"
-                placeholder="xx/xxxx" :class="{ 'is-invalid': v$.rep_code.$error }" />
+                placeholder="xxx/xx" :class="{ 'is-invalid': v$.rep_code.$error }" />
             <InvalidFeedback :errors="v$.rep_code.$errors" />
         </div>
         <div class="col mb-3">
             <BaseInput :value="chageDate(date)" label="วันที่สร้างรายการ" input_type="text" readonly="readonly" />
         </div>
         <div class="col mb-3">
-            <BaseInput :value="formData.rep_updated_by" label="ผู้ทำการแก้ไขข้อมูล" input_type="text" readonly="readonly" />
+            <BaseInput :value="userName" label="ผู้ทำการแก้ไขข้อมูล" input_type="text" readonly="readonly" />
         </div>
     </BaseModal>
 
@@ -47,8 +42,16 @@
         </template>
         <template #rep_updated_at_front="{ data }">
             {{ chageDate(data.rep_updated_at) }}
-
         </template>
+        <template #rep_status_name="{ data }">
+            <div v-if="statusName(data.rep_status) === 'บันทึกแล้ว'" style="color: greenyellow;">
+                {{ statusName(data.rep_status) }}
+            </div>
+            <div v-else-if="statusName(data.rep_status) === 'บันทึกร่าง'" style="color: gray;">
+                {{ statusName(data.rep_status) }}
+            </div>
+        </template>
+
         <template #rep_edit="{ data }">
             <EditIcon @click="handleClick(data.rep_id)" class="hover-p" />
         </template>
@@ -74,7 +77,7 @@ import Search from "../component/SearchBox.vue"
 import { confirmation, successAlert, errorAlert } from "../../assets/js/func"
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import useVuelidate from "@vuelidate/core";
-import {required}  from "@vuelidate/validators";
+import { required } from "@vuelidate/validators";
 import { useAuthenticate } from '../../stores/authenticate';
 const user = useAuthenticate()
 
@@ -86,6 +89,9 @@ const pageMax = ref(1);
 const pageSize = 10;
 const total = ref();
 const searchData = ref("");
+const selectData = ref("")
+const years = ref([])
+const userName = user.getName
 let timer;
 const rules = {
     rep_code: {
@@ -107,9 +113,8 @@ const dataHead = ref([
     { key: "rep_count_name", title: "จำนวนรายชื่อ", align: "end" },
     { key: "rep_created_at_front", title: "วันที่สร้างรายการ", align: "center" },
     { key: "rep_updated_at_front", title: "วันที่แก้ไขรายการ", align: "center" },
-    { key: "rep_created_user", title: "ผู้สร้างรายการ" },
     { key: "rep_updated_by_user.user_fname", title: "ผู้แก้ไขข้อมูลล่าสุด" },
-    { key: "rep_status", title: "สถานะ", align: "center" },
+    { key: "rep_status_name", title: "สถานะ", align: "center" },
     { key: "rep_edit", title: "แก้ไข", align: "center" },
     { key: "rep_remove", title: "ลบ", align: "center" },
 ])
@@ -140,6 +145,7 @@ const getReport = async () => {
         page: page.value,
         limit: pageSize,
         filter: searchData.value || undefined,
+        rep_created_at: selectData.value || undefined,
     };
 
     await axios
@@ -149,6 +155,15 @@ const getReport = async () => {
             total.value = response.data.count;
             pageMax.value = Math.ceil(total.value / pageSize)
         });
+}
+
+async function reportSelect() {
+
+    const response = await axios.get(`${import.meta.env.VITE_API_HOST}/reports`);
+    const year = response.data.rows.map(entry => new Date(entry.rep_created_at).getFullYear() + 543);
+    years.value = [...new Set(year)];
+    years.value.unshift("ทั้งหมด");
+
 }
 
 const getAllTeam = async () => {
@@ -170,6 +185,16 @@ async function formSubmit() {
 function handleClick(rep_id) {
     console.log(rep_id)
     router.push({ name: "reportData", params: { id: rep_id } });
+}
+
+function statusName(status) {
+    let name;
+    if (status == 1) {
+        name = "บันทึกแล้ว";
+    } else if (status == 0) {
+        name = "บันทึกร่าง";
+    }
+    return name;
 }
 
 function chageDate(value) {
@@ -213,8 +238,18 @@ async function deleteReport(rep) {
 
 onMounted(async () => {
     setCurrentPage(page.value),
-        getAllTeam()
+        getAllTeam(),
+        reportSelect()
 })
 </script>
 
-<style scoped></style>
+
+<style scoped>
+.green-text {
+    color: green;
+}
+
+.grey-text {
+    color: grey;
+}
+</style>

@@ -21,6 +21,7 @@ import ManageProject from '../components/Project/ManageProject.vue'
 import ProjectMember from '../components/Project/ProjectMember.vue'
 import Cookies from "js-cookie";
 import NotFoundPage from "../components/NotFoundPage.vue";
+import HistorySalaryIntern from "../components/Report/HistorySalaryIntern.vue";
 import { useAuthenticate } from "../stores/authenticate";
 
 const router = createRouter({
@@ -110,6 +111,11 @@ const router = createRouter({
             path: '/reports/manageSalary/:id/addReport-file',
             name: 'addReport-File',
             component: AddReportFile
+        },
+        {
+            path: '/reports/manageSalary/:id/:idIntern',
+            name: 'historySalaryIntern',
+            component: HistorySalaryIntern
         },
         {
             path: '/projects',

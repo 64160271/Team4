@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column mb-3">
-    <LayoutMenuName backButton page-name="... > เพิ่มจากไฟล์ Excel" />
+    <LayoutMenuName backButton page-name="เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง >" />
 
     <SectionSpace>
       <div id="upload-box" class="d-flex justify-content-center align-items-center mt-3 upload-box upload">
@@ -21,9 +21,7 @@
       </div>
 
       <div id="import-btn" class="d-flex mt-5">
-        <button type="button" class="outline-gray btn" @click="$router.push({ name: 'reportData' })">
-          ย้อนกลับ
-        </button>
+        
 
         <button type="button" class="outline-red btn" @click="uploaded()">Import</button>
       </div>
