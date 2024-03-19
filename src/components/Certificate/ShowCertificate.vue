@@ -145,7 +145,7 @@ function search() {
 
 /*
 * selectCertificate
-* ฟังก์ชันสำหรับหน่วงเวลาในการค้นหา
+* ฟังก์ชันสำหรับเลือก certificate ที่ต้องการดาวน์โหลด
 * param: year และ filename ปี และชื่อไฟล์ของ certificate ที่เลือก
 * return: -
 */
@@ -194,7 +194,7 @@ const getAllCertificate = async () => {
 
 /*
 * cerCreateSelect
-* ฟังก์ชันสำหรับเลือก certificate ที่ต้องการดาวน์โหลดพร้อมกัน
+* ฟังก์ชันสำหรับสร้างตัวเลือกหลายรายการของการเลือกปี
 * param: -
 * return: -
 */
