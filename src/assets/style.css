@@ -218,6 +218,7 @@
 .custom-icon path {
     fill: var(--main-color) !important;
 }
+
 .hov-fill-red:hover path {
     fill: var(--main-color) !important;
 }

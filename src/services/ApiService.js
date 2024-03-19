@@ -307,7 +307,28 @@ export default class ApiService {
     }
 
     createFaculty = async (data) => {
-        return await axios.post(`${import.meta.env.VITE_API_HOST}/faculties/bulk`,data)
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/faculties`,data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    editFaculty = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/facultie${id}`,data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    createMajorBulk = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/majors/bulk`,data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    deleteMajorBulk = async (id) => {
+        return await axios.delete(`${import.meta.env.VITE_API_HOST}/majors/bulk`,id)
             .then((response) => {
                 return response.data
             })
