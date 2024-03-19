@@ -29,13 +29,18 @@
     </div>
 
     <div class="row">
+      <Loading v-if="!loaded" />
       <DataTable
+        v-if="loaded"
         striped
         :total="filterData.length"
         :heads="tableHead"
         :items="filterData"
         hover-background
       >
+        <template #doc_created_at_c="{ data }">
+          {{ changeTimestampToDate(data.doc_created_at) }}
+        </template>
         <template #open_file="{ data }">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +96,7 @@
 
     <div class="row mb-3">
       <div class="col-auto my-auto">
-        <label>ไฟล์เอกสาร</label>
+        <label>เอกสารแนบ</label>
       </div>
 
       <BaseButton
@@ -153,7 +158,7 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref, computed, getCurrentInstance } from "vue";
 import DataTable from "../Component/DataTable.vue";
@@ -161,26 +166,32 @@ import CardInternInfo from "./CardInternInfo.vue";
 import BaseButton from "../Component/BaseButton.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import BaseModal from "../Component/BaseModal.vue";
-import { confirmation, successAlert } from "../../assets/js/func";
+import {
+  confirmation,
+  successAlert,
+  getCurrentThaiDate,
+  changeTimestampToDate,
+} from "../../assets/js/func";
 import SearchBox from "../Component/SearchBox.vue";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { useInternName } from "../../stores/constData";
 
+const loaded = ref(false)
 const router = useRouter();
 const internId = useRoute().params.id;
 const documents = ref([]);
 const searchData = ref("");
-const apiCall = new apiService();
+const apiCall = new ApiService();
 const openModal = ref(false);
-const today = ref(new Date());
+const today = ref(getCurrentThaiDate());
 const section = ref("");
 const dept = ref("");
 const tableHead = ref([
   { key: "doc_title", title: "ชื่อเอกสาร" },
   { key: "doc_mimetype", title: "ประเภทไฟล์" },
-  { key: "doc_created_at", title: "วันที่อัปโหลดไฟล์", align: "center" },
+  { key: "doc_created_at_c", title: "วันที่อัปโหลดไฟล์", align: "center" },
   /* { key: "lvs_day", title: "ผู้ทำการแก้ไข" }, */
   { key: "open_file", title: "เปิดไฟล์", align: "center" },
   { key: "delete_file", title: "ลบไฟล์", align: "center" },
@@ -199,6 +210,7 @@ const rules = {
 const v$ = useVuelidate(rules, formData.value);
 
 onMounted(async () => {
+  loaded.value = false
   documents.value = await apiCall.getDocumentByInternId(internId);
   dept.value = useInternName().getDepartment;
   section.value = useInternName().getSection;
@@ -206,6 +218,7 @@ onMounted(async () => {
     const instance = getCurrentInstance();
     instance?.proxy?.$forceUpdate();
   }
+  loaded.value = true
   /* modal.value = new bootstrap.Modal("#modal", {}); */
 });
 

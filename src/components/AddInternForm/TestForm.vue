@@ -30,6 +30,9 @@
   />
   <InvalidFeedback :errors="v$.form.$errors" />
 
+  <DatePicker placeholder="เพลส" pid="d1" label="ลาเบล" v-model="d1" />
+  <DatePicker pid="d2" label="gg" v-model="d2" />
+
   <BaseInput
     v-model="addressdd.house_number"
     label="ทดสอบจ้า"
@@ -58,9 +61,12 @@ import BaseButton from "../Component/BaseButton.vue";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import { useGenderData } from "../../stores/constData";
 import DataTable from "../Component/DataTable.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
+import DatePicker from "../Component/DatePicker.vue";
 
-const apiCall = new apiService();
+const d1 = ref("13/03/2566")
+const d2 = ref()
+const apiCall = new ApiService();
 const form = ref(String(""));
 const sections = ref([]);
 const formData = useInternFormData();
@@ -93,6 +99,7 @@ const v$ = useVuelidate(rules, formData);
 const image = ref("");
 
 async function validate() {
+  console.log(d1.value)
   const result = await v$.value.$validate();
 }
 

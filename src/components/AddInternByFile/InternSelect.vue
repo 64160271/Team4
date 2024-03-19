@@ -119,6 +119,12 @@ function unSelectAll() {
   main.checked = false;
 }
 
+/*
+ * dateFormat
+ * แปลงข้อมูลวันที่เป็น dd/mm/yyyy
+ * param: วันที่ที่ต้องการแปลง
+ * return: วันที่แบบ dd/mm/yyyy
+*/
 function dateFormat(date) {
   if (!date) {
     return;
@@ -129,6 +135,12 @@ function dateFormat(date) {
   ).replace(/\//g, '/')
 }
 
+/*
+ * dateFormatToDB
+ * ฟังก์ชันแปลงวันที่เป็นแบบ ISO เพื่อบันทึกเข้าฐานข้อมูล
+ * param: วันที่ที่ต้องการแปลง
+ * return: วันที่แบบ ISO
+*/
 function dateFormatToDB(date) {
   if (!date) {
     return undefined;
@@ -151,6 +163,12 @@ function checkRow(index) {
   checkbox.click();
 }
 
+/*
+ * isSelected
+ * ฟังก์ชันสำหรับตรวจสอบว่ามีการเลือกข้อมูลแล้วหรือไม่
+ * param: -
+ * return: true (มีการเลือกแล้ว), false (ยังไม่มีการเลือก)
+*/
 function isSelected() {
   let tbCheckBox = document.getElementsByName("tb-check");
 
@@ -164,6 +182,12 @@ function isSelected() {
   return false;
 }
 
+/*
+ * confirmation
+ * ฟังก์ชันสำหรับแสดง popup ยืนยันการเพิ่มข้อมูล
+ * param: -
+ * return: -
+*/
 function confirmation() {
   if (isSelected()) {
     Swal.fire({
@@ -242,6 +266,7 @@ async function createInterns() {
     let name = rawData[index][8].split(" ");
     let row = {
       intn_id: rawData[index]["intn_id"],
+      com_name: rawData[index][1],
       sec_name: rawData[index][2],
       dept_name: rawData[index][3],
       team_name: rawData[index][4],

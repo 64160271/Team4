@@ -20,20 +20,34 @@
 
   <SectionSpace noSpace>
     <div class="row mb-4 mt-2">
-      <SideLabelInput
-        v-model="searchData.sal_from_date"
-        type="date"
-        label="วันเริ่มต้น - สิ้นสุด"
-        noPadding
-      />
+      <div class="col-auto my-auto nopadding">
+        <label for="" class="col-form-label text-gray"
+          >วันเริ่มต้นได้รับ - สิ้นสุด
+        </label>
+      </div>
+      <div class="col-md-3 my-auto">
+        <DatePicker
+          placeholder="เริ่มต้น"
+          pid="searchFrom"
+          v-model="searchData.sal_from_date"
+          readonly
+        />
+      </div>
 
-      <div class="col-md-2">
-        <BaseInput v-model="searchData.sal_to_date" type="date" />
+      <div class="col-md-3">
+        <DatePicker
+          placeholder="สิ้นสุด"
+          v-model="searchData.sal_to_date"
+          pid="searchTo"
+          readonly
+        />
       </div>
     </div>
 
     <div class="row">
+      <Loading v-if="!loaded" />
       <DataTable
+        v-if="loaded"
         :total="filterData.length"
         striped
         hover-background
@@ -50,7 +64,7 @@
 
 <script setup>
 import LayoutMenu from "./LayoutMenu.vue";
-import apiService from "../../services/api";
+import ApiService from "../../services/ApiService";
 import { useRoute } from "vue-router";
 import { onMounted, ref, computed, isProxy, toRaw } from "vue";
 import { useAddSalaryForm } from "../../stores/addSalaryFormdata";
@@ -59,12 +73,12 @@ import CardInternInfo from "./CardInternInfo.vue";
 import BaseInput from "../Component/BaseInput.vue";
 import SideLabelInput from "../Component/SideLabelInput.vue";
 import { slashDtoDashY } from "../../assets/js/func";
+import DatePicker from "../Component/DatePicker.vue";
 
+const loaded = ref(false)
 const internId = useRoute().params.id;
 const salaries = ref([]);
-const apiCall = new apiService();
-const formData = ref(useAddSalaryForm());
-const modal = ref();
+const apiCall = new ApiService();
 const tableHead = ref([
   { key: "sal_report.rep_code", title: "รหัสรายการ", align: "left" },
   { key: "sal_from_date", title: "วันเริ่มต้น", align: "center" },
@@ -85,7 +99,9 @@ const lastSalary = computed(() => {
 });
 
 onMounted(async () => {
+  loaded.value = false
   salaries.value = await apiCall.getSalaryByInternId(internId);
+  loaded.value = true
 });
 
 function calculateTotal(data) {
