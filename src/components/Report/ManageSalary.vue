@@ -220,7 +220,7 @@ async function deleteReport(rep) {
         return;
     }
     console.log(rep.rep_id)
-    const result = await confirmation("คุณต้องการลบรายการนี้ใช้หรือไม่");
+    const result = await confirmation("คุณต้องการลบรายการนี้ใช่หรือไม่");
     if (result) {
         await axios.delete(`${import.meta.env.VITE_API_HOST}/reports/${rep.rep_id}`)
             .then(async (_res) => {
