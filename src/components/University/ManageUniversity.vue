@@ -206,7 +206,7 @@
       <button
         type="button"
         class="col-1 btn btn-outline-secondary mx-auto rounded-circle"
-        @click="$event.target.parentElement.remove()"
+        @click="removeMajor(major)"
       >
         -
       </button>
@@ -270,6 +270,8 @@ const initialFaculty = {
   ],
 };
 
+const deleted = [];
+const edited = [];
 const formData = reactive({ ...inititalState });
 const facFormData = reactive({ ...initialFaculty });
 
@@ -376,6 +378,11 @@ function editFaculty(faculty, university) {
   edit_fac_id = faculty.fac_id;
   isFacOpen.value = true;
   modalModeFac.value = "edit";
+}
+
+function removeMajor(major) {
+  deleted.push(major.maj_id);
+  event.target.parentElement.remove();
 }
 
 /*
