@@ -13,7 +13,7 @@
 
         <div class="col-auto ms-auto my-auto">
             <div>
-                <BaseButton label="เพิ่มข้อมูล" @click="openModal = true" />
+                <BaseButton label="+ เพิ่มข้อมูล" @click="openModal = true" />
             </div>
         </div>
     </div>
