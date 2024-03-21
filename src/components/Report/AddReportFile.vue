@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column mb-3">
-    <LayoutMenuName backButton page-name="เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง >" />
+    <LayoutMenuName backButton :page-name="'เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง >'+ repCode" />
 
     <SectionSpace>
       <div id="upload-box" class="d-flex justify-content-center align-items-center mt-3 upload-box upload">
@@ -49,6 +49,8 @@ const examplePathFile = "../../src/assets/example_file.xlsx";
 let isUploaded = ref(false);
 const id = route.params.id
 const salarys = ref([]);
+const reports = ref([]);
+const repCode = ref("");
 
 
 function showFileName(callback) {
@@ -97,11 +99,16 @@ const readFIle = async () => {
   });
 }
 
-
-
-function importExcel() {
-
+const getReportById = async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/reports/${id}`).
+        then((response) => {
+            reports.value = response.data
+            repCode.value = reports.value.rep_code
+        })
+    
 }
+
+
 async function sendToCreateReport() {
   const result = await confirmation();
   if (result) {
@@ -162,7 +169,9 @@ function uploaded() {
 }
 
 onMounted(() => {
-  readFIle()
+  console.log(id),
+  readFIle(),
+  getReportById()
 })
 
 </script>

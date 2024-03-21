@@ -1,12 +1,12 @@
 <template>
-    <LayoutMenuName backButton :page-name='เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง > rep_code' />
+    <LayoutMenuName backButton :page-name='"เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง >"+ repCode +" > "+ internCode' />
     <div class="row mb-2">
 
 
 
     </div>
 
-    <DataTable :heads="dataHead" :items="salarys" >
+    <DataTable :heads="dataHead" :items="salarys" :total="salarys.length" >
         <template #sal_total="{ data }">
             {{ calculateSalary(data.sal_day, data.sal_salary, data.sal_extra) }}
         </template>
@@ -21,24 +21,10 @@
 
 <script setup>
 import { reactive, ref } from 'vue';
-import BaseButton from '../Component/BaseButton.vue'
 import DataTable from '../Component/DataTable.vue'
-import BaseModal from '../Component/BaseModal.vue'
-import BaseInput from '../Component/BaseInput.vue'
 import { onMounted } from 'vue';
 import axios from 'axios'
-import EditIcon from '../icons/EditIcon.vue'
-import DeleteButton from '../icons/DeleteButton.vue'
 import { useRoute } from "vue-router"
-import ExcelIcon from '../icons/ExcelIcon.vue'
-import SideLabelInput from '../Component/SideLabelInput.vue'
-import router from "@/router";
-import { confirmation, successAlert, errorAlert, slashDtoDashY } from "../../assets/js/func"
-import InvalidFeedback from "../Component/InvalidFeedback.vue";
-import useVuelidate from "@vuelidate/core";
-import { required, helpers } from "@vuelidate/validators";
-import AutoComplete from '../Component/AutoComplete.vue';
-import DatePicker from '../Component/DatePicker.vue';
 import { useAuthenticate } from '../../stores/authenticate';
 
 const route = useRoute()
@@ -48,13 +34,11 @@ const salarys = ref([])
 const reports = ref([])
 const date = new Date();
 const id = route.params.idIntern
+const idReport = route.params.id
+const repCode = ref("");
+const internCode = ref([]);
 
-const changeStatus = ref({
-    report_id: Number(0),
-    status_report: Number(0)
-})
-let salaryEditId = 0
-let modalMode = ref()
+
 const internSearch = ref([]);
 
 const dateAfterStart = (v) => {
@@ -92,12 +76,41 @@ const dataHead = ref([
     
 ])
 
+// const getSalaryByInternId = async () => {
+//     await axios.get(`${import.meta.env.VITE_API_HOST}/salaries/interns/${id}`).
+//         then((response) => {
+//             salarys.value = response.data
+//             internCode.value = salarys.value?.sal_intern
+//         })
+//     console.log(salarys.value)
+//     console.log("intern=",internCode.value)
+// }
+
 const getSalaryByInternId = async () => {
-    await axios.get(`${import.meta.env.VITE_API_HOST}/salaries/interns/${id}`).
+        const response = await axios.get(`${import.meta.env.VITE_API_HOST}/salaries/interns/${id}`);
+        const salaryData = response.data;
+
+        
+        const mappedData = salaryData.map((sal) => { return sal.sal_intern } )
+
+        
+        salarys.value = salaryData;
+        internCode.value = mappedData[0].intn_code;
+
+        
+        console.log(salarys.value);
+        console.log("intern =", internCode.value);
+
+        return mappedData;
+};
+
+const getReportById = async () => {
+    await axios.get(`${import.meta.env.VITE_API_HOST}/reports/${idReport}`).
         then((response) => {
-            salarys.value = response.data
+            reports.value = response.data
+            repCode.value = reports.value.rep_code
         })
-    console.log(salarys.value)
+    console.log(repCode.value)
 }
 
 
@@ -127,34 +140,6 @@ async function fetchIntern() {
     console.log("aaaaaaaaa=", internSearch.value)
 }
 
-// async function fetchIntern() {
-//     if (timer) {
-//         clearTimeout(timer);
-//     }
-
-//     timer = setTimeout(async () => {
-//         const params = {
-//             filter: formData.rep_intn_code || undefined,
-//         };
-
-//         await axios
-//             .get(`${import.meta.env.VITE_API_HOST}/interns`, { params })
-//             .then((response) => {
-//                 internSearch.value = response.data.rows.map(intern => {
-//                     return {
-//                         'sal_intn_name': intern.intn_name_th,
-//                         'rep_intn_code': intern.intn_code,
-//                         // Add other properties as needed
-//                     };
-//                 });
-//             });
-//     }, 500);
-//     console.log("bbbb=", formData.value);
-//     console.log("aaaaaaaaa=", internSearch.value);
-// }
-
-
-
 
 function calculateSalary(day, salary, extra) {
     // แปลงค่าเป็นตัวเลขก่อนการบวก
@@ -172,7 +157,8 @@ onMounted(() => {
     // getAllTeam(),
     console.log(id)
     // getReportById(),
-    getSalaryByInternId()
+    getSalaryByInternId(),
+    getReportById()
 })
 </script>
 

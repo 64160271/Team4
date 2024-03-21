@@ -95,10 +95,10 @@
     </DataTable>
 
     <div class="row">
-        <div class="col-auto ms-auto">
+        <!-- <div class="col-auto ms-auto">
             <BaseButton label="บันทึกร่าง" @click="changeSave(0)" />
-        </div>
-        <div class="col-auto ">
+        </div> -->
+        <div class="col-auto ms-auto">
             <BaseButton label="บันทึก" @click="changeSave(1)" />
         </div>
 
