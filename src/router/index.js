@@ -16,11 +16,15 @@ import ManageUniversity from '../components/University/ManageUniversity.vue'
 import SelectCompany from '../components/Certificate/SelectCompany.vue'
 import SelectSignature from '../components/Certificate/SelectSignature.vue'
 import SelectIntern from '../components/Certificate/SelectIntern.vue'
+import ManageSalary from '../components/Report/ManageSalary.vue'
+import ReportData from '../components/Report/ReportData.vue'
+import AddReportFile from '../components/Report/AddReportFile.vue'
 import TestForm from '../components/AddInternForm/TestForm.vue'
 import ManageProject from '../components/Project/ManageProject.vue'
 import ProjectMember from '../components/Project/ProjectMember.vue'
 import Cookies from "js-cookie";
 import NotFoundPage from "../components/NotFoundPage.vue";
+import HistorySalaryIntern from "../components/Report/HistorySalaryIntern.vue";
 import { useAuthenticate } from "../stores/authenticate";
 
 const router = createRouter({
@@ -83,6 +87,11 @@ const router = createRouter({
             component: SalaryReport,
         },
         {
+            path: '/reports/manageSalary',
+            name: 'manageSalary',
+            component: ManageSalary,
+        },
+        {
             path: '/universities',
             name: 'manageUniversity',
             component: ManageUniversity,
@@ -116,8 +125,19 @@ const router = createRouter({
             props: true,
         },
         {
-            path: '/test',
-            component: TestForm
+            path: '/reports/manageSalary/:id',
+            name: 'reportData',
+            component: ReportData
+        },
+        {
+            path: '/reports/manageSalary/:id/addReport-file',
+            name: 'addReport-File',
+            component: AddReportFile
+        },
+        {
+            path: '/reports/manageSalary/:id/:idIntern',
+            name: 'historySalaryIntern',
+            component: HistorySalaryIntern
         },
         {
             path: '/projects',
