@@ -11,7 +11,7 @@
       <div class="col-lg-3 text-center">
         <img
           id="blah"
-          :src="internData?.intn_image_path || '@/assets/images/person-nm.png'"
+          :src="internData?.intn_image_path || getDefaultImage()"
           alt=""
           class="img bg-grays-200"
         />
@@ -40,6 +40,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useInternName } from "../../stores/constData";
+import { getDefaultImage } from "../../assets/js/func";
 import axios from "axios";
 
 const loaded = ref(false)

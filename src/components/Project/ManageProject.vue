@@ -51,7 +51,7 @@
     @close="openModal = false"
     v-if="openModal == true"
     size="lg"
-    title="เพิ่มข้อมูลโปรเจกต์"
+    :title="getModalName()"
   >
     <div class="row mb-3">
       <div class="col-md-12">
@@ -81,7 +81,8 @@
           pid="end"
           label="วันที่สิ้นสุดโปรเจกต์"
           v-model="formData.proj_end_date"
-        ></DatePicker>
+          :class="{ 'is-invalid': v$.proj_end_date.$error }"
+        ><InvalidFeedback :errors="v$.proj_end_date.$errors" /></DatePicker>
       </div>
     </div>
     <div class="row mb-3">
@@ -128,7 +129,7 @@ import { errorAlert, slashDtoDashY } from "../../assets/js/func";
 import router from "@/router";
 import EyeIcon from "../icons/EyeIcon.vue";
 import useVuelidate from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { required, helpers } from "@vuelidate/validators";
 import DatePicker from "../Component/DatePicker.vue"
 
 const loaded = ref(false)
@@ -151,10 +152,19 @@ const statusValue = ref([
   { value: 0, text: "เสร็จสิ้น" },
 ]);
 
+const isBeforeStart = (v) => {
+  if (formData.proj_start_date && v) {
+    return v > formData.proj_start_date
+  }
+
+  return true
+}
+
 const rules = {
   proj_name: { required },
   proj_status: { required },
   proj_mentor_id: { required },
+  proj_end_date: { isBeforeStart: helpers.withMessage('ไม่สามารถเลือกก่อนวันเริ่มต้นได้', isBeforeStart) }
 };
 const v$ = useVuelidate(rules, formData);
 
@@ -233,6 +243,14 @@ onMounted(async () => {
   setCurrentPage(page.value);
 });
 
+function getModalName() {
+  if (modalType.value == 'A') {
+    return 'เพิ่มข้อมูลโปรเจกต์'
+  } else if (modalType.value == 'E') {
+    return 'แก้ไขข้อมูลโปรเจกต์'
+  }
+}
+
 /*
  * getStatus
  * ฟังก์ชันสำหรับแสดงสถานะของโปรเจกต์ตามตัวเลขสถานะ
@@ -286,6 +304,8 @@ async function formSubmit() {
  * return: -
 */
 async function add() {
+  modalType.value = "A";
+
   if (!mentors.value[0]) {
     mentors.value = await service.getAllMentor();
   }
@@ -293,7 +313,6 @@ async function add() {
   Object.assign(formData, initialState);
 
   openModal.value = true;
-  modalType.value = "A";
 }
 
 /*
@@ -303,6 +322,8 @@ async function add() {
  * return: -
 */
 async function edit(project) {
+  modalType.value = "E";
+
   if (!mentors.value[0]) {
     mentors.value = await service.getAllMentor();
   }
@@ -318,7 +339,6 @@ async function edit(project) {
   });
 
   openModal.value = true;
-  modalType.value = "E";
 }
 
 /*

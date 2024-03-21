@@ -272,6 +272,7 @@ onMounted(() => {});
 }
 
 .active-page {
+  z-index: 99;
   background-color: var(--main-color) !important;
   color: white !important;
 }

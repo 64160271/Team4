@@ -13,7 +13,7 @@
         <div class="row nopadding border-bottom">
           <div class="col-auto my-auto">
             <div class="mb-4 text-center">
-              <img id="blah" :src="intern?.intn_image_path || '@/assets/images/person-nm.png'" alt=""
+              <img id="blah" :src="intern?.intn_image_path || getDefaultImage()" alt=""
                 class="img bg-grays-200" />
 
             </div>
@@ -331,7 +331,7 @@
 
             <div class="col">
               <label for="" class="form-label text-gray">เลขที่สัญญาจ้าง</label>
-              <input id="contractnum" v-model="personalInfo.intn_contract_number" type="text" class="form-control" />
+              <input id="contractnum" v-model="personalInfo.intn_contract_num" type="text" class="form-control" />
             </div>
           </div>
 
@@ -512,7 +512,7 @@
     bankList
   } from "../../stores/constData";
   import { useInternFormData, addInternFormRules } from "../../stores/addInternFormData";
-  import { getAge, confirmation, successAlert, errorAlert, getImageFromBuffer } from "../../assets/js/func";
+  import { getAge, confirmation, successAlert, errorAlert, getDefaultImage } from "../../assets/js/func";
   import ApiService from "../../services/ApiService";
   import useVuelidate from "@vuelidate/core"; // validate
   import BaseInput from "../Component/BaseInput.vue";
