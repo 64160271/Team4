@@ -51,7 +51,7 @@
     @close="openModal = false"
     v-if="openModal == true"
     size="lg"
-    title="เพิ่มข้อมูลโปรเจกต์"
+    :title="getModalName()"
   >
     <div class="row mb-3">
       <div class="col-md-12">
@@ -233,6 +233,14 @@ onMounted(async () => {
   setCurrentPage(page.value);
 });
 
+function getModalName() {
+  if (modalType.value == 'A') {
+    return 'เพิ่มข้อมูลโปรเจกต์'
+  } else if (modalType.value == 'E') {
+    return 'แก้ไขข้อมูลโปรเจกต์'
+  }
+}
+
 /*
  * getStatus
  * ฟังก์ชันสำหรับแสดงสถานะของโปรเจกต์ตามตัวเลขสถานะ
@@ -286,6 +294,8 @@ async function formSubmit() {
  * return: -
 */
 async function add() {
+  modalType.value = "A";
+
   if (!mentors.value[0]) {
     mentors.value = await service.getAllMentor();
   }
@@ -293,7 +303,6 @@ async function add() {
   Object.assign(formData, initialState);
 
   openModal.value = true;
-  modalType.value = "A";
 }
 
 /*
@@ -303,6 +312,8 @@ async function add() {
  * return: -
 */
 async function edit(project) {
+  modalType.value = "E";
+
   if (!mentors.value[0]) {
     mentors.value = await service.getAllMentor();
   }
@@ -318,7 +329,6 @@ async function edit(project) {
   });
 
   openModal.value = true;
-  modalType.value = "E";
 }
 
 /*

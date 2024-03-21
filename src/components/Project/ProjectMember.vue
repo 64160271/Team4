@@ -34,7 +34,7 @@
     @save="formSubmit"
     @close="openModal = false"
     v-if="openModal == true"
-    title="เพิ่มข้อมูลนักศึกษาในโปรเจกต์"
+    :title="getModalName()"
   >
     <div class="row mb-3">
       <div class="col-md-12">
@@ -141,6 +141,14 @@ onMounted(async () => {
   interns.value = res.interns;
   loaded.value = true
 });
+
+function getModalName() {
+  if (modalType.value == 'A') {
+    return 'เพิ่มข้อมูลนักศึกษาในโปรเจกต์'
+  } else if (modalType.value == 'E') {
+    return 'แก้ไขข้อมูลนักศึกษาในโปรเจกต์'
+  }
+}
 
 /*
  * formSubmit
