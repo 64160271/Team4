@@ -1,5 +1,5 @@
 <template>
-    <LayoutMenuName backButton :page-name="'เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง >' .repCode " />
+    <LayoutMenuName backButton :page-name="'เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง >' + repCode " />
     <div class="row mb-2">
 
         <div class="col-auto ms-auto">
