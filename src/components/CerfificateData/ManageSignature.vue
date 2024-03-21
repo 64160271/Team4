@@ -51,7 +51,7 @@
 
   <BaseModal
     v-if="openModal == true"
-    title="เพิ่มข้อมูลลายเซ็น"
+    :title="getModalName()"
     size="lg"
     @close="openModal = false"
     @save="submitForm"
@@ -241,6 +241,14 @@ const rules = {
 };
 const v$ = useVuelidate(rules, formData);
 
+function getModalName() {
+  if (modalMode.value == 'add') {
+    return 'เพิ่มข้อมูลลายเซ็น'
+  } else if (modalMode.value == 'edit') {
+    return 'แก้ไขข้อมูลลายเซ็น'
+  }
+}
+
 /*
  * filterData
  * ฟังก์ชันค้นหาข้อมูลลายเซ็น
@@ -301,9 +309,9 @@ async function submitForm() {
  * return: -
  */
 async function add() {
+  modalMode.value = "add";
   Object.assign(formData, initialState);
   openModal.value = true;
-  modalMode.value = "add";
 }
 
 /*
@@ -313,6 +321,7 @@ async function add() {
  * return: -
  */
 async function edit(signature) {
+  modalMode.value = "edit";
   Object.assign(formData, {
     sign_prefix: signature?.sign_prefix,
     sign_fname: signature?.sign_fname,
@@ -324,7 +333,6 @@ async function edit(signature) {
 
   openModal.value = true;
   signEditId = signature.sign_id;
-  modalMode.value = "edit";
 }
 
 /*
