@@ -314,7 +314,7 @@ export default class ApiService {
     }
 
     editFaculty = async (data, id) => {
-        return await axios.put(`${import.meta.env.VITE_API_HOST}/facultie${id}`,data)
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/faculties/${id}`,data)
             .then((response) => {
                 return response.data
             })
@@ -327,8 +327,17 @@ export default class ApiService {
             })
     }
 
+    editMajorBulk = async (data) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/majors/bulk`,data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
     deleteMajorBulk = async (id) => {
-        return await axios.delete(`${import.meta.env.VITE_API_HOST}/majors/bulk`,id)
+        return await axios.delete(`${import.meta.env.VITE_API_HOST}/majors/bulk`, {
+            data: id
+        })
             .then((response) => {
                 return response.data
             })
