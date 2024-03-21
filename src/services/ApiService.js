@@ -669,4 +669,41 @@ export default class ApiService {
                 return response
             })
     }
+
+    createFaculty = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/faculties`,data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    editFaculty = async (data, id) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/faculties/${id}`,data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    createMajorBulk = async (data) => {
+        return await axios.post(`${import.meta.env.VITE_API_HOST}/majors/bulk`,data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    editMajorBulk = async (data) => {
+        return await axios.put(`${import.meta.env.VITE_API_HOST}/majors/bulk`,data)
+            .then((response) => {
+                return response.data
+            })
+    }
+
+    deleteMajorBulk = async (id) => {
+        return await axios.delete(`${import.meta.env.VITE_API_HOST}/majors/bulk`, {
+            data: id
+        })
+            .then((response) => {
+                return response.data
+            })
+    }
 }
