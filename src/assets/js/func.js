@@ -227,6 +227,10 @@ export function getCurrentThaiDate() {
     return formatedDate
 }
 
+export function getDefaultImage() {
+    return `${import.meta.env.VITE_BASE_URL}/src/assets/images/person-nm.png`
+}
+
 /* function convertToArrayBuffer(data) {
     let reader = new FileReader()
     let contentType = 'image/*'

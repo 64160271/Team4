@@ -129,7 +129,7 @@ const v$ = useVuelidate(rules, formData);
 
 const tableHeads = ref([
   { key: "pint_intern.intn_code", title: "รหัสนักศึกษาฝึกงาน", size: 2 },
-  { key: "pint_intern.intn_name_th", title: "ขื่อ - นามสกุล", size: 3 },
+  { key: "pint_intern.intn_name_th", title: "ชื่อ - นามสกุล", size: 3 },
   { key: "pint_role.role_name", title: "ตำแหน่ง" },
   { key: "pint_edit", title: "แก้ไข", size: 1, align: "center" },
 ]);

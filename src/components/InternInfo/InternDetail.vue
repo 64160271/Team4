@@ -10,7 +10,7 @@
         <div class="mx-auto mt-3" style="width: 90%">
             <div class="row border-bottom">
                 <div class="col-auto">
-                    <img id="blah" :src="intern.intn_image_path || '@/assets/images/person-nm.png'" alt=""
+                    <img id="blah" :src="intern.intn_image_path || getDefaultImage()" alt=""
                         class="img bg-grays-200" />
                 </div>
 
@@ -245,6 +245,53 @@
 
             <div class="row border-bottom">
                 <div class="row my-2">
+                    <span class="h5 text-decoration-underline">สัญญาการจ้างงาน</span>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col">
+                        <label for="" class="form-label text-gray">ประเภทพนักงาน </label>
+                        <input v-model="intern.intn_intern_type" placeholder="-" type="text"
+                            class="form-control-plaintext" required readonly />
+                    </div>
+
+                    <div class="col">
+                        <label for="" class="form-label text-gray">เลขที่สัญญาจ้าง</label>
+                        <input v-model="intern.intn_contract_num" placeholder="-" type="text"
+                            class="form-control-plaintext" required readonly />
+                    </div>
+
+                    <div class="col">
+                        <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน</label>
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            :value="(intern.intn_start_date)" required readonly />
+                    </div>
+
+                    <div class="col">
+                        <label for="" class="form-label text-gray">วันที่สำเร็จการฝึกงาน</label>
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            :value="(intern.intn_end_date)" required readonly />
+                    </div>
+
+                    <div class="col">
+                        <label for="" class="form-label text-gray"> วันที่ทำงานวันสุดท้าย </label>
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            :value="(intern.intn_last_work_date)" required readonly />
+                    </div>
+
+                    <div class="col">
+                        <label for="" class="form-label text-gray">
+                            วันที่สิ้นสุดสัญญาการฝึกงาน
+                        </label>
+                        <input placeholder="-" type="text" class="form-control-plaintext"
+                            :value="(intern.intn_contract_end_date)" required readonly />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row border-bottom">
+                <div class="row my-2">
                     <span class="h5 text-decoration-underline">ข้อมูลที่อยู่ / ติดต่อ</span>
                 </div>
 
@@ -323,53 +370,6 @@
 
             <div class="row border-bottom">
                 <div class="row my-2">
-                    <span class="h5 text-decoration-underline">สัญญาการจ้างงาน</span>
-                </div>
-
-                <div class="row mb-4">
-                    <div class="col">
-                        <label for="" class="form-label text-gray">ประเภทพนักงาน </label>
-                        <input v-model="intern.intn_intern_type" placeholder="-" type="text"
-                            class="form-control-plaintext" required readonly />
-                    </div>
-
-                    <div class="col">
-                        <label for="" class="form-label text-gray">เลขที่สัญญาจ้าง</label>
-                        <input v-model="intern.intn_contract_num" placeholder="-" type="text"
-                            class="form-control-plaintext" required readonly />
-                    </div>
-
-                    <div class="col">
-                        <label for="" class="form-label text-gray">วันที่เริ่มฝึกงาน</label>
-                        <input placeholder="-" type="text" class="form-control-plaintext"
-                            :value="(intern.intn_start_date)" required readonly />
-                    </div>
-
-                    <div class="col">
-                        <label for="" class="form-label text-gray">วันที่สำเร็จการฝึกงาน</label>
-                        <input placeholder="-" type="text" class="form-control-plaintext"
-                            :value="(intern.intn_end_date)" required readonly />
-                    </div>
-
-                    <div class="col">
-                        <label for="" class="form-label text-gray"> วันที่ทำงานวันสุดท้าย </label>
-                        <input placeholder="-" type="text" class="form-control-plaintext"
-                            :value="(intern.intn_last_work_date)" required readonly />
-                    </div>
-
-                    <div class="col">
-                        <label for="" class="form-label text-gray">
-                            วันที่สิ้นสุดสัญญาการฝึกงาน
-                        </label>
-                        <input placeholder="-" type="text" class="form-control-plaintext"
-                            :value="(intern.intn_contract_end_date)" required readonly />
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row border-bottom">
-                <div class="row my-2">
                     <span class="h5 text-decoration-underline">สถานภาพทางทหาร</span>
                 </div>
 
@@ -407,7 +407,7 @@
 
 <script setup>
     import { onMounted, ref, computed } from "vue";
-    import { formatDate, getAgeBuddisht, getImageFromBuffer } from "../../assets/js/func";
+    import { formatDate, getAgeBuddisht, getImageFromBuffer, getDefaultImage } from "../../assets/js/func";
 
     const internProp = defineProps({
         intern: Object

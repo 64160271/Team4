@@ -330,7 +330,7 @@
 
             <div class="col">
               <label for="" class="form-label text-gray">เลขที่สัญญาจ้าง</label>
-              <input id="contractnum" v-model="personalInfo.intn_contract_number" type="text" class="form-control" />
+              <input id="contractnum" v-model="personalInfo.intn_contract_num" type="text" class="form-control" />
             </div>
           </div>
 
