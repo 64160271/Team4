@@ -44,7 +44,7 @@
             {{ chageDate(data.rep_updated_at) }}
         </template>
         <template #rep_status_name="{ data }">
-            <div v-if="statusName(data.rep_status) === 'บันทึกแล้ว'" style="color: greenyellow;">
+            <div v-if="statusName(data.rep_status) === 'บันทึกแล้ว'" style="color: #339900;">
                 {{ statusName(data.rep_status) }}
             </div>
             <div v-else-if="statusName(data.rep_status) === 'บันทึกร่าง'" style="color: gray;">
@@ -113,7 +113,7 @@ const dataHead = ref([
     { key: "rep_count_name", title: "จำนวนรายชื่อ", align: "end" },
     { key: "rep_created_at_front", title: "วันที่สร้างรายการ", align: "center" },
     { key: "rep_updated_at_front", title: "วันที่แก้ไขรายการ", align: "center" },
-    { key: "rep_updated_by_user.user_fname", title: "ผู้แก้ไขข้อมูลล่าสุด" },
+    { key: "rep_updated_by_user.user_name", title: "ผู้แก้ไขข้อมูลล่าสุด" },
     { key: "rep_status_name", title: "สถานะ", align: "center" },
     { key: "rep_edit", title: "แก้ไข", align: "center" },
     { key: "rep_remove", title: "ลบ", align: "center" },
