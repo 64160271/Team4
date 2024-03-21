@@ -21,7 +21,7 @@
       </BaseButton>
     </div>
 
-    <BaseModal v-if="isOpen == true" @save="formSubmit" title="เพิ่มข้อมูลมหาวิทยาลัย" @close="isOpen = false">
+    <BaseModal v-if="isOpen == true" @save="formSubmit" :title="getModalName()" @close="isOpen = false">
       <div class="col-md-12">
         <div class="text-center">
           <img id="blah" src="#" alt="" class="img-add bg-grays-200" />
@@ -55,7 +55,7 @@
           <div class="row">
             <label class="col">
               <span class="me-2">
-                <img id="uniLogo" class="img" :src="university?.uni_image_path" height="35" width="35" />
+                <img class="img" :src="university?.uni_image_path" height="35" width="35" />
               </span>
               {{ university.uni_name }}
             </label>
@@ -120,7 +120,7 @@
 
   <BaseModal :title="uniName" v-if="isFacOpen" @close="isFacOpen = false" @save="formFacSubmit">
     <div class="row g-3 align-items-center mx-1 mb-2">
-    
+
       <div class="col-2">
         <label for="facultyName" class="col-form-label">คณะ <span class="text-danger">*</span></label>
       </div>
@@ -237,6 +237,14 @@ const facRules = {
 const v$ = useVuelidate(rules, formData);
 const facv$ = useVuelidate(facRules, facFormData)
 
+function getModalName() {
+  if (modalMode.value == 'add') {
+    return 'เพิ่มข้อมูลมหาวิทยาลัย'
+  } else if (modalMode.value == 'edit') {
+    return 'แก้ไขข้อมูลมหาวิทยาลัย'
+  }
+}
+
 /*
  * filterData
  * ฟังก์ชันค้นหารายการมหาวิทยาัลย
@@ -290,10 +298,9 @@ function isMajorActive(major) {
  * param: ข้อมูลมหาวิทยาลัยที่กดแก้ไข
  * return: -
  */
-async function edit(university) {
+function edit(university) {
   modalMode.value = "edit";
   isOpen.value = true;
-
 
   // กำหนดค่าให้ formData
   Object.assign(formData, {
@@ -304,11 +311,13 @@ async function edit(university) {
   uni_id = university.uni_id;
 
   // แสดงรูปภาพในแบบฟอร์ม
-  let blah = document.getElementById("uniLogo");
-  if (blah) {
-    blah.src = formData.uni_file;
-  }
-  console.log(blah);
+  setTimeout(() => {
+    let blah = document.getElementById("blah");
+    if (blah) {
+      blah.src = formData.uni_file;
+    }
+  }, 50)
+
 }
 
 /*
@@ -318,10 +327,11 @@ async function edit(university) {
  * return: -
  */
 function add() {
+  modalMode.value = "add";
+
   // กำนหนดค่าให้แบบฟอร์มเป็นค่าว่าง
   Object.assign(formData, inititalState);
   isOpen.value = true;
-  modalMode.value = "add";
 }
 
 function addFaculty(university) {
@@ -473,9 +483,9 @@ async function formFacSubmit() {
 
       if (faculty && deleted[0]) {
         await api.deleteMajorBulk(deleted)
-        .catch((e) => {
-          errorAlert(e.response.data);
-        });
+          .catch((e) => {
+            errorAlert(e.response.data);
+          });
       }
 
       const addList = []
@@ -500,7 +510,7 @@ async function formFacSubmit() {
           errorAlert(e.response.data);
         });
       }
-        
+
       router.go()
     }
   }
