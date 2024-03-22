@@ -32,8 +32,8 @@
         <div class="row">
             <Loading v-if="!loaded" />
 
-            <DataTable v-if="loaded" :heads="dataHead" :items="reports" paginate :total="reports.length" :active-page="page"
-                :items-per-page="pageSize" @page-change="setCurrentPage" striped hover-background>
+            <DataTable v-if="loaded" :heads="dataHead" :items="reports" paginate :total="reports.length"
+                :active-page="page" :items-per-page="pageSize" @page-change="setCurrentPage" striped hover-background>
                 <template #rep_count_name="{ data }">
                     {{ data.rep_salaries.length }}
                 </template>
@@ -160,8 +160,8 @@ const getReport = async () => {
             total.value = response.data.count;
             pageMax.value = Math.ceil(total.value / pageSize)
         });
-    
-        loaded.value = true
+
+    loaded.value = true
 }
 
 async function reportSelect() {
@@ -185,7 +185,19 @@ async function formSubmit() {
 
     if (validate) {
         await axios.post(`${import.meta.env.VITE_API_HOST}/reports`, formData.value,)
-        router.go()
+            .then((response) => {
+                router.go()
+                console.log(response.data)
+                // Now, salariesWithIds contains all salaries with sal_report_id mapped
+            }).catch((error) => {
+                console.error("Error:", error);
+                errorAlert("รหัสรายการที่กรอกมามีอยู่ในฐานข้อมูลแล้ว");
+                
+                setTimeout(() => {
+                    router.go() // รีเฟรชหน้าเว็บ
+                }, 3000);
+            });
+
     }
 }
 

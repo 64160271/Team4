@@ -14,7 +14,8 @@
 
         </div>
 
-        <BaseModal size="lg" v-if="openModal == true" @save="formSubmit" @close="openModal = false" title="เพิ่มข้อมูล">
+        <BaseModal size="lg" v-if="openModal == true" @save="formSubmit" @close="openModal = false"
+            :title="changeNameModal(modalMode)">
             <div class="col mb-3">
                 <AutoComplete @focus.once="fetchIntern()" label="รหัสนักศึกษาฝึกงาน" v-model="formData.rep_intn_code"
                     :value="formData.rep_intn_code" placeholder="INT-0000" required :items="internSearch"
@@ -27,8 +28,8 @@
     <InvalidFeedback :errors="v$.rep_intn_code.$errors" /> -->
             </div>
             <div class="col mb-3">
-                <BaseInput placeholder="ค้นหาจากด้านบน" :value="formData.sal_intn_name" label="ชื่อ-นามสกุล" input_type="text" readonly="readonly"
-                    required :class="{ 'is-invalid': v$.sal_intn_name.$error }" />
+                <BaseInput placeholder="ค้นหาจากด้านบน" :value="formData.sal_intn_name" label="ชื่อ-นามสกุล"
+                    input_type="text" readonly="readonly" required :class="{ 'is-invalid': v$.sal_intn_name.$error }" />
                 <InvalidFeedback :errors="v$.sal_intn_name.$errors" />
             </div>
             <div class="col mb-3">
@@ -76,32 +77,30 @@
             <Loading v-if="!loaded" />
 
             <DataTable v-if="loaded" striped hover-background :heads="dataHead" :items="salarys">
-            <template #sal_total="{ data }">
-                {{ formatCurrency.format(calculateSalary(data.sal_day, data.sal_salary, data.sal_extra)) }}
-            </template>
+                <template #sal_total="{ data }">
+                    {{ formatCurrency.format(calculateSalary(data.sal_day, data.sal_salary, data.sal_extra)) }}
+                </template>
 
-            <template #sal_salary_and_extra="{ data }">
-                {{ formatCurrency.format(data.sal_salary) }} / {{ formatCurrency.format(data.sal_extra) }}
-            </template>
+                <template #sal_salary_and_extra="{ data }">
+                    {{ formatCurrency.format(data.sal_salary) }} / {{ formatCurrency.format(data.sal_extra) }}
+                </template>
 
-            <template #sal_edit="{ data }">
-                <EditIcon @click="editSalary(data)" class="cursor-p hov-outline-red" />
-            </template>
-            <template #sal_remove="{ data }">
-                <DeleteButton @click="deleteSalaryIntern(data.sal_id)" />
-            </template>
-            <template #sal_intn_history="{ data }">
-                <HistoryIcon
-                    class="cursor-p hov-fill-red" @click="router.push({ name: 'historySalaryIntern', params: { idIntern: data.sal_intern.intn_id } })" />
-            </template>
-        </DataTable>
+                <template #sal_edit="{ data }">
+                    <EditIcon @click="editSalary(data)" class="cursor-p hov-outline-red" />
+                </template>
+                <template #sal_remove="{ data }">
+                    <DeleteButton @click="deleteSalaryIntern(data.sal_id)" />
+                </template>
+                <template #sal_intn_history="{ data }">
+                    <HistoryIcon class="cursor-p hov-fill-red"
+                        @click="router.push({ name: 'historySalaryIntern', params: { idIntern: data.sal_intern.intn_id } })" />
+                </template>
+            </DataTable>
         </div>
 
         <div class="row">
-            <!-- <div class="col-auto ms-auto">
-    <BaseButton label="บันทึกร่าง" @click="changeSave(0)" />
-</div> -->
-                <BaseButton class="ms-auto col-md-2 sm" label="บันทึก" @click="changeSave(1)" />
+                <BaseButton label="ย้อนกลับ" back class="col-auto  sm " @click="$router.push('/reports/manageSalary')" />
+            <BaseButton class=" col-md-2 ms-auto sm" label="บันทึก" @click="changeSave(1)" />
 
         </div>
     </SectionSpace>
@@ -149,7 +148,7 @@ const changeStatus = ref({
 let salaryEditId = 0
 let modalMode = ref()
 const internSearch = ref([]);
-const requiredNotSpNumCh = helpers.regex(/^[1-9][0-9]*$/)
+const requiredNotSpNumCh = helpers.regex(/^[1-9][0-9]*(\.[0-9]+)?$/)
 const NumOfSalary = 'ข้อมูลต้องเป็นตัวเลขเท่านั้น'
 const afterStartFeedback = 'ไม่สามารถเลือกวันที่มากกว่าวันที่ได้รับได้'
 const loaded = ref(false)
@@ -173,6 +172,7 @@ const rules = {
         required
     },
     sal_to_date: {
+        required,
         dateAfterStart: helpers.withMessage(afterStartFeedback, dateAfterStart)
     },
     sal_day: {
@@ -219,6 +219,13 @@ const dataHead = ref([
     { key: "sal_intn_history", title: "ประวัติ", align: "center" },
 ])
 
+function changeNameModal(modalMode) {
+    if (modalMode == "add") {
+        return "เพิ่มข้อมูลเบี้ยเลี้ยงของนักศึกษา"
+    } else if (modalMode == "edit") {
+        return "แก้ไขข้อมูลเบี้ยเลี้ยงของนักศึกษา"
+    }
+}
 
 
 let timer;
@@ -297,7 +304,7 @@ const getReportById = async () => {
             repCode.value = reports.value.rep_code
         })
 
-    
+
 }
 
 const getSalaryByReportId = async () => {
@@ -309,7 +316,7 @@ const getSalaryByReportId = async () => {
 
         })
 
-        loaded.value = true
+    loaded.value = true
 
 }
 
