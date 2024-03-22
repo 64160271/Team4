@@ -16,6 +16,10 @@ import "vue-loading-overlay/dist/css/index.css"
 import SectionSpace from "./components/Component/SectionSpace.vue"
 import Loading from "./components/Component/Loading.vue"
 
+if (import.meta.env.VITE_ENV === 'production') {
+    console.log = function () {}
+}
+
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedState)
 
