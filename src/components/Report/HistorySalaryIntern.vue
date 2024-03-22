@@ -1,21 +1,26 @@
 <template>
-    <LayoutMenuName backButton :page-name='"เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง >"+ repCode +" > "+ internCode' />
-    <div class="row mb-2">
+    <LayoutMenuName backButton :page-name='"เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง > " + repCode + " > " + internCode' />
 
+    <SectionSpace>
+        <div class="row mb-2">
 
+        </div>
 
-    </div>
+        <div class="row">
+            <Loading v-if="!loaded" />
 
-    <DataTable :heads="dataHead" :items="salarys" :total="salarys.length" >
-        <template #sal_total="{ data }">
-            {{ calculateSalary(data.sal_day, data.sal_salary, data.sal_extra) }}
-        </template>
+            <DataTable v-if="loaded" hover-background striped :heads="dataHead" :items="salarys" :total="salarys.length">
+            <template #sal_total="{ data }">
+                {{ formatCurrency.format(calculateSalary(data.sal_day, data.sal_salary, data.sal_extra)) }}
+            </template>
 
-        <template #sal_salary_and_extra="{ data }">
-            {{ data.sal_salary }} / {{ data.sal_extra }}
-        </template>
+            <template #sal_salary_and_extra="{ data }">
+                {{ formatCurrency.format(data.sal_salary) }} / {{ formatCurrency.format(data.sal_extra) }}
+            </template>
 
-    </DataTable>
+        </DataTable>
+        </div>
+    </SectionSpace>
 
 </template>
 
@@ -37,7 +42,11 @@ const id = route.params.idIntern
 const idReport = route.params.id
 const repCode = ref("");
 const internCode = ref([]);
-
+const loaded = ref(false)
+const formatCurrency = ref(new Intl.NumberFormat('th-TH', {
+    style: 'currency',
+    currency: 'THB'
+}))
 
 const internSearch = ref([]);
 
@@ -70,10 +79,10 @@ const dataHead = ref([
     { key: "sal_from_date", title: "วันที่ได้รับ", align: "center" },
     { key: "sal_to_date", title: "วันที่สิ้นสุด", align: "center" },
     { key: "sal_day", title: "จำนวนวันทำงาน", align: "right" },
-    { key: "sal_salary_and_extra", title: "เบี้ยเลี้ยงทั้งหมด", align: "center" },
+    { key: "sal_salary_and_extra", title: "เบี้ยเลี้ยงที่ได้รับ", align: "center" },
     { key: "sal_total", title: "ยอดรวม", align: "center" },
     { key: "sal_updated_by_user.user_name", title: "ผู้แก้ไขข้อมูลล่าสุด", align: "center" },
-    
+
 ])
 
 // const getSalaryByInternId = async () => {
@@ -87,24 +96,28 @@ const dataHead = ref([
 // }
 
 const getSalaryByInternId = async () => {
-        const response = await axios.get(`${import.meta.env.VITE_API_HOST}/salaries/interns/${id}`);
-        const salaryData = response.data;
+    loaded.value = false
 
-        
-        const mappedData = salaryData.map((sal) => { return sal.sal_intern } )
+    const response = await axios.get(`${import.meta.env.VITE_API_HOST}/salaries/interns/${id}`);
+    const salaryData = response.data;
 
-        
-        salarys.value = salaryData;
-        internCode.value = mappedData[0].intn_code;
 
-        
-        console.log(salarys.value);
-        console.log("intern =", internCode.value);
+    const mappedData = salaryData.map((sal) => { return sal.sal_intern })
 
-        return mappedData;
+
+    salarys.value = salaryData;
+    internCode.value = mappedData[0].intn_code;
+
+
+    console.log(salarys.value);
+    console.log("intern =", internCode.value);
+    loaded.value = true
+
+    return mappedData;
 };
 
 const getReportById = async () => {
+    
     await axios.get(`${import.meta.env.VITE_API_HOST}/reports/${idReport}`).
         then((response) => {
             reports.value = response.data
@@ -158,7 +171,7 @@ onMounted(() => {
     console.log(id)
     // getReportById(),
     getSalaryByInternId(),
-    getReportById()
+        getReportById()
 })
 </script>
 

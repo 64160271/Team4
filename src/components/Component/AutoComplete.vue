@@ -127,6 +127,7 @@ input:focus {
   min-height: 1em;
   max-height: 14em;
   overflow: auto;
+  z-index: 100;
 }
 
 .result {

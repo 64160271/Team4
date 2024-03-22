@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column mb-3">
-    <LayoutMenuName backButton :page-name="'เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง >'+ repCode" />
+    <LayoutMenuName backButton :page-name="'เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง > '+ repCode" />
 
     <SectionSpace>
       <div id="upload-box" class="d-flex justify-content-center align-items-center mt-3 upload-box upload">
@@ -20,10 +20,10 @@
         </div>
       </div>
 
-      <div id="import-btn" class="d-flex mt-5">
+      <div id="import-btn" class="row mt-4">
         
 
-        <button type="button" class="outline-red btn" @click="uploaded()">Import</button>
+        <BaseButton type="button" class="ms-auto col-md-2 outline-red btn" @click="uploaded()">Import</BaseButton>
       </div>
 
       <!-- แสดงหน้าจอเลือกรายการเมื่อมีการอัปโหลดไฟล์แล้วเท่านั้น -->
