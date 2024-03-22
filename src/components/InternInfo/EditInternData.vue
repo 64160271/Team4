@@ -9,12 +9,17 @@
   <form id="form" class="needs-validation" enctype="multipart/form-data" novalidate>
     <SectionSpace noSpace>
 
-      <div class="row mx-auto" style="width: 95%">
+      <div class="row mx-auto" v-if="!loaded">
+        <Loading  />
+      </div>
+
+      <div v-if="loaded" class="row mx-auto" style="width: 95%">
+
         <div class="row nopadding border-bottom">
           <div class="col-auto my-auto">
             <div class="mb-4 text-center">
               <img id="blah" :src="intern?.intn_image_path || getDefaultImage()" alt=""
-                class="img bg-grays-200" />
+                class="img shadow bg-grays-200" />
 
             </div>
 
@@ -549,6 +554,7 @@
   const genderList = ref(useGenderData());
   const martialStatusList = ref(useMartialStatus());
   const bloodTypeList = ref(useBloodType());
+  const loaded = ref(false)
 
   const sectionsForm = ref(formData.sectionsForm);
   const universitiesForm = ref(formData.universitiesForm);
@@ -717,6 +723,8 @@
   }
 
   onMounted(async () => {
+    loaded.value = false
+
     await Promise.all([
       (sections.value = await apiCall.getAllSectionWithRelated()),
       (universities.value = await apiCall.getAllUniversityWithRelated()),
@@ -739,6 +747,9 @@
     )
 
     setFilledData();
+
+    loaded.value = true
+
 
     // สำหรับตัว Autocomplete ที่อยู่
     $.Thailand({
@@ -788,7 +799,6 @@
     height: 150px;
     width: 150px;
     border-radius: 50%;
-    border: 1px solid var(--main-color);
   }
 
   .border-bottom {

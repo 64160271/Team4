@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { required, minValue, email, integer, helpers } from "@vuelidate/validators";
 import { getAge, formatDate } from "../assets/js/func";
 import { slashDtoDashY } from "../assets/js/func";
+import { useAuthenticate } from "./authenticate";
 
 const workStat = {
     'พ้นสภาพ': 0,
@@ -49,7 +50,7 @@ export const useInternFormData = defineStore("internFormData", {
                 intn_contract_end_date: '',
                 intn_mentor_id: '',
                 intn_major_id: '',
-                intn_updated_by: 1,
+                intn_updated_by: useAuthenticate().getId,
                 intn_note: null,
                 intn_company_id: '',
             },

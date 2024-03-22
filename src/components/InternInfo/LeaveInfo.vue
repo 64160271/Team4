@@ -298,6 +298,7 @@ import useVuelidate from "@vuelidate/core";
 import { helpers, required } from "@vuelidate/validators";
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import DatePicker from "../Component/DatePicker.vue";
+import { useAuthenticate } from "../../stores/authenticate";
 
 const loaded = ref(false)
 const searchData = ref("");
@@ -318,6 +319,7 @@ const formData = ref({
   lvs_file: "",
   lvs_intern_id: "",
   lvs_duration: "F",
+  lvs_updated_by: useAuthenticate().getId
 });
 
 /*
