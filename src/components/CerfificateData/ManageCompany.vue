@@ -28,7 +28,7 @@
 
         <div class="row mb-3">
           <div class="col">
-            <BaseInput label="บ้านเลขที่" input_type="text" v-model="companyData.com_address.addr_house_number"
+            <BaseInput label="บ้านเลขที่" input_type="text" required v-model="companyData.com_address.addr_house_number"
               placeholder="บ้านเลขที่" :class="{ 'is-invalid': v$.com_address.addr_house_number.$error }" />
             <InvalidFeedback :errors="v$.com_address.addr_house_number.$errors" />
           </div>
@@ -211,7 +211,7 @@ const size_post_code = 'ควรกรอกไม่เกิน 5 ตัว�
 
 const requiredNotSpecialcharacters = helpers.regex(/^[a-zA-Z0-9ก-์\s]*$/)        // อักขระพิเศษ
 const requiredNotSpecialcharactersAndnumber = helpers.regex(/^[a-zA-Zก-์]*$/)        // ตัวเลขหรืออักขระพิเศษ
-const requiredNotSpNumCh = helpers.regex(/^[0-9]*$/)        // ตัวเลขไทย, ตัวหนังสือ, อักขระพิเศษ
+const requiredNotSpNumCh = helpers.regex(/^[0-9/{//]*$/)        // ตัวเลขไทย, ตัวหนังสือ, อักขระพิเศษ
 
 /*
  * postLength
@@ -240,9 +240,9 @@ const companyData = reactive({
   com_name: "",
   com_address: {
     addr_house_number: "",
-    addr_village_number: "",
-    addr_alley: "",
-    addr_street: "",
+    addr_village_number: null,
+    addr_alley: null,
+    addr_street: null,
     addr_subdistrict: "",
     addr_district: "",
     addr_province: "",
@@ -320,9 +320,9 @@ const editedCompany = reactive({
   com_name: "",
   com_address: {
     addr_house_number: "",
-    addr_village_number: "",
-    addr_alley: "",
-    addr_street: "",
+    addr_village_number: null,
+    addr_alley: null,
+    addr_street: null,
     addr_subdistrict: "",
     addr_district: "",
     addr_province: "",
