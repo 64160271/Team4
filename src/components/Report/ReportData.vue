@@ -1,108 +1,110 @@
 <template>
-    <LayoutMenuName backButton :page-name="'เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง >' + repCode " />
-    <div class="row mb-2">
+    <LayoutMenuName backButton :page-name="'เบี้ยเลี้ยง > จัดการเบี้ยเลี้ยง > ' + repCode" />
 
-        <div class="col-auto ms-auto">
-            <BaseButton label="+ เพิ่มข้อมูล" @click="checkModal(openModal)" />
-        </div>
-        <div class="col-auto ">
-            <BaseButton label="เพิ่มจากไฟล์ Excel" @click="router.push({ name: 'addReport-File', params: { id: id } })">
+    <SectionSpace>
+        <div class="row mb-3">
+
+            <BaseButton class="col-md-2 ms-auto me-3" label="+ เพิ่มข้อมูล" @click="checkModal(openModal)" />
+            <BaseButton label="เพิ่มจากไฟล์ Excel" class="col-md-2"
+                @click="router.push({ name: 'addReport-File', params: { id: id } })">
                 <template>
                     <ExcelIcon />
                 </template>
             </BaseButton>
-        </div>
-
-    </div>
-
-    <BaseModal size="lg" v-if="openModal == true" @save="formSubmit" @close="openModal = false" title="เพิ่มข้อมูล">
-        <div class="col mb-3">
-            <AutoComplete label="รหัสนักศึกษาฝึกงาน" v-model="formData.rep_intn_code" :value="formData.rep_intn_code"
-                placeholder="INT-0000" required :items="internSearch" @search="fetchIntern" @return="handleReturn"
-                item-text="rep_intn_code" :class="{ 'is-invalid': v$.rep_intn_code.$error }"
-                :disabled="modalMode == 'edit'" />
-            <InvalidFeedback :errors="v$.rep_intn_code.$errors" />
-            <!-- <BaseInput v-model="formData.rep_intn_code" :value="formData.rep_intn_code" label="รหัสนักศึกษาฝึกงาน"
-                input_type="text" required="required" placeholder="xxx-xxxx" :disabled="modalMode == 'edit'"
-                :class="{ 'is-invalid': v$.rep_intn_code.$error }" />
-            <InvalidFeedback :errors="v$.rep_intn_code.$errors" /> -->
-        </div>
-        <div class="col mb-3">
-            <BaseInput :value="formData.sal_intn_name" label="ชื่อ-นามสกุล" input_type="text" readonly="readonly"
-                required :class="{ 'is-invalid': v$.sal_intn_name.$error }" />
-            <InvalidFeedback :errors="v$.sal_intn_name.$errors" />
-        </div>
-        <div class="col mb-3">
-            <DatePicker placeholder="DD/MM/YYYY" pid="start" label="วันที่ได้รับ" v-model="formData.sal_from_date"
-                required :class="{ 'is-invalid': v$.sal_from_date.$error }">
-                <InvalidFeedback :errors="v$.sal_from_date.$errors" />
-            </DatePicker>
 
         </div>
-        <div class="col mb-3">
-            <DatePicker placeholder="DD/MM/YYYY" pid="end" label="วันที่สิ้นสุด" v-model="formData.sal_to_date" required
-                :class="{ 'is-invalid': v$.sal_to_date.$error }">
-                <InvalidFeedback :errors="v$.sal_to_date.$errors" />
-            </DatePicker>
-            <div></div>
-        </div>
-        <hr>
+
+        <BaseModal size="lg" v-if="openModal == true" @save="formSubmit" @close="openModal = false" title="เพิ่มข้อมูล">
+            <div class="col mb-3">
+                <AutoComplete @focus.once="fetchIntern()" label="รหัสนักศึกษาฝึกงาน" v-model="formData.rep_intn_code"
+                    :value="formData.rep_intn_code" placeholder="INT-0000" required :items="internSearch"
+                    @search="fetchIntern" @return="handleReturn" item-text="intn_name"
+                    :class="{ 'is-invalid': v$.rep_intn_code.$error }" :disabled="modalMode == 'edit'" />
+                <InvalidFeedback :errors="v$.rep_intn_code.$errors" />
+                <!-- <BaseInput v-model="formData.rep_intn_code" :value="formData.rep_intn_code" label="รหัสนักศึกษาฝึกงาน"
+        input_type="text" required="required" placeholder="xxx-xxxx" :disabled="modalMode == 'edit'"
+        :class="{ 'is-invalid': v$.rep_intn_code.$error }" />
+    <InvalidFeedback :errors="v$.rep_intn_code.$errors" /> -->
+            </div>
+            <div class="col mb-3">
+                <BaseInput placeholder="ค้นหาจากด้านบน" :value="formData.sal_intn_name" label="ชื่อ-นามสกุล" input_type="text" readonly="readonly"
+                    required :class="{ 'is-invalid': v$.sal_intn_name.$error }" />
+                <InvalidFeedback :errors="v$.sal_intn_name.$errors" />
+            </div>
+            <div class="col mb-3">
+                <DatePicker placeholder="DD/MM/YYYY" pid="start" label="วันที่ได้รับ" v-model="formData.sal_from_date"
+                    required :class="{ 'is-invalid': v$.sal_from_date.$error }">
+                    <InvalidFeedback :errors="v$.sal_from_date.$errors" />
+                </DatePicker>
+
+            </div>
+            <div class="col mb-3">
+                <DatePicker placeholder="DD/MM/YYYY" pid="end" label="วันที่สิ้นสุด" v-model="formData.sal_to_date"
+                    required :class="{ 'is-invalid': v$.sal_to_date.$error }">
+                    <InvalidFeedback :errors="v$.sal_to_date.$errors" />
+                </DatePicker>
+                <div></div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col mb-3">
+                    <BaseInput v-model="formData.sal_day" :value="formData.sal_day" label="จำนวนวันทำงาน"
+                        @input="calculateSalary(formData.sal_day, formData.sal_salary, formData.sal_extra)"
+                        input_type="number" required="required" :class="{ 'is-invalid': v$.sal_day.$error }" />
+                    <InvalidFeedback :errors="v$.sal_day.$errors" />
+                </div>
+                <div class="col mb-3">
+                    <BaseInput v-model="formData.sal_salary" :value="formData.sal_salary" label="เบี้ยเลี้ยง :วัน"
+                        @input="calculateSalary(formData.sal_day, formData.sal_salary, formData.sal_extra)"
+                        input_type="number" required="required" :class="{ 'is-invalid': v$.sal_salary.$error }" />
+                    <InvalidFeedback :errors="v$.sal_salary.$errors" />
+                </div>
+                <div class="col mb-3">
+                    <BaseInput v-model="formData.sal_extra" :value="formData.sal_extra" label="เบี้ยเลี้ยงพิเศษ"
+                        @input="calculateSalary(formData.sal_day, formData.sal_salary, formData.sal_extra)"
+                        input_type="number" required="required" :class="{ 'is-invalid': v$.sal_extra.$error }" />
+                    <InvalidFeedback :errors="v$.sal_extra.$errors" />
+                </div>
+                <div class="col mb-3">
+                    <BaseInput :value="calculateSalary(formData.sal_day, formData.sal_salary, formData.sal_extra)"
+                        label="รวมเบี้ยเลี้ยง" input_type="text" readonly="readonly" />
+                </div>
+            </div>
+        </BaseModal>
+
         <div class="row">
-            <div class="col mb-3">
-                <BaseInput v-model="formData.sal_day" :value="formData.sal_day" label="จำนวนวันทำงาน"
-                    @input="calculateSalary(formData.sal_day, formData.sal_salary, formData.sal_extra)"
-                    input_type="number" required="required" :class="{ 'is-invalid': v$.sal_day.$error }" />
-                <InvalidFeedback :errors="v$.sal_day.$errors" />
-            </div>
-            <div class="col mb-3">
-                <BaseInput v-model="formData.sal_salary" :value="formData.sal_salary" label="เบี้ยเลี้ยง :วัน"
-                    @input="calculateSalary(formData.sal_day, formData.sal_salary, formData.sal_extra)"
-                    input_type="number" required="required" :class="{ 'is-invalid': v$.sal_salary.$error }" />
-                <InvalidFeedback :errors="v$.sal_salary.$errors" />
-            </div>
-            <div class="col mb-3">
-                <BaseInput v-model="formData.sal_extra" :value="formData.sal_extra" label="เบี้ยเลี้ยงพิเศษ"
-                    @input="calculateSalary(formData.sal_day, formData.sal_salary, formData.sal_extra)"
-                    input_type="number" required="required" :class="{ 'is-invalid': v$.sal_extra.$error }" />
-                <InvalidFeedback :errors="v$.sal_extra.$errors" />
-            </div>
-            <div class="col mb-3">
-                <BaseInput :value="formData.sal_total_salary"
-                    @input="calculateSalary(formData.sal_day, formData.sal_salary, formData.sal_extra)"
-                    label="รวมเบี้ยเลี้ยง" input_type="text" readonly="readonly" />
-            </div>
-        </div>
-    </BaseModal>
+            <Loading v-if="!loaded" />
 
-    <DataTable :heads="dataHead" :items="salarys" clickable @clicked="handleClick">
-        <template #sal_total="{ data }">
-            {{ calculateSalary(data.sal_day, data.sal_salary, data.sal_extra) }}
-        </template>
+            <DataTable v-if="loaded" striped hover-background :heads="dataHead" :items="salarys">
+            <template #sal_total="{ data }">
+                {{ formatCurrency.format(calculateSalary(data.sal_day, data.sal_salary, data.sal_extra)) }}
+            </template>
 
-        <template #sal_salary_and_extra="{ data }">
-            {{ data.sal_salary }} / {{ data.sal_extra }}
-        </template>
+            <template #sal_salary_and_extra="{ data }">
+                {{ formatCurrency.format(data.sal_salary) }} / {{ formatCurrency.format(data.sal_extra) }}
+            </template>
 
-        <template #sal_edit="{ data }">
-            <EditIcon @click="editSalary(data)" />
-        </template>
-        <template #sal_remove="{ data }">
-            <DeleteButton @click="deleteSalaryIntern(data.sal_id)" />
-        </template>
-        <template #sal_intn_history="{ data }">
-            <HistoryIcon @click="router.push({ name: 'historySalaryIntern', params: { idIntern: data.sal_intern.intn_id } })" />
-        </template>
-    </DataTable>
-
-    <div class="row">
-        <!-- <div class="col-auto ms-auto">
-            <BaseButton label="บันทึกร่าง" @click="changeSave(0)" />
-        </div> -->
-        <div class="col-auto ms-auto">
-            <BaseButton label="บันทึก" @click="changeSave(1)" />
+            <template #sal_edit="{ data }">
+                <EditIcon @click="editSalary(data)" class="cursor-p hov-outline-red" />
+            </template>
+            <template #sal_remove="{ data }">
+                <DeleteButton @click="deleteSalaryIntern(data.sal_id)" />
+            </template>
+            <template #sal_intn_history="{ data }">
+                <HistoryIcon
+                    class="cursor-p hov-fill-red" @click="router.push({ name: 'historySalaryIntern', params: { idIntern: data.sal_intern.intn_id } })" />
+            </template>
+        </DataTable>
         </div>
 
-    </div>
+        <div class="row">
+            <!-- <div class="col-auto ms-auto">
+    <BaseButton label="บันทึกร่าง" @click="changeSave(0)" />
+</div> -->
+                <BaseButton class="ms-auto col-md-2 sm" label="บันทึก" @click="changeSave(1)" />
+
+        </div>
+    </SectionSpace>
 </template>
 
 <script setup>
@@ -126,8 +128,12 @@ import { required, helpers } from "@vuelidate/validators";
 import AutoComplete from '../Component/AutoComplete.vue';
 import DatePicker from '../Component/DatePicker.vue';
 import { useAuthenticate } from '../../stores/authenticate';
-import HistoryIcon from '../icons/HistoryIcon.vue' ;
+import HistoryIcon from '../icons/HistoryIcon.vue';
 
+const formatCurrency = ref(new Intl.NumberFormat('th-TH', {
+    style: 'currency',
+    currency: 'THB'
+}))
 const route = useRoute()
 const user = useAuthenticate()
 let openModal = ref(false)
@@ -146,6 +152,7 @@ const internSearch = ref([]);
 const requiredNotSpNumCh = helpers.regex(/^[1-9][0-9]*$/)
 const NumOfSalary = 'ข้อมูลต้องเป็นตัวเลขเท่านั้น'
 const afterStartFeedback = 'ไม่สามารถเลือกวันที่มากกว่าวันที่ได้รับได้'
+const loaded = ref(false)
 const dateAfterStart = (v) => {
     if (v) {
         let date = formData.sal_from_date
@@ -204,8 +211,8 @@ const dataHead = ref([
     { key: "sal_intern.intn_name_th", title: "ชื่อ-นามสกุล" },
     { key: "sal_from_date", title: "วันที่ได้รับ", align: "center" },
     { key: "sal_to_date", title: "วันที่สิ้นสุด", align: "center" },
-    { key: "sal_day", title: "จำนวนวันทำงาน", align: "right" },
-    { key: "sal_salary_and_extra", title: "เบี้ยเลี้ยงทั้งหมด", align: "center" },
+    { key: "sal_day", title: "จำนวนวันทำงาน", align: "end" },
+    { key: "sal_salary_and_extra", title: "เบี้ยเลี้ยงที่ได้รับ", align: "center" },
     { key: "sal_total", title: "ยอดรวม", align: "center" },
     { key: "sal_edit", title: "แก้ไข", align: "center" },
     { key: "sal_remove", title: "ลบ", align: "center" },
@@ -217,6 +224,7 @@ const dataHead = ref([
 let timer;
 
 async function fetchIntern() {
+
     if (timer) {
         clearTimeout(timer);
     }
@@ -232,38 +240,12 @@ async function fetchIntern() {
                 internSearch.value = response.data.rows.map((intern) => ({
                     'sal_intn_name': intern.intn_name_th,
                     'rep_intn_code': intern.intn_code,
+                    'intn_name': `${intern.intn_code} ${intern.intn_name_th}`
                 }))
+
             });
     }, 500);
-    console.log("bbbb=", formData)
-    console.log("aaaaaaaaa=", internSearch.value)
 }
-
-// async function fetchIntern() {
-//     if (timer) {
-//         clearTimeout(timer);
-//     }
-
-//     timer = setTimeout(async () => {
-//         const params = {
-//             filter: formData.rep_intn_code || undefined,
-//         };
-
-//         await axios
-//             .get(`${import.meta.env.VITE_API_HOST}/interns`, { params })
-//             .then((response) => {
-//                 internSearch.value = response.data.rows.map(intern => {
-//                     return {
-//                         'sal_intn_name': intern.intn_name_th,
-//                         'rep_intn_code': intern.intn_code,
-//                         // Add other properties as needed
-//                     };
-//                 });
-//             });
-//     }, 500);
-//     console.log("bbbb=", formData.value);
-//     console.log("aaaaaaaaa=", internSearch.value);
-// }
 
 function handleReturn(val) {
     Object.assign(formData, {
@@ -278,21 +260,15 @@ async function changeSave(value) {
         errorAlert("สถานะของรายการนี้ได้กดบันทึกแล้ว");
         return;
     }
-    console.log("statussss = ", reports.value.rep_status)
-    console.log("status = ", value)
-    console.log("report = ", id)
+
     if (value == 0) {
         changeStatus.value.status_report = value;
         changeStatus.value.report_id = id;
-        console.log(changeStatus.report_id)
-        console.log("aaaaa", changeStatus.value)
         await axios.post(`${import.meta.env.VITE_API_HOST}/reports/update-status`, changeStatus.value,)
         router.push({ name: 'manageSalary' })
     } else if (value == 1) {
         changeStatus.value.status_report = value;
         changeStatus.value.report_id = id;
-        console.log(changeStatus.report_id)
-        console.log("aaaaa", changeStatus.value)
         await axios.post(`${import.meta.env.VITE_API_HOST}/reports/update-status`, changeStatus.value,)
         router.push({ name: 'manageSalary' })
     }
@@ -307,7 +283,6 @@ async function deleteSalaryIntern(sal_id) {
                 await successAlert("ลบรายการนี้สำเร็จแล้ว");
                 router.go();
             }).catch((err) => {
-                console.log(e)
                 errorAlert(err);
             });
 
@@ -315,23 +290,27 @@ async function deleteSalaryIntern(sal_id) {
 }
 
 const getReportById = async () => {
+
     await axios.get(`${import.meta.env.VITE_API_HOST}/reports/${id}`).
         then((response) => {
             reports.value = response.data
             repCode.value = reports.value.rep_code
         })
-    console.log("aaaaa=",reports.value)
-    console.log("aaaaa45354=",repCode.value)
+
+    
 }
 
 const getSalaryByReportId = async () => {
+    loaded.value = false
+
     await axios.get(`${import.meta.env.VITE_API_HOST}/salaries/reports/${id}`).
         then((response) => {
             salarys.value = response.data
-            
+
         })
-    console.log("aaaaaaaaaaaaaa = ",salarys.value)
-    
+
+        loaded.value = true
+
 }
 
 async function checkModal(checkModd) {
@@ -358,10 +337,8 @@ async function editSalary(salary) {
         sal_total_salary: salary?.sal_total_salary,
 
     });
-    console.log("aaaa =", salary.sal_id)
     openModal.value = true
     salaryEditId = salary.sal_id
-    console.log("bbbb =", salaryEditId)
     modalMode.value = "edit"
 }
 
@@ -391,9 +368,6 @@ async function formSubmit() {
         }
         router.go()
     }
-    console.log("mode = ", modalMode.value)
-    console.log(formData)
-    console.log(124)
 
 }
 
