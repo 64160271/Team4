@@ -76,7 +76,7 @@ import axios from 'axios'
 import EditIcon from '../icons/EditIcon.vue'
 import DeleteButton from '../icons/DeleteButton.vue'
 import router from "@/router";
-import Search from "../component/SearchBox.vue"
+import Search from "../Component/SearchBox.vue"
 import { confirmation, successAlert, errorAlert } from "../../assets/js/func"
 import InvalidFeedback from "../Component/InvalidFeedback.vue";
 import useVuelidate from "@vuelidate/core";
