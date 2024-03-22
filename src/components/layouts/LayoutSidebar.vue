@@ -65,8 +65,8 @@
                 </router-link>
               </li>
               <li>
-                <router-link to="/salaries" class="nav-link text-dark hov-red" active-class="active"
-                  @click="changeActiveMenu($event)">
+                <router-link to="/reports/manageSalary" class="nav-link text-dark hov-red" active-class="active"
+                  @click="changeActiveMenu($event)" :class="{ active: router.currentRoute.value.path.includes('/manageSalary') }">
                   <ManageSalaryIcon />
                   <span class="ms-3">จัดการเบี้ยเลี้ยง</span>
                 </router-link>
