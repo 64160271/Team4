@@ -41,6 +41,8 @@ import { onMounted } from 'vue';
 import { useRoute } from "vue-router"
 import router from "@/router";
 import { confirmation, successAlert, errorAlert } from "../../assets/js/func";
+import { useAuthenticate } from '../../stores/authenticate';
+const user = useAuthenticate()
 
 const route = useRoute()
 let fileData;
@@ -51,6 +53,7 @@ const id = route.params.id
 const salarys = ref([]);
 const reports = ref([]);
 const repCode = ref("");
+const userId = user.getId
 
 
 function showFileName(callback) {
@@ -96,6 +99,10 @@ const readFIle = async () => {
     // Now, salariesWithIds contains all salaries with sal_report_id mapped
   }).catch((error) => {
     console.error("Error:", error);
+    errorAlert(error.response.data +" ไม่พบรหัสนิสิตนี้ในฐานข้อมูล");
+    setTimeout(() => {
+      window.location.reload(); // รีเฟรชหน้าเว็บ
+    }, 3000);
   });
 }
 
@@ -113,7 +120,7 @@ async function sendToCreateReport() {
   const result = await confirmation();
   if (result) {
     await axios.post(
-      `${import.meta.env.VITE_API_HOST}/salaries/create-salary-by-file`,
+      `${import.meta.env.VITE_API_HOST}/salaries/create-salary-by-file${userId}`,
       salarys.value
 
     ).then((_res) => {
@@ -123,6 +130,7 @@ async function sendToCreateReport() {
       });
     })
       .catch((err) => {
+        console.log("eeeeeeeeeeeeeeeeeeeeeeee")
         errorAlert(err);
       });
 
@@ -164,13 +172,15 @@ function uploaded() {
     uploadBox.classList.add("d-none");
     uploadButton.classList.add("d-none");
     isUploaded.value = true;
+    readFIle()
     sendToCreateReport()
   }
 }
 
 onMounted(() => {
   console.log(id),
-  readFIle(),
+  console.log(userId),
+  // readFIle(),
   getReportById()
 })
 
