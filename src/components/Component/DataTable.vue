@@ -51,32 +51,29 @@
       <nav>
         <ul class="pagination">
           <li class="page-item">
-            <a
+            <span
               class="page-link border-0 rounded-circle"
-              href="#"
               @click="$emit('pageChange', 1)"
               aria-label="Previous"
             >
               <span aria-hidden="true">&laquo;</span>
-            </a>
+            </span>
           </li>
 
           <li class="page-item">
-            <a
+            <span
               class="page-link border-0 rounded-circle"
-              href="#"
               @click="handlePrevious"
               aria-label="Previous"
             >
               <span aria-hidden="true">&lt;</span>
-            </a>
+            </span>
           </li>
 
           <li v-if="pageable === 'm' || pageable === 'e'" class="page-item">
             <span
               :id="'p' + index"
               aria-current="page"
-              to="#"
               class="page-link border-0 text-dark"
             >
               ...
@@ -85,60 +82,55 @@
 
           <!-- เลขหน้าเริ่มต้น -->
           <li v-if="pageable === 's'" v-for="(pageNum, index) in 4" class="page-item">
-            <router-link
+            <span
               aria-current="page"
-              to="#"
               class="page-link border-0 rounded-circle"
               @click="$emit('pageChange', pageNum)"
               :class="{ 'active-page': pageNum == activePage }"
             >
               {{ pageNum }}
-            </router-link>
+            </span>
           </li>
 
           <li v-if="pageable == 'n'" v-for="(pageNum, index) in pageMax" class="page-item">
-            <router-link
+            <span
               aria-current="page"
-              to="#"
               class="page-link border-0 rounded-circle"
               @click="$emit('pageChange', pageNum)"
               :class="{ 'active-page': pageNum == activePage }"
             >
               {{ pageNum }}
-            </router-link>
+            </span>
           </li>
 
           <!-- เลขหน้ากลาง -->
           <li v-if="pageable == 'm'" v-for="(pageNum, index) in 3" class="page-item">
-            <router-link
+            <span
               aria-current="page"
-              to="#"
               class="page-link border-0 rounded-circle"
               @click="$emit('pageChange', index + (activePage-1))"
               :class="{ 'active-page': index + (activePage-1) == activePage }"
             >
               {{ index + (activePage-1) }}
-            </router-link>
+            </span>
           </li>
 
           <!-- เลขหน้าสิ้นสุด -->
           <li v-if="pageable === 'e'" v-for="(pageNum, index) in 4" class="page-item">
-            <router-link
+            <span
               aria-current="page"
-              to="#"
               class="page-link border-0 rounded-circle"
               @click="$emit('pageChange', pageNum + (pageMax-4))"
               :class="{ 'active-page': pageNum + (pageMax-4) == activePage }"
             >
               {{ pageNum + (pageMax-4) }}
-            </router-link>
+            </span>
           </li>
 
           <li v-if="pageable === 's' || pageable === 'm'" class="page-item">
             <span
               :id="'p' + index"
               aria-current="page"
-              to="#"
               class="page-link border-0 text-dark"
             >
               ...
@@ -146,25 +138,23 @@
           </li>
 
           <li class="page-item">
-            <a
+            <span
               class="page-link border-0 rounded-circle"
-              href="#"
               @click="handleNext"
               aria-label="Next"
             >
               <span aria-hidden="true">&gt;</span>
-            </a>
+            </span>
           </li>
 
           <li class="page-item">
-            <a
+            <span
               class="page-link border-0 rounded-circle"
-              href="#"
               @click="$emit('pageChange', pageMax)"
               aria-label="Previous"
             >
               <span aria-hidden="true">&raquo;</span>
-            </a>
+            </span>
           </li>
         </ul>
       </nav>
@@ -298,6 +288,7 @@ onMounted(() => {});
 
 .page-link {
   font-size: 14px !important;
+  cursor: pointer;
   color: black
 }
 </style>
