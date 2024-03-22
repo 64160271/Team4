@@ -74,10 +74,12 @@ import { Tooltip } from "bootstrap/dist/js/bootstrap.esm.min.js";
 import router from "@/router";
 import BaseTable from "../Component/BaseTable.vue";
 import { errorAlert } from "../../assets/js/func"
+import { useAuthenticate } from "../../stores/authenticate";
 
 const selectedIndex = ref([]);
 const selectedData = ref([]);
 const nonSelectedError = ref(false);
+const auth = useAuthenticate()
 const props = defineProps({
   excelData: Array,
 });
@@ -285,9 +287,9 @@ async function createInterns() {
       fac_name: rawData[index][16],
       maj_name: rawData[index][17],
       duplicate: rawData[index]["duplicate"],
-      intn_work_status: 'กำลังทำงาน',
+      intn_work_status: 1,
       intn_intern_type: 'นักศึกษาฝึกงาน',
-      intn_updated_by: 1
+      intn_updated_by: useAuthenticate().getId()
     };
 
     selectedData.value.push(row);

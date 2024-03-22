@@ -13,7 +13,7 @@
           id="blah"
           :src="internData?.intn_image_path || getDefaultImage()"
           alt=""
-          class="img bg-grays-200"
+          class="img bg-grays-200 shadow"
         />
       </div>
 

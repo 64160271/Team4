@@ -14,7 +14,7 @@
         <div class="row nopadding border-bottom">
           <div class="col-auto my-auto">
             <div class="mb-4 text-center">
-              <img id="blah" src="@/assets/images/person-nm.png" alt="" class="img bg-grays-200" />
+              <img id="blah" src="@/assets/images/person-nm.png" alt="" class="img bg-grays-200 shadow" />
             </div>
 
             <button id="picture" type="button" class="btn btn-sm outline-red position-relative px-4">
@@ -738,7 +738,6 @@ onMounted(async () => {
   height: 150px;
   width: 150px;
   border-radius: 50%;
-  border: 1px solid var(--main-color);
 }
 
 .border-bottom {

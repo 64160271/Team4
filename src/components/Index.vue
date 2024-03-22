@@ -149,7 +149,7 @@ const loaded = ref(false)
 let timer;
 const tableHead = ref([
   { key: "intn_key", title: "รหัสนักศึกษาฝึกงาน", align: "center", size: 2 },
-  { key: "intn_name_th", title: "ชื่อ-นามสกุล", size: 2 },
+  { key: "intn_name_th", title: "ชื่อ-นามสกุล", size: 3 },
   { key: "intn_nickname_th", title: "ชื่อเล่น", size: 1 },
   { key: "work_infos[0].work_role.role_name", title: "ตำแหน่ง", size: 2 },
   { key: "work_infos[0].work_team.team_name", title: "ทีม", size: 2 },

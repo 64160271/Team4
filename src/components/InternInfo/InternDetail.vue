@@ -11,7 +11,7 @@
             <div class="row border-bottom">
                 <div class="col-auto">
                     <img id="blah" :src="intern.intn_image_path || getDefaultImage()" alt=""
-                        class="img bg-grays-200" />
+                        class="img bg-grays-200 shadow" />
                 </div>
 
                 <div class="col align-self-center ms-5 mb-2">

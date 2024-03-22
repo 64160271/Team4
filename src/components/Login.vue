@@ -80,9 +80,12 @@ const login = async () => {
     .then((response) => {
       return response.data;
     });
+  
 
   if (result.status) {
+    console.log(1)
     let me = await validateTokent(result.token)
+    console.log(2)
 
     Cookies.set("token", result.token/* , {
       expires: new Date(me.exp * 1000)
