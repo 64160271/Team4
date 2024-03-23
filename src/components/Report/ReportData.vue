@@ -22,14 +22,10 @@
                     @search="fetchIntern" @return="handleReturn" item-text="intn_name"
                     :class="{ 'is-invalid': v$.rep_intn_code.$error }" :disabled="modalMode == 'edit'" />
                 <InvalidFeedback :errors="v$.rep_intn_code.$errors" />
-                <!-- <BaseInput v-model="formData.rep_intn_code" :value="formData.rep_intn_code" label="รหัสนักศึกษาฝึกงาน"
-        input_type="text" required="required" placeholder="xxx-xxxx" :disabled="modalMode == 'edit'"
-        :class="{ 'is-invalid': v$.rep_intn_code.$error }" />
-    <InvalidFeedback :errors="v$.rep_intn_code.$errors" /> -->
             </div>
             <div class="col mb-3">
                 <BaseInput placeholder="ค้นหาจากด้านบน" :value="formData.sal_intn_name" label="ชื่อ-นามสกุล"
-                    input_type="text" readonly="readonly" required :class="{ 'is-invalid': v$.sal_intn_name.$error }" />
+                    input_type="text" readonly="readonly" disabled required :class="{ 'is-invalid': v$.sal_intn_name.$error }" />
                 <InvalidFeedback :errors="v$.sal_intn_name.$errors" />
             </div>
             <div class="col mb-3">
@@ -333,7 +329,7 @@ async function checkModal(checkModd) {
 async function editSalary(salary) {
     Object.assign(formData, {
         rep_intn_code: salary?.sal_intern.intn_code,
-        sal_updated_by: salary?.sal_updated_by,
+        sal_updated_by: user.getId,
         sal_report_id: salary?.sal_report_id,
         sal_intn_name: salary?.sal_intern.intn_name_th,
         sal_from_date: slashDtoDashY(salary?.sal_from_date),
