@@ -289,7 +289,7 @@ async function createInterns() {
       duplicate: rawData[index]["duplicate"],
       intn_work_status: 1,
       intn_intern_type: 'นักศึกษาฝึกงาน',
-      intn_updated_by: useAuthenticate().getId()
+      intn_updated_by: useAuthenticate().getId
     };
 
     selectedData.value.push(row);
